@@ -1,0 +1,5 @@
+# Ignore build results folder
+out/
+
+# Ignore Visual studio folder
+.vs/
