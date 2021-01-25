@@ -1,8 +1,10 @@
 # Ignore build results folder
 out/
+build/
 
 # Ignore Visual studio folder
 .vs/
+.vscode/
 
-# Ignore vs cmake configuration file
+# Ignore visual studio's cmake settings file
 CMakeSettings.json
