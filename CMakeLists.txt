@@ -26,7 +26,7 @@ endif()
 
 if(WIN32)
     set(LIB_FOLDER ${PROJECT_SOURCE_DIR}/Libs/Windows)
-    set(LIB_NAMES ${LIBNAMES}  "opengl32" "winmm")
+    set(LIB_NAMES ${LIB_NAMES} "opengl32" "winmm")
     foreach(LIB_NAME ${LIB_NAMES})
         set(LIBS ${LIBS} ${LIB_NAME}.lib)
     endforeach()
