@@ -32,8 +32,10 @@ if(WIN32)
     endforeach()
     message(WARNING ${LIBS}) 
     set(TEMP_LIB_NAME ${CMAKE_BINARY_DIR}/${TEMP_LIB_NAME}.lib)
+    string(REPLACE "/" "\\" TEMP_LIB_NAME ${TEMP_LIB_NAME})
     set(TARGET_LIB_NAME ${TARGET_LIB_NAME}.lib)
     set(TARGET_LIB_PATH ${CMAKE_BINARY_DIR}/${TARGET_LIB_NAME})
+    set(DELETE_COMMAND del)
 else() #if(UNIX)
     set(LIB_FOLDER ${PROJECT_SOURCE_DIR}/Libs/Unix)
     foreach(LIB_NAME ${LIB_NAMES})
@@ -42,6 +44,7 @@ else() #if(UNIX)
     set(TEMP_LIB_NAME ${CMAKE_BINARY_DIR}/lib${TEMP_LIB_NAME}.a)
     set(TARGET_LIB_NAME lib${TARGET_LIB_NAME}.a)
     set(TARGET_LIB_PATH ${CMAKE_BINARY_DIR}/${TARGET_LIB_NAME})
+    set(DELETE_COMMAND rm)
 endif()
 set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/Include)
 set(SOURCES_DIR ${PROJECT_SOURCE_DIR}/Source)
@@ -66,9 +69,13 @@ set(PROJECT_SOURCES
     "Source/Camera/MovableCamera.cpp"
 )
 
-add_library(temp ${PROJECT_SOURCES})
-set_target_properties(temp PROPERTIES DEBUG_POSTFIX "d")
-target_include_directories(temp PUBLIC "${PROJECT_SOURCE_DIR}/Include")
+add_library(MyGL ${PROJECT_SOURCES})
+set_target_properties(
+    MyGL PROPERTIES
+    DEBUG_POSTFIX "d"
+    OUTPUT_NAME temp
+)
+target_include_directories(MyGL PUBLIC "${PROJECT_SOURCE_DIR}/Include")
 
 
 if(MSVC)
@@ -89,11 +96,14 @@ else()
 endif()
 
 add_custom_command(
-    TARGET temp POST_BUILD
-    COMMAND ${JOIN_COMMAND}
+    TARGET MyGL POST_BUILD
+    COMMAND ${JOIN_COMMAND} && ${DELETE_COMMAND} ${TEMP_LIB_NAME}
     WORKING_DIRECTORY ${LIB_FOLDER}
     VERBATIM
 )
+
+include(GNUInstallDirs)
+install(FILES ${TARGET_LIB_PATH} DESTINATION lib/)
 
 # FindSphinx
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})

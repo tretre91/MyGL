@@ -1,4 +1,9 @@
-add_executable(TestFile main.cpp)
+set(TEST_SOURCE_IN main.cpp)
+set(TEST_SOURCE_OUT ${CMAKE_BINARY_DIR}/Test/test.cpp)
+set(RESSOURCES_DIR ${PROJECT_SOURCE_DIR}/Ressources)
+
+configure_file(${TEST_SOURCE_IN} ${TEST_SOURCE_OUT} @ONLY)
+add_executable(TestFile ${TEST_SOURCE_OUT})
 
 set_target_properties(
     TestFile PROPERTIES

@@ -21,7 +21,7 @@ int main() {
 	my::Polygon<5> green(50, 20, 30);
 	green.setColor(my::Color::green);
 
-	my::Font arial("Ressources/Fonts/arial.ttf");
+	my::Font arial("@RESSOURCES_DIR@/Fonts/OpenSans-Regular.ttf");
 	const unsigned int size = 60;
 	my::Text text("The .\\quick \"brown\" {fox} \n#jumps [over] the lazy dog!", arial, size);
 	text.setColor(my::Color::blue);
