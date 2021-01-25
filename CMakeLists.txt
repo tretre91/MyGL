@@ -44,6 +44,8 @@ else() #if(UNIX)
     set(TARGET_LIB_NAME "lib${TARGET_LIB_NAME}.a")
     set(TARGET_LIB_PATH "${CMAKE_BINARY_DIR}/${TARGET_LIB_NAME}")
 endif()
+set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/Include)
+set(SOURCES_DIR ${PROJECT_SOURCE_DIR}/Source)
 
 #[[
 set(SFML_STATIC_LIBRARIES True)
@@ -99,13 +101,10 @@ add_custom_command(
     VERBATIM
 )
 
-add_executable(testGL main.cpp)
-add_definitions(-DSFML_STATIC)
-target_include_directories(testGL PUBLIC "${PROJECT_SOURCE_DIR}/Include")
-if(UNIX)
-    target_link_libraries(testGL ${TARGET_LIB_PATH} GL pthread X11 dl Xrandr udev)
-elseif(WIN32)
-    target_link_libraries(testGL ${TARGET_LIB_PATH})
-else()
-    target_link_libraries(testGL ${TARGET_LIB_PATH})
-endif()
+# FindSphinx
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
+# To build the documenation
+add_subdirectory("Docs")
+
+# To build the test program
+add_subdirectory("Test")

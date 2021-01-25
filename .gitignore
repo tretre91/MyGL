@@ -3,3 +3,6 @@ out/
 
 # Ignore Visual studio folder
 .vs/
+
+# Ignore vs cmake configuration file
+CMakeSettings.json
