@@ -33,7 +33,7 @@ my::Shader Text::textShader = my::Shader();
 
 Text::Text(const std::string& text, my::Font& font, unsigned int size) : mText(text), mSize(size), mFontScale(font.getScale(mSize)),
 mBitmapTexId(font.getTextureId(mSize)), charPositions(font.getCharsPos(mText, mSize)), alphabet(font.getAlphabet(mSize)), AbstractShape() {
-    if (!textShader.isUsable()) textShader = my::Shader(true, Text::textVertexSource, Text::textFragmentSource);
+    if (!textShader.isUsable()) textShader = my::Shader(Text::textVertexSource, Text::textFragmentSource, false);
     textShader.setInt("tex", 2);
 }
 

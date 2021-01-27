@@ -64,7 +64,7 @@ Font::Bitmap::Bitmap(unsigned int size, FT_Face& face) : mTextureId(0), realSize
             (pixelCurrentHeight + realSize) / (float)realHeight,
             pixelCurrentWidth / (float)realWidth,
             (pixelCurrentWidth + realSize) / (float)realWidth,
-            face->glyph->advance.x >> 6,
+            static_cast<int>(face->glyph->advance.x >> 6),
             0
         };
 

@@ -13,26 +13,29 @@ namespace my
 
     class Shader {
     private:
-        unsigned int id;
-        bool usable;
+        unsigned int id = 0;
+        bool usable = false;
 
     public:
 
-        Shader();
+        /**
+         * @brief Creates an emty shader program, it is not usable as is
+        */
+        Shader() = default;
 
         /**
-         * @brief Creates a shader program from a vertex and a fragment shader stored in files
-         * @param path_to_vertex The path to the file containing the vertex shader source code
-         * @param path_to_fragment The path to the file containing the fragment shader source code
+         * @brief Creates a shader program from a vertex and a fragment shader
+         * @details The shader's source code can be stored in a file or in a string,
+         *          the storage method should be the same for both the vertex shader's
+         *          code and the fragment shader's
+         * 
+         * @param vertexShader The path to the file containing the vertex shader source code
+         * @param fragmentShader The path to the file containing the fragment shader source code
+         * @param from_file Indicates if vertexShader and fragmentShaders are filenames,
+         *                  true means that the code is stored in files, false means that
+         *                  the variables hold the source code
         */
-        Shader(const std::string& path_to_vertex, const std::string& path_to_fragment);
-
-        /**
-         * @brief Creates a shader program from 2 strings containing the source code
-         * @param vertexSource The string containing the vertex shader source code
-         * @param fragmentSource The string containing the fragment shader source code
-        */
-        Shader(bool from_string, const std::string& vertexSource, const std::string& fragmentSource);
+        Shader(const std::string& vertexShader, const std::string& fragmentShader, bool from_file = true);
 
         /**
          * @brief Tells wether the shader program has been correctly initialized
@@ -65,10 +68,8 @@ namespace my
          * @param value The new value of the uniform
         */
         void setFloat(const std::string& name, float value) const;
-
         void setFloat(const std::string& name, const glm::vec3& value) const;
         void setFloat(const std::string& name, float v0, float v1, float v2) const;
-
         void setFloat(const std::string& name, float v0, float v1, float v2, float v3) const;
 
         /**

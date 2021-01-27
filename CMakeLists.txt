@@ -9,10 +9,9 @@ project(
 set(CXX_STANDARD_REQUIRED 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-option(RELEASE "Compile release binaries, this option is set to OFF by default (which will build debug binaries)" OFF)
 option(BUILD_SHARED_LIBS "Copmpile as a shared library (.dll on windows, .so on linux), OFF by default " OFF)
 
-if(RELEASE)
+if(NOT ${CMAKE_BUILD_TYPE} MATCHES Debug)
     set(CMAKE_BUILD_TYPE "Release")
     set(TARGET_LIB_NAME "mygl")
     set(LIB_NAMES "freetype" "sfml-window-s" "sfml-system-s")

@@ -34,17 +34,17 @@ void Rectangle::glInit() {
 
 Rectangle::Rectangle() : moveByCenter(false), AbstractShape() {
     glInit();
-    if (!shader.isUsable()) shader = Shader(true, Rectangle::vertexSource, Rectangle::fragmentSource);
+    //if (!shader.isUsable()) shader = Shader(AbstractShape::vertexSource, AbstractShape::fragmentSource, false);
 }
 
 Rectangle::Rectangle(int width, int height) : moveByCenter(false), AbstractShape(width, height) {
     glInit();
-    if (!shader.isUsable()) shader = Shader(true, Rectangle::vertexSource, Rectangle::fragmentSource);
+    //if (!shader.isUsable()) shader = Shader(AbstractShape::vertexSource, AbstractShape::fragmentSource, false);
 }
 
 Rectangle::Rectangle(int width, int height, int x, int y) : moveByCenter(false), AbstractShape(width, height, x, y) {
     glInit();
-    if (!shader.isUsable()) shader = Shader(true, Rectangle::vertexSource, Rectangle::fragmentSource);
+    //if (!shader.isUsable()) shader = Shader(AbstractShape::vertexSource, AbstractShape::fragmentSource, false);
 }
 
 void Rectangle::positionByCenter(bool center) {

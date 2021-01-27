@@ -28,14 +28,14 @@ bool AbstractShape::shaderIsUsable = false;
 
 AbstractShape::AbstractShape() : position(0, 0), originalScale(10, 10), scaleFactor(1.0f, 1.0f), rotationAngle(0), updateMatrix(true), color(100, 100, 100), model(1.0f) {
     if (!shaderIsUsable) {
-        shader = my::Shader(true, vertexSource, fragmentSource);
+        shader = my::Shader(vertexSource, fragmentSource, false);
         shaderIsUsable = true;
     }
 }
 
 AbstractShape::AbstractShape(int width, int height) : position(0, 0), originalScale(width == 1 ? 1 : width / 2, height == 1 ? 1 : height / 2), scaleFactor(1.0f, 1.0f), rotationAngle(0), updateMatrix(true), color(100, 100, 100), model(1.0f) {
     if (!shaderIsUsable) {
-        shader = my::Shader(true, vertexSource, fragmentSource);
+        shader = my::Shader(vertexSource, fragmentSource, false);
         shaderIsUsable = true;
     }
 }
