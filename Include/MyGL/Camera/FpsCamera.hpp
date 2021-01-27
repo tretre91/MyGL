@@ -5,19 +5,19 @@
 
 namespace my 
 {
-	
-	class FpsCamera : public Cam3D {
+    
+    class FpsCamera : public Cam3D {
 
-	private:
+    private:
 
 
-	public:
-		FpsCamera();
-		FpsCamera(glm::vec3 position, glm::vec3 front);
+    public:
+        FpsCamera();
+        FpsCamera(glm::vec3 position, glm::vec3 front);
 
-		void moveFront(float frametime);
-		void moveBack(float frametime);
-	};
+        void moveFront(float frametime);
+        void moveBack(float frametime);
+    };
 
 }
 

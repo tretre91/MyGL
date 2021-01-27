@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 
 project(
-  MyGL 
-  VERSION 0.1.0 
-  DESCRIPTION "A little graphics library using opengl, it is not in any way efficient as its purpose is to test my coding skills / learn opengl"
+    MyGL 
+    VERSION 0.1.0 
+    DESCRIPTION "A little graphics library using opengl, it is not in any way efficient as its purpose is to test my coding skills / learn opengl"
 )
 
 set(CXX_STANDARD_REQUIRED 14)
@@ -13,15 +13,15 @@ option(RELEASE "Compile release binaries, this option is set to OFF by default (
 option(BUILD_SHARED_LIBS "Copmpile as a shared library (.dll on windows, .so on linux), OFF by default " OFF)
 
 if(RELEASE)
-  set(CMAKE_BUILD_TYPE "Release")
-  set(TARGET_LIB_NAME "mygl")
-  set(LIB_NAMES "freetype" "sfml-window-s" "sfml-system-s")
-  set(TEMP_LIB_NAME "temp")
+    set(CMAKE_BUILD_TYPE "Release")
+    set(TARGET_LIB_NAME "mygl")
+    set(LIB_NAMES "freetype" "sfml-window-s" "sfml-system-s")
+    set(TEMP_LIB_NAME "temp")
 else ()
-  set(CMAKE_BUILD_TYPE "Debug")
-  set(TARGET_LIB_NAME "mygld")
-  set(LIB_NAMES "freetyped" "sfml-window-s-d" "sfml-system-s-d")
-  set(TEMP_LIB_NAME "tempd")
+    set(CMAKE_BUILD_TYPE "Debug")
+    set(TARGET_LIB_NAME "mygld")
+    set(LIB_NAMES "freetyped" "sfml-window-s-d" "sfml-system-s-d")
+    set(TEMP_LIB_NAME "tempd")
 endif()
 
 if(WIN32)
