@@ -45,24 +45,25 @@ namespace my
 		 * independent from the framerate.
 		 * In order to compute the frametime you could use an sf::Clock object which is
 		 * restarted each frame like this :
+		 * ```cpp
+		 * // window initialization, etc
+		 * ...
 		 *
-		 *     // window initialization, etc
-		 *     ...
+		 * sf::Clock clk;
+		 * float frametime;
 		 *
-		 *     sf::Clock clk;
-		 *     float frametime;
+		 * bool running = true;
+		 * while(running) {
+		 *   ...
+		 *   window.clear(...);
 		 *
-		 *     bool running = true;
-		 *     while(running) {
-		 *       ...
-		 *       window.clear(...);
+		 *   frametime = clk.restart().asSeconds();
+		 *   // Do some interesting things with the result
+		 *   ...
 		 *
-		 *       frametime = clk.restart().asSeconds();
-		 *       // Do some interesting things with the result
-		 *       ...
-		 *
-		 *       window.display()
-		 *     }
+		 *   window.display()
+		 * }
+		 * ```
 		*/
 		/**@{*/
 		

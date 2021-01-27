@@ -21,7 +21,7 @@ namespace my
 			vertices[1] = 0.0f;
 			vertices[2] = 0.0f;
 
-			for (unsigned int i = 3; i < 3 * (sides + 1); i += 3) {
+			for (size_t i = 3; i < 3 * (sides + 1); i += 3) {
 				vertices[i] = glm::cos(angle);
 				vertices[i + 1] = glm::sin(angle);
 				vertices[i + 2] = 0.0f;
