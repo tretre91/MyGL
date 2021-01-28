@@ -19,11 +19,11 @@ file(MAKE_DIRECTORY ${DOXYGEN_OUTPUT_DIR})
 # Add a command to generate the doxygen xml files, they are
 # rebuilt when any of the header files changes 
 add_custom_command(
-	OUTPUT ${DOXYGEN_INDEX_FILE}
-	DEPENDS ${MYGL_HEADER_FILES}
-	COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE_OUT}
-	MAIN_DEPENDENCY ${DOXYFILE_OUT} ${DOXYFILE_IN}
-	COMMENT "Generating docs"
+    OUTPUT ${DOXYGEN_INDEX_FILE}
+    DEPENDS ${MYGL_HEADER_FILES}
+    COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE_OUT}
+    MAIN_DEPENDENCY ${DOXYFILE_OUT} ${DOXYFILE_IN}
+    COMMENT "Generating docs"
 )
 
 # Add a build target for the doxygen xml output, rebuilt only when
@@ -36,12 +36,12 @@ set(SPHINX_BUILD ${CMAKE_CURRENT_BINARY_DIR}/docs/sphinx)
 set(SPHINX_INDEX_FILE ${SPHINX_BUILD}/index.html)
 
 add_custom_command(
-	OUTPUT ${SPHINX_INDEX_FILE}
-	COMMAND ${SPHINX_EXECUTABLE} -b html -Dbreathe_projects.MyGL=${DOXYGEN_OUTPUT_DIR}/xml ${SPHINX_SOURCE} ${SPHINX_BUILD}
-	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-	DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/index.rst ${DOXYGEN_INDEX_FILE}
-	MAIN_DEPENDENCY ${SPHINX_SOURCE}/conf.py
-	COMMENT "Generating documentation with Sphinx"
+    OUTPUT ${SPHINX_INDEX_FILE}
+    COMMAND ${SPHINX_EXECUTABLE} -b html -Dbreathe_projects.MyGL=${DOXYGEN_OUTPUT_DIR}/xml ${SPHINX_SOURCE} ${SPHINX_BUILD}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/index.rst ${DOXYGEN_INDEX_FILE}
+    MAIN_DEPENDENCY ${SPHINX_SOURCE}/conf.py
+    COMMENT "Generating documentation with Sphinx"
 )
 
 add_custom_target(Sphinx ALL DEPENDS ${SPHINX_INDEX_FILE})

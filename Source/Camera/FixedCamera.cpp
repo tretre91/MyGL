@@ -6,29 +6,29 @@ FixedCamera::FixedCamera(glm::vec3 position) : m_position(position), m_front(0.0
 FixedCamera::FixedCamera(glm::vec3 position, glm::vec3 front, glm::vec3 up) : m_position(position), m_front(front), m_up(up) {}
 
 void FixedCamera::setPosition(glm::vec3 position) {
-	m_position = position;
+    m_position = position;
 }
 
 glm::vec3 FixedCamera::getPosition() const {
-	return m_position;
+    return m_position;
 }
 
 void FixedCamera::setFront(glm::vec3 front) {
-	m_front = front;
+    m_front = front;
 }
 
 glm::vec3 FixedCamera::getFront() const {
-	return m_front;
+    return m_front;
 }
 
 void FixedCamera::setUp(glm::vec3 up) {
-	m_up = up;
+    m_up = up;
 }
 
 glm::vec3 FixedCamera::getUp() const {
-	return m_up;
+    return m_up;
 }
 
 glm::mat4 FixedCamera::lookAt() const {
-	return glm::lookAt(m_position, m_position + m_front, m_up);
+    return glm::lookAt(m_position, m_position + m_front, m_up);
 }
