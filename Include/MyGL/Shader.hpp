@@ -11,7 +11,7 @@
 namespace my 
 {
 
-    class Shader {
+    class MYGL_EXPORT Shader {
     private:
         unsigned int id = 0;
         bool usable = false;

@@ -9,9 +9,11 @@ namespace my
     /**
      * @brief Class for drawing rectangles
     */
-    class Rectangle : public AbstractShape {
+    class MYGL_EXPORT Rectangle : public AbstractShape {
     protected:
-        static unsigned int VAO, VBO, EBO;
+        static unsigned int VAO;
+        static unsigned int VBO;
+        static unsigned int EBO;
         static const std::array<float, 12> vertices;
         static const std::array<unsigned int, 4> indices;
         bool moveByCenter;

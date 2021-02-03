@@ -19,7 +19,7 @@ namespace my
      *        shapes drawn to the window.
      *        Anyways it is preferable to use a Cam2D instead of a FixedCamera
     */
-    class FixedCamera {
+    class MYGL_EXPORT FixedCamera {
 
     protected:
         glm::vec3 m_position;

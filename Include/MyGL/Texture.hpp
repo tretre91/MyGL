@@ -9,7 +9,7 @@
 namespace my
 {
 
-    class Texture {
+    class MYGL_EXPORT Texture {
 
     private:
         unsigned int id;

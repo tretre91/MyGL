@@ -9,7 +9,7 @@ namespace my
      * @brief An abstract class which extends FixedCamera to allow the camera to
      *        be moved, inherited by all moving cameras
     */
-    class MovableCamera : public FixedCamera {
+    class MYGL_EXPORT MovableCamera : public FixedCamera {
 
     protected:
         float m_speed;

@@ -4,10 +4,21 @@
 
 #include <iostream>
 
-int main() {
+Uint32 framerateCallback(Uint32 interval, void* param) {
+    int* frameCount = (int*)param;
+    std::cout << *frameCount << std::endl;
+    *frameCount = 0;
+    return interval;
+}
+
+int main(int argc, char* argv[]) {
     // initialization
     my::GLWindow window(800, 600, "OpenGL!");
-    window.setFramerateLimit(0);
+    //window.setFramerateLimit(0);
+    if (!gladLoadGLLoader(my::GLWindow::getGLProcAdress)) {
+        std::cerr << "ERREUR" << std::endl;
+        exit(EXIT_FAILURE);
+    }
     /*******************************************************************************/
     my::Color test("29bc9c", 100);
     my::Rectangle red(50, 40);
@@ -52,86 +63,96 @@ int main() {
     window.setCamera(camera);
 
     int frameCount = 0;
-    std::iostream::sync_with_stdio(false);
+    //std::iostream::sync_with_stdio(false);
 
-    sf::Clock frameClock;
-    float second = 0.0f;
-    float frametime;
+    SDL_TimerID framerateTimer = SDL_AddTimer(1000, framerateCallback, (void*)&frameCount);
+    Uint32 tickCount = SDL_GetTicks();
+    float frametime = 0.0f;
+
+    SDL_Event event;
+
     while (running) {
-        sf::Event event;
-        while (window.pollEvent(event)) {
+        while (SDL_PollEvent(&event)) {
             switch (event.type)
             {
-            case sf::Event::Closed:
+            case SDL_QUIT:
                 running = false;
                 break;
-            case sf::Event::Resized:
-                glViewport(0, 0, event.size.width, event.size.height);
-                break;
-            case sf::Event::KeyPressed:
-                switch (event.key.code)
+
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.sym)
                 {
-                case sf::Keyboard::Escape:
+                case SDLK_ESCAPE:
                     running = false;
                     break;
-                case sf::Keyboard::Enter:
+
+                case SDLK_z:
+                    up = true;
+                    break;
+
+                case SDLK_s:
+                    down = true;
+                    break;
+
+                case SDLK_q:
+                    left = true;
+                    break;
+
+                case SDLK_d:
+                    right = true;
+                    break;
+
+                case SDLK_LEFT:
+                    rotateLeft = true;
+                    break;
+
+                case SDLK_RIGHT:
+                    rotateRight = true;
+                    break;
+
+                default:
+                    break;
+                }
+                break;
+
+            case SDL_KEYUP:
+                switch (event.key.keysym.sym)
+                {
+                case SDLK_RETURN:
                     if (wireframe) glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
                     else glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
                     wireframe = !wireframe;
                     break;
-                case sf::Keyboard::Z:
-                    up = true;
-                    break;
-                case sf::Keyboard::S:
-                    down = true;
-                    break;
-                case sf::Keyboard::Q:
-                    left = true;
-                    break;
-                case sf::Keyboard::D:
-                    right = true;
-                    break;
-                case sf::Keyboard::Left:
-                    rotateLeft = true;
-                    break;
-                case sf::Keyboard::Right:
-                    rotateRight = true;
-                    break;
-                case sf::Keyboard::Up:
-                    red.move(0, 1);
-                    break;
-                case sf::Keyboard::Down:
-                    red.move(0, -1);
-                    break;
-                default:
-                    break;
-                }
-                break;
-            case sf::Event::KeyReleased:
-                switch (event.key.code)
-                {
-                case sf::Keyboard::Z:
+
+                case SDLK_z:
                     up = false;
                     break;
-                case sf::Keyboard::S:
+
+                case SDLK_s:
                     down = false;
                     break;
-                case sf::Keyboard::Q:
+
+                case SDLK_q:
                     left = false;
                     break;
-                case sf::Keyboard::D:
+
+                case SDLK_d:
                     right = false;
                     break;
-                case sf::Keyboard::Left:
+
+                case SDLK_LEFT:
                     rotateLeft = false;
                     break;
-                case sf::Keyboard::Right:
+
+                case SDLK_RIGHT:
                     rotateRight = false;
                     break;
+
                 default:
                     break;
                 }
                 break;
+
             default:
                 break;
             }
@@ -139,7 +160,10 @@ int main() {
 
         window.clear(clearColor);
 
-        frametime = frameClock.restart().asSeconds();
+        frametime = (SDL_GetTicks() - tickCount) / 1000.0f;
+        tickCount = SDL_GetTicks();
+
+        
         if (up) camera.moveUp(frametime);
         if (down) camera.moveDown(frametime);
         if (left) camera.moveLeft(frametime);
@@ -160,22 +184,16 @@ int main() {
             //red.setPosition(400 + (int)(100 * glm::cos(angle)), 300 + (int)(100 * glm::sin(angle)));
             blue.setPosition(400 + (int)(-100 * glm::cos(angle)), 300 + (int)(-100 * glm::sin(angle)));
             if (red.colides(&blue)) std::cout << "Collision!!!!!" << std::endl;
+            moved = false;
         }
 
         window.draw(red);
         window.draw(blue);
         window.draw(green);
         window.draw(text);
-        window.display();
 
-        moved = false;
-        second += frametime;
+        window.display();
         frameCount++;
-        if (second > 1.0f) {
-            std::cout << frameCount << std::endl;
-            second = 0.0f;
-            frameCount = 0;
-        }
     }
 
     return 0;

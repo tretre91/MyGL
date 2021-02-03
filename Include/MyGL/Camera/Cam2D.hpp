@@ -9,7 +9,7 @@ namespace my
      * @brief Class used to manipulate a 2D camera
      * 
     */
-    class Cam2D : public MovableCamera {
+    class MYGL_EXPORT Cam2D : public MovableCamera {
 
     private:
         float roll;

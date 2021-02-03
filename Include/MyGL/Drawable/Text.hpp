@@ -9,7 +9,7 @@ namespace my
     /**
      * @brief Class for creating strings which can be rendered on the screen
     */
-    class Text : public AbstractShape {
+    class MYGL_EXPORT Text : public AbstractShape {
     private:
         /**
          * @brief The vertex shader source code used by this classe's shader

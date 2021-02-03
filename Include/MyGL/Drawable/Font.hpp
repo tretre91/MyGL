@@ -13,7 +13,7 @@ namespace my
     /**
      * @brief Class for storing a font
     */
-    class Font {
+    class MYGL_EXPORT Font {
     private:
         /**
          * @brief Contains useful informations about a the representation of a glyph in a bitmap

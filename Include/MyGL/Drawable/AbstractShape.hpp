@@ -3,12 +3,15 @@
 
 #include "../Shader.hpp"
 #include "../Camera/FixedCamera.hpp"
+#include "../Vector.hpp"
+#include "../Color.hpp"
+
 #include <vector>
 #include <algorithm>
 
 namespace my
 {
-    class AbstractShape {
+    class MYGL_EXPORT AbstractShape {
     protected:
         static const float pi;
         static const std::string vertexSource;

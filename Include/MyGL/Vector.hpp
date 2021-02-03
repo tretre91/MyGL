@@ -1,13 +1,15 @@
 #ifndef MY_VECTOR
 #define MY_VECTOR
 
+#include "mygl_export.h"
+
 namespace my
 {
 
     /**
      * @brief A class for manipulating 2 component integer vectors
     */
-    class Vec2 {
+    class MYGL_EXPORT Vec2 {
 
     public:
         int x;
@@ -38,7 +40,7 @@ namespace my
     /**
      * @brief A class for manipulating 3 component integer vectors
     */
-    class Vec3 {
+    class MYGL_EXPORT Vec3 {
 
     public:
         int x;
@@ -71,7 +73,7 @@ namespace my
     /**
      * @brief A class for manipulating 4 component integer vectors
     */
-    class Vec4 {
+    class MYGL_EXPORT Vec4 {
 
     public:
         int x;

@@ -32,7 +32,9 @@ namespace my
             indices[sides + 1] = 1;
         }
 
-        static unsigned int VAO, VBO, EBO;
+        static unsigned int VAO;
+        static unsigned int VBO;
+        static unsigned int EBO;
         static std::array<float, 3 * (sides + 1)> vertices;
         static std::array<unsigned int, sides + 2> indices;
 

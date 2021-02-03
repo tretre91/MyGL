@@ -5,7 +5,7 @@
 
 namespace my
 {
-    class Color {
+    class MYGL_EXPORT Color {
     public:
         /**
          * @brief The red component

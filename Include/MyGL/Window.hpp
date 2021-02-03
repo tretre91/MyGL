@@ -1,8 +1,14 @@
 #ifndef MY_WINDOW
 #define MY_WINDOW
 
-#include <SFML/Window.hpp>
+//#define SDL_MAIN_HANDLED
+#include <glad/glad.h>
+#include <SDL/SDL.h>
+
+#include "mygl_export.h"
+
 #include "Header.hpp"
+#include "Color.hpp"
 #include "Drawable/AbstractShape.hpp"
 #include "Camera/FixedCamera.hpp"
 
@@ -11,11 +17,14 @@ namespace my
     /**
      * @brief Class for creating a Window
     */
-    class GLWindow : public sf::Window {
+    class MYGL_EXPORT GLWindow {
     private:
         static bool gladIsInitialized;
+        static unsigned int instancesCount;
         glm::mat4 m_projection;
-        my::FixedCamera* m_camera;
+        my::FixedCamera* p_camera;
+        SDL_Window* p_window;
+        SDL_GLContext glContext;
 
     public:
         /**
@@ -31,13 +40,13 @@ namespace my
         */
         GLWindow(int width, int height, const std::string& title);
 
-        /**
-         * @brief Creates a window with an sf::RenderWindow style contructor (will probably be removed later)
-         * @param mode The sf::VideoMode to use
-         * @param title The window's title
-         * @param style The sf::Style of the window
-        */
-        GLWindow(sf::VideoMode mode, const std::string& title, sf::Uint32 style = sf::Style::Default);
+        //GLWindow(int width, int height, const std::string& title, int glMajorVer, int glMinorVer); TODO
+
+        ~GLWindow();
+
+        bool setActive(bool activate);
+
+        //void setFramerate(unsigned int limit); TODO
 
         /**
          * @brief Clears the window's content and replaces it with a background color
@@ -63,6 +72,13 @@ namespace my
          * @param shape The shape to draw, it must inherit from AbstractShape
         */
         void draw(my::AbstractShape& shape);
+
+        /**
+         * @brief Refreshes the window tto display all the things which have been drawn
+        */
+        void display() const;
+
+        static void* getGLProcAdress(const char* name);
     };
 }
 
