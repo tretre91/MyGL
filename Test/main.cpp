@@ -26,6 +26,10 @@ int main(int argc, char* argv[]) {
     red.setColor(test);
     red.positionByCenter(false);
 
+    my::Polygon<3> yes(20, 400, 300);
+    //yes.positionByCenter(true);
+    yes.setColor(my::Color::red);
+
     my::Polygon<5> blue(50, 0, 0);
     blue.setColor(my::Color::blue);
 
@@ -170,11 +174,13 @@ int main(int argc, char* argv[]) {
         if (right) camera.moveRight(frametime);
 
         if (rotateLeft) {
+            yes.scale(-0.1, -0.1);
             angle += inc * frametime;
             if (angle > 2 * pi) angle = 0.0f;
             moved = true;
         }
         if (rotateRight) {
+            yes.scale(0.1, 0.1);
             angle -= inc * frametime;
             if (angle < 0.0f) angle = 2 * pi;
             moved = true;
@@ -187,6 +193,7 @@ int main(int argc, char* argv[]) {
             moved = false;
         }
 
+        window.draw(yes);
         window.draw(red);
         window.draw(blue);
         window.draw(green);
