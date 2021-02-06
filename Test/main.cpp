@@ -20,6 +20,7 @@ int main(int argc, char* argv[]) {
         exit(EXIT_FAILURE);
     }
     /*******************************************************************************/
+    window.enableVsync(false);
     my::Color test("29bc9c", 100);
     my::Rectangle red(50, 40);
     //red.setColor(my::Color::red);

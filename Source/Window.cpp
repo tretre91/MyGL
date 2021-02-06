@@ -23,7 +23,7 @@ p_camera(nullptr), p_window(nullptr), glContext()
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
     p_window = SDL_CreateWindow(
-        "Default",
+        title.c_str(),
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
         800, 600,
@@ -45,6 +45,8 @@ p_camera(nullptr), p_window(nullptr), glContext()
         }
         gladIsInitialized = true;
     }
+
+    SDL_GL_SetSwapInterval(0);
 
     glViewport(0, 0, width, height);
     glEnable(GL_DEPTH_TEST);
@@ -68,6 +70,14 @@ bool GLWindow::setActive(bool activate) {
         return false;
     }
     return true;
+}
+
+void GLWindow::enableVsync(bool enable) const {
+    if(enable) {
+        if(SDL_GL_SetSwapInterval(-1) == -1) SDL_GL_SetSwapInterval(1);
+    } else {
+        SDL_GL_SetSwapInterval(0);
+    }
 }
 
 void GLWindow::clear(const my::Color& color) const {

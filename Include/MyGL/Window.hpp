@@ -3,7 +3,7 @@
 
 //#define SDL_MAIN_HANDLED
 #include <glad/glad.h>
-#include <SDL/SDL.h>
+#include <SDL.h>
 
 #include "mygl_export.h"
 
@@ -47,6 +47,13 @@ namespace my
         bool setActive(bool activate);
 
         //void setFramerate(unsigned int limit); TODO
+
+        /**
+         * @brief Enable or disable vsync, this function will try to use adaptative
+         *        sync if avalaible, and default to vsync if not
+         * @param enable True to enable vsync, false to disable it
+        */
+        void enableVsync(bool enable) const;
 
         /**
          * @brief Clears the window's content and replaces it with a background color
