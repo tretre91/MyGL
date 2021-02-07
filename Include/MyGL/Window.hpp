@@ -1,7 +1,6 @@
 #ifndef MY_WINDOW
 #define MY_WINDOW
 
-//#define SDL_MAIN_HANDLED
 #include <glad/glad.h>
 #include <SDL.h>
 

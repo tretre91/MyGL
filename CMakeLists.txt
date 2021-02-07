@@ -53,97 +53,130 @@ option(
   OFF
 )
 
+option(
+  MYGL_SHARED
+  "Builds the dynamic library files. At least one of the options MYGL_SHARED and MYGL_STATIC should be enabled"
+  ON
+)
+
+option(
+  MYGL_STATIC
+  "Builds the dynamic library files. At least one of the options MYGL_SHARED and MYGL_STATIC should be enabled"
+  ON
+)
+
 set(SDL_BUILDING_LIBRARY TRUE)
-find_package(SDL2)
-find_package(Freetype 2)
-
-if(NOT SDL2_FOUND)
-  find_package(SDL2 REQUIRED 
-    PATHS ${PROJECT_SOURCE_DIR}/Libs/
-  )
-endif()
-
-if(NOT FREETYPE_FOUND)
-  find_package(Freetype 2 REQUIRED
-    PATHS ${PROJECT_SOURCE_DIR}/Libs/
-  )
-endif()
-
-# Shared library
-add_library(MyGL SHARED ${PROJECT_SOURCES})
-set_target_properties(MyGL PROPERTIES
-  SOVERSION ${PROJECT_VERSION_MAJOR}
-  VERSION ${PROJECT_VERSION}
-  OUTPUT_NAME mygl
-  DEBUG_POSTFIX "d"
-)
-
-add_library(GLAD SHARED "${PROJECT_SOURCE_DIR}/Source/glad.c")
-target_include_directories(GLAD 
-  PRIVATE "${PROJECT_SOURCE_DIR}/Include"
-)
-target_compile_definitions(GLAD
-  PRIVATE GLAD_GLAPI_EXPORT_BUILD 
-  PRIVATE GLAD_GLAPI_EXPORT
-)
-set_target_properties(GLAD PROPERTIES
-  OUTPUT_NAME glad
-)
-
-target_link_libraries(MyGL 
-  PUBLIC GLAD
-  PUBLIC SDL2
-  PUBLIC SDL2main
-  PRIVATE freetype
-)
-
-# Static Library
-add_library(MyGL-static STATIC ${PROJECT_SOURCES})
-set_target_properties(MyGL-static PROPERTIES
-  VERSION ${PROJECT_VERSION}
-  OUTPUT_NAME mygl-static
-  DEBUG_POSTFIX "d"
-)
-
-target_compile_definitions(MyGL-static PUBLIC MYGL_STATIC_DEFINE)
 
 if(WIN32)
-  target_link_libraries(MyGL PUBLIC SDL2-static)
+  set(SDL2_LOCAL_DIR "${PROJECT_SOURCE_DIR}/Libs/SDL2/WIN32")
 else()
-  target_link_libraries(MyGL PUBLIC SDL2)
+  set(SDL2_LOCAL_DIR "${PROJECT_SOURCE_DIR}/Libs/SDL2/UNIX")
 endif()
-target_link_libraries(MyGL
-  PUBLIC SDL2main
-  PRIVATE freetype
+find_package(SDL2 REQUIRED 
+  PATHS ${SDL2_LOCAL_DIR}
 )
 
-#include(GenerateExportHeader)
-#generate_export_header(MyGL)
+if(NOT SDL2_INCLUDE_DIRS)
+  set(SDL2_NAMESPACE "SDL2::" CACHE INTERNAL "")
+  find_path(SDL2_INCLUDE_DIRS "SDL.h"
+    PATH_SUFFIXES "include/SDL2" "include"
+    PATHS ${SDL2_LOCAL_DIR}
+  )
+endif()
+
+unset(SDL2_LOCAL_DIR)
+
+find_package(freetype 2 REQUIRED
+  PATHS "${PROJECT_SOURCE_DIR}/Libs/"
+)
+if(NOT FREETYPE_INCLUDE_DIR_ft2build)
+  find_path(FREETYPE_INCLUDE_DIR_ft2build "ft2build.h"
+    PATH_SUFFIXES "include/freetype2" "include"
+    PATHS "${CMAKE_CURRENT_SOURCE_DIR}/Libs/freetype"
+  )
+endif()
+
+
+if(MYGL_SHARED AND MYGL_STATIC)
+  set(MYGL_TARGETS "MyGL" "MyGL-static")
+elseif(MYGL_SHARED)
+  set(MYGL_TARGETS "MyGL")
+elseif(MYGL_STATIC)
+  set(MYGL_TARGETS "MyGL-static")
+else()
+  message(FATAL_ERROR "Nothing to build, enable at least one of the options MYGL_STATIC and MYGL_SHARED")
+endif()
 
 set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/Include)
 
-target_include_directories(MyGL 
-  PUBLIC
-    $<BUILD_INTERFACE:${SDL2_INCLUDE_DIRS}>
-    $<INSTALL_INTERFACE:include/SDL2>
-  PRIVATE
-    ${FREETYPE_INCLUDE_DIR_freetype2}
-  PUBLIC
-    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/Include>
-    $<INSTALL_INTERFACE:include>  
-)
+# Shared library
+if(MYGL_SHARED)
+  add_library(MyGL SHARED ${PROJECT_SOURCES})
+  set_target_properties(MyGL PROPERTIES
+    SOVERSION ${PROJECT_VERSION_MAJOR}
+    VERSION ${PROJECT_VERSION}
+    OUTPUT_NAME mygl
+    DEBUG_POSTFIX "d"
+  )
+  
+  target_compile_definitions(MyGL
+    PRIVATE GLAD_GLAPI_EXPORT_BUILD 
+    PRIVATE GLAD_GLAPI_EXPORT
+  )
 
+  target_link_libraries(MyGL 
+    PUBLIC ${SDL2_NAMESPACE}SDL2
+    PUBLIC ${SDL2_NAMESPACE}SDL2main
+    PRIVATE freetype
+  )
 
-target_include_directories(MyGL-static
-  PUBLIC
-    $<BUILD_INTERFACE:${SDL2_INCLUDE_DIRS}>
-    $<INSTALL_INTERFACE:include/SDL2>
-  PRIVATE
-    ${FREETYPE_INCLUDE_DIR_freetype2}
-  PUBLIC
-    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/Include>
-    $<INSTALL_INTERFACE:include>  
-)
+  target_include_directories(MyGL 
+    PUBLIC
+      $<BUILD_INTERFACE:${SDL2_INCLUDE_DIRS}>
+      $<INSTALL_INTERFACE:include/SDL2>
+    PUBLIC
+      $<BUILD_INTERFACE:${FREETYPE_INCLUDE_DIR_ft2build}>
+      $<INSTALL_INTERFACE:include/freetype2>
+    PUBLIC
+      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/Include>
+      $<INSTALL_INTERFACE:include>  
+  )
+endif(MYGL_SHARED)
+
+# Static Library
+if(MYGL_STATIC)
+  add_library(MyGL-static STATIC ${PROJECT_SOURCES})
+  set_target_properties(MyGL-static PROPERTIES
+    VERSION ${PROJECT_VERSION}
+    OUTPUT_NAME mygl-static
+    DEBUG_POSTFIX "d"
+  )
+
+  target_compile_definitions(MyGL-static PUBLIC MYGL_STATIC_DEFINE)
+
+  if(WIN32)
+    target_link_libraries(MyGL-static PUBLIC ${SDL2_NAMESPACE}SDL2-static)
+  else()
+    target_link_libraries(MyGL-static PUBLIC ${SDL2_NAMESPACE}SDL2)
+  endif()
+  target_link_libraries(MyGL-static
+    PUBLIC ${SDL2_NAMESPACE}SDL2main
+    PRIVATE freetype
+  )
+
+  target_include_directories(MyGL-static
+    PUBLIC
+      $<BUILD_INTERFACE:${SDL2_INCLUDE_DIRS}>
+      $<INSTALL_INTERFACE:include/SDL2>
+    PUBLIC
+      $<BUILD_INTERFACE:${FREETYPE_INCLUDE_DIR_ft2build}>
+      $<INSTALL_INTERFACE:include/freetype2>
+    PUBLIC
+      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/Include>
+      $<INSTALL_INTERFACE:include>  
+  )
+endif(MYGL_STATIC)
+
 
 #install directives
 include(GNUInstallDirs)
@@ -153,7 +186,7 @@ set(MYGL_INSTALL_CMAKEDIR
   CACHE STRING "Path to MyGL cmake files"
 )
 
-install(TARGETS MyGL MyGL-static GLAD
+install(TARGETS ${MYGL_TARGETS}
   EXPORT MyGL_Targets
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
           COMPONENT MyGL_Runtime
@@ -188,7 +221,6 @@ install(DIRECTORY ${SDL2_INCLUDE_DIRS} ${FREETYPE_INCLUDE_DIR_freetype2} ${INCLU
 
 
 # Other targets
-
 if(BUILD_DOCUMENTATION)
   # FindSphinx
   set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})

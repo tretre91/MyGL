@@ -8,7 +8,7 @@
 #else
 #  ifndef MYGL_EXPORT
 #    define GLAD_GLAPI_EXPORT
-#    ifdef _WIN32// || __CYGWIN__
+#    if defined(_WIN32) || defined(__CYGWIN__)
 #      ifdef MyGL_EXPORTS
          /* We are building this library */
 #        define GLAD_GLAPI_EXPORT_BUILD
