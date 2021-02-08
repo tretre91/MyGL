@@ -14,7 +14,7 @@ namespace my
         static unsigned int VAO;
         static unsigned int VBO;
         static unsigned int EBO;
-        static const std::array<float, 12> vertices;
+        static const std::array<float, 20> vertices;
         static const std::array<unsigned int, 4> indices;
         bool moveByCenter;
         virtual void glInit();
@@ -53,6 +53,13 @@ namespace my
          * @return A std::vector containing every point (represented by a glm::vec2) in clockwise order
         */
         virtual std::vector<glm::vec2> points() const;
+
+        // /** //TODO
+        //  * 
+        //  * 
+        //  * 
+        // */
+        // virtual void setTexture(const std::string& filename, bool hasAlhpa = false);
 
         /**
          * @brief Draws a rectangle, this method is called by a window

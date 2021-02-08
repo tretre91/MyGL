@@ -12,11 +12,13 @@ namespace my
     class MYGL_EXPORT Texture {
 
     private:
-        unsigned int id;
+        unsigned int id = 0;
 
     public:
         
         enum class Axis { x, y, s, t };
+
+        Texture() = default;
 
         /**
          * @brief Creates a texture from an image file

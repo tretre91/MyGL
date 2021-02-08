@@ -22,22 +22,56 @@ const std::string AbstractShape::fragmentSource =
 "    FragColor = color;\n"
 "};";
 
+const std::string AbstractShape::texVertexSource ="\
+#version 330 core\n\
+layout (location = 0) in vec3 aPos;\n\
+layout (location = 1) in vec2 aTexCoords;\n\
+out vec2 texCoords;\n\
+uniform mat4 model;\n\
+uniform mat4 view;\n\
+uniform mat4 projection;\n\
+void main(){\n\
+    gl_Position = projection * view * model * vec4(aPos, 1.0);\n\
+    texCoords = aTexCoords;\n\
+};";
+
+const std::string AbstractShape::texFragmentSource ="\
+#version 330 core\n\
+in vec2 texCoords;\n\
+out vec4 FragColor;\n\
+uniform sampler2D tex;\n\
+uniform vec4 color;\n\
+void main(){\n\
+    FragColor = texture(tex, texCoords);\n\
+};";
+
 my::Shader AbstractShape::shader = my::Shader();
+my::Shader AbstractShape::texShader = my::Shader();
 
 bool AbstractShape::shaderIsUsable = false;
 
-AbstractShape::AbstractShape() : position(0, 0), originalScale(10, 10), scaleFactor(1.0f, 1.0f), rotationAngle(0), updateMatrix(true), color(100, 100, 100), model(1.0f) {
+AbstractShape::AbstractShape() : position(0, 0), originalScale(10, 10), scaleFactor(1.0f, 1.0f),
+rotationAngle(0), updateMatrix(true), color(100, 100, 100), model(1.0f), texture()
+{
     if (!shaderIsUsable) {
         shader = my::Shader(vertexSource, fragmentSource, false);
+        texShader = my::Shader(texVertexSource, texFragmentSource, false);
+        texShader.setInt("tex", 3);
         shaderIsUsable = true;
     }
+    activeShader = &shader;
 }
 
-AbstractShape::AbstractShape(int width, int height) : position(0, 0), originalScale(width == 1 ? 1 : width / 2, height == 1 ? 1 : height / 2), scaleFactor(1.0f, 1.0f), rotationAngle(0), updateMatrix(true), color(100, 100, 100), model(1.0f) {
+AbstractShape::AbstractShape(int width, int height) : position(0, 0), originalScale(width == 1 ? 1 : width / 2, height == 1 ? 1 : height / 2),
+scaleFactor(1.0f, 1.0f), rotationAngle(0), updateMatrix(true), color(100, 100, 100), model(1.0f), texture()
+{
     if (!shaderIsUsable) {
         shader = my::Shader(vertexSource, fragmentSource, false);
+        texShader = my::Shader(texVertexSource, texFragmentSource, false);
+        texShader.setInt("tex", 3);
         shaderIsUsable = true;
     }
+    activeShader = &shader;
 }
 
 AbstractShape::AbstractShape(int width, int height, int x, int y) : AbstractShape(width, height) {
@@ -164,4 +198,11 @@ bool AbstractShape::colides(AbstractShape* shape) const {
     }
 
     return true;
+}
+
+void AbstractShape::setTexture(const std::string& filename, bool hasAlpha) {
+    texture = my::Texture(filename, hasAlpha ? GL_RGBA : GL_RGB);
+    texture.setTextureWrapMethod(my::Texture::Axis::s, GL_REPEAT);
+    texture.setTextureWrapMethod(my::Texture::Axis::t, GL_REPEAT);
+    activeShader = &texShader;
 }

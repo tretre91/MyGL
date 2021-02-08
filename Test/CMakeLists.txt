@@ -9,7 +9,6 @@ set(TEST_SOURCE_OUT ${CMAKE_BINARY_DIR}/Test/test.cpp)
 set(RESSOURCES_DIR ${PROJECT_SOURCE_DIR}/Ressources)
 configure_file(${TEST_SOURCE_IN} ${TEST_SOURCE_OUT} @ONLY)
 
-
 add_executable(TestFile ${TEST_SOURCE_OUT})
 
 set_target_properties(TestFile PROPERTIES
@@ -19,6 +18,7 @@ set_target_properties(TestFile PROPERTIES
 
 target_link_libraries(TestFile
   $<IF:$<BOOL:${MYGL_STATIC}>,MyGL-static,MyGL>
+  $<$<BOOL:UNIX>:dl>
 )
 
 target_include_directories(TestFile 
@@ -26,11 +26,6 @@ target_include_directories(TestFile
     $<BUILD_INTERFACE:${INCLUDE_DIR}>
     $<INSTALL_INTERFACE:include>
 )
-
-
-if(UNIX)
-  target_link_libraries(TestFile dl)
-endif()
 
 # Install directives
 

@@ -6,7 +6,7 @@
 
 Uint32 framerateCallback(Uint32 interval, void* param) {
     int* frameCount = (int*)param;
-    std::cout << *frameCount << std::endl;
+    std::cout << *frameCount << '\n';
     *frameCount = 0;
     return interval;
 }
@@ -27,6 +27,16 @@ int main(int argc, char* argv[]) {
     red.setColor(test);
     red.positionByCenter(false);
 
+    my::Rectangle meme(500, 350, 300, 600);
+    meme.setColor(my::Color::blue);
+    meme.setTexture("@RESSOURCES_DIR@/Images/meme.jpeg");
+
+    my::Rectangle smiley(100, 70, 650, 300);
+    smiley.setTexture("@RESSOURCES_DIR@/Images/awesomeface.png", true);
+
+    my::Polygon<8> wall(60, 100, 530);
+    wall.setTexture("@RESSOURCES_DIR@/Images/wall.jpg");
+
     my::Polygon<3> yes(20, 400, 300);
     //yes.positionByCenter(true);
     yes.setColor(my::Color::red);
@@ -35,7 +45,7 @@ int main(int argc, char* argv[]) {
     blue.setColor(my::Color::blue);
 
     my::Polygon<5> green(50, 20, 30);
-    green.setColor(my::Color::green);
+    green.setColor(my::Color::green); 
 
     my::Font arial("@RESSOURCES_DIR@/Fonts/OpenSans-Regular.ttf");
     const unsigned int size = 60;
@@ -194,6 +204,9 @@ int main(int argc, char* argv[]) {
             moved = false;
         }
 
+        window.draw(meme);
+        window.draw(smiley);
+        window.draw(wall);
         window.draw(yes);
         window.draw(red);
         window.draw(blue);

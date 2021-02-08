@@ -20,11 +20,15 @@ namespace my
             vertices[0] = 0.0f;
             vertices[1] = 0.0f;
             vertices[2] = 0.0f;
+            vertices[3] = 0.5f;
+            vertices[4] = 0.5f;
 
-            for (size_t i = 3; i < 3 * (sides + 1); i += 3) {
+            for (size_t i = 5; i < 5 * (sides + 1); i += 5) {
                 vertices[i] = glm::cos(angle);
                 vertices[i + 1] = glm::sin(angle);
                 vertices[i + 2] = 0.0f;
+                vertices[i + 3] = (vertices[i] + 1.0f) / 2.0f;
+                vertices[i + 4] = (vertices[i + 1] + 1.0f) / 2.0f;
                 angle += inc;
             }
 
@@ -35,7 +39,7 @@ namespace my
         static unsigned int VAO;
         static unsigned int VBO;
         static unsigned int EBO;
-        static std::array<float, 3 * (sides + 1)> vertices;
+        static std::array<float, 5 * (sides + 1)> vertices;
         static std::array<unsigned int, sides + 2> indices;
 
         static bool initialized;
@@ -52,8 +56,10 @@ namespace my
             glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_STATIC_DRAW);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices.data(), GL_STATIC_DRAW);
 
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void*>(0));
             glEnableVertexAttribArray(0);
+            glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void*>(3 * sizeof(float)));
+            glEnableVertexAttribArray(1);
 
             glBindVertexArray(0);
         }
@@ -135,12 +141,13 @@ namespace my
                 model = glm::scale(model, glm::vec3(originalScale.x * scaleFactor.x, originalScale.y * scaleFactor.y, 1.0f));
                 updateMatrix = false;
             }
-
-            shader.setMat4("model", glm::value_ptr(model));
-            shader.setMat4("view", glm::value_ptr(lookAt));
-            shader.setMat4("projection", glm::value_ptr(projection));
-            shader.setFloat("color", color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.alpha / 255.0f);
-            shader.use();
+            glActiveTexture(GL_TEXTURE3);
+            texture.bind();
+            activeShader->setMat4("model", glm::value_ptr(model));
+            activeShader->setMat4("view", glm::value_ptr(lookAt));
+            activeShader->setMat4("projection", glm::value_ptr(projection));
+            activeShader->setFloat("color", color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.alpha / 255.0f);
+            activeShader->use();
             glBindVertexArray(VAO);
             glDrawElements(GL_TRIANGLE_FAN, sides + 2, GL_UNSIGNED_INT, 0);
         }
@@ -156,7 +163,7 @@ namespace my
     unsigned int Polygon<sides>::EBO = 0;
 
     template<unsigned int sides>
-    std::array<float, 3 * (sides + 1)> Polygon<sides>::vertices = std::array<float, 3 * (sides + 1)>();
+    std::array<float, 5 * (sides + 1)> Polygon<sides>::vertices = std::array<float, 5 * (sides + 1)>();
 
     template<unsigned int sides>
     std::array<unsigned int, sides + 2> Polygon<sides>::indices = std::array<unsigned int, sides + 2>();

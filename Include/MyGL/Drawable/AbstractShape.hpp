@@ -5,6 +5,7 @@
 #include "../Camera/FixedCamera.hpp"
 #include "../Vector.hpp"
 #include "../Color.hpp"
+#include "../Texture.hpp"
 
 #include <vector>
 #include <algorithm>
@@ -14,9 +15,14 @@ namespace my
     class MYGL_EXPORT AbstractShape {
     protected:
         static const float pi;
+        
         static const std::string vertexSource;
         static const std::string fragmentSource;
         static my::Shader shader;
+
+        static const std::string texVertexSource;
+        static const std::string texFragmentSource;
+        static my::Shader texShader;
         static bool shaderIsUsable;
 
         my::Vec2 position;
@@ -26,6 +32,8 @@ namespace my
         bool updateMatrix;
         my::Color color;
         glm::mat4 model;
+        my::Texture texture;
+        my::Shader* activeShader = nullptr;
 
     public:
         /**
@@ -140,6 +148,14 @@ namespace my
          * @return true if the this shape is overlapping with the specified shape
         */
         bool colides(AbstractShape* shape) const;
+
+        /**
+         * @brief Attach a texture to the shape
+         * @param filename The path to the image, supported formats are jpeg, png,
+         *                 gif (not animated), bmp, tga, psd, hdr, pic, and pnm
+         * @param hasAlpha True if the image has an alpha channel
+        */
+        void setTexture(const std::string& filename, bool hasAlpha = false);
 
         /**
          * @brief Draws a shape, this method is called by a window

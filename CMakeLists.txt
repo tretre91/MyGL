@@ -35,12 +35,6 @@ set(PROJECT_SOURCES
   "Source/Camera/MovableCamera.cpp"
 )
 
-# option(
-#   BUILD_SHARED_LIBS
-#   "Compile as a shared library (.dll on windows, .so on linux), OFF by default"
-#   OFF
-# )
-
 option(
   BUILD_DOCUMENTATION 
   "Turn on in order to enable a build target for the documentation, this requires that you have doxygen, sphinx, breathe and the sphinx_rtd_theme installed"
@@ -69,8 +63,10 @@ set(SDL_BUILDING_LIBRARY TRUE)
 
 if(WIN32)
   set(SDL2_LOCAL_DIR "${PROJECT_SOURCE_DIR}/Libs/SDL2/WIN32")
+  set(FREETYPE_LOCAL_DIR "${PROJECT_SOURCE_DIR}/Libs/freetype/lib/cmake_WIN32")
 else()
   set(SDL2_LOCAL_DIR "${PROJECT_SOURCE_DIR}/Libs/SDL2/UNIX")
+  set(FREETYPE_LOCAL_DIR "${PROJECT_SOURCE_DIR}/Libs/freetype/lib/cmake_UNIX")
 endif()
 find_package(SDL2 REQUIRED 
   PATHS ${SDL2_LOCAL_DIR}
@@ -87,7 +83,7 @@ endif()
 unset(SDL2_LOCAL_DIR)
 
 find_package(freetype 2 REQUIRED
-  PATHS "${PROJECT_SOURCE_DIR}/Libs/"
+  PATHS ${FREETYPE_LOCAL_DIR}
 )
 if(NOT FREETYPE_INCLUDE_DIR_ft2build)
   find_path(FREETYPE_INCLUDE_DIR_ft2build "ft2build.h"
@@ -127,7 +123,7 @@ if(MYGL_SHARED)
   target_link_libraries(MyGL 
     PUBLIC ${SDL2_NAMESPACE}SDL2
     PUBLIC ${SDL2_NAMESPACE}SDL2main
-    PRIVATE freetype
+    INTERFACE freetype
   )
 
   target_include_directories(MyGL 

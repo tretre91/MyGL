@@ -1,7 +1,7 @@
 #ifndef MY_INCLUDE_HEADER
 #define MY_INCLUDE_HEADER
 
-#include <MyGL/mygl_export.h>
+#include "mygl_export.h"
 
 #include <glad/glad.h>
 #include <stb_image.h>
