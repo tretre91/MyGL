@@ -36,8 +36,10 @@ namespace my
          * @param width The window's width
          * @param height The window's height
          * @param title The window's title
+         * @param aa The anti aliasing level, should be 0 (disabled), 2, 4 or 8. Disabled if not
+         *           specified
         */
-        GLWindow(int width, int height, const std::string& title);
+        GLWindow(int width, int height, const std::string& title, unsigned short aa = 0);
 
         //GLWindow(int width, int height, const std::string& title, int glMajorVer, int glMinorVer); TODO
 

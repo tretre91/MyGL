@@ -120,9 +120,10 @@ namespace my
             }
 
             std::vector<glm::vec2> res;
-            for (size_t i = 3; i < vertices.size(); i += 3) {
+            res.reserve(sides);
+            for (size_t i = 5; i < vertices.size(); i += 5) {
                 glm::vec4 vertex = transform * glm::vec4(vertices[i], vertices[i + 1], 0.0f, 1.0f);
-                res.push_back(glm::vec2(vertex.x, vertex.y));
+                res.emplace_back(glm::vec2(vertex.x, vertex.y));
             }
 
             return res;

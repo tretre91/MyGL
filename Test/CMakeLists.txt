@@ -17,9 +17,12 @@ set_target_properties(TestFile PROPERTIES
 )
 
 target_link_libraries(TestFile
-  $<IF:$<BOOL:${MYGL_STATIC}>,MyGL-static,MyGL>
-  $<$<BOOL:UNIX>:dl>
+  $<IF:$<TARGET_EXISTS:MyGL-static>,MyGL-static,MyGL>
 )
+
+if(UNIX)
+  target_link_libraries(TestFile dl)
+endif()
 
 target_include_directories(TestFile 
   PUBLIC

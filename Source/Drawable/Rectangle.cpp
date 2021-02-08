@@ -61,10 +61,10 @@ std::vector<glm::vec2> Rectangle::points() const {
         transform = model;
     }
 
-    std::vector<glm::vec2> res;
-    for (size_t i : {0, 3, 9, 6}) {
-        glm::vec4 vertex = transform * glm::vec4(vertices[i], vertices[i + 1], 0.0f, 1.0f);
-        res.push_back(glm::vec2(vertex.x, vertex.y));
+    std::vector<glm::vec2> res(4);
+    for(size_t i = 0; i < 4; i++) {
+        glm::vec4 vertex = transform * glm::vec4(vertices[i * 5], vertices[(i * 5) + 1], 0.0f, 1.0f);
+        res[i] = glm::vec2(vertex.x, vertex.y);
     }
 
     return res;

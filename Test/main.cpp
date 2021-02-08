@@ -5,15 +5,33 @@
 #include <iostream>
 
 Uint32 framerateCallback(Uint32 interval, void* param) {
-    int* frameCount = (int*)param;
+    int* frameCount = reinterpret_cast<int*>(param);
     std::cout << *frameCount << '\n';
     *frameCount = 0;
     return interval;
 }
 
+my::Rectangle line(int x1, int y1, int x2, int y2) {
+    auto distance = [](int x1, int y1, int x2, int y2) {
+        return glm::sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+    };
+    double dist = distance(x1, y1, x2, y2);
+    int center_x = (x2 + x1) / 2;
+    int center_y = (y2 + y1) / 2;
+    my::Rectangle res(glm::round(dist), 1);
+    res.positionByCenter(true);
+    res.setPosition(center_x, center_y);
+    double cos = (glm::abs(x2 - x1) / 2) / (dist / 2.0f);
+    int angle = glm::round(glm::degrees(glm::acos(cos)));
+    res.setRotation(angle);
+    //res.positionByCenter(false);
+
+    return res;
+}
+
 int main(int argc, char* argv[]) {
     // initialization
-    my::GLWindow window(800, 600, "OpenGL!");
+    my::GLWindow window(800, 600, "OpenGL!", 4);
     //window.setFramerateLimit(0);
     if (!gladLoadGLLoader(my::GLWindow::getGLProcAdress)) {
         std::cerr << "ERREUR" << std::endl;
@@ -22,24 +40,24 @@ int main(int argc, char* argv[]) {
     /*******************************************************************************/
     window.enableVsync(false);
     my::Color test("29bc9c", 100);
-    my::Rectangle red(50, 40);
-    //red.setColor(my::Color::red);
-    red.setColor(test);
-    red.positionByCenter(false);
+    my::Color alertColor("812d2a", 128);
+    my::Rectangle rectangle(50, 40);
+    rectangle.setColor(test);
+    rectangle.positionByCenter(false);
 
     my::Rectangle meme(500, 350, 300, 600);
     meme.setColor(my::Color::blue);
     meme.setTexture("@RESSOURCES_DIR@/Images/meme.jpeg");
+
+    my::Rectangle ligne = line(0, 0, 800, 600);
+    ligne.setColor(my::Color::red);
+    //ligne.setRotation(45);
 
     my::Rectangle smiley(100, 70, 650, 300);
     smiley.setTexture("@RESSOURCES_DIR@/Images/awesomeface.png", true);
 
     my::Polygon<8> wall(60, 100, 530);
     wall.setTexture("@RESSOURCES_DIR@/Images/wall.jpg");
-
-    my::Polygon<3> yes(20, 400, 300);
-    //yes.positionByCenter(true);
-    yes.setColor(my::Color::red);
 
     my::Polygon<5> blue(50, 0, 0);
     blue.setColor(my::Color::blue);
@@ -66,7 +84,7 @@ int main(int argc, char* argv[]) {
     float angle = 0.0f;
     float inc = pi / 2.0f;
 
-    red.setPosition(400 + (int)(100 * glm::cos(angle)), 300 + (int)(100 * glm::sin(angle)));
+    rectangle.setPosition(400 + (int)(100 * glm::cos(angle)), 300 + (int)(100 * glm::sin(angle)));
     blue.setPosition(400 + (int)(-100 * glm::cos(angle)), 300 + (int)(-100 * glm::sin(angle)));
 
     bool wireframe = false;
@@ -185,33 +203,32 @@ int main(int argc, char* argv[]) {
         if (right) camera.moveRight(frametime);
 
         if (rotateLeft) {
-            yes.scale(-0.1, -0.1);
             angle += inc * frametime;
             if (angle > 2 * pi) angle = 0.0f;
             moved = true;
         }
         if (rotateRight) {
-            yes.scale(0.1, 0.1);
             angle -= inc * frametime;
             if (angle < 0.0f) angle = 2 * pi;
             moved = true;
         }
 
         if (moved) {
-            //red.setPosition(400 + (int)(100 * glm::cos(angle)), 300 + (int)(100 * glm::sin(angle)));
+            //rectangle.setPosition(400 + (int)(100 * glm::cos(angle)), 300 + (int)(100 * glm::sin(angle)));
             blue.setPosition(400 + (int)(-100 * glm::cos(angle)), 300 + (int)(-100 * glm::sin(angle)));
-            if (red.colides(&blue)) std::cout << "Collision!!!!!" << std::endl;
+            if (rectangle.colides(&blue)) rectangle.setColor(alertColor);
+            else rectangle.setColor(test);
             moved = false;
         }
 
         window.draw(meme);
         window.draw(smiley);
         window.draw(wall);
-        window.draw(yes);
-        window.draw(red);
+        window.draw(rectangle);
         window.draw(blue);
         window.draw(green);
         window.draw(text);
+        window.draw(ligne);
 
         window.display();
         frameCount++;

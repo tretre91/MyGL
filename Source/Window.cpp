@@ -6,7 +6,7 @@ unsigned int GLWindow::instancesCount = 0;
 
 GLWindow::GLWindow() : GLWindow(800, 600, "Default") {}
 
-GLWindow::GLWindow(int width, int height, const std::string& title) : m_projection(glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), 0.1f, 10.0f)),
+GLWindow::GLWindow(int width, int height, const std::string& title, unsigned short aa) : m_projection(glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), 0.1f, 10.0f)),
 p_camera(nullptr), p_window(nullptr), glContext()
 {
     if (instancesCount == 0) {
@@ -21,6 +21,14 @@ p_camera(nullptr), p_window(nullptr), glContext()
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    if(aa) {
+        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+        if(aa < 2) aa = 1;
+        else if(aa < 4) aa = 2;
+        else if(aa < 8) aa = 4;
+        else aa = 8;
+        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, aa);
+    }
 
     p_window = SDL_CreateWindow(
         title.c_str(),

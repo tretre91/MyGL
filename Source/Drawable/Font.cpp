@@ -60,10 +60,10 @@ Font::Bitmap::Bitmap(unsigned int size, FT_Face& face) : mTextureId(0), realSize
         }
 
         mAlphabet[c] = {
-            pixelCurrentHeight / (float)realHeight,
-            (pixelCurrentHeight + realSize) / (float)realHeight,
-            pixelCurrentWidth / (float)realWidth,
-            (pixelCurrentWidth + realSize) / (float)realWidth,
+            pixelCurrentHeight / static_cast<float>(realHeight),
+            (pixelCurrentHeight + realSize) / static_cast<float>(realHeight),
+            pixelCurrentWidth / static_cast<float>(realWidth),
+            (pixelCurrentWidth + realSize) / static_cast<float>(realWidth),
             static_cast<int>(face->glyph->advance.x >> 6),
             0
         };

@@ -68,12 +68,11 @@ else()
   set(SDL2_LOCAL_DIR "${PROJECT_SOURCE_DIR}/Libs/SDL2/UNIX")
   set(FREETYPE_LOCAL_DIR "${PROJECT_SOURCE_DIR}/Libs/freetype/lib/cmake_UNIX")
 endif()
+
 find_package(SDL2 REQUIRED 
   PATHS ${SDL2_LOCAL_DIR}
 )
-
 if(NOT SDL2_INCLUDE_DIRS)
-  set(SDL2_NAMESPACE "SDL2::" CACHE INTERNAL "")
   find_path(SDL2_INCLUDE_DIRS "SDL.h"
     PATH_SUFFIXES "include/SDL2" "include"
     PATHS ${SDL2_LOCAL_DIR}
@@ -91,6 +90,8 @@ if(NOT FREETYPE_INCLUDE_DIR_ft2build)
     PATHS "${CMAKE_CURRENT_SOURCE_DIR}/Libs/freetype"
   )
 endif()
+
+unset(FREETYPE_LOCAL_DIR)
 
 
 if(MYGL_SHARED AND MYGL_STATIC)
@@ -120,9 +121,9 @@ if(MYGL_SHARED)
     PRIVATE GLAD_GLAPI_EXPORT
   )
 
-  target_link_libraries(MyGL 
-    PUBLIC ${SDL2_NAMESPACE}SDL2
-    PUBLIC ${SDL2_NAMESPACE}SDL2main
+  target_link_libraries(MyGL
+    PUBLIC $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2>
+    PUBLIC $<IF:$<TARGET_EXISTS:SDL2::SDL2main>,SDL2::SDL2main,SDL2main>
     INTERFACE freetype
   )
 
@@ -149,14 +150,10 @@ if(MYGL_STATIC)
   )
 
   target_compile_definitions(MyGL-static PUBLIC MYGL_STATIC_DEFINE)
-
-  if(WIN32)
-    target_link_libraries(MyGL-static PUBLIC ${SDL2_NAMESPACE}SDL2-static)
-  else()
-    target_link_libraries(MyGL-static PUBLIC ${SDL2_NAMESPACE}SDL2)
-  endif()
+ 
   target_link_libraries(MyGL-static
-    PUBLIC ${SDL2_NAMESPACE}SDL2main
+    PUBLIC $<IF:$<TARGET_EXISTS:SDL2::SDL2-static>,SDL2::SDL2-static,SDL2-static>
+    PUBLIC $<IF:$<TARGET_EXISTS:SDL2::SDL2main>,SDL2::SDL2main,SDL2main>
     PRIVATE freetype
   )
 

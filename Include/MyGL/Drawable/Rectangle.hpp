@@ -29,7 +29,7 @@ namespace my
         /**
          * @brief Constructs a width * height rectangle
          * @param width The rectangle's width
-         * @param height The rectaangle's height
+         * @param height The rectangle's height
         */
         Rectangle(int width, int height);
 
