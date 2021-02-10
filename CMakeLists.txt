@@ -59,40 +59,11 @@ option(
   ON
 )
 
-set(SDL_BUILDING_LIBRARY TRUE)
+# Search for the dependancies
+add_subdirectory(external)
 
-if(WIN32)
-  set(SDL2_LOCAL_DIR "${PROJECT_SOURCE_DIR}/Libs/SDL2/WIN32")
-  set(FREETYPE_LOCAL_DIR "${PROJECT_SOURCE_DIR}/Libs/freetype/lib/cmake_WIN32")
-else()
-  set(SDL2_LOCAL_DIR "${PROJECT_SOURCE_DIR}/Libs/SDL2/UNIX")
-  set(FREETYPE_LOCAL_DIR "${PROJECT_SOURCE_DIR}/Libs/freetype/lib/cmake_UNIX")
-endif()
 
-find_package(SDL2 REQUIRED 
-  PATHS ${SDL2_LOCAL_DIR}
-)
-if(NOT SDL2_INCLUDE_DIRS)
-  find_path(SDL2_INCLUDE_DIRS "SDL.h"
-    PATH_SUFFIXES "include/SDL2" "include"
-    PATHS ${SDL2_LOCAL_DIR}
-  )
-endif()
-
-unset(SDL2_LOCAL_DIR)
-
-find_package(freetype 2 REQUIRED
-  PATHS ${FREETYPE_LOCAL_DIR}
-)
-if(NOT FREETYPE_INCLUDE_DIR_ft2build)
-  find_path(FREETYPE_INCLUDE_DIR_ft2build "ft2build.h"
-    PATH_SUFFIXES "include/freetype2" "include"
-    PATHS "${CMAKE_CURRENT_SOURCE_DIR}/Libs/freetype"
-  )
-endif()
-
-unset(FREETYPE_LOCAL_DIR)
-
+#############################
 
 if(MYGL_SHARED AND MYGL_STATIC)
   set(MYGL_TARGETS "MyGL" "MyGL-static")
@@ -128,12 +99,12 @@ if(MYGL_SHARED)
   )
 
   target_include_directories(MyGL 
-    PUBLIC
-      $<BUILD_INTERFACE:${SDL2_INCLUDE_DIRS}>
-      $<INSTALL_INTERFACE:include/SDL2>
-    PUBLIC
-      $<BUILD_INTERFACE:${FREETYPE_INCLUDE_DIR_ft2build}>
-      $<INSTALL_INTERFACE:include/freetype2>
+    # PUBLIC
+    #   $<BUILD_INTERFACE:${SDL2_INCLUDE_DIRS}>
+    #   $<INSTALL_INTERFACE:include/SDL2>
+    # PUBLIC
+    #   $<BUILD_INTERFACE:${FREETYPE_INCLUDE_DIR_ft2build}>
+    #   $<INSTALL_INTERFACE:include/freetype2>
     PUBLIC
       $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/Include>
       $<INSTALL_INTERFACE:include>  

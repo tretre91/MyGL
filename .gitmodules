@@ -1,6 +1,6 @@
-[submodule "external/freetype"]
-	path = external/freetype
-	url = https://gitlab.freedesktop.org/freetype/freetype.git
 [submodule "external/SDL"]
 	path = external/SDL
 	url = https://github.com/spurious/SDL-mirror.git
+[submodule "external/freetype2"]
+	path = external/freetype2
+	url = https://git.savannah.nongnu.org/git/freetype/freetype2.git
