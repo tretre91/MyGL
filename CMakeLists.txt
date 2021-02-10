@@ -59,11 +59,14 @@ option(
   ON
 )
 
+# option(
+#   MYGL_INSTALL_DEPENDENCIES
+#   "Performs a basic installation of MyGL's dependancies (SDL2 and freetype)"
+#   OFF
+# )
+
 # Search for the dependancies
 add_subdirectory(external)
-
-
-#############################
 
 if(MYGL_SHARED AND MYGL_STATIC)
   set(MYGL_TARGETS "MyGL" "MyGL-static")
@@ -95,16 +98,16 @@ if(MYGL_SHARED)
   target_link_libraries(MyGL
     PUBLIC $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2>
     PUBLIC $<IF:$<TARGET_EXISTS:SDL2::SDL2main>,SDL2::SDL2main,SDL2main>
-    INTERFACE freetype
+    PRIVATE freetype
   )
 
   target_include_directories(MyGL 
-    # PUBLIC
-    #   $<BUILD_INTERFACE:${SDL2_INCLUDE_DIRS}>
-    #   $<INSTALL_INTERFACE:include/SDL2>
-    # PUBLIC
-    #   $<BUILD_INTERFACE:${FREETYPE_INCLUDE_DIR_ft2build}>
-    #   $<INSTALL_INTERFACE:include/freetype2>
+    PUBLIC
+      $<BUILD_INTERFACE:${SDL2_INCLUDE_DIRS}>
+      $<INSTALL_INTERFACE:include/SDL2>
+    PUBLIC
+      $<BUILD_INTERFACE:${FREETYPE_INCLUDE_DIR_ft2build}>
+      $<INSTALL_INTERFACE:include/freetype2>
     PUBLIC
       $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/Include>
       $<INSTALL_INTERFACE:include>  
