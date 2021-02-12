@@ -21,6 +21,7 @@ p_camera(nullptr), p_window(nullptr), glContext()
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    
     if(aa) {
         SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
         if(aa < 2) aa = 1;
@@ -49,6 +50,9 @@ p_camera(nullptr), p_window(nullptr), glContext()
         //SDL_SetMainReady();
         if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
             std::cout << "ERROR::GLAD: Failed to initialize GLAD" << std::endl;
+            SDL_GL_DeleteContext(glContext);
+            SDL_DestroyWindow(p_window);
+            SDL_Quit();
             exit(EXIT_FAILURE);
         }
         gladIsInitialized = true;

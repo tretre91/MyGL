@@ -25,8 +25,8 @@ namespace my
         static my::Shader texShader;
         static bool shaderIsUsable;
 
-        my::Vec2 position;
-        const my::Vec2 originalScale;
+        glm::vec2 position;
+        const glm::vec2 originalScale;
         glm::vec2 scaleFactor;
         int rotationAngle;
         bool updateMatrix;
@@ -78,13 +78,13 @@ namespace my
          * @param x The horizontal offset
          * @param y The vertical offset
         */
-        virtual void move(int x, int y);
+        virtual void move(float x, float y);
 
         /**
          * @brief Gives the actual position of the object's center
-         * @return The position of the object's center in a Vec2
+         * @return The position of the object's center
         */
-        my::Vec2 getPosition() const;
+        glm::vec2 getPosition() const;
 
         /**
          * @brief Sets the scale factor applied to the object

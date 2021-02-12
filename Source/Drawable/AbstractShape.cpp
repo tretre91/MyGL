@@ -49,7 +49,7 @@ my::Shader AbstractShape::texShader = my::Shader();
 
 bool AbstractShape::shaderIsUsable = false;
 
-AbstractShape::AbstractShape() : position(0, 0), originalScale(10, 10), scaleFactor(1.0f, 1.0f),
+AbstractShape::AbstractShape() : position(0.0f, 0.0f), originalScale(5.0f, 5.0f), scaleFactor(1.0f, 1.0f),
 rotationAngle(0), updateMatrix(true), color(100, 100, 100), model(1.0f), texture()
 {
     if (!shaderIsUsable) {
@@ -61,7 +61,7 @@ rotationAngle(0), updateMatrix(true), color(100, 100, 100), model(1.0f), texture
     activeShader = &shader;
 }
 
-AbstractShape::AbstractShape(int width, int height) : position(0, 0), originalScale(width == 1 ? 1 : width / 2, height == 1 ? 1 : height / 2),
+AbstractShape::AbstractShape(int width, int height) : position(0.0f, 0.0f), originalScale(width / 2.0f, height / 2.0f),
 scaleFactor(1.0f, 1.0f), rotationAngle(0), updateMatrix(true), color(100, 100, 100), model(1.0f), texture()
 {
     if (!shaderIsUsable) {
@@ -79,18 +79,18 @@ AbstractShape::AbstractShape(int width, int height, int x, int y) : AbstractShap
 
 
 void AbstractShape::setPosition(int x, int y, bool center) {
-    position.x = x + (!center * originalScale.x * scaleFactor.x);
-    position.y = y - (!center * originalScale.y * scaleFactor.y);
+    position.x = static_cast<float>(x) + (!center * originalScale.x * scaleFactor.x);
+    position.y = static_cast<float>(y) - (!center * originalScale.y * scaleFactor.y);
     updateMatrix = true;
 }
 
-void AbstractShape::move(int x, int y) {
+void AbstractShape::move(float x, float y) {
     position.x += x;
     position.y += y;
     updateMatrix = true;
 }
 
-my::Vec2 AbstractShape::getPosition() const {
+glm::vec2 AbstractShape::getPosition() const {
     return position;
 }
 
@@ -146,53 +146,45 @@ my::Color AbstractShape::getColor() const {
 
 
 bool AbstractShape::colides(AbstractShape* shape) const {
+    // We test if the shapes are close enough to potentialy touch
+    float dist = glm::distance(this->position, shape->position);
+    glm::vec2 radius = originalScale * scaleFactor;
+    float r1 = std::max(radius.x, radius.y);
+    radius = shape->originalScale * shape->scaleFactor;
+    float r2 = std::max(radius.x, radius.y);
+    if(dist > r1 + r2) return false;
+
+    // if the shapes are close enough we use the separating axis
+    // theorem to test wether they are coliding
     std::vector<glm::vec2> points1 = this->points();
     points1.push_back(points1[0]);
     std::vector<glm::vec2> points2 = shape->points();
     points2.push_back(points2[0]);
 
+    glm::vec2 axis;
+    glm::vec2 middle;
+    auto dot = [&middle, &axis](const glm::vec2& v) -> float { return glm::dot(v - middle, axis); };
 
-    auto dot = [](glm::vec2 v1, glm::vec2 v2) -> float {
-        return v1.x * v2.x + v1.y * v2.y;
-    };
+    std::vector<float> projections1(points1.size());
+    std::vector<float> projections2(points2.size());
+    std::vector<glm::vec2>* currentShape = &points1;
 
-    float shape1Range[2];
-    float shape2Range[2];
+    // the outer loop allows to not write a second time the code of the inner loop
+    for (int s = 0; s < 2; s++) {
+        for (size_t i = 0; i < currentShape->size() - 1; i++) {
+            axis = (*currentShape)[i] - (*currentShape)[i + 1];
+            middle = ((*currentShape)[i] + (*currentShape)[i + 1]) / 2.0f;
+            axis = glm::normalize(glm::vec2(axis.y, -axis.x));
+            
+            std::transform(points1.begin(), points1.end(), projections1.begin(), dot);
+            auto shape1Range = std::minmax_element(projections1.begin(), projections1.end());
 
-    for (size_t i = 0; i < points1.size() - 1; i++) {
-        glm::vec2 axis = points1[i] - points1[i + 1];
-        glm::vec2 middle((points1[i].x + points1[i + 1].x) / 2, (points1[i].y + points1[i + 1].y) / 2);
-        axis = glm::vec2(axis.y, -axis.x);
-        
-        std::vector<float> projections;
-        for (auto v : points1) projections.push_back(dot(v - middle, axis));
-        shape1Range[0] = *std::min_element(projections.begin(), projections.end());
-        shape1Range[1] = *std::max_element(projections.begin(), projections.end());
+            std::transform(points2.begin(), points2.end(), projections2.begin(), dot);
+            auto shape2Range = std::minmax_element(projections2.begin(), projections2.end());
 
-        projections.clear();
-        for (auto v : points2) projections.push_back(dot(v - middle, axis));
-        shape2Range[0] = *std::min_element(projections.begin(), projections.end());
-        shape2Range[1] = *std::max_element(projections.begin(), projections.end());
-
-        if (shape2Range[0] > shape1Range[1] || shape2Range[1] < shape1Range[0]) return false;
-    }
-
-    for (size_t i = 0; i < points2.size() - 1; i++) {
-        glm::vec2 axis = points2[i] - points2[i + 1];
-        glm::vec2 middle((points2[i].x + points2[i + 1].x) / 2, (points2[i].y + points2[i + 1].y) / 2);
-        axis = glm::vec2(axis.y, -axis.x);
-
-        std::vector<float> projections;
-        for (auto v : points1) projections.push_back(dot(v - middle, axis));
-        shape1Range[0] = *std::min_element(projections.begin(), projections.end());
-        shape1Range[1] = *std::max_element(projections.begin(), projections.end());
-
-        projections.clear();
-        for (auto v : points2) projections.push_back(dot(v - middle, axis));
-        shape2Range[0] = *std::min_element(projections.begin(), projections.end());
-        shape2Range[1] = *std::max_element(projections.begin(), projections.end());
-
-        if (shape2Range[0] > shape1Range[1] || shape2Range[1] < shape1Range[0]) return false;
+            if (*(shape2Range.first) > *(shape1Range.second) || *(shape2Range.second) < *(shape1Range.first)) return false;
+        }
+        currentShape = &points2;
     }
 
     return true;

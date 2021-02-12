@@ -12,13 +12,10 @@ Uint32 framerateCallback(Uint32 interval, void* param) {
 }
 
 my::Rectangle line(int x1, int y1, int x2, int y2) {
-    auto distance = [](int x1, int y1, int x2, int y2) {
-        return glm::sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
-    };
-    double dist = distance(x1, y1, x2, y2);
+    double dist = glm::sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
     int center_x = (x2 + x1) / 2;
     int center_y = (y2 + y1) / 2;
-    my::Rectangle res(glm::round(dist), 1);
+    my::Rectangle res(std::lround(dist), 1);
     res.setPosition(center_x, center_y, true);
     double cos = (glm::abs(x2 - x1) / 2) / (dist / 2.0f);
     int angle = glm::round(glm::degrees(glm::acos(cos)));
@@ -49,7 +46,6 @@ int main(int argc, char* argv[]) {
 
     my::Rectangle ligne = line(0, 0, 800, 600);
     ligne.setColor(my::Color::red);
-    //ligne.setRotation(45);
 
     my::Rectangle smiley(100, 70, 650, 300);
     smiley.setTexture("@RESSOURCES_DIR@/Images/awesomeface.png", true);
@@ -57,7 +53,7 @@ int main(int argc, char* argv[]) {
     my::Polygon<8> wall(60, 100, 530);
     wall.setTexture("@RESSOURCES_DIR@/Images/wall.jpg");
 
-    my::Polygon<5> blue(50, 0, 0);
+    my::Polygon<20> blue(50, 0, 0);
     blue.setColor(my::Color::blue);
 
     my::Polygon<5> green(50, 20, 30);
@@ -216,6 +212,8 @@ int main(int argc, char* argv[]) {
             blue.setPosition(400 + (int)(-100 * glm::cos(angle)), 300 + (int)(-100 * glm::sin(angle)));
             if (rectangle.colides(&blue)) rectangle.setColor(alertColor);
             else rectangle.setColor(test);
+            if (blue.colides(&ligne)) blue.setColor(alertColor);
+            else blue.setColor(my::Color::blue);
             moved = false;
         }
 
