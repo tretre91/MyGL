@@ -35,6 +35,13 @@ namespace my
         my::Texture texture;
         my::Shader* activeShader = nullptr;
 
+        
+        /**
+         * @brief Indicates the points composing this shape
+         * @return The coordinates of the points of this shape
+        */
+        virtual std::vector<glm::vec2> points() const = 0;
+
     public:
         /**
          * @brief Default constructor, Initializes a 10 * 10 grey object
@@ -58,11 +65,13 @@ namespace my
         AbstractShape(int width, int height, int x, int y);
 
         /**
-         * @brief Moves the center of the object to (x,y)
-         * @param x The new horizontal position of the object's center
-         * @param y The new vertical popsition of the object's center
+         * @brief Moves the shape to (x,y)
+         * @param x The new horizontal position
+         * @param y The new vertical popsition
+         * @param center If true, set the shape's center at (x,y), else sets its
+         *               top left hand corner at (x,y). Default value is false
         */
-        virtual void setPosition(int x, int y);
+        virtual void setPosition(int x, int y, bool center = false);
 
         /**
          * @brief Moves the object relative to it's actual position
@@ -135,12 +144,6 @@ namespace my
          * @return A my::Color object containing the object's color
         */
         my::Color getColor() const;
-
-        /**
-         * @brief Indicates the points composing this shape
-         * @return The coordinates of the points of this shape
-        */
-        virtual std::vector<glm::vec2> points() const = 0;
 
         /**
          * @brief Tells wether 2 shapes are overlapping

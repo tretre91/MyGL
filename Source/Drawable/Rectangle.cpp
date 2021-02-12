@@ -33,27 +33,23 @@ void Rectangle::glInit() {
     glBindVertexArray(0);
 }
 
-Rectangle::Rectangle() : moveByCenter(false), AbstractShape() {
+Rectangle::Rectangle() : AbstractShape() {
     glInit();
 }
 
-Rectangle::Rectangle(int width, int height) : moveByCenter(false), AbstractShape(width, height) {
+Rectangle::Rectangle(int width, int height) : AbstractShape(width, height) {
     glInit();
 }
 
-Rectangle::Rectangle(int width, int height, int x, int y) : moveByCenter(false), AbstractShape(width, height, x, y) {
+Rectangle::Rectangle(int width, int height, int x, int y) : AbstractShape(width, height, x, y) {
     glInit();
-}
-
-void Rectangle::positionByCenter(bool center) {
-    moveByCenter = center;
 }
 
 std::vector<glm::vec2> Rectangle::points() const {
     glm::mat4 transform;
     if (updateMatrix) {
         transform = glm::mat4(1.0f);
-        transform = glm::translate(transform, glm::vec3(position.x + originalScale.x * (!moveByCenter), position.y - originalScale.y * (!moveByCenter), 0.0f));
+        transform = glm::translate(transform, glm::vec3(position.x, position.y, 0.0f));
         transform = glm::rotate(transform, glm::radians((float)rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
         transform = glm::scale(transform, glm::vec3(originalScale.x * scaleFactor.x, originalScale.y * scaleFactor.y, 1.0f));
     }
@@ -73,7 +69,7 @@ std::vector<glm::vec2> Rectangle::points() const {
 void Rectangle::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
     if (updateMatrix) {
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(position.x + originalScale.x * (!moveByCenter), position.y - originalScale.y * (!moveByCenter), 0.0f));
+        model = glm::translate(model, glm::vec3(position.x, position.y, 0.0f));
         model = glm::rotate(model, glm::radians((float)rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
         model = glm::scale(model, glm::vec3(originalScale.x * scaleFactor.x, originalScale.y * scaleFactor.y, 1.0f));
         updateMatrix = false;

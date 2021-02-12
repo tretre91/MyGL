@@ -16,8 +16,13 @@ namespace my
         static unsigned int EBO;
         static const std::array<float, 20> vertices;
         static const std::array<unsigned int, 4> indices;
-        bool moveByCenter;
         virtual void glInit();
+
+        /**
+         * @brief Gives a list of the rectangle's points
+         * @return A std::vector containing every point (represented by a glm::vec2) in clockwise order
+        */
+        virtual std::vector<glm::vec2> points() const;
 
     public:
 
@@ -41,25 +46,6 @@ namespace my
          * @param y The y coordinate of the rectangle's center
         */
         Rectangle(int width, int height, int x, int y);
-
-        /**
-         * @brief Allows to modify the anchor point used to specify the rectangle's position (which is by default the top left hand corner)
-         * @param center If center is true then setPosition will set the rectangle's center at the specified position, otherwise the top left hand corner will be placed at that position
-        */
-        void positionByCenter(bool center);
-
-        /**
-         * @brief Gives a list of the rectangle's points
-         * @return A std::vector containing every point (represented by a glm::vec2) in clockwise order
-        */
-        virtual std::vector<glm::vec2> points() const;
-
-        // /** //TODO
-        //  * 
-        //  * 
-        //  * 
-        // */
-        // virtual void setTexture(const std::string& filename, bool hasAlhpa = false);
 
         /**
          * @brief Draws a rectangle, this method is called by a window

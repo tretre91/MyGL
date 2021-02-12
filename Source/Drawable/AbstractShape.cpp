@@ -1,26 +1,25 @@
 #include <MyGL/Drawable/AbstractShape.hpp>
 using namespace my;
 
-const float AbstractShape::pi = 3.14159265359;
+const float AbstractShape::pi = 3.1415926535f;
 
-const std::string AbstractShape::vertexSource =
-"#version 330 core\n"
-"layout (location = 0) in vec3 aPos;\n"
-"uniform mat4 model;\n"
-"uniform mat4 view;\n"
-"uniform mat4 projection;\n"
+const std::string AbstractShape::vertexSource ="\
+#version 330 core\n\
+layout (location = 0) in vec3 aPos;\n\
+uniform mat4 model;\n\
+uniform mat4 view;\n\
+uniform mat4 projection;\n\
+void main(){\n\
+    gl_Position = projection * view * model * vec4(aPos, 1.0);\n\
+};";
 
-"void main(){\n"
-"    gl_Position = projection * view * model * vec4(aPos, 1.0);\n"
-"};";
-
-const std::string AbstractShape::fragmentSource =
-"#version 330 core\n"
-"out vec4 FragColor;\n"
-"uniform vec4 color;\n"
-"void main(){\n"
-"    FragColor = color;\n"
-"};";
+const std::string AbstractShape::fragmentSource ="\
+#version 330 core\n\
+out vec4 FragColor;\n\
+uniform vec4 color;\n\
+void main(){\n\
+    FragColor = color;\n\
+};";
 
 const std::string AbstractShape::texVertexSource ="\
 #version 330 core\n\
@@ -75,14 +74,13 @@ scaleFactor(1.0f, 1.0f), rotationAngle(0), updateMatrix(true), color(100, 100, 1
 }
 
 AbstractShape::AbstractShape(int width, int height, int x, int y) : AbstractShape(width, height) {
-    position.x = x;
-    position.y = y;
+    setPosition(x, y, false);
 }
 
 
-void AbstractShape::setPosition(int x, int y) {
-    position.x = x;
-    position.y = y;
+void AbstractShape::setPosition(int x, int y, bool center) {
+    position.x = x + (!center * originalScale.x * scaleFactor.x);
+    position.y = y - (!center * originalScale.y * scaleFactor.y);
     updateMatrix = true;
 }
 
@@ -104,8 +102,8 @@ void AbstractShape::setScale(float x, float y) {
 }
 
 void AbstractShape::scale(float x, float y) {
-    scaleFactor.x += x;
-    scaleFactor.y += y;
+    scaleFactor.x *= x;
+    scaleFactor.y *= y;
     updateMatrix = true;
 }
 

@@ -19,12 +19,10 @@ my::Rectangle line(int x1, int y1, int x2, int y2) {
     int center_x = (x2 + x1) / 2;
     int center_y = (y2 + y1) / 2;
     my::Rectangle res(glm::round(dist), 1);
-    res.positionByCenter(true);
-    res.setPosition(center_x, center_y);
+    res.setPosition(center_x, center_y, true);
     double cos = (glm::abs(x2 - x1) / 2) / (dist / 2.0f);
     int angle = glm::round(glm::degrees(glm::acos(cos)));
     res.setRotation(angle);
-    //res.positionByCenter(false);
 
     return res;
 }
@@ -43,7 +41,7 @@ int main(int argc, char* argv[]) {
     my::Color alertColor("812d2a", 128);
     my::Rectangle rectangle(50, 40);
     rectangle.setColor(test);
-    rectangle.positionByCenter(false);
+    bool moveByCenter = false;
 
     my::Rectangle meme(500, 350, 300, 600);
     meme.setColor(my::Color::blue);

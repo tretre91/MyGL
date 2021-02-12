@@ -64,6 +64,32 @@ namespace my
             glBindVertexArray(0);
         }
 
+        /**
+         * @brief Gives a list of the polygon's points
+         * @return A std::vector containing every point (represented by a glm::vec2) in counter-clockwise order
+        */
+        virtual std::vector<glm::vec2> points() const {
+            glm::mat4 transform;
+            if (updateMatrix) {
+                transform = glm::mat4(1.0f);
+                transform = glm::translate(transform, glm::vec3(position.x, position.y, 0.0f));
+                transform = glm::rotate(transform, glm::radians((float)rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
+                transform = glm::scale(transform, glm::vec3(originalScale.x * scaleFactor.x, originalScale.y * scaleFactor.y, 1.0f));
+            }
+            else {
+                transform = model;
+            }
+
+            std::vector<glm::vec2> res;
+            res.reserve(sides);
+            for (size_t i = 5; i < vertices.size(); i += 5) {
+                glm::vec4 vertex = transform * glm::vec4(vertices[i], vertices[i + 1], 0.0f, 1.0f);
+                res.emplace_back(glm::vec2(vertex.x, vertex.y));
+            }
+
+            return res;
+        }
+
     public:
 
         /**
@@ -95,38 +121,13 @@ namespace my
          * @param x The x coordinate of the center
          * @param y The y coordinate of the center
         */
-        Polygon(int radius, int x, int y) : AbstractShape(radius, radius, x, y) {
+        Polygon(int radius, int x, int y) : AbstractShape(radius, radius) {
             if (!initialized) {
                 computeVertices();
                 glInit();
                 initialized = true;
             }
-        }
-
-        /**
-         * @brief Gives a list of the polygon's points
-         * @return A std::vector containing every point (represented by a glm::vec2) in counter-clockwise order
-        */
-        virtual std::vector<glm::vec2> points() const {
-            glm::mat4 transform;
-            if (updateMatrix) {
-                transform = glm::mat4(1.0f);
-                transform = glm::translate(transform, glm::vec3(position.x, position.y, 0.0f));
-                transform = glm::rotate(transform, glm::radians((float)rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
-                transform = glm::scale(transform, glm::vec3(originalScale.x * scaleFactor.x, originalScale.y * scaleFactor.y, 1.0f));
-            }
-            else {
-                transform = model;
-            }
-
-            std::vector<glm::vec2> res;
-            res.reserve(sides);
-            for (size_t i = 5; i < vertices.size(); i += 5) {
-                glm::vec4 vertex = transform * glm::vec4(vertices[i], vertices[i + 1], 0.0f, 1.0f);
-                res.emplace_back(glm::vec2(vertex.x, vertex.y));
-            }
-
-            return res;
+            setPosition(x, y, true);
         }
 
         /**
