@@ -146,11 +146,24 @@ namespace my
         my::Color getColor() const;
 
         /**
-         * @brief Tells wether 2 shapes are overlapping
+         * @brief Tells wether 2 shapes are overlapping using the separating
+         *        axis theorem (SAT)
          * @param shape The shape to test against
          * @return true if the this shape is overlapping with the specified shape
         */
-        bool colides(AbstractShape* shape) const;
+        bool SATCollides(const AbstractShape& shape) const;
+
+        /**
+         * @brief Tells whether 2 shapes are overlapping using their bounding 
+         *        boxes. 
+         * @param shape The shape to test against
+         * @return true if the this shape's bounding rectangle is overlapping with the
+         *         specified shape's bounding rectangle
+         * 
+         * This method is less expensive than the SAT one but far less precise, if you
+         * need more precision, use the SATCollides method
+        */
+        bool BBoxCollides(const AbstractShape& shape) const;
 
         /**
          * @brief Attach a texture to the shape

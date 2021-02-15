@@ -204,9 +204,9 @@ int main(int argc, char* argv[]) {
         if (moved) {
             //rectangle.setPosition(400 + (int)(100 * glm::cos(angle)), 300 + (int)(100 * glm::sin(angle)));
             blue.setPosition(400 + (int)(-100 * glm::cos(angle)), 300 + (int)(-100 * glm::sin(angle)));
-            if (rectangle.colides(&blue)) rectangle.setColor(alertColor);
+            if (rectangle.BBoxCollides(blue)) rectangle.setColor(alertColor);
             else rectangle.setColor(test);
-            if (blue.colides(&ligne)) blue.setColor(alertColor);
+            if (blue.SATCollides(ligne)) blue.setColor(alertColor);
             else blue.setColor(my::Color::blue);
             moved = false;
         }

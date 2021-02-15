@@ -145,7 +145,8 @@ my::Color AbstractShape::getColor() const {
 }
 
 
-bool AbstractShape::colides(AbstractShape* shape) const {
+bool AbstractShape::SATCollides(const AbstractShape& otherShape) const {
+    const AbstractShape* shape = &otherShape;
     // We test if the shapes are close enough to potentialy touch
     float dist = glm::distance(this->position, shape->position);
     glm::vec2 radius = originalScale * scaleFactor;
@@ -188,6 +189,15 @@ bool AbstractShape::colides(AbstractShape* shape) const {
     }
 
     return true;
+}
+
+bool AbstractShape::BBoxCollides(const AbstractShape& otherShape) const {
+    const AbstractShape* shape = &otherShape;
+    glm::vec2 thisScale = this->originalScale * this->scaleFactor;
+    glm::vec2 shapeScale = shape->originalScale * shape->scaleFactor;
+
+    return abs(this->position.y - shape->position.y) < abs(thisScale.y) + abs(shapeScale.y)
+           && abs(this->position.x - shape->position.x) < abs(thisScale.x) + abs(shapeScale.x);
 }
 
 void AbstractShape::setTexture(const std::string& filename, bool hasAlpha) {
