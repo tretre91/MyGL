@@ -48,7 +48,7 @@ pCamera(nullptr), pWindow(nullptr), mGLContext(), mFrametime(1.0f), mTickCount(0
 
     if (!gladIsInitialized) {
         //SDL_SetMainReady();
-        if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
+        if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress) || !initGlad()) {
             std::cout << "ERROR::GLAD: Failed to initialize GLAD" << std::endl;
             SDL_GL_DeleteContext(mGLContext);
             SDL_DestroyWindow(pWindow);

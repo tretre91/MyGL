@@ -28,10 +28,6 @@ int main(int argc, char* argv[]) {
     // initialization
     my::GLWindow window(800, 600, "OpenGL!", 4);
     //window.setFramerate(0);
-    if (!gladLoadGLLoader(my::GLWindow::getGLProcAdress)) {
-        std::cerr << "ERREUR" << std::endl;
-        exit(EXIT_FAILURE);
-    }
     /*******************************************************************************/
     window.enableVsync(false);
     my::Color test("29bc9c", 100);

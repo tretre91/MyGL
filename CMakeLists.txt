@@ -23,7 +23,7 @@ set(PROJECT_SOURCES
   "Source/Texture.cpp"
   "Source/Vector.cpp"
   "Source/Window.cpp"
-  "Source/glad.c"
+  #"Source/glad.c"
   "Source/Drawable/AbstractShape.cpp"
   "Source/Drawable/Font.cpp"
   "Source/Drawable/Rectangle.cpp"
@@ -59,19 +59,13 @@ option(
   ON
 )
 
-# option(
-#   MYGL_INSTALL_DEPENDENCIES
-#   "Performs a basic installation of MyGL's dependancies (SDL2 and freetype)"
-#   OFF
-# )
-
 # Search for the dependancies
 add_subdirectory(external)
 
 if(MYGL_SHARED AND MYGL_STATIC)
-  set(MYGL_TARGETS "MyGL" "MyGL-static")
+  set(MYGL_TARGETS "MyGL" "GLAD" "MyGL-static")
 elseif(MYGL_SHARED)
-  set(MYGL_TARGETS "MyGL")
+  set(MYGL_TARGETS "MyGL" "GLAD")
 elseif(MYGL_STATIC)
   set(MYGL_TARGETS "MyGL-static")
 else()
@@ -82,6 +76,20 @@ set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/Include)
 
 # Shared library
 if(MYGL_SHARED)
+  add_library(GLAD SHARED "${PROJECT_SOURCE_DIR}/Source/glad.c")
+  set_target_properties(GLAD PROPERTIES
+    OUTPUT_NAME glad
+  )
+  target_compile_definitions(GLAD
+    PUBLIC GLAD_GLAPI_EXPORT
+    PRIVATE GLAD_GLAPI_EXPORT_BUILD
+  )
+  target_include_directories(GLAD
+    PUBLIC
+      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/Include>
+      $<INSTALL_INTERFACE:include>
+  )
+
   add_library(MyGL SHARED ${PROJECT_SOURCES})
   set_target_properties(MyGL PROPERTIES
     SOVERSION ${PROJECT_VERSION_MAJOR}
@@ -89,13 +97,9 @@ if(MYGL_SHARED)
     OUTPUT_NAME mygl
     DEBUG_POSTFIX "d"
   )
-  
-  target_compile_definitions(MyGL
-    PRIVATE GLAD_GLAPI_EXPORT_BUILD 
-    PRIVATE GLAD_GLAPI_EXPORT
-  )
 
   target_link_libraries(MyGL
+    PUBLIC GLAD
     PUBLIC $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2>
     PUBLIC $<IF:$<TARGET_EXISTS:SDL2::SDL2main>,SDL2::SDL2main,SDL2main>
     PRIVATE freetype
@@ -116,7 +120,7 @@ endif(MYGL_SHARED)
 
 # Static Library
 if(MYGL_STATIC)
-  add_library(MyGL-static STATIC ${PROJECT_SOURCES})
+  add_library(MyGL-static STATIC "Source/glad.c" ${PROJECT_SOURCES})
   set_target_properties(MyGL-static PROPERTIES
     VERSION ${PROJECT_VERSION}
     OUTPUT_NAME mygl-static

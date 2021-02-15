@@ -17,7 +17,7 @@ set_target_properties(TestFile PROPERTIES
 )
 
 target_link_libraries(TestFile
-  $<IF:$<TARGET_EXISTS:MyGL-static>,MyGL-static,MyGL>
+  PUBLIC $<IF:$<TARGET_EXISTS:MyGL-static>,MyGL-static,MyGL>
 )
 
 if(UNIX)

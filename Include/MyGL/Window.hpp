@@ -28,6 +28,14 @@ namespace my
         mutable Uint32 mTickCount;
         Uint32 mFrameDelay;
 
+        /**
+         * @brief Initializes glad from outside of the DLL
+         * @return true if the initialization was successful
+        */
+        inline bool initGlad() {
+            return gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress);
+        }
+
     public:
         /**
          * @brief Default constructor, creates a 800 * 600 window
