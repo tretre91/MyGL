@@ -6,8 +6,8 @@ unsigned int GLWindow::instancesCount = 0;
 
 GLWindow::GLWindow() : GLWindow(800, 600, "Default") {}
 
-GLWindow::GLWindow(int width, int height, const std::string& title, unsigned short aa) : m_projection(glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), 0.1f, 10.0f)),
-p_camera(nullptr), p_window(nullptr), glContext()
+GLWindow::GLWindow(int width, int height, const std::string& title, unsigned short aa) : mProjection(glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), 0.1f, 10.0f)),
+pCamera(nullptr), pWindow(nullptr), mGLContext(), mFrametime(1.0f), mTickCount(0), mFrameDelay(0)
 {
     if (instancesCount == 0) {
         if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
@@ -31,7 +31,7 @@ p_camera(nullptr), p_window(nullptr), glContext()
         SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, aa);
     }
 
-    p_window = SDL_CreateWindow(
+    pWindow = SDL_CreateWindow(
         title.c_str(),
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
@@ -39,19 +39,19 @@ p_camera(nullptr), p_window(nullptr), glContext()
         SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN
     );
 
-    if (p_window == nullptr) {
+    if (pWindow == nullptr) {
         std::cerr << "ERROR::SDL: Failed to create a window" << std::endl;
         exit(EXIT_FAILURE);
     }
 
-    glContext = SDL_GL_CreateContext(p_window);
+    mGLContext = SDL_GL_CreateContext(pWindow);
 
     if (!gladIsInitialized) {
         //SDL_SetMainReady();
         if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
             std::cout << "ERROR::GLAD: Failed to initialize GLAD" << std::endl;
-            SDL_GL_DeleteContext(glContext);
-            SDL_DestroyWindow(p_window);
+            SDL_GL_DeleteContext(mGLContext);
+            SDL_DestroyWindow(pWindow);
             SDL_Quit();
             exit(EXIT_FAILURE);
         }
@@ -59,6 +59,7 @@ p_camera(nullptr), p_window(nullptr), glContext()
     }
 
     SDL_GL_SetSwapInterval(0);
+    mTickCount = SDL_GetTicks();
 
     glViewport(0, 0, width, height);
     glEnable(GL_DEPTH_TEST);
@@ -69,24 +70,29 @@ p_camera(nullptr), p_window(nullptr), glContext()
 
 GLWindow::~GLWindow() {
     instancesCount--;
-    SDL_GL_DeleteContext(glContext);
-    SDL_DestroyWindow(p_window);
+    SDL_GL_DeleteContext(mGLContext);
+    SDL_DestroyWindow(pWindow);
     if (instancesCount == 0) {
         SDL_Quit();
     }
 }
 
 bool GLWindow::setActive(bool activate) {
-    if (SDL_GL_MakeCurrent(p_window, glContext)) {
+    if (SDL_GL_MakeCurrent(pWindow, mGLContext)) {
         // TODO
         return false;
     }
     return true;
 }
 
-void GLWindow::enableVsync(bool enable) const {
+void GLWindow::setFramerate(unsigned int limit) {
+    mFrameDelay = limit == 0 ? 0 : 1000 / limit;
+}
+
+void GLWindow::enableVsync(bool enable) {
     if(enable) {
         if(SDL_GL_SetSwapInterval(-1) == -1) SDL_GL_SetSwapInterval(1);
+        mFrameDelay = 0;
     } else {
         SDL_GL_SetSwapInterval(0);
     }
@@ -98,20 +104,29 @@ void GLWindow::clear(const my::Color& color) const {
 }
 
 void GLWindow::setCamera(my::FixedCamera& camera) {
-    p_camera = &camera;
+    pCamera = &camera;
 }
 
 void GLWindow::setProjection(const glm::mat4& projection) {
-    m_projection = projection;
+    mProjection = projection;
 }
 
 void GLWindow::draw(my::AbstractShape& shape) {
     my::AbstractShape* ptr = &shape;
-    ptr->draw(p_camera->lookAt(), m_projection);
+    ptr->draw(pCamera->lookAt(), mProjection);
 }
 
 void GLWindow::display() const {
-    SDL_GL_SwapWindow(p_window);
+    SDL_GL_SwapWindow(pWindow);
+    Uint32 tmp = SDL_GetTicks() - mTickCount;
+    if(tmp < mFrameDelay) SDL_Delay(mFrameDelay - tmp);
+    tmp = SDL_GetTicks();
+    mFrametime = (tmp - mTickCount) / 1000.0f;
+    mTickCount = tmp;
+}
+
+float GLWindow::getFrametime() const {
+    return mFrametime;
 }
 
 void* GLWindow::getGLProcAdress(const char* name) {

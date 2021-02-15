@@ -20,10 +20,13 @@ namespace my
     private:
         static bool gladIsInitialized;
         static unsigned int instancesCount;
-        glm::mat4 m_projection;
-        my::FixedCamera* p_camera;
-        SDL_Window* p_window;
-        SDL_GLContext glContext;
+        glm::mat4 mProjection;
+        my::FixedCamera* pCamera;
+        SDL_Window* pWindow;
+        SDL_GLContext mGLContext;
+        mutable float mFrametime;
+        mutable Uint32 mTickCount;
+        Uint32 mFrameDelay;
 
     public:
         /**
@@ -47,14 +50,20 @@ namespace my
 
         bool setActive(bool activate);
 
-        //void setFramerate(unsigned int limit); TODO
+        /**
+         * @brief Limit the window's framerate at the specified value, a call
+         *        to this method will disable vsync if it was previously enabled
+         * @param limit The framerate limit, 0 means unlimited
+        */ 
+        void setFramerate(unsigned int limit);
 
         /**
          * @brief Enable or disable vsync, this function will try to use adaptative
-         *        sync if avalaible, and default to vsync if not
+         *        sync if avalaible, and default to vsync if not. A call to this method
+         *        will override the framerate limit if previously set
          * @param enable True to enable vsync, false to disable it
         */
-        void enableVsync(bool enable) const;
+        void enableVsync(bool enable);
 
         /**
          * @brief Clears the window's content and replaces it with a background color
@@ -85,6 +94,12 @@ namespace my
          * @brief Refreshes the window tto display all the things which have been drawn
         */
         void display() const;
+
+        /**
+         * @brief Indicates the time that the last frame took to render 
+         * @return The window's frametime in seconds
+        */ 
+        float getFrametime() const;
 
         static void* getGLProcAdress(const char* name);
     };

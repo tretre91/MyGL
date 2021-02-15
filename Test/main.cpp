@@ -27,7 +27,7 @@ my::Rectangle line(int x1, int y1, int x2, int y2) {
 int main(int argc, char* argv[]) {
     // initialization
     my::GLWindow window(800, 600, "OpenGL!", 4);
-    //window.setFramerateLimit(0);
+    //window.setFramerate(0);
     if (!gladLoadGLLoader(my::GLWindow::getGLProcAdress)) {
         std::cerr << "ERREUR" << std::endl;
         exit(EXIT_FAILURE);
@@ -93,7 +93,6 @@ int main(int argc, char* argv[]) {
     //std::iostream::sync_with_stdio(false);
 
     SDL_TimerID framerateTimer = SDL_AddTimer(1000, framerateCallback, (void*)&frameCount);
-    Uint32 tickCount = SDL_GetTicks();
     float frametime = 0.0f;
 
     SDL_Event event;
@@ -187,8 +186,7 @@ int main(int argc, char* argv[]) {
 
         window.clear(clearColor);
 
-        frametime = (SDL_GetTicks() - tickCount) / 1000.0f;
-        tickCount = SDL_GetTicks();
+        frametime = window.getFrametime();
 
         
         if (up) camera.moveUp(frametime);
