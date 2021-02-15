@@ -38,7 +38,6 @@ namespace my
             unsigned int mTextureId = 0;
             size_t realSize = 0;
             std::vector<Glyph> mAlphabet{};
-            FT_Face* pFace = nullptr;
 
         public:
             /**

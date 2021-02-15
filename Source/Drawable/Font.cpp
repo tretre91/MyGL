@@ -14,7 +14,7 @@ const std::array<unsigned int, 4> Font::Bitmap::rect_indices = {
     0, 1, 2, 3
 };
 
-Font::Bitmap::Bitmap(unsigned int size, FT_Face& face) : mTextureId(0), realSize(0), mAlphabet(128), pFace(&face) {
+Font::Bitmap::Bitmap(unsigned int size, FT_Face& face) : mTextureId(0), realSize(0), mAlphabet(128) {
     FT_Set_Pixel_Sizes(face, 0, size);
 
     realSize = static_cast<size_t>((face->size->metrics.ascender - face->size->metrics.descender) >> 6);

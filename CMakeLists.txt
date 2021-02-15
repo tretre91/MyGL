@@ -36,13 +36,13 @@ set(PROJECT_SOURCES
 )
 
 option(
-  BUILD_DOCUMENTATION 
+  MYGL_BUILD_DOCUMENTATION 
   "Turn on in order to enable a build target for the documentation, this requires that you have doxygen, sphinx, breathe and the sphinx_rtd_theme installed"
   OFF
 )
 
 option(
-  BUILD_SAMPLE
+  MYGL_BUILD_SAMPLE
   "Enables a build target for a sample executable using this library (the one used for testing)"
   OFF
 )
@@ -188,12 +188,12 @@ install(DIRECTORY ${SDL2_INCLUDE_DIRS} ${FREETYPE_INCLUDE_DIR_freetype2} ${INCLU
 
 
 # Other targets
-if(BUILD_DOCUMENTATION)
+if(MYGL_BUILD_DOCUMENTATION)
   # FindSphinx
   set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
   add_subdirectory("Docs")
 endif()
 
-if(BUILD_SAMPLE)
+if(MYGL_BUILD_SAMPLE)
   add_subdirectory("Test")
 endif()
