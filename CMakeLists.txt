@@ -102,7 +102,7 @@ if(MYGL_SHARED)
     PUBLIC GLAD
     PUBLIC $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2>
     PUBLIC $<IF:$<TARGET_EXISTS:SDL2::SDL2main>,SDL2::SDL2main,SDL2main>
-    PRIVATE freetype
+    PUBLIC freetype
   )
 
   target_include_directories(MyGL 
@@ -132,7 +132,7 @@ if(MYGL_STATIC)
   target_link_libraries(MyGL-static
     PUBLIC $<IF:$<TARGET_EXISTS:SDL2::SDL2-static>,SDL2::SDL2-static,SDL2-static>
     PUBLIC $<IF:$<TARGET_EXISTS:SDL2::SDL2main>,SDL2::SDL2main,SDL2main>
-    PRIVATE freetype
+    PUBLIC freetype
   )
 
   target_include_directories(MyGL-static
