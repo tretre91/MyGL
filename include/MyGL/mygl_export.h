@@ -7,9 +7,11 @@
 #  define MYGL_NO_EXPORT
 #else
 #  ifndef MYGL_EXPORT
+#  define GLAD_GLAPI_EXPORT
 #    if defined(_WIN32) || defined(__CYGWIN__)
 #      ifdef MyGL_EXPORTS
          /* We are building this library */
+         define GLAD_GLAPI_EXPORT_BUILD
 #        define MYGL_EXPORT __declspec(dllexport)
 #      else
          /* We are using this library */

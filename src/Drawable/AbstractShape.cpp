@@ -74,7 +74,7 @@ scaleFactor(1.0f, 1.0f), rotationAngle(0), updateMatrix(true), color(100, 100, 1
 }
 
 AbstractShape::AbstractShape(int width, int height, int x, int y) : AbstractShape(width, height) {
-    setPosition(x, y, false);
+    setPosition(x, y, true);
 }
 
 
