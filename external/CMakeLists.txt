@@ -9,11 +9,12 @@ if(NOT SDL2_INCLUDE_DIRS)
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
   )
   message(STATUS "Download complete")
+  set(SDL2_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/SDL/include")
+  add_subdirectory(SDL)
 endif()
 
-set(SDL2_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/SDL/include" CACHE PATH "Path to SDL2 headers")
-add_subdirectory(SDL)
-
+set(SDL2_INCLUDE_DIRS ${SDL2_INCLUDE_DIRS} CACHE PATH "Path to SDL2 headers")
+  
 find_package(freetype2 CONFIG)
 
 if((NOT FREETYPE_INCLUDE_DIR_ft2build) OR (NOT EXISTS ${FREETYPE_INCLUDE_DIR_ft2build}))
@@ -25,7 +26,8 @@ if((NOT FREETYPE_INCLUDE_DIR_ft2build) OR (NOT EXISTS ${FREETYPE_INCLUDE_DIR_ft2
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
   )
   message(STATUS "Download complete")
+  set(FREETYPE_INCLUDE_DIR_ft2build "${CMAKE_CURRENT_SOURCE_DIR}/freetype2/include")
+  add_subdirectory(freetype2)
 endif()
 
-set(FREETYPE_INCLUDE_DIR_ft2build "${CMAKE_CURRENT_SOURCE_DIR}/freetype2/include" CACHE PATH "Path to freetype headers")
-add_subdirectory(freetype2)
+set(FREETYPE_INCLUDE_DIR_ft2build ${FREETYPE_INCLUDE_DIR_ft2build} CACHE PATH "Path to freetype headers")

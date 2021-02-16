@@ -17,22 +17,22 @@ if(NOT APPLE)
 endif()
 
 set(PROJECT_SOURCES
-  "Source/Color.cpp"
-  "Source/Shader.cpp"
-  "Source/stb_image.cpp"
-  "Source/Texture.cpp"
-  "Source/Vector.cpp"
-  "Source/Window.cpp"
-  #"Source/glad.c"
-  "Source/Drawable/AbstractShape.cpp"
-  "Source/Drawable/Font.cpp"
-  "Source/Drawable/Rectangle.cpp"
-  "Source/Drawable/Text.cpp"
-  "Source/Camera/Cam2D.cpp"
-  #"Source/Camera/Cam3D.cpp"
-  "Source/Camera/FixedCamera.cpp"
-  #"Source/Camera/FpsCamera.cpp"
-  "Source/Camera/MovableCamera.cpp"
+  "src/Color.cpp"
+  "src/Shader.cpp"
+  "src/stb_image.cpp"
+  "src/Texture.cpp"
+  "src/Vector.cpp"
+  "src/Window.cpp"
+  #"src/glad.c"
+  "src/Drawable/AbstractShape.cpp"
+  "src/Drawable/Font.cpp"
+  "src/Drawable/Rectangle.cpp"
+  "src/Drawable/Text.cpp"
+  "src/Camera/Cam2D.cpp"
+  #"src/Camera/Cam3D.cpp"
+  "src/Camera/FixedCamera.cpp"
+  #"src/Camera/FpsCamera.cpp"
+  "src/Camera/MovableCamera.cpp"
 )
 
 option(
@@ -72,11 +72,11 @@ else()
   message(FATAL_ERROR "Nothing to build, enable at least one of the options MYGL_STATIC and MYGL_SHARED")
 endif()
 
-set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/Include)
+set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 
 # Shared library
 if(MYGL_SHARED)
-  add_library(GLAD SHARED "${PROJECT_SOURCE_DIR}/Source/glad.c")
+  add_library(GLAD SHARED "${PROJECT_SOURCE_DIR}/src/glad.c")
   set_target_properties(GLAD PROPERTIES
     OUTPUT_NAME glad
   )
@@ -86,7 +86,7 @@ if(MYGL_SHARED)
   )
   target_include_directories(GLAD
     PUBLIC
-      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/Include>
+      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
       $<INSTALL_INTERFACE:include>
   )
 
@@ -113,14 +113,14 @@ if(MYGL_SHARED)
       $<BUILD_INTERFACE:${FREETYPE_INCLUDE_DIR_ft2build}>
       $<INSTALL_INTERFACE:include/freetype2>
     PUBLIC
-      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/Include>
+      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
       $<INSTALL_INTERFACE:include>  
   )
 endif(MYGL_SHARED)
 
 # Static Library
 if(MYGL_STATIC)
-  add_library(MyGL-static STATIC "Source/glad.c" ${PROJECT_SOURCES})
+  add_library(MyGL-static STATIC "src/glad.c" ${PROJECT_SOURCES})
   set_target_properties(MyGL-static PROPERTIES
     VERSION ${PROJECT_VERSION}
     OUTPUT_NAME mygl-static
@@ -128,12 +128,14 @@ if(MYGL_STATIC)
   )
 
   target_compile_definitions(MyGL-static PUBLIC MYGL_STATIC_DEFINE)
- 
+  
+  set(SDL_TARGET $<IF:$<PLATFORM_ID:Linux>,SDL2,SDL2-static>)
   target_link_libraries(MyGL-static
-    PUBLIC $<IF:$<TARGET_EXISTS:SDL2::SDL2-static>,SDL2::SDL2-static,SDL2-static>
+    PUBLIC $<IF:$<TARGET_EXISTS:SDL2::${SDL_TARGET}>,SDL2::${SDL_TARGET},${SDL_TARGET}>
     PUBLIC $<IF:$<TARGET_EXISTS:SDL2::SDL2main>,SDL2::SDL2main,SDL2main>
     PUBLIC freetype
   )
+  unset(SDL_TARGET)
 
   target_include_directories(MyGL-static
     PUBLIC
@@ -143,7 +145,7 @@ if(MYGL_STATIC)
       $<BUILD_INTERFACE:${FREETYPE_INCLUDE_DIR_ft2build}>
       $<INSTALL_INTERFACE:include/freetype2>
     PUBLIC
-      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/Include>
+      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
       $<INSTALL_INTERFACE:include>  
   )
 endif(MYGL_STATIC)
@@ -182,7 +184,7 @@ write_basic_package_version_file(
   COMPATIBILITY SameMajorVersion
 )
 
-install(FILES "CMake/MyGLConfig.cmake" "${CMAKE_BINARY_DIR}/MyGLConfigVersion.cmake"
+install(FILES "cmake/MyGLConfig.cmake" "${CMAKE_BINARY_DIR}/MyGLConfigVersion.cmake"
   DESTINATION ${MYGL_INSTALL_CMAKEDIR}
 )
 
@@ -194,10 +196,10 @@ install(DIRECTORY ${SDL2_INCLUDE_DIRS} ${FREETYPE_INCLUDE_DIR_freetype2} ${INCLU
 # Other targets
 if(MYGL_BUILD_DOCUMENTATION)
   # FindSphinx
-  set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
-  add_subdirectory("Docs")
+  set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
+  add_subdirectory("docs")
 endif()
 
 if(MYGL_BUILD_SAMPLE)
-  add_subdirectory("Test")
+  add_subdirectory("test")
 endif()
