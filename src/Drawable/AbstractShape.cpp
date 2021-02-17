@@ -79,8 +79,21 @@ AbstractShape::AbstractShape(int width, int height, int x, int y) : AbstractShap
 
 
 void AbstractShape::setPosition(int x, int y, bool center) {
-    position.x = static_cast<float>(x) + (!center * originalScale.x * scaleFactor.x);
-    position.y = static_cast<float>(y) - (!center * originalScale.y * scaleFactor.y);
+    position.x = static_cast<float>(x);
+    position.y = static_cast<float>(y);
+    if (!center) {
+        position.x += originalScale.x * scaleFactor.x;
+        position.y -= originalScale.y * scaleFactor.y;
+    }
+    updateMatrix = true;
+}
+
+void AbstractShape::setPosition(const glm::vec2& pos, bool center) {
+    position = pos;
+    if (!center) {
+        position.x += originalScale.x * scaleFactor.x;
+        position.y -= originalScale.y * scaleFactor.y;
+    }
     updateMatrix = true;
 }
 

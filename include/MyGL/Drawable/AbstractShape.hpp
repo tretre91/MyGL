@@ -74,7 +74,15 @@ namespace my
         virtual void setPosition(int x, int y, bool center = false);
 
         /**
-         * @brief Moves the object relative to it's actual position
+         * @brief Moves to shape to a specified position
+         * @param pos A glm::vec2 containing the new position
+         * @param center If true, set the shape's center at 'pos', else sets its
+         *               top left hand corner. Default value is false
+        */
+        virtual void setPosition(const glm::vec2& pos, bool center = false);
+
+        /**
+         * @brief Moves the object relative to it's current position
          * @param x The horizontal offset
          * @param y The vertical offset
         */
