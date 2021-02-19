@@ -29,6 +29,8 @@ namespace my
         const glm::vec2 originalScale;
         glm::vec2 scaleFactor;
         int rotationAngle;
+        bool outline = true;
+        bool isTextured = false;
         bool updateMatrix;
         my::Color color;
         glm::mat4 model;

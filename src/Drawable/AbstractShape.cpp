@@ -218,4 +218,5 @@ void AbstractShape::setTexture(const std::string& filename, bool hasAlpha) {
     texture.setTextureWrapMethod(my::Texture::Axis::s, GL_REPEAT);
     texture.setTextureWrapMethod(my::Texture::Axis::t, GL_REPEAT);
     activeShader = &texShader;
+    isTextured = true;
 }

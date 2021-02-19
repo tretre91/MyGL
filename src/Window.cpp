@@ -21,6 +21,7 @@ pCamera(nullptr), pWindow(nullptr), mGLContext(), mFrametime(1.0f), mTickCount(0
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 1);
     
     if(aa) {
         SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
@@ -64,6 +65,9 @@ pCamera(nullptr), pWindow(nullptr), mGLContext(), mFrametime(1.0f), mTickCount(0
     glViewport(0, 0, width, height);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
+    glEnable(GL_STENCIL_TEST);
+    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+    glStencilFunc(GL_ALWAYS, 1, 0xFF);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
@@ -100,7 +104,7 @@ void GLWindow::enableVsync(bool enable) {
 
 void GLWindow::clear(const my::Color& color) const {
     glClearColor(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.alpha / 255.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
 void GLWindow::setCamera(my::FixedCamera& camera) {

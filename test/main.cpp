@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
     rectangle.setColor(test);
     bool moveByCenter = false;
 
-    my::Rectangle meme(500, 350, 300, 600);
+    my::Rectangle meme(500, 350, 550, 425);
     meme.setColor(my::Color::blue);
     meme.setTexture("@RESSOURCES_DIR@/Images/meme.jpeg");
 
