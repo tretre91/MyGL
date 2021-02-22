@@ -42,12 +42,16 @@ int main(int argc, char* argv[]) {
 
     my::Rectangle ligne = line(0, 0, 800, 600);
     ligne.setColor(my::Color::red);
+    ligne.setOutlineThickness(5);
+    ligne.setOutlineColor(my::Color::white);
 
     my::Rectangle smiley(100, 70, 650, 300);
     smiley.setTexture("@RESSOURCES_DIR@/Images/awesomeface.png", true);
 
     my::Polygon<8> wall(60, 100, 530);
     wall.setTexture("@RESSOURCES_DIR@/Images/wall.jpg");
+    wall.setOutlineThickness(5);
+    wall.setOutlineColor(my::Color::red);
 
     my::Polygon<20> blue(50, 0, 0);
     blue.setColor(my::Color::blue);
