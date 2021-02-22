@@ -50,7 +50,8 @@ my::Shader AbstractShape::texShader = my::Shader();
 bool AbstractShape::shaderIsUsable = false;
 
 AbstractShape::AbstractShape() : position(0.0f, 0.0f), originalScale(5.0f, 5.0f), scaleFactor(1.0f, 1.0f),
-rotationAngle(0), updateMatrix(true), color(100, 100, 100), model(1.0f), texture()
+rotationAngle(0), updateMatrix(true), model(1.0f), color(100, 100, 100), outlineThickness(0),
+outlineColor(255, 255, 255), outlineModel(1.0f), texture(), isTextured(false), activeShader(nullptr)
 {
     if (!shaderIsUsable) {
         shader = my::Shader(vertexSource, fragmentSource, false);
@@ -62,7 +63,8 @@ rotationAngle(0), updateMatrix(true), color(100, 100, 100), model(1.0f), texture
 }
 
 AbstractShape::AbstractShape(int width, int height) : position(0.0f, 0.0f), originalScale(width / 2.0f, height / 2.0f),
-scaleFactor(1.0f, 1.0f), rotationAngle(0), updateMatrix(true), color(100, 100, 100), model(1.0f), texture()
+scaleFactor(1.0f, 1.0f), rotationAngle(0), updateMatrix(true), model(1.0f), color(100, 100, 100), outlineThickness(0),
+outlineColor(255, 255, 255), outlineModel(1.0f), texture(), isTextured(false), activeShader(nullptr)
 {
     if (!shaderIsUsable) {
         shader = my::Shader(vertexSource, fragmentSource, false);
@@ -157,6 +159,26 @@ my::Color AbstractShape::getColor() const {
     return color;
 }
 
+void AbstractShape::setOutlineThickness(unsigned int thickness) {
+    outlineThickness = thickness;
+    if (!updateMatrix && outlineThickness > 0) {
+        outlineModel = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f));
+        outlineModel = glm::rotate(outlineModel, glm::radians(static_cast<float>(rotationAngle)), glm::vec3(0.0f, 0.0f, 1.0f));
+        outlineModel = glm::scale(outlineModel, glm::vec3(static_cast<float>(outlineThickness) + originalScale.x * scaleFactor.x, static_cast<float>(outlineThickness) + originalScale.y * scaleFactor.y, 1.0f));
+    }
+}
+
+void AbstractShape::setOutlineColor(const my::Color& color) {
+    outlineColor = color;
+}
+
+void AbstractShape::setOutlineColor(int r, int g, int b, int alpha) {
+    r = r > 255 ? 255 : (r >= 0) * r;
+    g = g > 255 ? 255 : (g >= 0) * g;
+    b = b > 255 ? 255 : (b >= 0) * b;
+    alpha = alpha > 255 ? 255 : (alpha >= 0) * alpha;
+    outlineColor = my::Color(r, g, b, alpha);
+}
 
 bool AbstractShape::SATCollides(const AbstractShape& otherShape) const {
     const AbstractShape* shape = &otherShape;

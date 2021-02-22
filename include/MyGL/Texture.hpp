@@ -12,12 +12,17 @@ namespace my
     class MYGL_EXPORT Texture {
 
     private:
-        unsigned int id = 0;
+        unsigned int m_textureId = 0;
+        int m_width = 0;
+        int m_height = 0;
 
     public:
         
         enum class Axis { x, y, s, t };
 
+        /**
+         * @brief Creates an empty texture whiwh is not usable until an image as been loaded
+        */
         Texture() = default;
 
         /**
@@ -26,6 +31,26 @@ namespace my
          * @param format Image format, if the source image contains an alpha channel the parameter 'GL_RGBA' should be used
         */
         Texture(const std::string& filename, GLenum format = GL_RGB);
+
+        /**
+         * @brief Loads a texture, this texture should not be used if the operation fails
+         * @param filename The path to the image
+         * @param format Image format, if the source image contains an alpha channel the parameter 'GL_RGBA' should be used
+         * @return True if the image has been successfuly loaded, false if an error has occured
+        */
+        bool load(const std::string& filename, GLenum format = GL_RGB);
+
+        /**
+         * @brief Gives the original width of the texture in pixels
+         * @return The texture's width
+        */
+        int getWidth() const;
+
+        /**
+         * @brief Gives the original height of the texture in pixels
+         * @return The texture's height
+        */
+        int getHeight() const;
 
         /**
          * @brief Binds this texture to GL_TEXTURE_2D	
