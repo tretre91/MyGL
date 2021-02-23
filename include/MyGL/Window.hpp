@@ -20,13 +20,13 @@ namespace my
     private:
         static bool gladIsInitialized;
         static unsigned int instancesCount;
-        glm::mat4 mProjection;
-        my::FixedCamera* pCamera;
-        SDL_Window* pWindow;
-        SDL_GLContext mGLContext;
-        mutable float mFrametime;
-        mutable Uint32 mTickCount;
-        Uint32 mFrameDelay;
+        glm::mat4 m_projection;
+        my::FixedCamera* p_camera;
+        SDL_Window* p_window;
+        SDL_GLContext m_glContext;
+        mutable float m_frametime;
+        mutable Uint32 m_tickCount;
+        Uint32 m_frameDelay;
 
         /**
          * @brief Initializes glad from outside of the DLL

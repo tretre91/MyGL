@@ -35,9 +35,9 @@ namespace my
             static const std::array<float, 12> rect_vertices;
             static const std::array<unsigned int, 4> rect_indices;
 
-            unsigned int mTextureId = 0;
-            size_t realSize = 0;
-            std::vector<Glyph> mAlphabet{};
+            unsigned int m_textureId = 0;
+            size_t m_realSize = 0;
+            std::vector<Glyph> m_alphabet{};
 
         public:
             /**
@@ -78,12 +78,13 @@ namespace my
              *		   character of the string
             */
             std::vector<std::pair<int, int>> computeGlyphsPos(const std::string& text) const;
-        };
 
-        static FT_Library sFtLib;
-        static unsigned int sInstancesCount;
-        FT_Face mFace;
-        std::map<unsigned int, Bitmap> mSizes;
+        };// class Bitmap
+
+        static FT_Library ftLib;
+        static unsigned int instancesCount;
+        FT_Face m_face;
+        std::map<unsigned int, Bitmap> m_sizes;
 
         /**
          * @brief Creates a Bitmap for a given pixel character size
@@ -144,6 +145,13 @@ namespace my
          * @param fontFilename The path to the font file
         */
         Font(const std::string& fontFilename);
+
+        /**
+         * @brief Loads a font
+         * @param filename The path to the desired font
+         * @return False if an error occured, true otherwise
+        */
+        bool load(const std::string& fontFilename);
 
         ~Font();
 

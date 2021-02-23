@@ -36,18 +36,22 @@ int main(int argc, char* argv[]) {
     rectangle.setColor(test);
     bool moveByCenter = false;
 
-    my::Rectangle meme(500, 350, 300, 600);
+    my::Rectangle meme(500, 350, 550, 425);
     meme.setColor(my::Color::blue);
     meme.setTexture("@RESSOURCES_DIR@/Images/meme.jpeg");
 
     my::Rectangle ligne = line(0, 0, 800, 600);
-    ligne.setColor(my::Color::red);
+    ligne.setColor(my::Color::white);
+    ligne.setOutlineThickness(5);
+    ligne.setOutlineColor(0, 255, 255);
 
     my::Rectangle smiley(100, 70, 650, 300);
     smiley.setTexture("@RESSOURCES_DIR@/Images/awesomeface.png", true);
 
     my::Polygon<8> wall(60, 100, 530);
     wall.setTexture("@RESSOURCES_DIR@/Images/wall.jpg");
+    wall.setOutlineThickness(5);
+    wall.setOutlineColor(my::Color::red);
 
     my::Polygon<20> blue(50, 0, 0);
     blue.setColor(my::Color::blue);
@@ -215,10 +219,10 @@ int main(int argc, char* argv[]) {
         window.draw(smiley);
         window.draw(wall);
         window.draw(rectangle);
-        window.draw(blue);
         window.draw(green);
-        window.draw(text);
         window.draw(ligne);
+        window.draw(text);
+        window.draw(blue);
 
         window.display();
         frameCount++;

@@ -13,8 +13,8 @@ namespace my
 
     class MYGL_EXPORT Shader {
     private:
-        unsigned int id = 0;
-        bool usable = false;
+        unsigned int m_shaderId = 0;
+        bool m_isUsable = false;
 
     public:
 
@@ -26,8 +26,8 @@ namespace my
         /**
          * @brief Creates a shader program from a vertex and a fragment shader
          * @details The shader's source code can be stored in a file or in a string,
-         *          the storage method should be the same for both the vertex shader's
-         *          code and the fragment shader's
+         *          the storage method should be the same for both the vertex shader
+         *          and fragment shader's code
          * 
          * @param vertexShader The path to the file containing the vertex shader source code
          * @param fragmentShader The path to the file containing the fragment shader source code
@@ -76,9 +76,9 @@ namespace my
         /**
          * @brief Sets a 4 by 4 matrix uniform
          * @param name The name of the uniform we want to modify
-         * @param value The new value of the uniform
+         * @param value The new value of the uniform (a glm::mat4)
         */
-        void setMat4(const std::string& name, const GLfloat* value) const;
+        void setMat4(const std::string& name, const glm::mat4& value) const;
     };
 
 }

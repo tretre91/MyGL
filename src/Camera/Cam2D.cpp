@@ -1,8 +1,8 @@
 #include <MyGL/Camera/Cam2D.hpp>
 using namespace my;
 
-Cam2D::Cam2D() : roll(0.0f), MovableCamera() {}
-Cam2D::Cam2D(int x, int y) : roll(0.0f), MovableCamera(glm::vec3((float)x, (float)y, 3.0f)) {}
+Cam2D::Cam2D() : m_roll(0.0f), MovableCamera() {}
+Cam2D::Cam2D(int x, int y) : m_roll(0.0f), MovableCamera(glm::vec3((float)x, (float)y, 3.0f)) {}
 
 void Cam2D::setPosition(int x, int y) {
     FixedCamera::setPosition(glm::vec3(static_cast<float>(x), static_cast<float>(y), 3.0f));

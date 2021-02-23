@@ -30,8 +30,8 @@ namespace my
         static const Color white;
         static const Color black;
         static const Color red;
-        static const Color blue;
         static const Color green;
+        static const Color blue;
 
         /**
          * @brief Default constructor, creates a white color
@@ -48,8 +48,8 @@ namespace my
         Color(uint8_t r, uint8_t g, uint8_t b, uint8_t alpha = 255);
 
         /**
-         * @brief Creates a color from an html color code
-         * @param hexColor The html color code (without the '#')
+         * @brief Creates a color from an hexadecimal color code
+         * @param hexColor The hex color code (without the '#')
          * @param alpha The transparency component, by default 255 (0 = transparent, 255 = opaque)
         */
         Color(const std::string& hexColor, uint8_t alpha = 255);

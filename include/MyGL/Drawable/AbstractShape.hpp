@@ -30,10 +30,14 @@ namespace my
         glm::vec2 scaleFactor;
         int rotationAngle;
         bool updateMatrix;
-        my::Color color;
         glm::mat4 model;
+        my::Color color;
+        unsigned int outlineThickness;
+        my::Color outlineColor;
+        glm::mat4 outlineModel;
         my::Texture texture;
-        my::Shader* activeShader = nullptr;
+        bool isTextured;
+        my::Shader* activeShader;
 
         
         /**
@@ -152,6 +156,27 @@ namespace my
          * @return A my::Color object containing the object's color
         */
         my::Color getColor() const;
+
+        /**
+         * @brief Sets the object's outline's thickness
+         * @param thickness The thickness in pixels
+        */
+        void setOutlineThickness(unsigned int thickness);
+
+        /**
+         * @brief Sets the object's outline color
+         * @param color The color to be applied
+        */
+        void setOutlineColor(const my::Color& color);
+
+        /**
+         * @brief Sets the object's outline color from its individual components (ints between 0 and 255)
+         * @param r The red component
+         * @param g The green component
+         * @param b The blue component
+         * @param alpha The alpha (transparency) value, by default 255
+        */
+        void setOutlineColor(int r, int g, int b, int alpha = 255);
 
         /**
          * @brief Tells wether 2 shapes are overlapping using the separating

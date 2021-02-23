@@ -76,7 +76,7 @@ set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 
 # Shared library
 if(MYGL_SHARED)
-  add_library(GLAD SHARED "${PROJECT_SOURCE_DIR}/src/glad.c")
+  add_library(GLAD STATIC "${PROJECT_SOURCE_DIR}/src/glad.c")
   set_target_properties(GLAD PROPERTIES
     OUTPUT_NAME glad
   )

@@ -31,8 +31,8 @@ const std::string Text::textFragmentSource =
 
 my::Shader Text::textShader = my::Shader();
 
-Text::Text(const std::string& text, my::Font& font, unsigned int size) : mText(text), mSize(size), mFontScale(font.getScale(mSize)),
-mBitmapTexId(font.getTextureId(mSize)), charPositions(font.getCharsPos(mText, mSize)), alphabet(font.getAlphabet(mSize)), AbstractShape() {
+Text::Text(const std::string& text, my::Font& font, unsigned int size) : m_text(text), m_size(size), m_fontScale(font.getScale(m_size)),
+m_bitmapTexId(font.getTextureId(m_size)), m_charPositions(font.getCharsPos(m_text, m_size)), m_alphabet(font.getAlphabet(m_size)), AbstractShape() {
     if (!textShader.isUsable()) textShader = my::Shader(Text::textVertexSource, Text::textFragmentSource, false);
     textShader.setInt("tex", 2);
 }
@@ -43,21 +43,21 @@ std::vector<glm::vec2> my::Text::points() const // TODO
 }
 
 void Text::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
-    textShader.setMat4("view", glm::value_ptr(lookAt));
-    textShader.setMat4("projection", glm::value_ptr(projection));
+    textShader.setMat4("view", lookAt);
+    textShader.setMat4("projection", projection);
     textShader.setFloat("color", color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
 
     glActiveTexture(GL_TEXTURE2);
-    glBindTexture(GL_TEXTURE_2D, mBitmapTexId);
+    glBindTexture(GL_TEXTURE_2D, m_bitmapTexId);
 
-    for (size_t i = 0; i < mText.size(); i++) {
-        if (mText[i] == '\n') continue;
-        model = glm::translate(glm::mat4(1.0f), glm::vec3(charPositions[i].first + position.x, charPositions[i].second + position.y, 0.0f));
-        model = glm::scale(model, glm::vec3(mFontScale / 2.0f, mFontScale / 2.0f, 1.0f));
+    for (size_t i = 0; i < m_text.size(); i++) {
+        if (m_text[i] == '\n') continue;
+        model = glm::translate(glm::mat4(1.0f), glm::vec3(m_charPositions[i].first + position.x, m_charPositions[i].second + position.y, 0.0f));
+        model = glm::scale(model, glm::vec3(m_fontScale / 2.0f, m_fontScale / 2.0f, 1.0f));
         model = glm::rotate(model, 0.0f, glm::vec3(0.0f, 0.0f, 1.0f));
-        textShader.setMat4("model", glm::value_ptr(model));
+        textShader.setMat4("model", model);
 
-        glBindVertexArray(alphabet[mText[i]].vao);
+        glBindVertexArray(m_alphabet[m_text[i]].vao);
         glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, 0);
     }
 }

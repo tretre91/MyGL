@@ -15,11 +15,11 @@ Color::Color(uint8_t r, uint8_t g, uint8_t b, uint8_t alpha) : r(r), g(g), b(b),
 
 Color::Color(const std::string& hexColor, uint8_t alpha) {
     unsigned long n = std::stoul(hexColor, nullptr, 16);
-    r = n >> 16;
+    r = static_cast<uint8_t>(n >> 16);
     n &= 0b000000001111111111111111ul;
-    g = n >> 8;
+    g = static_cast<uint8_t>(n >> 8);
     n &= 0b000000000000000011111111ul;
-    b = n;
+    b = static_cast<uint8_t>(n);
     this->alpha = alpha;
 }
 

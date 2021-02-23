@@ -12,7 +12,7 @@ namespace my
     class MYGL_EXPORT Cam2D : public MovableCamera {
 
     private:
-        float roll;
+        float m_roll;
 
     public:
         /**
@@ -43,13 +43,18 @@ namespace my
          * camera at a constant speed (speed which is expressed in pixels / second 
          * and defined with a call to setSpeed(float)), the speed would then be
          * independent from the framerate.
-         * In order to compute the frametime you could use an sf::Clock object which is
-         * restarted each frame like this :
+         * You can get the framtime with a call to the method getFrametime() of the
+         * current GLWindow, for example :
          * ```c++
-         * // window initialization, etc
+         * 
+         * my::GLWindow window(800, 600, "window");
+         * 
+         * my::Cam2D camera(0, 0);
+         * camera.setSpeed(50.0f);
+         * window.setCamera(camera);
+         * 
          * ...
-         *
-         * sf::Clock clk;
+         * 
          * float frametime;
          *
          * bool running = true;
@@ -57,8 +62,8 @@ namespace my
          *   ...
          *   window.clear(...);
          *
-         *   frametime = clk.restart().asSeconds();
-         *   // Do some interesting things with the result
+         *   frametime = window.getFrametime();
+         *   camera.moveUp(frametime);
          *   ...
          *
          *   window.display()

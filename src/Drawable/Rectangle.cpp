@@ -70,17 +70,44 @@ void Rectangle::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
     if (updateMatrix) {
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(position.x, position.y, 0.0f));
-        model = glm::rotate(model, glm::radians((float)rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
+        model = glm::rotate(model, glm::radians(static_cast<float>(rotationAngle)), glm::vec3(0.0f, 0.0f, 1.0f));
+        if (outlineThickness > 0) {
+            outlineModel = glm::scale(model, glm::vec3(static_cast<float>(outlineThickness) + originalScale.x * scaleFactor.x, static_cast<float>(outlineThickness) + originalScale.y * scaleFactor.y, 1.0f));
+        }
         model = glm::scale(model, glm::vec3(originalScale.x * scaleFactor.x, originalScale.y * scaleFactor.y, 1.0f));
         updateMatrix = false;
     }
     glActiveTexture(GL_TEXTURE3);
     texture.bind();
-    activeShader->setMat4("model", glm::value_ptr(model));
-    activeShader->setMat4("view", glm::value_ptr(lookAt));
-    activeShader->setMat4("projection", glm::value_ptr(projection));
+    activeShader->setMat4("model", model);
+    activeShader->setMat4("view", lookAt);
+    activeShader->setMat4("projection", projection);
     activeShader->setFloat("color", color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.alpha / 255.0f);
     activeShader->use();
-    glBindVertexArray(VAO);
-    glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, 0);
+
+    if (outlineThickness > 0) {
+        glStencilFunc(GL_ALWAYS, 1, 0xFF);
+        glStencilMask(0xFF);
+        glBindVertexArray(VAO);
+        glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, 0);
+        
+        glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+        glStencilMask(0x00);
+        shader.setMat4("model", outlineModel);
+        shader.setFloat("color", outlineColor.r / 255.0f, outlineColor.g / 255.0f, outlineColor.b / 255.0f, outlineColor.alpha / 255.0f);
+        if (isTextured) {
+            shader.setMat4("view", lookAt);
+            shader.setMat4("projection", projection);
+        }
+        shader.use();
+
+        glBindVertexArray(VAO);
+        glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, 0);
+        glStencilFunc(GL_ALWAYS, 1, 0xFF);
+        glStencilMask(0xFF);
+        glClear(GL_STENCIL_BUFFER_BIT);
+    } else {
+        glBindVertexArray(VAO);
+        glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, 0);
+    }
 }

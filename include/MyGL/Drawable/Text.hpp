@@ -26,12 +26,12 @@ namespace my
         */
         static my::Shader textShader;
 
-        std::string mText;
-        unsigned int mSize;
-        unsigned int mFontScale;
-        unsigned int mBitmapTexId;
-        std::vector<std::pair<int, int>> charPositions;
-        std::vector<my::Font::Glyph>& alphabet;
+        std::string m_text;
+        unsigned int m_size;
+        unsigned int m_fontScale;
+        unsigned int m_bitmapTexId;
+        std::vector<std::pair<int, int>> m_charPositions;
+        std::vector<my::Font::Glyph>& m_alphabet;
 
     public:
         /**
