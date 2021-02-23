@@ -41,9 +41,9 @@ int main(int argc, char* argv[]) {
     meme.setTexture("@RESSOURCES_DIR@/Images/meme.jpeg");
 
     my::Rectangle ligne = line(0, 0, 800, 600);
-    ligne.setColor(my::Color::red);
+    ligne.setColor(my::Color::white);
     ligne.setOutlineThickness(5);
-    ligne.setOutlineColor(my::Color::white);
+    ligne.setOutlineColor(0, 255, 255);
 
     my::Rectangle smiley(100, 70, 650, 300);
     smiley.setTexture("@RESSOURCES_DIR@/Images/awesomeface.png", true);
@@ -219,10 +219,10 @@ int main(int argc, char* argv[]) {
         window.draw(smiley);
         window.draw(wall);
         window.draw(rectangle);
-        window.draw(blue);
         window.draw(green);
-        window.draw(text);
         window.draw(ligne);
+        window.draw(text);
+        window.draw(blue);
 
         window.display();
         frameCount++;
