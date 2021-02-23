@@ -82,7 +82,7 @@ void Rectangle::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
     activeShader->setMat4("model", model);
     activeShader->setMat4("view", lookAt);
     activeShader->setMat4("projection", projection);
-    activeShader->setFloat("color", color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.alpha / 255.0f);
+    activeShader->setFloat("color", color.getNormalized());
     activeShader->use();
 
     if (outlineThickness > 0) {
@@ -94,7 +94,7 @@ void Rectangle::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
         glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
         glStencilMask(0x00);
         shader.setMat4("model", outlineModel);
-        shader.setFloat("color", outlineColor.r / 255.0f, outlineColor.g / 255.0f, outlineColor.b / 255.0f, outlineColor.alpha / 255.0f);
+        shader.setFloat("color", outlineColor.getNormalized());
         if (isTextured) {
             shader.setMat4("view", lookAt);
             shader.setMat4("projection", projection);

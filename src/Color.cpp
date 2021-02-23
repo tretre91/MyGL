@@ -7,10 +7,10 @@ const Color Color::red = Color(255, 0, 0);
 const Color Color::green = Color(0, 255, 0);
 const Color Color::blue = Color(0, 0, 255);
 
-Color::Color() : Color(Color::white) {
-}
+Color::Color() : Color(Color::white) {}
 
-Color::Color(uint8_t r, uint8_t g, uint8_t b, uint8_t alpha) : r(r), g(g), b(b), alpha(alpha) {
+Color::Color(uint8_t r, uint8_t g, uint8_t b, uint8_t alpha) : r(r), g(g), b(b), alpha(alpha), 
+normalized(r / 255.0f, g / 255.0f, b / 255.0f, alpha / 255.0f) {
 }
 
 Color::Color(const std::string& hexColor, uint8_t alpha) {
@@ -21,18 +21,67 @@ Color::Color(const std::string& hexColor, uint8_t alpha) {
     n &= 0b000000000000000011111111ul;
     b = static_cast<uint8_t>(n);
     this->alpha = alpha;
+
+    normalized.r = r / 255.0f;
+    normalized.g = g / 255.0f;
+    normalized.b = b / 255.0f;
+    normalized.a =  alpha / 255.0f;
+}
+
+glm::ivec4 Color::get() const {
+    return glm::ivec4(r, g, b, alpha);
+}
+
+glm::vec4 Color::getNormalized() const {
+    return normalized;
+}
+
+int Color::getRed() const {
+    return r;
+}
+
+int Color::getGreen() const {
+    return g;
+}
+
+int Color::getBlue() const {
+    return b;
+}
+
+int Color::getAlpha() const {
+    return alpha;
+}
+
+void Color::setRed(uint8_t red) {
+    r = red;
+    normalized.r = r / 255.0f;
+}
+
+void Color::setGreen(uint8_t green) {
+    g = green;
+    normalized.g = g / 255.0f;
+}
+
+void Color::setBlue(uint8_t blue) {
+    b = blue;
+    normalized.b = b / 255.0f;
+}
+
+void Color::setAlpha(uint8_t alpha) {
+    this->alpha = alpha;
+    normalized.a = this->alpha / 255.0f;
 }
 
 Color& Color::operator=(const Color& color) {
-    this->r = color.r;
-    this->g = color.g;
-    this->b = color.b;
-    this->alpha = color.alpha;
+    setRed(color.r);
+    setGreen(color.g);
+    setBlue(color.b);
+    setAlpha(color.alpha);
     return *this;
 }
 
 bool my::operator==(const Color& color1, const Color& color2) {
-    return color1.r == color2.r && color1.g == color2.g && color1.b == color2.b && color1.alpha == color2.alpha;
+    return color1.get() == color2.get();
 }
 
 bool my::operator!=(const Color& color1, const Color& color2) {

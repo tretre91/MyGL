@@ -104,7 +104,8 @@ void GLWindow::enableVsync(bool enable) {
 }
 
 void GLWindow::clear(const my::Color& color) const {
-    glClearColor(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.alpha / 255.0f);
+    glm::vec4 nColor(color.getNormalized());
+    glClearColor(nColor.r, nColor.g, nColor.b, nColor.a);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 

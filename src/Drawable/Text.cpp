@@ -45,7 +45,7 @@ std::vector<glm::vec2> my::Text::points() const // TODO
 void Text::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
     textShader.setMat4("view", lookAt);
     textShader.setMat4("projection", projection);
-    textShader.setFloat("color", color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
+    textShader.setFloat("color", color.getNormalized());
 
     glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D, m_bitmapTexId);
