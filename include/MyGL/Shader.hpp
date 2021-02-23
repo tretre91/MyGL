@@ -70,6 +70,7 @@ namespace my
         void setFloat(const std::string& name, float value) const;
         void setFloat(const std::string& name, const glm::vec3& value) const;
         void setFloat(const std::string& name, float v0, float v1, float v2) const;
+        void setFloat(const std::string& name, const glm::vec4& value) const;
         void setFloat(const std::string& name, float v0, float v1, float v2, float v3) const;
 
         /**
