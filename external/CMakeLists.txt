@@ -40,5 +40,8 @@ endif()
 
 set(FREETYPE_INCLUDE_DIR_ft2build ${FREETYPE_INCLUDE_DIR_ft2build} CACHE PATH "Path to freetype headers")
 if(USE_OWN_FREETYPE)
+  if(UNIX AND MYGL_SHARED)
+    set(BUILD_SHARED_LIBS True)
+  endif()
   add_subdirectory(freetype2)
 endif()

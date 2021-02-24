@@ -17,13 +17,13 @@ if(NOT APPLE)
 endif()
 
 set(PROJECT_SOURCES
+  "src/glad.c"
   "src/Color.cpp"
   "src/Shader.cpp"
   "src/stb_image.cpp"
   "src/Texture.cpp"
   "src/Vector.cpp"
   "src/Window.cpp"
-  #"src/glad.c"
   "src/Drawable/AbstractShape.cpp"
   "src/Drawable/Font.cpp"
   "src/Drawable/Rectangle.cpp"
@@ -63,9 +63,9 @@ option(
 add_subdirectory(external)
 
 if(MYGL_SHARED AND MYGL_STATIC)
-  set(MYGL_TARGETS "MyGL" "GLAD" "MyGL-static")
+  set(MYGL_TARGETS "MyGL" "MyGL-static")
 elseif(MYGL_SHARED)
-  set(MYGL_TARGETS "MyGL" "GLAD")
+  set(MYGL_TARGETS "MyGL")
 elseif(MYGL_STATIC)
   set(MYGL_TARGETS "MyGL-static")
 else()
@@ -76,20 +76,6 @@ set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 
 # Shared library
 if(MYGL_SHARED)
-  add_library(GLAD STATIC "${PROJECT_SOURCE_DIR}/src/glad.c")
-  set_target_properties(GLAD PROPERTIES
-    OUTPUT_NAME glad
-  )
-  target_compile_definitions(GLAD
-    PUBLIC GLAD_GLAPI_EXPORT
-    PRIVATE GLAD_GLAPI_EXPORT_BUILD
-  )
-  target_include_directories(GLAD
-    PUBLIC
-      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-      $<INSTALL_INTERFACE:include>
-  )
-
   add_library(MyGL SHARED ${PROJECT_SOURCES})
   set_target_properties(MyGL PROPERTIES
     SOVERSION ${PROJECT_VERSION_MAJOR}
@@ -99,7 +85,6 @@ if(MYGL_SHARED)
   )
 
   target_link_libraries(MyGL
-    PUBLIC GLAD
     PUBLIC $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2>
     PUBLIC $<IF:$<TARGET_EXISTS:SDL2::SDL2main>,SDL2::SDL2main,SDL2main>
     PUBLIC freetype
@@ -120,12 +105,17 @@ endif(MYGL_SHARED)
 
 # Static Library
 if(MYGL_STATIC)
-  add_library(MyGL-static STATIC "src/glad.c" ${PROJECT_SOURCES})
+  add_library(MyGL-static STATIC ${PROJECT_SOURCES})
   set_target_properties(MyGL-static PROPERTIES
     VERSION ${PROJECT_VERSION}
-    OUTPUT_NAME mygl-static
     DEBUG_POSTFIX "d"
   )
+
+  if(UNIX)
+    set_target_properties(MyGL-static PROPERTIES OUTPUT_NAME mygl)
+  else()
+    set_target_properties(MyGL-static PROPERTIES OUTPUT_NAME mygl-static)
+  endif()
 
   target_compile_definitions(MyGL-static PUBLIC MYGL_STATIC_DEFINE)
   
@@ -135,7 +125,6 @@ if(MYGL_STATIC)
     PUBLIC $<IF:$<TARGET_EXISTS:SDL2::SDL2main>,SDL2::SDL2main,SDL2main>
     PUBLIC freetype
   )
-  unset(SDL_TARGET)
 
   target_include_directories(MyGL-static
     PUBLIC

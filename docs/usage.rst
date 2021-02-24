@@ -6,42 +6,60 @@ Usage
 When compiling
 --------------
 
-Because this library uses relies on SFML's window and system modules, you will need
-(at least on Linux) to have its dependencies installed in order to successfuly build
-your program.
+On Windows
+..........
 
-The necessary dependencies are :
+Dynamic linking
++++++++++++++++
 
-* GL
-* pthread
-* X11 
-* Xrandr
-* udev
+When using the dll version of the library, you should link against :
 
-Windows
-.......
+* mygl.lib (or mygld.lib for a debug configuration)
+* SDL2.lib (or SDL2d.lib for debug)
+* SDL2main.lib
+* freetype.lib (freetyped.lib for debug)
 
-On Windows, only linking against the library mygl.lib (or mygld.lib for debug 
-configs) *should* work
+and place the files mygl.dll and SDL2.dll (respectively mygld.dll and SDL2d.dll for debug configs)
+in the same folder as your executable
 
-Linux
-.....
+Static linking
+++++++++++++++
 
-On Linux you have to link the library but also it's dependancies library files.
-The necessary packages are the development packages of these libs, for example
-on Ubuntu the corresponding packages are :
+For the static version :
 
-* libgl1-mesa-dev
-* libpthread-stubs0-dev
-* libx11-dev
-* libxrandr-dev
-* libudev-dev
+* mygl-static.lib (or mygl-staticd.lib for a debug configuration)
+* SDL2-static.lib (or SDL2-staticd.lib for debug)
+* SDL2main.lib
+* freetype.lib (freetyped.lib for debug)
 
+you should also link SDL's dependencies : user32, gdi32, winspool, comdlg32,
+advapi32, shell32, ole32, oleaut32, uuid, odbc32, odbccp32
+
+On Linux
+........
+
+On Linux you will need to link against :
+
+* mygl (or mygld)
+* freetype
+* SDL2
+* SDL2main
+
+Remark : if you happen to link against the static binary (libmygl(d).a) you should 
+also link against libdl
+
+The compilation process for a simple program should look something like this :
+
+.. code-block::
+
+	$ g++ -c prog.cpp
+	$ g++ prog.o -o prog -lmygl -lSDL2 -lSDLmain -lfreetype
 
 Using the library
 -----------------
 
-This library provides some abstraction over openGL to use blablabla
+This library provides some abstraction over openGL to draw shapes and text, it
+uses SDL2 for the underlying implementation of windows and for the event system
 
 .. code-block:: cpp
 	:linenos:
@@ -50,7 +68,7 @@ This library provides some abstraction over openGL to use blablabla
 	#include <MyGL/Drawable.hpp>
 	#include <MyGL/Window.hpp>
 
-	int main() {
+	int main(int argc, char *argv[]) {
 	  my::GLWindow window(800, 600, "my window!");
 	
 	  my::Cam2D camera(0, 0);
@@ -62,13 +80,13 @@ This library provides some abstraction over openGL to use blablabla
 	  my::Color clear_color(175, 230, 178);
 
 	  bool running = true;
+	  SDL_Event event;
 
 	  while(running) {
-	    sf::Event event;
-	    while(window.pollEvent(event)){
+	    while(SDL_PollEvent(&event)){
 	      switch(event.type)
 	      {
-	      case sf::Event::Closed:
+	      case SDL_QUIT:
 	        running = false;
 	        break;
 	  	
