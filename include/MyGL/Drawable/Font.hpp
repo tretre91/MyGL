@@ -148,7 +148,7 @@ namespace my
 
         /**
          * @brief Loads a font
-         * @param filename The path to the desired font
+         * @param fontFilename The path to the desired font
          * @return False if an error occured, true otherwise
         */
         bool load(const std::string& fontFilename);
