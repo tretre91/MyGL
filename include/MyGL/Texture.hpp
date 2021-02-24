@@ -2,6 +2,7 @@
 #define MY_TEXTURE
 
 #include "Header.hpp"
+#include <MyGL/Color.hpp>
 
 #include <string>
 #include <iostream>
@@ -72,6 +73,12 @@ namespace my
          * @param alpha The alpha component
         */
         void setBorderColor(int r, int g, int b, int alpha = 255);
+
+        /**
+         * @brief Sets the border color used with GL_CLAMP_TO_BORDER wrapping method
+         * @param color The color to be applied
+        */
+        void setBorderColor(const my::Color& color);
     };
 
 }

@@ -56,10 +56,23 @@ void Texture::setTextureWrapMethod(Axis axis, GLenum method){
 }
 
 void Texture::setBorderColor(int r, int g, int b, int alpha) {
-    r = r > 255 ? 255 : (r >= 0) * r;
-    g = g > 255 ? 255 : (g >= 0) * g;
-    b = b > 255 ? 255 : (b >= 0) * b;
-    alpha = alpha > 255 ? 255 : (alpha >= 0) * alpha;
-    float borderColor[] = { r / 255.0f, g / 255.0f, b / 255.0f, alpha / 255.0f };
+    bind();
+    float borderColor[] = {
+        r / 255.0f,
+        g / 255.0f,
+        b / 255.0f,
+        alpha / 255.0f
+    };
+    for(int i = 0; i < 4; i++) {
+        if (borderColor[i] < 0.0f) borderColor[i] = 0.0f;
+        else if (borderColor[i] > 1.0f) borderColor[i] = 1.0f;
+    }
+    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+}
+
+void Texture::setBorderColor(const my::Color& color) {
+    bind();
+    const glm::vec4 nColor = color.getNormalized();
+    float borderColor[] = { nColor.r, nColor.g, nColor.b, nColor.a };
     glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 }

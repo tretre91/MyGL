@@ -144,10 +144,10 @@ int AbstractShape::getRotation() const {
 
 
 void AbstractShape::setColor(int r, int g, int b, int alpha) {
-    r = r > 255 ? 255 : (r >= 0) * r;
-    g = g > 255 ? 255 : (g >= 0) * g;
-    b = b > 255 ? 255 : (b >= 0) * b;
-    alpha = alpha > 255 ? 255 : (alpha >= 0) * alpha;
+    r = r < 0 ? 0 : r % 255;
+    g = g < 0 ? 0 : g % 255;
+    b = b < 0 ? 0 : b % 255;
+    alpha = alpha < 0 ? 0 : alpha % 255;
     color = my::Color(r, g, b, alpha);
 }
 
@@ -233,6 +233,10 @@ bool AbstractShape::BBoxCollides(const AbstractShape& otherShape) const {
 
     return abs(this->position.y - shape->position.y) < abs(thisScale.y) + abs(shapeScale.y)
            && abs(this->position.x - shape->position.x) < abs(thisScale.x) + abs(shapeScale.x);
+}
+
+void AbstractShape::setTexture(const my::Texture& texture) {
+    this->texture = texture;
 }
 
 void AbstractShape::setTexture(const std::string& filename, bool hasAlpha) {

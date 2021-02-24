@@ -199,6 +199,12 @@ namespace my
         bool BBoxCollides(const AbstractShape& shape) const;
 
         /**
+         * @brief Attaches a texture to the shape
+         * @param texture A texture that has already been initialized
+        */
+        void setTexture(const my::Texture& texture);
+
+        /**
          * @brief Attach a texture to the shape
          * @param filename The path to the image, supported formats are jpeg, png,
          *                 gif (not animated), bmp, tga, psd, hdr, pic, and pnm
