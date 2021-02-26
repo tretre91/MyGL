@@ -122,6 +122,10 @@ void GLWindow::draw(my::AbstractShape& shape) {
     ptr->draw(p_camera->lookAt(), m_projection);
 }
 
+void my::GLWindow::draw(my::Animation& anim) {
+    anim.draw(p_camera->lookAt(), m_projection);
+}
+
 void GLWindow::display() const {
     SDL_GL_SwapWindow(p_window);
     Uint32 tmp = SDL_GetTicks() - m_tickCount;

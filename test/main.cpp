@@ -26,7 +26,7 @@ my::Rectangle line(int x1, int y1, int x2, int y2) {
 
 int main(int argc, char* argv[]) {
     // initialization
-    my::GLWindow window(800, 600, "OpenGL!", 4);
+    my::GLWindow window(800, 600, "OpenGL!", 8);
     //window.setFramerate(0);
     /*******************************************************************************/
     window.enableVsync(false);
@@ -58,6 +58,8 @@ int main(int argc, char* argv[]) {
 
     my::Polygon<5> green(50, 20, 30);
     green.setColor(my::Color::green); 
+
+    my::Animation anim(green, 5.0f, 600.0f, 300.0f);
 
     my::Font arial("@RESSOURCES_DIR@/Fonts/OpenSans-Regular.ttf");
     const unsigned int size = 60;
@@ -174,6 +176,22 @@ int main(int argc, char* argv[]) {
                     rotateRight = false;
                     break;
 
+                case SDLK_a:
+                    anim.setTargetPosition(600.0f, 300.0f);
+                    if (anim.isOver()) anim.start();
+                    else anim.setDuration(2.5f);
+                    break;
+
+                case SDLK_e:
+                    anim.setTargetPosition(50.0f, 550.0f);
+                    if (anim.isOver()) anim.start();
+                    else anim.setDuration(2.5);
+                    break;
+
+                case SDLK_r:
+                    anim.reset();
+                    break;
+
                 default:
                     break;
                 }
@@ -219,7 +237,8 @@ int main(int argc, char* argv[]) {
         window.draw(smiley);
         window.draw(wall);
         window.draw(rectangle);
-        window.draw(green);
+        //window.draw(green);
+        window.draw(anim);
         window.draw(ligne);
         window.draw(text);
         window.draw(blue);

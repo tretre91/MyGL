@@ -8,6 +8,7 @@
 
 #include "Header.hpp"
 #include "Color.hpp"
+#include "Animation.hpp"
 #include "Drawable/AbstractShape.hpp"
 #include "Camera/FixedCamera.hpp"
 
@@ -99,7 +100,13 @@ namespace my
         void draw(my::AbstractShape& shape);
 
         /**
-         * @brief Refreshes the window tto display all the things which have been drawn
+         * @brief Updates and draws an animated shape
+         * @param anim The animation to be drawn
+        */
+        void draw(my::Animation& anim);
+
+        /**
+         * @brief Refreshes the window to display all the things which have been drawn
         */
         void display() const;
 

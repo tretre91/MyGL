@@ -23,6 +23,7 @@ set(PROJECT_SOURCES
   "src/stb_image.cpp"
   "src/Texture.cpp"
   "src/Vector.cpp"
+  "src/Animation.cpp"
   "src/Window.cpp"
   "src/Drawable/AbstractShape.cpp"
   "src/Drawable/Font.cpp"
