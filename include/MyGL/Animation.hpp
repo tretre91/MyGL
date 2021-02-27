@@ -77,6 +77,9 @@ namespace my
 
         /**
          * @brief Sets the duration of the animation
+         * 
+         * Remark : setting the duration will override the current speed of the animation
+         * 
          * @param duration The desired duration
         */
         void setDuration(float duration);
@@ -103,8 +106,11 @@ namespace my
         void setTargetPosition(const glm::vec2& pos);
 
         /**
-         * @brief 
-         * @param speed 
+         * @brief Sets the movement speed of the shape
+         * 
+         * Remark : setting the speed will override the current duration of the animation
+         * 
+         * @param speed The speed in pixels/second
         */
         void setSpeed(float speed); //TODO
 

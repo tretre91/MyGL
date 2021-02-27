@@ -46,7 +46,8 @@ void Animation::setTargetPosition(const glm::vec2& pos) {
 }
 
 void Animation::setSpeed(float speed) {
-
+    m_duration = glm::distance(p_shape->getPosition(), m_targetPos) / speed;
+    m_positionStep = (m_targetPos - p_shape->getPosition()) / m_duration;
 }
 
 bool Animation::isOver() const {

@@ -56,10 +56,13 @@ int main(int argc, char* argv[]) {
     my::Polygon<20> blue(50, 0, 0);
     blue.setColor(my::Color::blue);
 
-    my::Polygon<5> green(50, 20, 30);
+    my::Polygon<5> green(50, 0, 100);
     green.setColor(my::Color::green); 
 
-    my::Animation anim(green, 5.0f, 600.0f, 300.0f);
+    my::Animation anim(green);
+    anim.setTargetPosition(800.0f, 100.0f);
+    anim.setSpeed(100.0f);
+
 
     my::Font arial("@RESSOURCES_DIR@/Fonts/OpenSans-Regular.ttf");
     const unsigned int size = 60;
@@ -92,9 +95,8 @@ int main(int argc, char* argv[]) {
     window.setCamera(camera);
 
     int frameCount = 0;
-    //std::iostream::sync_with_stdio(false);
 
-    SDL_TimerID framerateTimer = SDL_AddTimer(1000, framerateCallback, (void*)&frameCount);
+    SDL_TimerID framerateTimer = SDL_AddTimer(1000, framerateCallback, static_cast<void*>(&frameCount));
     float frametime = 0.0f;
 
     SDL_Event event;
@@ -177,9 +179,8 @@ int main(int argc, char* argv[]) {
                     break;
 
                 case SDLK_a:
-                    anim.setTargetPosition(600.0f, 300.0f);
+                    anim.setSpeed(100.0f);
                     if (anim.isOver()) anim.start();
-                    else anim.setDuration(2.5f);
                     break;
 
                 case SDLK_e:
