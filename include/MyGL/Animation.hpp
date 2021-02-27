@@ -6,6 +6,9 @@
 
 namespace my
 {
+    /**
+     * @brief A class for animating shapes
+    */
     class MYGL_EXPORT Animation 
     {
     private:
@@ -26,8 +29,12 @@ namespace my
         Animation();
 
         /**
-         * @brief Creates an animation with a shape attached to it, the duration and destination
-         *        coordinates should be specified using the setDuration and setTargetPosition functions
+         * @brief Creates an 'empty' animation with a shape attached to it
+         * 
+         * This contructor only attaches the shape to the animation, the 
+         * duration and destination coordinates should then be specified 
+         * using the setDuration() and setTargetPosition() functions
+         * 
          * @param shape The shape we want to animate
         */
         Animation(AbstractShape& shape);
@@ -43,11 +50,19 @@ namespace my
 
         /**
          * @brief Starts the animation
+         * 
+         * To avoid the shape suddenly changing position the first time
+         * its drawn, this method shouldn't be called too long before the
+         * shape is drawn
         */
         void start();
 
         /**
          * @brief Sets the shape corresponding to this animation
+         * 
+         * The shape should not be destroyed while the animation is used as
+         * it keeps a reference to the shape
+         * 
          * @param shape The shape to be animated
         */
         void attach(AbstractShape& shape);
@@ -95,7 +110,7 @@ namespace my
 
         /**
          * @brief Tells if the animation is over
-         * @return true if the animation has ended
+         * @return true if the animation has ended or has not already begun
         */
         bool isOver() const;
 

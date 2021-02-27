@@ -14,6 +14,7 @@ MyGL Documentation
     Drawable/polygon
     Drawable/text
     Drawable/font
+    animation
     texture
     vector
     shader
