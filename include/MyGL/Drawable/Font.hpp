@@ -1,12 +1,16 @@
 #ifndef MY_FONT
 #define MY_FONT
 
+#include "../mygl_export.h"
+#include <glad/glad.h>
+
 #include <ft2build.h>
 #include FT_FREETYPE_H
-#include "../Header.hpp"
 
 #include <vector>
+#include <array>
 #include <map>
+#include <iostream>
 
 namespace my
 {

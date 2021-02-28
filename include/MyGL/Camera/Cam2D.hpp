@@ -1,6 +1,7 @@
 #ifndef MY_2D_CAMERA
 #define MY_2D_CAMERA
 
+#include "../mygl_export.h"
 #include "MovableCamera.hpp"
 
 namespace my 

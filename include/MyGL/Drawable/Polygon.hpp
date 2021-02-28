@@ -1,8 +1,10 @@
 #ifndef MY_POLYGON
 #define MY_POLYGON
 
-#include "../Shader.hpp"
+#include "../mygl_export.h"
 #include "AbstractShape.hpp"
+
+#include <array>
 
 namespace my
 {

@@ -3,7 +3,7 @@
 
 #include <glad/glad.h>
 #include <stb_image.h>
-#include <MyGL/Color.hpp>
+#include "Color.hpp"
 
 #include <iostream>
 #include <map>

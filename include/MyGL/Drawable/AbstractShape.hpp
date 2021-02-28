@@ -1,9 +1,8 @@
 #ifndef MY_ABSTRACT_SHAPE
 #define MY_ABSTRACT_SHAPE
 
+#include "../mygl_export.h"
 #include "../Shader.hpp"
-#include "../Camera/FixedCamera.hpp"
-#include "../Vector.hpp"
 #include "../Color.hpp"
 #include "../Texture.hpp"
 

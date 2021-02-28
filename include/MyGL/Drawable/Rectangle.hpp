@@ -1,8 +1,10 @@
 #ifndef MY_RECTANGLE
 #define MY_RECTANGLE
 
-#include "../Shader.hpp"
+#include "../mygl_export.h"
 #include "AbstractShape.hpp"
+
+#include <array>
 
 namespace my
 {

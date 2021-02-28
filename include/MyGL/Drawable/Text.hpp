@@ -1,6 +1,7 @@
 #ifndef MY_TEXT
 #define MY_TEXT
 
+#include "../mygl_export.h"
 #include "AbstractShape.hpp"
 #include "Font.hpp"
 

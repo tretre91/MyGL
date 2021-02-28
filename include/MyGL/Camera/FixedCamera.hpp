@@ -1,7 +1,9 @@
 #ifndef MY_FIXED_CAMERA
 #define MY_FIXED_CAMERA
 
-#include "../Header.hpp"
+#include "../mygl_export.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace my 
 {

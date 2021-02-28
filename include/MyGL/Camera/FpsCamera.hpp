@@ -1,6 +1,7 @@
 #ifndef MY_FPS_CAMERA
 #define MY_FPS_CAMERA
 
+#include "../mygl_export.h"
 #include "Cam3D.hpp"
 
 namespace my 

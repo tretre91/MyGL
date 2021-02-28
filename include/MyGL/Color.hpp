@@ -1,7 +1,10 @@
 #ifndef MY_COLOR
 #define MY_COLOR
 
-#include "Header.hpp"
+#include "mygl_export.h"
+#include <glm/glm.hpp>
+
+#include <string>
 
 namespace my
 {

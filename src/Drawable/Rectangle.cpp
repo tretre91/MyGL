@@ -118,7 +118,7 @@ my::Rectangle my::line(int x1, int y1, int x2, int y2) {
     int center_y = (y2 + y1) / 2;
     my::Rectangle res(std::lround(dist), 1);
     res.setPosition(center_x, center_y, true);
-    double cos = (glm::abs(x2 - x1) / 2) / (dist / 2.0f);
-    res.setRotation(glm::degrees(glm::acos(cos)));
+    double cos = (glm::abs(x2 - x1) / 2.0f) / (dist / 2.0f);
+    res.setRotation(static_cast<float>(glm::degrees(glm::acos(cos))));
     return res;
 }

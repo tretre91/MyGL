@@ -1,12 +1,11 @@
 #ifndef MY_WINDOW
 #define MY_WINDOW
 
+#include "mygl_export.h"
+
 #include <glad/glad.h>
 #include <SDL.h>
 
-#include "mygl_export.h"
-
-#include "Header.hpp"
 #include "Color.hpp"
 #include "Animation.hpp"
 #include "Drawable/AbstractShape.hpp"

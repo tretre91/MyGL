@@ -1,7 +1,10 @@
 #ifndef MY_SHADER
 #define MY_SHADER
 
-#include "Header.hpp"
+#include "mygl_export.h"
+#include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <iostream>
 #include <fstream>

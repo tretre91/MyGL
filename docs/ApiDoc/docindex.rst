@@ -16,7 +16,6 @@ MyGL Documentation
     Drawable/font
     animation
     texture
-    vector
     shader
     Camera/fixedcamera
     Camera/movablecamera

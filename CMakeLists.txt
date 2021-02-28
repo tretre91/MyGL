@@ -22,7 +22,6 @@ set(PROJECT_SOURCES
   "src/Shader.cpp"
   "src/stb_image.cpp"
   "src/Texture.cpp"
-  "src/Vector.cpp"
   "src/Animation.cpp"
   "src/Window.cpp"
   "src/Drawable/AbstractShape.cpp"
