@@ -1,14 +1,65 @@
 #include <MyGL/Texture.hpp>
 using namespace my;
 
+std::map<unsigned int, unsigned int> Texture::instances = std::map<unsigned int, unsigned int>();
+
 Texture::Texture(const std::string& filename, GLenum format) : m_textureId(0) {
     if (!load(filename, format)) {
-        std::cout << "Failed to load texture " << filename << std::endl;
+        std::cerr << "Failed to load texture " << filename << std::endl;
     }
 }
 
+Texture::~Texture() {
+    if (m_textureId != 0 && --instances[m_textureId] == 0) {
+        glDeleteTextures(1, &m_textureId);
+        instances.erase(m_textureId);
+    }
+}
+
+Texture::Texture(const Texture& tex) : m_textureId(tex.m_textureId), 
+    m_width(tex.m_width), m_height(tex.m_height) 
+{
+    if (m_textureId != 0) instances[m_textureId]++;
+}
+
+Texture::Texture(Texture&& tex) : m_width(tex.m_width), m_height(tex.m_height) {
+    if (m_textureId != 0 && m_textureId != tex.m_textureId) {
+        if (--instances[m_textureId] == 0) {
+            glDeleteTextures(1, &m_textureId);
+            instances.erase(m_textureId);
+        }
+    }
+    m_textureId = tex.m_textureId;
+    tex.m_textureId = 0;
+}
+
+Texture& Texture::operator=(const Texture& tex) {
+    m_textureId = tex.m_textureId;
+    m_width = tex.m_width;
+    m_height = tex.m_height;
+    if (m_textureId != 0) instances[m_textureId]++;
+    return *this;
+}
+
+Texture& Texture::operator=(Texture&& tex) {
+    m_width = tex.m_width;
+    m_height = tex.m_height;
+    if (m_textureId != 0 && m_textureId != tex.m_textureId) {
+        if (--instances[m_textureId] == 0) {
+            glDeleteTextures(1, &m_textureId);
+            instances.erase(m_textureId);
+        }
+    }
+    m_textureId = tex.m_textureId;
+    tex.m_textureId = 0;
+    return *this;
+}
+
 bool Texture::load(const std::string& filename, GLenum format) {
-    if (m_textureId != 0) glDeleteTextures(1, &m_textureId);
+    if (m_textureId != 0 && --instances[m_textureId] == 0) {
+        glDeleteTextures(1, &m_textureId);
+        instances.erase(m_textureId);
+    }
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
     glGenTextures(1, &m_textureId);
@@ -28,9 +79,12 @@ bool Texture::load(const std::string& filename, GLenum format) {
         glGenerateMipmap(GL_TEXTURE_2D);
         m_width = width;
         m_height = width;
+        instances.insert({ m_textureId, 1 });
         stbi_image_free(data);
         return true;
     } else {
+        glDeleteTextures(1, &m_textureId);
+        m_textureId = 0;
         m_width = 0;
         m_height = 0;
         return false;

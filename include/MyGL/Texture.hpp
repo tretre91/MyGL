@@ -1,11 +1,12 @@
 #ifndef MY_TEXTURE
 #define MY_TEXTURE
 
-#include "Header.hpp"
+#include <glad/glad.h>
+#include <stb_image.h>
 #include <MyGL/Color.hpp>
 
-#include <string>
 #include <iostream>
+#include <map>
 
 namespace my
 {
@@ -13,6 +14,8 @@ namespace my
     class MYGL_EXPORT Texture {
 
     private:
+        static std::map<unsigned int, unsigned int> instances;
+
         unsigned int m_textureId = 0;
         int m_width = 0;
         int m_height = 0;
@@ -32,6 +35,16 @@ namespace my
          * @param format Image format, if the source image contains an alpha channel the parameter 'GL_RGBA' should be used
         */
         Texture(const std::string& filename, GLenum format = GL_RGB);
+
+        ~Texture();
+
+        Texture(const Texture& texture);
+
+        Texture& operator=(const Texture& texture);
+
+        Texture(Texture&&);
+
+        Texture& operator=(Texture&&);
 
         /**
          * @brief Loads a texture, this texture should not be used if the operation fails
