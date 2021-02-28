@@ -14,6 +14,23 @@ Animation::Animation(AbstractShape& shape, float duration, float destX, float de
     m_frametime(0.0f), p_shape(&shape), m_running(false)
 {}
 
+Animation::Animation(const Animation& anim) : m_duration(anim.m_duration), 
+    m_originalPos(anim.m_originalPos), m_targetPos(anim.m_targetPos),
+    m_positionStep(anim.m_positionStep), m_frametime(anim.m_frametime),
+    p_shape(nullptr), m_running(anim.m_running)
+{}
+
+Animation& Animation::operator=(const Animation& anim) {
+    m_duration = anim.m_duration;
+    m_originalPos = anim.m_originalPos;
+    m_targetPos = anim.m_targetPos;
+    m_positionStep = anim.m_positionStep;
+    m_frametime = anim.m_frametime;
+    p_shape = nullptr; // TODO
+    m_running = anim.m_running;
+    return *this;
+}
+
 void Animation::start() {
     if (!m_running) {
         m_running = true;

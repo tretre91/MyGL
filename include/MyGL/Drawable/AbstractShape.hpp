@@ -25,19 +25,19 @@ namespace my
         static my::Shader texShader;
         static bool shaderIsUsable;
 
-        glm::vec2 position;
-        const glm::vec2 originalScale;
-        glm::vec2 scaleFactor;
-        float rotationAngle;
-        bool updateMatrix;
-        glm::mat4 model;
-        my::Color color;
-        unsigned int outlineThickness;
-        my::Color outlineColor;
-        glm::mat4 outlineModel;
-        my::Texture texture;
-        bool isTextured;
-        my::Shader* activeShader;
+        glm::vec2 m_position;
+        const glm::vec2 m_originalScale;
+        glm::vec2 m_scaleFactor;
+        float m_rotationAngle;
+        bool m_updateMatrix;
+        glm::mat4 m_model;
+        my::Color m_color;
+        unsigned int m_outlineThickness;
+        my::Color m_outlineColor;
+        glm::mat4 m_outlineModel;
+        my::Texture m_texture;
+        bool m_isTextured;
+        my::Shader* p_activeShader;
 
         
         /**

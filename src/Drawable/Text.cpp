@@ -45,17 +45,17 @@ std::vector<glm::vec2> my::Text::points() const // TODO
 void Text::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
     textShader.setMat4("view", lookAt);
     textShader.setMat4("projection", projection);
-    textShader.setFloat("color", color.getNormalized());
+    textShader.setFloat("color", m_color.getNormalized());
 
     glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D, m_bitmapTexId);
 
     for (size_t i = 0; i < m_text.size(); i++) {
         if (m_text[i] == '\n') continue;
-        model = glm::translate(glm::mat4(1.0f), glm::vec3(m_charPositions[i].first + position.x, m_charPositions[i].second + position.y, 0.0f));
-        model = glm::scale(model, glm::vec3(m_fontScale / 2.0f, m_fontScale / 2.0f, 1.0f));
-        model = glm::rotate(model, 0.0f, glm::vec3(0.0f, 0.0f, 1.0f));
-        textShader.setMat4("model", model);
+        m_model = glm::translate(glm::mat4(1.0f), glm::vec3(m_charPositions[i].first + m_position.x, m_charPositions[i].second + m_position.y, 0.0f));
+        m_model = glm::scale(m_model, glm::vec3(m_fontScale / 2.0f, m_fontScale / 2.0f, 1.0f));
+        m_model = glm::rotate(m_model, 0.0f, glm::vec3(0.0f, 0.0f, 1.0f));
+        textShader.setMat4("model", m_model);
 
         glBindVertexArray(m_alphabet[m_text[i]].vao);
         glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, 0);

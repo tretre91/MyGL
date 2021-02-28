@@ -49,9 +49,9 @@ my::Shader AbstractShape::texShader = my::Shader();
 
 bool AbstractShape::shaderIsUsable = false;
 
-AbstractShape::AbstractShape() : position(0.0f, 0.0f), originalScale(5.0f, 5.0f), scaleFactor(1.0f, 1.0f),
-    rotationAngle(0.0f), updateMatrix(true), model(1.0f), color(100, 100, 100), outlineThickness(0),
-    outlineColor(255, 255, 255), outlineModel(1.0f), texture(), isTextured(false), activeShader(nullptr)
+AbstractShape::AbstractShape() : m_position(0.0f, 0.0f), m_originalScale(5.0f, 5.0f), m_scaleFactor(1.0f, 1.0f),
+    m_rotationAngle(0.0f), m_updateMatrix(true), m_model(1.0f), m_color(100, 100, 100), m_outlineThickness(0),
+    m_outlineColor(255, 255, 255), m_outlineModel(1.0f), m_texture(), m_isTextured(false), p_activeShader(nullptr)
 {
     if (!shaderIsUsable) {
         shader = my::Shader(vertexSource, fragmentSource, false);
@@ -59,12 +59,12 @@ AbstractShape::AbstractShape() : position(0.0f, 0.0f), originalScale(5.0f, 5.0f)
         texShader.setInt("tex", 3);
         shaderIsUsable = true;
     }
-    activeShader = &shader;
+    p_activeShader = &shader;
 }
 
-AbstractShape::AbstractShape(int width, int height) : position(0.0f, 0.0f), originalScale(width / 2.0f, height / 2.0f),
-    scaleFactor(1.0f, 1.0f), rotationAngle(0.0f), updateMatrix(true), model(1.0f), color(100, 100, 100), outlineThickness(0),
-    outlineColor(255, 255, 255), outlineModel(1.0f), texture(), isTextured(false), activeShader(nullptr)
+AbstractShape::AbstractShape(int width, int height) : m_position(0.0f, 0.0f), m_originalScale(width / 2.0f, height / 2.0f),
+    m_scaleFactor(1.0f, 1.0f), m_rotationAngle(0.0f), m_updateMatrix(true), m_model(1.0f), m_color(100, 100, 100), m_outlineThickness(0),
+    m_outlineColor(255, 255, 255), m_outlineModel(1.0f), m_texture(), m_isTextured(false), p_activeShader(nullptr)
 {
     if (!shaderIsUsable) {
         shader = my::Shader(vertexSource, fragmentSource, false);
@@ -72,7 +72,7 @@ AbstractShape::AbstractShape(int width, int height) : position(0.0f, 0.0f), orig
         texShader.setInt("tex", 3);
         shaderIsUsable = true;
     }
-    activeShader = &shader;
+    p_activeShader = &shader;
 }
 
 AbstractShape::AbstractShape(int width, int height, int x, int y) : AbstractShape(width, height) {
@@ -81,64 +81,64 @@ AbstractShape::AbstractShape(int width, int height, int x, int y) : AbstractShap
 
 
 void AbstractShape::setPosition(int x, int y, bool center) {
-    position.x = static_cast<float>(x);
-    position.y = static_cast<float>(y);
+    m_position.x = static_cast<float>(x);
+    m_position.y = static_cast<float>(y);
     if (!center) {
-        position.x += originalScale.x * scaleFactor.x;
-        position.y -= originalScale.y * scaleFactor.y;
+        m_position.x += m_originalScale.x * m_scaleFactor.x;
+        m_position.y -= m_originalScale.y * m_scaleFactor.y;
     }
-    updateMatrix = true;
+    m_updateMatrix = true;
 }
 
 void AbstractShape::setPosition(const glm::vec2& pos, bool center) {
-    position = pos;
+    m_position = pos;
     if (!center) {
-        position.x += originalScale.x * scaleFactor.x;
-        position.y -= originalScale.y * scaleFactor.y;
+        m_position.x += m_originalScale.x * m_scaleFactor.x;
+        m_position.y -= m_originalScale.y * m_scaleFactor.y;
     }
-    updateMatrix = true;
+    m_updateMatrix = true;
 }
 
 void AbstractShape::move(float x, float y) {
-    position.x += x;
-    position.y += y;
-    updateMatrix = true;
+    m_position.x += x;
+    m_position.y += y;
+    m_updateMatrix = true;
 }
 
 glm::vec2 AbstractShape::getPosition() const {
-    return position;
+    return m_position;
 }
 
 
 void AbstractShape::setScale(float x, float y) {
-    scaleFactor.x = x;
-    scaleFactor.y = y;
-    updateMatrix = true;
+    m_scaleFactor.x = x;
+    m_scaleFactor.y = y;
+    m_updateMatrix = true;
 }
 
 void AbstractShape::scale(float x, float y) {
-    scaleFactor.x *= x;
-    scaleFactor.y *= y;
-    updateMatrix = true;
+    m_scaleFactor.x *= x;
+    m_scaleFactor.y *= y;
+    m_updateMatrix = true;
 }
 
 glm::vec2 AbstractShape::getScale() const {
-    return scaleFactor;
+    return m_scaleFactor;
 }
 
 
 void AbstractShape::setRotation(float angle) {
-    rotationAngle = glm::mod(angle, 360.0f);
-    updateMatrix = true;
+    m_rotationAngle = glm::mod(angle, 360.0f);
+    m_updateMatrix = true;
 }
 
 void AbstractShape::rotate(float angle) {
-    rotationAngle = glm::mod(rotationAngle + angle, 360.0f);
-    updateMatrix = true;
+    m_rotationAngle = glm::mod(m_rotationAngle + angle, 360.0f);
+    m_updateMatrix = true;
 }
 
 float AbstractShape::getRotation() const {
-    return rotationAngle;
+    return m_rotationAngle;
 }
 
 
@@ -147,28 +147,28 @@ void AbstractShape::setColor(int r, int g, int b, int alpha) {
     g = g < 0 ? 0 : g % 255;
     b = b < 0 ? 0 : b % 255;
     alpha = alpha < 0 ? 0 : alpha % 255;
-    color = my::Color(r, g, b, alpha);
+    m_color = my::Color(r, g, b, alpha);
 }
 
 void AbstractShape::setColor(const my::Color& color) {
-    this->color = color;
+    this->m_color = color;
 }
 
 my::Color AbstractShape::getColor() const {
-    return color;
+    return m_color;
 }
 
 void AbstractShape::setOutlineThickness(unsigned int thickness) {
-    outlineThickness = thickness;
-    if (!updateMatrix && outlineThickness > 0) {
-        outlineModel = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f));
-        outlineModel = glm::rotate(outlineModel, glm::radians(rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
-        outlineModel = glm::scale(outlineModel, glm::vec3(static_cast<float>(outlineThickness) + originalScale.x * scaleFactor.x, static_cast<float>(outlineThickness) + originalScale.y * scaleFactor.y, 1.0f));
+    m_outlineThickness = thickness;
+    if (!m_updateMatrix && m_outlineThickness > 0) {
+        m_outlineModel = glm::translate(glm::mat4(1.0f), glm::vec3(m_position.x, m_position.y, 0.0f));
+        m_outlineModel = glm::rotate(m_outlineModel, glm::radians(m_rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
+        m_outlineModel = glm::scale(m_outlineModel, glm::vec3(static_cast<float>(m_outlineThickness) + m_originalScale.x * m_scaleFactor.x, static_cast<float>(m_outlineThickness) + m_originalScale.y * m_scaleFactor.y, 1.0f));
     }
 }
 
 void AbstractShape::setOutlineColor(const my::Color& color) {
-    outlineColor = color;
+    m_outlineColor = color;
 }
 
 void AbstractShape::setOutlineColor(int r, int g, int b, int alpha) {
@@ -176,16 +176,16 @@ void AbstractShape::setOutlineColor(int r, int g, int b, int alpha) {
     g = g > 255 ? 255 : (g >= 0) * g;
     b = b > 255 ? 255 : (b >= 0) * b;
     alpha = alpha > 255 ? 255 : (alpha >= 0) * alpha;
-    outlineColor = my::Color(r, g, b, alpha);
+    m_outlineColor = my::Color(r, g, b, alpha);
 }
 
 bool AbstractShape::SATCollides(const AbstractShape& otherShape) const {
     const AbstractShape* shape = &otherShape;
     // We test if the shapes are close enough to potentialy touch
-    float dist = glm::distance(this->position, shape->position);
-    glm::vec2 radius = originalScale * scaleFactor;
+    float dist = glm::distance(this->m_position, shape->m_position);
+    glm::vec2 radius = m_originalScale * m_scaleFactor;
     float r1 = std::max(radius.x, radius.y);
-    radius = shape->originalScale * shape->scaleFactor;
+    radius = shape->m_originalScale * shape->m_scaleFactor;
     float r2 = std::max(radius.x, radius.y);
     if(dist > r1 + r2) return false;
 
@@ -227,21 +227,21 @@ bool AbstractShape::SATCollides(const AbstractShape& otherShape) const {
 
 bool AbstractShape::BBoxCollides(const AbstractShape& otherShape) const {
     const AbstractShape* shape = &otherShape;
-    glm::vec2 thisScale = this->originalScale * this->scaleFactor;
-    glm::vec2 shapeScale = shape->originalScale * shape->scaleFactor;
+    glm::vec2 thisScale = this->m_originalScale * this->m_scaleFactor;
+    glm::vec2 shapeScale = shape->m_originalScale * shape->m_scaleFactor;
 
-    return abs(this->position.y - shape->position.y) < abs(thisScale.y) + abs(shapeScale.y)
-           && abs(this->position.x - shape->position.x) < abs(thisScale.x) + abs(shapeScale.x);
+    return abs(this->m_position.y - shape->m_position.y) < abs(thisScale.y) + abs(shapeScale.y)
+           && abs(this->m_position.x - shape->m_position.x) < abs(thisScale.x) + abs(shapeScale.x);
 }
 
 void AbstractShape::setTexture(const my::Texture& texture) {
-    this->texture = texture;
+    this->m_texture = texture;
 }
 
 void AbstractShape::setTexture(const std::string& filename, bool hasAlpha) {
-    texture = my::Texture(filename, hasAlpha ? GL_RGBA : GL_RGB);
-    texture.setTextureWrapMethod(my::Texture::Axis::s, GL_REPEAT);
-    texture.setTextureWrapMethod(my::Texture::Axis::t, GL_REPEAT);
-    activeShader = &texShader;
-    isTextured = true;
+    m_texture = my::Texture(filename, hasAlpha ? GL_RGBA : GL_RGB);
+    m_texture.setTextureWrapMethod(my::Texture::Axis::s, GL_REPEAT);
+    m_texture.setTextureWrapMethod(my::Texture::Axis::t, GL_REPEAT);
+    p_activeShader = &texShader;
+    m_isTextured = true;
 }

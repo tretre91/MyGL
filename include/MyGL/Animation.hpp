@@ -49,6 +49,32 @@ namespace my
         Animation(AbstractShape& shape, float duration, float destX, float destY);
 
         /**
+         * @brief Copy constructor
+         * @param anim 
+        */
+        Animation(const Animation& anim);
+
+        /**
+         * @brief Move constructor
+         * @param anim 
+        */
+        Animation(Animation&& anim) = default;
+
+        /**
+         * @brief Copy assignement operator
+         * @param anim 
+         * @return 
+        */
+        Animation& operator=(const Animation& anim);
+
+        /**
+         * @brief Move assignement operator
+         * @param anim 
+         * @return 
+        */
+        Animation& operator=(Animation&& anim) = default;
+
+        /**
          * @brief Starts the animation
          * 
          * To avoid the shape suddenly changing position the first time

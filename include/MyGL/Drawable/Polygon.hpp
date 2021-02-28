@@ -70,14 +70,14 @@ namespace my
         */
         virtual std::vector<glm::vec2> points() const {
             glm::mat4 transform;
-            if (updateMatrix) {
+            if (m_updateMatrix) {
                 transform = glm::mat4(1.0f);
-                transform = glm::translate(transform, glm::vec3(position.x, position.y, 0.0f));
-                transform = glm::rotate(transform, glm::radians(rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
-                transform = glm::scale(transform, glm::vec3(originalScale.x * scaleFactor.x, originalScale.y * scaleFactor.y, 1.0f));
+                transform = glm::translate(transform, glm::vec3(m_position.x, m_position.y, 0.0f));
+                transform = glm::rotate(transform, glm::radians(m_rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
+                transform = glm::scale(transform, glm::vec3(m_originalScale.x * m_scaleFactor.x, m_originalScale.y * m_scaleFactor.y, 1.0f));
             }
             else {
-                transform = model;
+                transform = m_model;
             }
 
             std::vector<glm::vec2> res;
@@ -136,25 +136,25 @@ namespace my
          * @param projection The projection matrix (also provided by the window)
         */
         virtual void draw(const glm::mat4& lookAt, const glm::mat4& projection) {
-            if (updateMatrix) {
-                model = glm::mat4(1.0f);
-                model = glm::translate(model, glm::vec3(position.x, position.y, 0.0f));
-                model = glm::rotate(model, glm::radians(rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
-                if (outlineThickness > 0) {
-                    outlineModel = glm::scale(model, glm::vec3(static_cast<float>(outlineThickness) + originalScale.x * scaleFactor.x, static_cast<float>(outlineThickness) + originalScale.y * scaleFactor.y, 1.0f));
+            if (m_updateMatrix) {
+                m_model = glm::mat4(1.0f);
+                m_model = glm::translate(m_model, glm::vec3(m_position.x, m_position.y, 0.0f));
+                m_model = glm::rotate(m_model, glm::radians(m_rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
+                if (m_outlineThickness > 0) {
+                    m_outlineModel = glm::scale(m_model, glm::vec3(static_cast<float>(m_outlineThickness) + m_originalScale.x * m_scaleFactor.x, static_cast<float>(m_outlineThickness) + m_originalScale.y * m_scaleFactor.y, 1.0f));
                 }
-                model = glm::scale(model, glm::vec3(originalScale.x * scaleFactor.x, originalScale.y * scaleFactor.y, 1.0f));
-                updateMatrix = false;
+                m_model = glm::scale(m_model, glm::vec3(m_originalScale.x * m_scaleFactor.x, m_originalScale.y * m_scaleFactor.y, 1.0f));
+                m_updateMatrix = false;
             }
             glActiveTexture(GL_TEXTURE3);
-            texture.bind();
-            activeShader->setMat4("model", model);
-            activeShader->setMat4("view", lookAt);
-            activeShader->setMat4("projection", projection);
-            activeShader->setFloat("color", color.getNormalized());
-            activeShader->use();
+            m_texture.bind();
+            p_activeShader->setMat4("model", m_model);
+            p_activeShader->setMat4("view", lookAt);
+            p_activeShader->setMat4("projection", projection);
+            p_activeShader->setFloat("color", m_color.getNormalized());
+            p_activeShader->use();
 
-            if (outlineThickness > 0) {
+            if (m_outlineThickness > 0) {
                 glStencilFunc(GL_ALWAYS, 1, 0xFF);
                 glStencilMask(0xFF);
                 glBindVertexArray(VAO);
@@ -162,9 +162,9 @@ namespace my
 
                 glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
                 glStencilMask(0x00);
-                shader.setMat4("model", outlineModel);
-                shader.setFloat("color", outlineColor.getNormalized());
-                if (isTextured) {
+                shader.setMat4("model", m_outlineModel);
+                shader.setFloat("color", m_outlineColor.getNormalized());
+                if (m_isTextured) {
                     shader.setMat4("view", lookAt);
                     shader.setMat4("projection", projection);
                 }
