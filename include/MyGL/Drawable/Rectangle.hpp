@@ -54,6 +54,17 @@ namespace my
         */
         virtual void draw(const glm::mat4& lookAt, const glm::mat4& projection);
     };
+
+    /** @relates my::Rectangle
+     * @fn my::Rectangle my::line(int x1, int y1, int x2, int y2)
+     * @brief Creates a line between two points
+     * @param x1 The first point's x coordinate
+     * @param y1 The first point's y coordinate
+     * @param x2 The second point's x coordinate
+     * @param y2 The second point's y coordinate
+     * @return A my::Rectangle representing a line between the 2 points
+    */
+    MYGL_EXPORT my::Rectangle line(int x1, int y1, int x2, int y2);
 }
 
 #endif //MY_RECTANGLE

@@ -50,8 +50,8 @@ my::Shader AbstractShape::texShader = my::Shader();
 bool AbstractShape::shaderIsUsable = false;
 
 AbstractShape::AbstractShape() : position(0.0f, 0.0f), originalScale(5.0f, 5.0f), scaleFactor(1.0f, 1.0f),
-rotationAngle(0), updateMatrix(true), model(1.0f), color(100, 100, 100), outlineThickness(0),
-outlineColor(255, 255, 255), outlineModel(1.0f), texture(), isTextured(false), activeShader(nullptr)
+    rotationAngle(0.0f), updateMatrix(true), model(1.0f), color(100, 100, 100), outlineThickness(0),
+    outlineColor(255, 255, 255), outlineModel(1.0f), texture(), isTextured(false), activeShader(nullptr)
 {
     if (!shaderIsUsable) {
         shader = my::Shader(vertexSource, fragmentSource, false);
@@ -63,8 +63,8 @@ outlineColor(255, 255, 255), outlineModel(1.0f), texture(), isTextured(false), a
 }
 
 AbstractShape::AbstractShape(int width, int height) : position(0.0f, 0.0f), originalScale(width / 2.0f, height / 2.0f),
-scaleFactor(1.0f, 1.0f), rotationAngle(0), updateMatrix(true), model(1.0f), color(100, 100, 100), outlineThickness(0),
-outlineColor(255, 255, 255), outlineModel(1.0f), texture(), isTextured(false), activeShader(nullptr)
+    scaleFactor(1.0f, 1.0f), rotationAngle(0.0f), updateMatrix(true), model(1.0f), color(100, 100, 100), outlineThickness(0),
+    outlineColor(255, 255, 255), outlineModel(1.0f), texture(), isTextured(false), activeShader(nullptr)
 {
     if (!shaderIsUsable) {
         shader = my::Shader(vertexSource, fragmentSource, false);
@@ -127,18 +127,17 @@ glm::vec2 AbstractShape::getScale() const {
 }
 
 
-void AbstractShape::setRotation(int angle) {
-    rotationAngle = angle % 360;
+void AbstractShape::setRotation(float angle) {
+    rotationAngle = glm::mod(angle, 360.0f);
     updateMatrix = true;
 }
 
-void AbstractShape::rotate(int angle) {
-    rotationAngle += angle;
-    rotationAngle %= 360;
+void AbstractShape::rotate(float angle) {
+    rotationAngle = glm::mod(rotationAngle + angle, 360.0f);
     updateMatrix = true;
 }
 
-int AbstractShape::getRotation() const {
+float AbstractShape::getRotation() const {
     return rotationAngle;
 }
 
@@ -163,7 +162,7 @@ void AbstractShape::setOutlineThickness(unsigned int thickness) {
     outlineThickness = thickness;
     if (!updateMatrix && outlineThickness > 0) {
         outlineModel = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f));
-        outlineModel = glm::rotate(outlineModel, glm::radians(static_cast<float>(rotationAngle)), glm::vec3(0.0f, 0.0f, 1.0f));
+        outlineModel = glm::rotate(outlineModel, glm::radians(rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
         outlineModel = glm::scale(outlineModel, glm::vec3(static_cast<float>(outlineThickness) + originalScale.x * scaleFactor.x, static_cast<float>(outlineThickness) + originalScale.y * scaleFactor.y, 1.0f));
     }
 }

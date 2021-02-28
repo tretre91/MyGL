@@ -5,23 +5,10 @@
 #include <iostream>
 
 Uint32 framerateCallback(Uint32 interval, void* param) {
-    int* frameCount = reinterpret_cast<int*>(param);
+    int* frameCount = static_cast<int*>(param);
     std::cout << *frameCount << '\n';
     *frameCount = 0;
     return interval;
-}
-
-my::Rectangle line(int x1, int y1, int x2, int y2) {
-    double dist = glm::sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
-    int center_x = (x2 + x1) / 2;
-    int center_y = (y2 + y1) / 2;
-    my::Rectangle res(std::lround(dist), 1);
-    res.setPosition(center_x, center_y, true);
-    double cos = (glm::abs(x2 - x1) / 2) / (dist / 2.0f);
-    int angle = glm::round(glm::degrees(glm::acos(cos)));
-    res.setRotation(angle);
-
-    return res;
 }
 
 int main(int argc, char* argv[]) {
@@ -40,7 +27,7 @@ int main(int argc, char* argv[]) {
     meme.setColor(my::Color::blue);
     meme.setTexture("@RESSOURCES_DIR@/Images/meme.jpeg");
 
-    my::Rectangle ligne = line(0, 0, 800, 600);
+    my::Rectangle ligne = my::line(0, 0, 800, 600);
     ligne.setColor(my::Color::white);
     ligne.setOutlineThickness(5);
     ligne.setOutlineColor(0, 255, 255);
@@ -83,8 +70,8 @@ int main(int argc, char* argv[]) {
     float angle = 0.0f;
     float inc = pi / 2.0f;
 
-    rectangle.setPosition(400 + (int)(100 * glm::cos(angle)), 300 + (int)(100 * glm::sin(angle)));
-    blue.setPosition(400 + (int)(-100 * glm::cos(angle)), 300 + (int)(-100 * glm::sin(angle)));
+    rectangle.setPosition(400 + static_cast<int>(100 * glm::cos(angle)), 300 + static_cast<int>(100 * glm::sin(angle)));
+    blue.setPosition(400 + static_cast<int>(-100 * glm::cos(angle)), 300 + static_cast<int>(-100 * glm::sin(angle)));
 
     bool wireframe = false;
     bool running = true;

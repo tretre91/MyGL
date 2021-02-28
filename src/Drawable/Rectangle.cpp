@@ -50,7 +50,7 @@ std::vector<glm::vec2> Rectangle::points() const {
     if (updateMatrix) {
         transform = glm::mat4(1.0f);
         transform = glm::translate(transform, glm::vec3(position.x, position.y, 0.0f));
-        transform = glm::rotate(transform, glm::radians((float)rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
+        transform = glm::rotate(transform, glm::radians(rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
         transform = glm::scale(transform, glm::vec3(originalScale.x * scaleFactor.x, originalScale.y * scaleFactor.y, 1.0f));
     }
     else {
@@ -70,7 +70,7 @@ void Rectangle::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
     if (updateMatrix) {
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(position.x, position.y, 0.0f));
-        model = glm::rotate(model, glm::radians(static_cast<float>(rotationAngle)), glm::vec3(0.0f, 0.0f, 1.0f));
+        model = glm::rotate(model, glm::radians(rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
         if (outlineThickness > 0) {
             outlineModel = glm::scale(model, glm::vec3(static_cast<float>(outlineThickness) + originalScale.x * scaleFactor.x, static_cast<float>(outlineThickness) + originalScale.y * scaleFactor.y, 1.0f));
         }
@@ -110,4 +110,15 @@ void Rectangle::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, 0);
     }
+}
+
+my::Rectangle my::line(int x1, int y1, int x2, int y2) {
+    double dist = glm::sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+    int center_x = (x2 + x1) / 2;
+    int center_y = (y2 + y1) / 2;
+    my::Rectangle res(std::lround(dist), 1);
+    res.setPosition(center_x, center_y, true);
+    double cos = (glm::abs(x2 - x1) / 2) / (dist / 2.0f);
+    res.setRotation(glm::degrees(glm::acos(cos)));
+    return res;
 }

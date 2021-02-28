@@ -8,19 +8,22 @@
 #else
 #  ifndef MYGL_EXPORT
 #    define GLAD_GLAPI_EXPORT
-#    if defined(MyGL_EXPORTS)
-#      define GLAD_GLAPI_EXPORT_BUILD
-#    endif
 #    if defined(_WIN32) || defined(__CYGWIN__)
 #      ifdef MyGL_EXPORTS
          /* We are building this library */
 #        define MYGL_EXPORT __declspec(dllexport)
+#        if !defined(GLAD_GLAPI_EXPORT_BUILD)
+#          define GLAD_GLAPI_EXPORT_BUILD
+#        endif
 #      else
          /* We are using this library */
 #        define MYGL_EXPORT __declspec(dllimport)
 #      endif
 #    else
 #      define MYGL_EXPORT __attribute__((visibility("default")))
+#      if defined(MyGL_EXPORTS) && !defined(GLAD_GLAPI_EXPORT_BUILD)
+#        define GLAD_GLAPI_EXPORT_BUILD
+#      endif
 #    endif
 #  endif
 

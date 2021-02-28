@@ -73,7 +73,7 @@ namespace my
             if (updateMatrix) {
                 transform = glm::mat4(1.0f);
                 transform = glm::translate(transform, glm::vec3(position.x, position.y, 0.0f));
-                transform = glm::rotate(transform, glm::radians((float)rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
+                transform = glm::rotate(transform, glm::radians(rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
                 transform = glm::scale(transform, glm::vec3(originalScale.x * scaleFactor.x, originalScale.y * scaleFactor.y, 1.0f));
             }
             else {
@@ -139,7 +139,7 @@ namespace my
             if (updateMatrix) {
                 model = glm::mat4(1.0f);
                 model = glm::translate(model, glm::vec3(position.x, position.y, 0.0f));
-                model = glm::rotate(model, glm::radians(static_cast<float>(rotationAngle)), glm::vec3(0.0f, 0.0f, 1.0f));
+                model = glm::rotate(model, glm::radians(rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
                 if (outlineThickness > 0) {
                     outlineModel = glm::scale(model, glm::vec3(static_cast<float>(outlineThickness) + originalScale.x * scaleFactor.x, static_cast<float>(outlineThickness) + originalScale.y * scaleFactor.y, 1.0f));
                 }

@@ -85,6 +85,10 @@ if(MYGL_SHARED)
     DEBUG_POSTFIX "d"
   )
 
+  target_compile_definitions(MyGL
+    PUBLIC GLAD_GLAPI_EXPORT
+    PRIVATE GLAD_GLAPI_EXPORT_BUILD)
+
   target_link_libraries(MyGL
     PUBLIC $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2>
     PUBLIC $<IF:$<TARGET_EXISTS:SDL2::SDL2main>,SDL2::SDL2main,SDL2main>

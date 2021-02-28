@@ -41,7 +41,7 @@ Font::Bitmap::Bitmap(unsigned int size, FT_Face& face) : m_textureId(0), m_realS
 
     for (unsigned char c = 0; c < 128; c++) {
         if (FT_Load_Char(face, c, FT_LOAD_RENDER)) {
-            std::cout << "ERROR::FREETYPE: failed to load char \'" << c << "\'(" << (int)c << ")" << std::endl;
+            std::cout << "ERROR::FREETYPE: failed to load char \'" << c << "\'(" << static_cast<int>(c) << ")" << std::endl;
             continue;
         }
         uint8_t* charData = face->glyph->bitmap.buffer;
@@ -85,12 +85,12 @@ Font::Bitmap::Bitmap(unsigned int size, FT_Face& face) : m_textureId(0), m_realS
         glBindVertexArray(m_alphabet[c].vao);
 
         glBindBuffer(GL_ARRAY_BUFFER, vertexVbo);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), reinterpret_cast<void*>(0));
         glEnableVertexAttribArray(0);
 
         glBindBuffer(GL_ARRAY_BUFFER, textureVbo);
         glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords.data(), GL_STATIC_DRAW);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), reinterpret_cast<void*>(0));
         glEnableVertexAttribArray(1);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);

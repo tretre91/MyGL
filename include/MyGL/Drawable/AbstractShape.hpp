@@ -28,7 +28,7 @@ namespace my
         glm::vec2 position;
         const glm::vec2 originalScale;
         glm::vec2 scaleFactor;
-        int rotationAngle;
+        float rotationAngle;
         bool updateMatrix;
         glm::mat4 model;
         my::Color color;
@@ -122,19 +122,19 @@ namespace my
          * @brief Sets the rotation applied to the Object
          * @param angle the angle (in degrees) of rotation
         */
-        void setRotation(int angle);
+        void setRotation(float angle);
 
         /**
          * @brief Rotates the object
          * @param angle The angle (in degrees) to add to the current angle of rotation
         */
-        void rotate(int angle);
+        void rotate(float angle);
 
         /**
          * @brief Gives the object's angle of rotation
          * @return The angle of the rotation currently applied to the object
         */
-        int getRotation() const;
+        float getRotation() const;
 
         /**
          * @brief Sets the object's color from its individual components (ints between 0 and 255)
