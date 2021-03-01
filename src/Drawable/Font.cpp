@@ -22,7 +22,6 @@ Font::Bitmap::Bitmap(unsigned int size, FT_Face& face) : m_textureId(0), m_realS
     m_realSize = static_cast<size_t>((face->size->metrics.ascender - face->size->metrics.descender) >> 6);
     const size_t baseline_pos = face->size->metrics.ascender >> 6;
     std::vector<uint8_t> bitmap(m_realSize * m_realSize * 128);
-    std::fill(bitmap.begin(), bitmap.end(), 0);
 
     const size_t width = 16;
     const size_t height = 8;
@@ -49,13 +48,15 @@ Font::Bitmap::Bitmap(unsigned int size, FT_Face& face) : m_textureId(0), m_realS
         size_t pixelCurrentHeight = currentHeight * m_realSize;
         size_t pixelCurrentWidth = currentWidth * m_realSize;
         size_t startHeight = pixelCurrentHeight + (baseline_pos - face->glyph->bitmap_top);
-        size_t startWidth = pixelCurrentWidth + face->glyph->bitmap_left;
+        size_t startWidth = face->glyph->bitmap_left < 0 ? pixelCurrentWidth : pixelCurrentWidth + face->glyph->bitmap_left;
 
         size_t j_bis = 0;
         for (size_t j = startHeight; j < startHeight + face->glyph->bitmap.rows; j++) {
             size_t i_bis = 0;
+            size_t bmp_row = j * realWidth;
+            size_t glyph_row = j_bis * face->glyph->bitmap.width;
             for (size_t i = startWidth; i < startWidth + face->glyph->bitmap.width; i++) {
-                bitmap[i + j * realWidth] = charData[i_bis + j_bis * face->glyph->bitmap.width];
+                bitmap[i + bmp_row] = charData[i_bis + glyph_row];
                 i_bis++;
             }
             j_bis++;
@@ -101,7 +102,7 @@ Font::Bitmap::Bitmap(unsigned int size, FT_Face& face) : m_textureId(0), m_realS
             currentHeight++;
         }
     }
-
+    
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -109,7 +110,7 @@ Font::Bitmap::Bitmap(unsigned int size, FT_Face& face) : m_textureId(0), m_realS
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glGenTextures(1, &m_textureId);
     glBindTexture(GL_TEXTURE_2D, m_textureId);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, realWidth, realHeight, 0, GL_RED, GL_UNSIGNED_BYTE, bitmap.data());
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, static_cast<int>(realWidth), static_cast<int>(realHeight), 0, GL_RED, GL_UNSIGNED_BYTE, bitmap.data());
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -141,7 +142,7 @@ std::vector<std::pair<int, int>> Font::Bitmap::computeGlyphsPos(const std::strin
         }
         else {
             pen_x = 0;
-            pen_y -= m_realSize;
+            pen_y -= static_cast<int>(m_realSize);
         }
     }
 

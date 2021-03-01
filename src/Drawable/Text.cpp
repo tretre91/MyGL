@@ -1,33 +1,28 @@
 #include <MyGL/Drawable/Text.hpp>
 using namespace my;
 
-const std::string Text::textVertexSource =
-"#version 330 core\n"
-"layout(location = 0) in vec3 aPos;\n"
-"layout(location = 1) in vec2 aTex\n;"
+const std::string Text::textVertexSource = "\
+#version 330 core\n\
+layout(location = 0) in vec3 aPos;\n\
+layout(location = 1) in vec2 aTex\n;\
+out vec2 texCoords;\n\
+uniform mat4 model;\n\
+uniform mat4 view;\n\
+uniform mat4 projection;\n\
+void main() {\n\
+    gl_Position = projection * view * model * vec4(aPos, 1.0);\n\
+    texCoords = aTex;\n\
+}";
 
-"out vec2 texCoords;\n"
-
-"uniform mat4 model;\n"
-"uniform mat4 view;\n"
-"uniform mat4 projection;\n"
-
-"void main() {\n"
-"    gl_Position = projection * view * model * vec4(aPos, 1.0);\n"
-"    texCoords = aTex;\n"
-"}";
-
-const std::string Text::textFragmentSource =
-"#version 330 core\n"
-"in vec2 texCoords;\n"
-"out vec4 color;\n"
-
-"uniform sampler2D tex;\n"
-"uniform vec3 textColor;\n"
-
-"void main() {\n"
-"    color = vec4(textColor, texture(tex, texCoords).r);\n"
-"}";
+const std::string Text::textFragmentSource = "\
+#version 330 core\n\
+in vec2 texCoords;\n\
+out vec4 color;\n\
+uniform sampler2D tex;\n\
+uniform vec3 textColor;\n\
+void main() {\n\
+    color = vec4(textColor, texture(tex, texCoords).r);\n\
+}";
 
 my::Shader Text::textShader = my::Shader();
 
