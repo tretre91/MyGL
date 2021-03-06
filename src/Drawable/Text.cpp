@@ -17,19 +17,23 @@ void main() {\n\
 const std::string Text::textFragmentSource = "\
 #version 330 core\n\
 in vec2 texCoords;\n\
-out vec4 color;\n\
+out vec4 FragColor;\n\
 uniform sampler2D tex;\n\
-uniform vec3 textColor;\n\
+uniform vec4 color;\n\
 void main() {\n\
-    color = vec4(textColor, texture(tex, texCoords).r);\n\
+    FragColor = vec4(color.rgb, texture(tex, texCoords).r);\n\
 }";
 
 my::Shader Text::textShader = my::Shader();
 
 Text::Text(const std::string& text, my::Font& font, unsigned int size) : m_text(text), m_size(size), m_fontScale(font.getScale(m_size)),
-m_bitmapTexId(font.getTextureId(m_size)), m_charPositions(font.getCharsPos(m_text, m_size)), m_alphabet(font.getAlphabet(m_size)), AbstractShape() {
-    if (!textShader.isUsable()) textShader = my::Shader(Text::textVertexSource, Text::textFragmentSource, false);
-    textShader.setInt("tex", 2);
+    m_bitmapTexId(font.getTextureId(m_size)), m_charPositions(font.getCharsPos(m_text, m_size)), m_alphabet(font.getAlphabet(m_size)), AbstractShape()
+{
+    if (!textShader.isUsable()) {
+        textShader = my::Shader(Text::textVertexSource, Text::textFragmentSource, false);
+        textShader.setInt("tex", 2);
+    }
+    m_originalScale = glm::vec2(m_fontScale, m_fontScale);
 }
 
 std::vector<glm::vec2> my::Text::points() const // TODO
@@ -48,7 +52,7 @@ void Text::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
     for (size_t i = 0; i < m_text.size(); i++) {
         if (m_text[i] == '\n') continue;
         m_model = glm::translate(glm::mat4(1.0f), glm::vec3(m_charPositions[i].first + m_position.x, m_charPositions[i].second + m_position.y, 0.0f));
-        m_model = glm::scale(m_model, glm::vec3(m_fontScale / 2.0f, m_fontScale / 2.0f, 1.0f));
+        m_model = glm::scale(m_model, glm::vec3(m_originalScale.x , m_originalScale.y, 1.0f));
         m_model = glm::rotate(m_model, 0.0f, glm::vec3(0.0f, 0.0f, 1.0f));
         textShader.setMat4("model", m_model);
 

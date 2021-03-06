@@ -250,22 +250,22 @@ bool Font::hasSize(unsigned int size) const {
 
 std::vector<std::pair<int, int>> Font::getCharsPos(const std::string& text, unsigned int size) {
     if (!hasSize(size)) createBitmap(size);
-    return m_sizes.find(size)->second.computeGlyphsPos(text);
+    return m_sizes[size].computeGlyphsPos(text);
 }
 
 std::vector<Font::Glyph>& Font::getAlphabet(unsigned int size) {
     if (!hasSize(size)) createBitmap(size);
-    return m_sizes.find(size)->second.getAlphabet();
+    return m_sizes[size].getAlphabet();
 }
 
 unsigned int Font::getScale(unsigned int size) {
     if (!hasSize(size)) createBitmap(size);
-    return m_sizes.find(size)->second.getRealSize();
+    return m_sizes[size].getRealSize();
 }
 
 unsigned int Font::getTextureId(unsigned int size) {
     if (!hasSize(size)) createBitmap(size);
-    return m_sizes.find(size)->second.getTextureId();
+    return m_sizes[size].getTextureId();
 }
 
 my::Texture Font::getStringTexture(const std::string& text, unsigned int size) {
