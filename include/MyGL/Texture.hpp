@@ -17,8 +17,8 @@ namespace my
         static std::map<unsigned int, unsigned int> instances;
 
         unsigned int m_textureId = 0;
-        int m_width = 0;
-        int m_height = 0;
+        unsigned int m_width = 0;
+        unsigned int m_height = 0;
 
     public:
         
@@ -35,6 +35,14 @@ namespace my
          * @param format Image format, if the source image contains an alpha channel the parameter 'GL_RGBA' should be used
         */
         Texture(const std::string& filename, GLenum format = GL_RGB);
+
+        /**
+         * @brief Cretes a texture from an existing opengl texture
+         * @param textureId The texture's id, created with glGenTextures
+         * @param width The texture's width in pixels
+         * @param height The texture's height in pixels
+        */
+        Texture(unsigned int textureId, unsigned int width, unsigned int height);
 
         ~Texture();
 
@@ -55,16 +63,22 @@ namespace my
         bool load(const std::string& filename, GLenum format = GL_RGB);
 
         /**
+         * @brief Return a texture's opengl id
+         * @return The texture's id 
+        */
+        unsigned int getId() const;
+
+        /**
          * @brief Gives the original width of the texture in pixels
          * @return The texture's width
         */
-        int getWidth() const;
+        unsigned int getWidth() const;
 
         /**
          * @brief Gives the original height of the texture in pixels
          * @return The texture's height
         */
-        int getHeight() const;
+        unsigned int getHeight() const;
 
         /**
          * @brief Binds this texture to GL_TEXTURE_2D	

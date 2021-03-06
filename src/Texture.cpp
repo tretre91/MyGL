@@ -9,6 +9,18 @@ Texture::Texture(const std::string& filename, GLenum format) : m_textureId(0) {
     }
 }
 
+Texture::Texture(unsigned int textureId, unsigned int width, unsigned int height) :
+    m_textureId(textureId), m_width(width), m_height(height) 
+{
+    if (m_textureId != 0) {
+        if (instances.find(m_textureId) == instances.end()) {
+            instances.insert({ m_textureId, 1 });
+        } else {
+            instances[m_textureId]++;
+        }
+    }
+}
+
 Texture::~Texture() {
     if (m_textureId != 0 && --instances[m_textureId] == 0) {
         glDeleteTextures(1, &m_textureId);
@@ -75,10 +87,10 @@ bool Texture::load(const std::string& filename, GLenum format) {
     uint8_t* data = stbi_load(filename.c_str(), &width, &height, &numberOfChannels, 0);
 
     if (data != NULL) {
-        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
         m_width = width;
-        m_height = width;
+        m_height = height;
+        glTexImage2D(GL_TEXTURE_2D, 0, format, m_width, m_height, 0, format, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
         instances.insert({ m_textureId, 1 });
         stbi_image_free(data);
         return true;
@@ -91,11 +103,15 @@ bool Texture::load(const std::string& filename, GLenum format) {
     }
 }
 
-int Texture::getWidth() const {
+unsigned int Texture::getId() const {
+    return m_textureId;
+}
+
+unsigned int Texture::getWidth() const {
     return m_width;
 }
 
-int Texture::getHeight() const {
+unsigned int Texture::getHeight() const {
     return m_height;
 }
 

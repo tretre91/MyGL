@@ -16,10 +16,24 @@ const std::array<unsigned int, 4> Font::Bitmap::rect_indices = {
     0, 1, 2, 3
 };
 
+void Font::Bitmap::addGlyph(FT_GlyphSlot& glyph, std::vector<uint8_t>& texture, size_t x, size_t y, size_t width) {
+    size_t j_glyph = 0;
+    for (size_t j = y - glyph->bitmap_top; j < y - glyph->bitmap_top + glyph->bitmap.rows; j++) {
+        size_t row = width * j;
+        size_t row_glyph = glyph->bitmap.width * (j_glyph);
+        size_t i_glyph = 0;
+        for (size_t i = x; i < x + glyph->bitmap.width; i++) {
+            texture[row + i] = glyph->bitmap.buffer[row_glyph + i_glyph];
+            i_glyph++;
+        }
+        j_glyph++;
+    }
+}
+
 Font::Bitmap::Bitmap(unsigned int size, FT_Face& face) : m_textureId(0), m_realSize(0), m_alphabet(128) {
     FT_Set_Pixel_Sizes(face, 0, size);
 
-    m_realSize = static_cast<size_t>((face->size->metrics.ascender - face->size->metrics.descender) >> 6);
+    m_realSize = static_cast<size_t>(face->size->metrics.height >> 6);
     const size_t baseline_pos = face->size->metrics.ascender >> 6;
     std::vector<uint8_t> bitmap(m_realSize * m_realSize * 128);
 
@@ -47,7 +61,7 @@ Font::Bitmap::Bitmap(unsigned int size, FT_Face& face) : m_textureId(0), m_realS
 
         size_t pixelCurrentHeight = currentHeight * m_realSize;
         size_t pixelCurrentWidth = currentWidth * m_realSize;
-        size_t startHeight = pixelCurrentHeight + (baseline_pos - face->glyph->bitmap_top);
+        size_t startHeight = pixelCurrentHeight + baseline_pos - face->glyph->bitmap_top;
         size_t startWidth = face->glyph->bitmap_left < 0 ? pixelCurrentWidth : pixelCurrentWidth + face->glyph->bitmap_left;
 
         size_t j_bis = 0;
@@ -110,7 +124,7 @@ Font::Bitmap::Bitmap(unsigned int size, FT_Face& face) : m_textureId(0), m_realS
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glGenTextures(1, &m_textureId);
     glBindTexture(GL_TEXTURE_2D, m_textureId);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, static_cast<int>(realWidth), static_cast<int>(realHeight), 0, GL_RED, GL_UNSIGNED_BYTE, bitmap.data());
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, static_cast<unsigned>(realWidth), static_cast<unsigned>(realHeight), 0, GL_RED, GL_UNSIGNED_BYTE, bitmap.data());
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -118,7 +132,50 @@ Font::Bitmap::Bitmap(unsigned int size, FT_Face& face) : m_textureId(0), m_realS
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
-std::vector<Font::Glyph>& my::Font::Bitmap::getAlphabet() {
+my::Texture Font::Bitmap::createStringTexture(const std::string& text, unsigned int size, FT_Face& face) {
+    FT_Set_Pixel_Sizes(face, 0, size);
+
+    std::vector<std::pair<int, int>> charPos;
+    charPos.reserve(text.size());
+
+    size_t width = 0;
+    int pen_x = 0, pen_y = -face->size->metrics.ascender >> 6;
+    for (auto c : text) {
+        charPos.push_back({ pen_x, pen_y });
+        if (c == '\n') {
+            if (pen_x > width) width = pen_x;
+            pen_x = 0;
+            pen_y -= static_cast<int>(m_realSize);
+        } else {
+            pen_x += m_alphabet[c].advance;
+        }
+    }
+    if (pen_x > width) width = pen_x;
+    size_t height = -(pen_y + (face->size->metrics.descender >> 6));
+
+    std::vector<uint8_t> texture(width * height);
+    for (size_t i = 0; i < text.size(); i++) {
+        if (text[i] != '\n') {
+            FT_Load_Char(face, text[i], FT_LOAD_RENDER);
+            addGlyph(face->glyph, texture, charPos[i].first, -charPos[i].second, width);
+        }
+    }
+
+    unsigned int texture_id;
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glGenTextures(1, &texture_id);
+    glBindTexture(GL_TEXTURE_2D, texture_id);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, static_cast<unsigned>(width), static_cast<unsigned>(height), 0, GL_RED, GL_UNSIGNED_BYTE, texture.data());
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    return Texture(texture_id, static_cast<unsigned>(width), static_cast<unsigned>(height));
+}
+
+std::vector<Font::Glyph>& Font::Bitmap::getAlphabet() {
     return m_alphabet;
 }
 
@@ -209,4 +266,9 @@ unsigned int Font::getScale(unsigned int size) {
 unsigned int Font::getTextureId(unsigned int size) {
     if (!hasSize(size)) createBitmap(size);
     return m_sizes.find(size)->second.getTextureId();
+}
+
+my::Texture Font::getStringTexture(const std::string& text, unsigned int size) {
+    if (!hasSize(size)) createBitmap(size);
+    return m_sizes[size].createStringTexture(text, size, m_face);
 }

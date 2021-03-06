@@ -236,6 +236,8 @@ bool AbstractShape::BBoxCollides(const AbstractShape& otherShape) const {
 
 void AbstractShape::setTexture(const my::Texture& texture) {
     this->m_texture = texture;
+    p_activeShader = &texShader;
+    m_isTextured = true;
 }
 
 void AbstractShape::setTexture(const std::string& filename, bool hasAlpha) {

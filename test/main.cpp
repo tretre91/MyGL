@@ -14,7 +14,7 @@ Uint32 framerateCallback(Uint32 interval, void* param) {
 int main(int argc, char* argv[]) {
     // initialization
     my::GLWindow window(800, 600, "OpenGL!", 8);
-    //window.setFramerate(0);
+    //window.setFramerate(75);
     /*******************************************************************************/
     window.enableVsync(false);
     my::Color test("29bc9c", 100);
@@ -53,9 +53,11 @@ int main(int argc, char* argv[]) {
 
     my::Font arial("@RESSOURCES_DIR@/Fonts/OpenSans-Regular.ttf");
     const unsigned int size = 60;
-    my::Text text("The .\\quick \"brown\" {fox} \n#jumps [over] the lazy dog!", arial, size);
+    my::ConstText text("The .\\quick \"brown\" {fox} \n#jumps [over] the lazy dog!", arial, size);
     text.setColor(my::Color::blue);
     text.setPosition(0, 60);
+    text.setOutlineThickness(5);
+    text.setOutlineColor(my::Color::red);
 
     bool up = false;
     bool down = false;
@@ -77,7 +79,7 @@ int main(int argc, char* argv[]) {
     bool running = true;
     my::Color clearColor(51, 72, 93);
 
-    my::Cam2D camera(0, 0);
+    my::Cam2D camera(-50, -250);
     camera.setSpeed(100.0f);
     window.setCamera(camera);
 

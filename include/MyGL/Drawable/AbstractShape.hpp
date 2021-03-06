@@ -25,7 +25,7 @@ namespace my
         static bool shaderIsUsable;
 
         glm::vec2 m_position;
-        const glm::vec2 m_originalScale;
+        glm::vec2 m_originalScale;
         glm::vec2 m_scaleFactor;
         float m_rotationAngle;
         bool m_updateMatrix;
