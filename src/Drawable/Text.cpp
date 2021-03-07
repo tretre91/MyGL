@@ -1,4 +1,4 @@
-#include <MyGL/Drawable/Text.hpp>
+#include <MyGL\Drawable\Text.hpp>
 using namespace my;
 
 const std::string Text::textVertexSource = "\
@@ -11,7 +11,7 @@ uniform mat4 view;\n\
 uniform mat4 projection;\n\
 void main() {\n\
     gl_Position = projection * view * model * vec4(aPos, 1.0);\n\
-    texCoords = aTex;\n\
+    texCoords = vec2(aTex.x, 1.0 - aTex.y);\n\
 }";
 
 const std::string Text::textFragmentSource = "\
@@ -26,37 +26,45 @@ void main() {\n\
 
 my::Shader Text::textShader = my::Shader();
 
-Text::Text(const std::string& text, my::Font& font, unsigned int size) : m_text(text), m_size(size), m_fontScale(font.getScale(m_size)),
-    m_bitmapTexId(font.getTextureId(m_size)), m_charPositions(font.getCharsPos(m_text, m_size)), m_alphabet(font.getAlphabet(m_size)), AbstractShape()
+my::Text::Text(const std::string& text, my::Font& font, unsigned int size) :
+    m_text(text), m_font(font), m_size(size)
 {
     if (!textShader.isUsable()) {
-        textShader = my::Shader(Text::textVertexSource, Text::textFragmentSource, false);
-        textShader.setInt("tex", 2);
+        textShader = my::Shader(textVertexSource, textFragmentSource, false);
+        textShader.setInt("tex", 3);
     }
-    m_originalScale = glm::vec2(m_fontScale, m_fontScale);
+    setColor(my::Color::black);
+    setTexture(font.getStringTexture(m_text, m_size));
+    m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
+    m_isTextured = true;
+    p_activeShader = &textShader;
 }
 
-std::vector<glm::vec2> my::Text::points() const // TODO
-{
-    return std::vector<glm::vec2>();
+void Text::setTexture(const my::Texture& texture) {
+    m_texture = texture;
 }
 
-void Text::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
-    textShader.setMat4("view", lookAt);
-    textShader.setMat4("projection", projection);
-    textShader.setFloat("color", m_color.getNormalized());
+void Text::setContent(const std::string& text) {
+    m_text = text;
+    setTexture(m_font.getStringTexture(m_text, m_size));
+    m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
+    setPosition(getPosition(), true);
+}
 
-    glActiveTexture(GL_TEXTURE2);
-    glBindTexture(GL_TEXTURE_2D, m_bitmapTexId);
+std::string Text::getContent() const {
+    return m_text;
+}
 
-    for (size_t i = 0; i < m_text.size(); i++) {
-        if (m_text[i] == '\n') continue;
-        m_model = glm::translate(glm::mat4(1.0f), glm::vec3(m_charPositions[i].first + m_position.x, m_charPositions[i].second + m_position.y, 0.0f));
-        m_model = glm::scale(m_model, glm::vec3(m_originalScale.x , m_originalScale.y, 1.0f));
-        m_model = glm::rotate(m_model, 0.0f, glm::vec3(0.0f, 0.0f, 1.0f));
-        textShader.setMat4("model", m_model);
+void Text::setFont(my::Font& font) {
+    m_font = font;
+    setTexture(m_font.getStringTexture(m_text, m_size));
+    m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
+    setPosition(getPosition(), true);
+}
 
-        glBindVertexArray(m_alphabet[m_text[i]].vao);
-        glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, 0);
-    }
+void Text::setFontSize(unsigned int size) {
+    m_size = size;
+    setTexture(m_font.getStringTexture(m_text, m_size));
+    m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
+    setPosition(getPosition(), true);
 }

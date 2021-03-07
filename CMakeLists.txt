@@ -28,7 +28,6 @@ set(PROJECT_SOURCES
   "src/Drawable/Font.cpp"
   "src/Drawable/Rectangle.cpp"
   "src/Drawable/Text.cpp"
-  "src/Drawable/ConstText.cpp"
   "src/Camera/Cam2D.cpp"
   #"src/Camera/Cam3D.cpp"
   "src/Camera/FixedCamera.cpp"

@@ -50,14 +50,18 @@ int main(int argc, char* argv[]) {
     anim.setTargetPosition(800.0f, 100.0f);
     anim.setSpeed(100.0f);
 
-
     my::Font arial("@RESSOURCES_DIR@/Fonts/OpenSans-Regular.ttf");
-    const unsigned int size = 60;
-    my::ConstText text("The .\\quick \"brown\" {fox} \n#jumps [over] the lazy dog!", arial, size);
-    text.setColor(my::Color::blue);
+    my::Text text("The .\\quick \"brown\" {fox} \n#jumps [over] the lazy dog!", arial, 60);
+    text.setColor(my::Color::black);
     text.setPosition(0, 60);
     text.setOutlineThickness(5);
     text.setOutlineColor(my::Color::red);
+
+    std::string pangram1 = "The quick brown fox jumps over the lazy dog.";
+    std::string pangram2 = "The five boxing wizards jump quickly.";
+    my::Text text2(pangram1, arial, 30);
+    text2.setColor(my::Color::green);
+    text2.setPosition(0, -100);
 
     bool up = false;
     bool down = false;
@@ -79,7 +83,7 @@ int main(int argc, char* argv[]) {
     bool running = true;
     my::Color clearColor(51, 72, 93);
 
-    my::Cam2D camera(-50, -250);
+    my::Cam2D camera(0, -250);
     camera.setSpeed(100.0f);
     window.setCamera(camera);
 
@@ -182,6 +186,11 @@ int main(int argc, char* argv[]) {
                     anim.reset();
                     break;
 
+                case SDLK_c:
+                    if (text2.getContent() == pangram1) text2.setContent(pangram2);
+                    else text2.setContent(pangram1);
+                    break;
+
                 default:
                     break;
                 }
@@ -231,6 +240,7 @@ int main(int argc, char* argv[]) {
         window.draw(anim);
         window.draw(ligne);
         window.draw(text);
+        window.draw(text2);
         window.draw(blue);
 
         window.display();

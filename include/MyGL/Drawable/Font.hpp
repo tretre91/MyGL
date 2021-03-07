@@ -9,10 +9,7 @@
 #include FT_FREETYPE_H
 
 #include <vector>
-#include <array>
-#include <map>
 #include <iostream>
-#include <algorithm>
 
 namespace my
 {
@@ -21,70 +18,21 @@ namespace my
     */
     class MYGL_EXPORT Font {
     private:
-        /**
-         * @brief Contains useful informations about a the representation of a glyph in a bitmap
-        */
-        struct Glyph {
-            float texTop;
-            float texBot;
-            float texLeft;
-            float texRight;
-            int advance;
-            unsigned int vao;
-        };
-
-        class Bitmap;
 
         static FT_Library ftLib;
         static unsigned int instancesCount;
         FT_Face m_face;
-        std::map<unsigned int, Bitmap> m_sizes;
 
         /**
-         * @brief Creates a Bitmap for a given pixel character size
-         * @param size The desired size
+         * @brief Helper method for getStringTexture()
+         * @param glyph A glyph slot containing the bitmap we want to copy (it
+         *        should be loaded with the FT_LOAD_RENDER flag)
+         * @param texture The vector we want to twrite to
+         * @param x The x coord of thetop left hand corner of the zone we wil copy the bitmap to
+         * @param y The y coord of thetop left hand corner of the zone we wil copy the bitmap to
+         * @param width The final texture's width
         */
-        void createBitmap(unsigned int size);
-
-        /**
-         * @brief Checks if this font already has a bitmap conresponding to a size
-         * @param size The size we want to check
-         * @return true if a bitmap with this character size has already been created
-        */
-        bool hasSize(unsigned int size) const;
-
-        /**
-         * @brief Compute the positions relative to the origin (0, 0) of all the characters of a string which
-         *		  would be rendered using this bitmap.
-         *		  If the desired character size does not already have a bitmap, one is created
-         * @param text text The content of the string which will be rendered
-         * @param size the Strings character size
-         * @return A vector of positions, the nth position corresponding to the relative coordinates of the nth
-         *		   character of the string
-        */
-        std::vector<std::pair<int, int>> getCharsPos(const std::string& text, unsigned int size);
-
-        /**
-         * @brief Gives a reference to a list of Glyph
-         * @param size The desired size
-         * @return A reference to a vector conatining the all the Glyphs of the
-         *		   Bitmap corresponding to this character size
-        */
-        std::vector<Glyph>& getAlphabet(unsigned int size);
-
-        /**
-         * @brief Indicates the scale to apply to a glyph of a bitmap to
-         * @param size The desired character size
-         * @return The scale factor we would have to apply to a glyph to give it its real size
-        */
-        unsigned int getScale(unsigned int size);
-
-        /**
-         * @brief Retrieves the texture ID of a bitmap
-         * @param size The desired character size
-         * @return The texture ID of the bitmap corresponding to the given character size
-        */
-        unsigned int getTextureId(unsigned int size);
+        void addGlyph(FT_GlyphSlot& glyph, std::vector<uint8_t>& texture, size_t x, size_t y, size_t width);
 
         /**
          * @brief Creates a texture containing a string
@@ -118,73 +66,6 @@ namespace my
         ~Font();
 
         friend class Text;
-        friend class ConstText;
-    };
-
-
-    /**
-     * @brief Class for storing a bitmap (a texture which contains all characters of a font)
-    */
-    class Font::Bitmap {
-    private:
-        static const std::array<float, 12> rect_vertices;
-        static const std::array<unsigned int, 4> rect_indices;
-
-        unsigned int m_textureId = 0;
-        size_t m_realSize = 0;
-        std::vector<Glyph> m_alphabet;
-
-        void addGlyph(FT_GlyphSlot& glyph, std::vector<uint8_t>& texture, size_t x, size_t y, size_t width);
-
-    public:
-        /**
-         * @brief Default constructor, doesn't initialize the Bitmap!!
-        */
-        Bitmap() = default;
-
-        /**
-         * @brief Creates a bitmap with characters of a given font size
-         * @param size The (pixel) font size used to generate the glyphs
-         * @param face The face provided by a my::Font
-        */
-        Bitmap(unsigned int size, FT_Face& face);
-
-        /**
-         * @brief Creates a texture containing a given string
-         * @param text The desired text
-         * @param size The (pixel) font size used to generate the glyphs
-         * @param face The font face provided by a my::Font
-         * @return A my::Texture containing the given string
-        */
-        my::Texture createStringTexture(const std::string& text, unsigned int size, FT_Face& face);
-
-        /**
-         * @brief Returns a reference to the list of Glyphs of this bitmap
-         * @return a reference to a vector of Glyph
-        */
-        std::vector<Glyph>& getAlphabet();
-
-        /**
-         * @brief Indicates the size of the squares containing each character
-         * @return The size in pixels of the square conatining a glyph in the texture
-        */
-        unsigned int getRealSize() const;
-
-        /**
-         * @brief
-         * @return The bitmap's texture ID
-        */
-        unsigned int getTextureId() const;
-
-        /**
-         * @brief Compute the positions relative to the origin (0, 0) of all the characters of a string which
-         *		  would be rendered using this bitmap
-         * @param text The content of the string which will be rendered
-         * @return A vector of positions, the nth position corresponding to the relative coordinates of the nth
-         *		   character of the string
-        */
-        std::vector<std::pair<int, int>> computeGlyphsPos(const std::string& text) const;
-
     };
 
 }

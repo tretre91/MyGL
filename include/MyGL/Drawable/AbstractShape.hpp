@@ -201,7 +201,7 @@ namespace my
          * @brief Attaches a texture to the shape
          * @param texture A texture that has already been initialized
         */
-        void setTexture(const my::Texture& texture);
+        virtual void setTexture(const my::Texture& texture);
 
         /**
          * @brief Attach a texture to the shape
