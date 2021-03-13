@@ -35,7 +35,12 @@ Font::Font(const std::string& fontFilename) : Font() {
 
 bool Font::load(const std::string& fontFilename) {
     FT_Done_Face(m_face);
-    return FT_New_Face(ftLib, fontFilename.c_str(), 0, &m_face) == 0;
+    if (FT_New_Face(ftLib, fontFilename.c_str(), 0, &m_face)
+        || FT_Select_Charmap(m_face, FT_ENCODING_UNICODE))
+    {
+        return false;
+    }
+    return true;
 }
 
 Font::~Font() {
@@ -44,7 +49,7 @@ Font::~Font() {
     if (instancesCount == 0) FT_Done_FreeType(ftLib);
 }
 
-my::Texture Font::getStringTexture(const std::string& text, unsigned int size) {
+my::Texture Font::getStringTexture(const std::u32string& text, unsigned int size) {
     FT_Set_Pixel_Sizes(m_face, 0, size);
 
     std::vector<std::pair<int, int>> charPos;
@@ -54,7 +59,10 @@ my::Texture Font::getStringTexture(const std::string& text, unsigned int size) {
     size_t trueSize = m_face->size->metrics.height >> 6;
     int pen_x = 0, pen_y = -m_face->size->metrics.ascender >> 6;
     for (auto c : text) {
-        FT_Load_Char(m_face, c, FT_LOAD_ADVANCE_ONLY);
+        if (FT_Load_Char(m_face, c, FT_LOAD_ADVANCE_ONLY)) {
+            std::wcerr << "ERROR::FREETYPE: Couldn't load char" << c << std::endl;
+            continue;
+        }
         charPos.push_back({ pen_x, pen_y });
         if (c == '\n') {
             if (pen_x > width) width = pen_x;
@@ -65,12 +73,15 @@ my::Texture Font::getStringTexture(const std::string& text, unsigned int size) {
         }
     }
     if (pen_x > width) width = pen_x;
-    size_t height = -(pen_y + (m_face->size->metrics.descender >> 6));
+    size_t height = static_cast<size_t>(-(pen_y + (m_face->size->metrics.descender >> 6))) + 10;
 
     std::vector<uint8_t> texture(width * height);
     for (size_t i = 0; i < text.size(); i++) {
         if (text[i] != '\n') {
-            FT_Load_Char(m_face, text[i], FT_LOAD_RENDER);
+            if (FT_Load_Char(m_face, text[i], FT_LOAD_RENDER)) {
+                std::wcerr << "ERROR::FREETYPE: Couldn't load char" << text[i] << std::endl;
+                continue;
+            }
             addGlyph(m_face->glyph, texture, charPos[i].first, -charPos[i].second, width);
         }
     }

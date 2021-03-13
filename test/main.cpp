@@ -13,8 +13,8 @@ Uint32 framerateCallback(Uint32 interval, void* param) {
 
 int main(int argc, char* argv[]) {
     // initialization
-    my::GLWindow window(800, 600, "OpenGL!", 8);
-    //window.setFramerate(75);
+    my::GLWindow window(800, 600, "OpenGL!", 2);
+    window.setFramerate(0);
     /*******************************************************************************/
     window.enableVsync(false);
     my::Color test("29bc9c", 100);
@@ -50,18 +50,27 @@ int main(int argc, char* argv[]) {
     anim.setTargetPosition(800.0f, 100.0f);
     anim.setSpeed(100.0f);
 
-    my::Font arial("@RESSOURCES_DIR@/Fonts/OpenSans-Regular.ttf");
-    my::Text text("The .\\quick \"brown\" {fox} \n#jumps [over] the lazy dog!", arial, 60);
-    text.setColor(my::Color::black);
+    my::Font openSans("@RESSOURCES_DIR@/Fonts/OpenSans-Regular.ttf");
+    my::Text text("The .\\quick \"brown\" {fox} \n#jumps [over] the lazy dog!", openSans, 60);
     text.setPosition(0, 60);
     text.setOutlineThickness(5);
     text.setOutlineColor(my::Color::red);
 
-    std::string pangram1 = "The quick brown fox jumps over the lazy dog.";
-    std::string pangram2 = "The five boxing wizards jump quickly.";
-    my::Text text2(pangram1, arial, 30);
+    my::Text textw(L"¡olé\u0127", openSans, 60);
+    textw.setPosition(100, -100);
+
+    my::Font sourceSans("@RESSOURCES_DIR@/Fonts/SourceSans3-Regular.ttf");
+    std::u32string pangram1 = U"The quick brown fox jumps over the lazy dog.";
+    std::u32string pangram2 = U"\U00002211\u2212\U00002213\u0192\U0001F921\u1E72(x)";
+    my::Text text2(pangram1, sourceSans, 30);
     text2.setColor(my::Color::green);
-    text2.setPosition(0, -100);
+    text2.setPosition(400, -100);
+
+    my::Font latinModernMath("@RESSOURCES_DIR@/Fonts/latinmodern-math.otf");
+    std::u32string str = U"\u211D\u21D4\n";
+    my::Text text3(str, latinModernMath, 30);
+    text3.setPosition(0, -150);
+    text3.setColor(my::Color("936D68"));
 
     bool up = false;
     bool down = false;
@@ -187,7 +196,7 @@ int main(int argc, char* argv[]) {
                     break;
 
                 case SDLK_c:
-                    if (text2.getContent() == pangram1) text2.setContent(pangram2);
+                    if (text2.getU32String() == pangram1) text2.setContent(pangram2);
                     else text2.setContent(pangram1);
                     break;
 
@@ -240,7 +249,9 @@ int main(int argc, char* argv[]) {
         window.draw(anim);
         window.draw(ligne);
         window.draw(text);
+        window.draw(textw);
         window.draw(text2);
+        window.draw(text3);
         window.draw(blue);
 
         window.display();

@@ -7,8 +7,8 @@ unsigned int GLWindow::instancesCount = 0;
 GLWindow::GLWindow() : GLWindow(800, 600, "Default") {}
 
 GLWindow::GLWindow(int width, int height, const std::string& title, unsigned short aa) : 
-m_projection(glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), 0.1f, 10.0f)),
-p_camera(nullptr), p_window(nullptr), m_glContext(), m_frametime(1.0f), m_tickCount(0), m_frameDelay(0)
+    m_projection(glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), 0.1f, 10.0f)),
+    p_camera(nullptr), p_window(nullptr), m_glContext(), m_frametime(1.0f), m_tickCount(0), m_frameDelay(0)
 {
     if (instancesCount == 0) {
         if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
@@ -37,7 +37,7 @@ p_camera(nullptr), p_window(nullptr), m_glContext(), m_frametime(1.0f), m_tickCo
         title.c_str(),
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
-        800, 600,
+        width, height,
         SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN
     );
 

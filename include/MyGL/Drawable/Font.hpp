@@ -40,7 +40,7 @@ namespace my
          * @param size The font size
          * @return A texture containing the specified text
         */
-        my::Texture getStringTexture(const std::string& text, unsigned int size);
+        my::Texture getStringTexture(const std::u32string& text, unsigned int size);
 
     public:
         /**
