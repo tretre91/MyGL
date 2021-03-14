@@ -6,11 +6,13 @@ unsigned int Font::instancesCount = 0;
 
 void Font::addGlyph(FT_GlyphSlot& glyph, std::vector<uint8_t>& texture, size_t x, size_t y, size_t width) {
     size_t j_glyph = 0;
-    for (size_t j = y - glyph->bitmap_top; j < y - glyph->bitmap_top + glyph->bitmap.rows; j++) {
+    size_t left = x + glyph->bitmap_left;
+    size_t top = y - glyph->bitmap_top;
+    for (size_t j = top; j < top + glyph->bitmap.rows; j++) {
         size_t row = width * j;
         size_t row_glyph = glyph->bitmap.width * (j_glyph);
         size_t i_glyph = 0;
-        for (size_t i = x; i < x + glyph->bitmap.width; i++) {
+        for (size_t i = left; i < left + glyph->bitmap.width; i++) {
             texture[row + i] = glyph->bitmap.buffer[row_glyph + i_glyph];
             i_glyph++;
         }
@@ -29,7 +31,7 @@ Font::Font() : m_face() {
 
 Font::Font(const std::string& fontFilename) : Font() {
     if (!load(fontFilename)) {
-        std::cerr << "ERROR::FREETYPE : Could not load font \"" << fontFilename << "\"" << std::endl;
+        std::cerr << "ERROR::FREETYPE: Could not load font \"" << fontFilename << "\"" << std::endl;
     }
 }
 
@@ -58,13 +60,14 @@ my::Texture Font::getStringTexture(const std::u32string& text, unsigned int size
     size_t width = 0;
     size_t trueSize = m_face->size->metrics.height >> 6;
     int pen_x = 0, pen_y = -m_face->size->metrics.ascender >> 6;
+
     for (auto c : text) {
-        if (FT_Load_Char(m_face, c, FT_LOAD_ADVANCE_ONLY)) {
+        if (FT_Load_Char(m_face, c, FT_LOAD_BITMAP_METRICS_ONLY)) {
             std::wcerr << "ERROR::FREETYPE: Couldn't load char" << c << std::endl;
             continue;
         }
         charPos.push_back({ pen_x, pen_y });
-        if (c == '\n') {
+        if (c == U'\n') {
             if (pen_x > width) width = pen_x;
             pen_x = 0;
             pen_y -= static_cast<int>(trueSize);
@@ -77,7 +80,7 @@ my::Texture Font::getStringTexture(const std::u32string& text, unsigned int size
 
     std::vector<uint8_t> texture(width * height);
     for (size_t i = 0; i < text.size(); i++) {
-        if (text[i] != '\n') {
+        if (text[i] != U'\n') {
             if (FT_Load_Char(m_face, text[i], FT_LOAD_RENDER)) {
                 std::wcerr << "ERROR::FREETYPE: Couldn't load char" << text[i] << std::endl;
                 continue;
