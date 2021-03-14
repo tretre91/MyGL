@@ -60,6 +60,9 @@ my::Texture Font::getStringTexture(const std::u32string& text, unsigned int size
     size_t width = 0;
     size_t trueSize = m_face->size->metrics.height >> 6;
     int pen_x = 0, pen_y = -m_face->size->metrics.ascender >> 6;
+    FT_UInt prevGlyphIndex = 0;
+    FT_Vector kernDelta;
+    const bool hasKerning = FT_HAS_KERNING(m_face);
 
     for (auto c : text) {
         if (FT_Load_Char(m_face, c, FT_LOAD_BITMAP_METRICS_ONLY)) {
@@ -72,8 +75,13 @@ my::Texture Font::getStringTexture(const std::u32string& text, unsigned int size
             pen_x = 0;
             pen_y -= static_cast<int>(trueSize);
         } else {
+            if (hasKerning && prevGlyphIndex && m_face->glyph->glyph_index) {
+                FT_Get_Kerning(m_face, prevGlyphIndex, m_face->glyph->glyph_index, FT_KERNING_DEFAULT, &kernDelta);
+                pen_x += kernDelta.x >> 6;
+            }
             pen_x += m_face->glyph->advance.x >> 6;
         }
+        prevGlyphIndex = m_face->glyph->glyph_index;
     }
     if (pen_x > width) width = pen_x;
     size_t height = static_cast<size_t>(-(pen_y + (m_face->size->metrics.descender >> 6))) + 10;
