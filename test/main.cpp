@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
     text.setOutlineThickness(5);
     text.setOutlineColor(my::Color::red);
 
-    my::Text textw(L"¡oAVlé\u0127", openSans, 60);
+    my::Text textw(L"oAVl\u0127", openSans, 60);
     textw.setPosition(100, -100);
 
     my::Font sourceSans("@RESSOURCES_DIR@/Fonts/SourceSans3-Regular.ttf");

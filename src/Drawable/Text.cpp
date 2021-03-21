@@ -1,4 +1,4 @@
-#include <MyGL\Drawable\Text.hpp>
+#include <MyGL/Drawable/Text.hpp>
 using namespace my;
 
 const std::string Text::textVertexSource = "\
