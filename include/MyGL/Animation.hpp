@@ -1,8 +1,10 @@
 #ifndef MY_ANIMATION
 #define MY_ANIMATION
 
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+
 #include "Drawable/AbstractShape.hpp"
-#include <SDL.h>
 
 namespace my
 {
@@ -16,7 +18,7 @@ namespace my
         glm::vec2 m_originalPos;
         glm::vec2 m_targetPos;
         glm::vec2 m_positionStep;
-        float m_frametime;
+        double m_frametime;
         AbstractShape* p_shape;
         bool m_running;
 

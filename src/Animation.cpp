@@ -3,7 +3,7 @@
 using namespace my;
 
 Animation::Animation() : m_duration(1.0f), m_originalPos(0.0f, 0.0f), m_targetPos(0.0f, 0.0f),
-    m_positionStep(0.0f, 0.0f), m_frametime(0.0f), p_shape(nullptr), m_running(false)
+    m_positionStep(0.0f, 0.0f), m_frametime(0.0), p_shape(nullptr), m_running(false)
 {}
 
 Animation::Animation(AbstractShape& shape) : Animation(shape, 1.0f, 0.0f, 0.0f) {}
@@ -34,7 +34,7 @@ Animation& Animation::operator=(const Animation& anim) {
 void Animation::start() {
     if (!m_running) {
         m_running = true;
-        m_frametime = SDL_GetTicks() / 1000.0f;
+        m_frametime = glfwGetTime();
     }
 }
 
@@ -73,10 +73,9 @@ bool Animation::isOver() const {
 
 void Animation::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
     if (m_running) {
-        float nbOfTicks = SDL_GetTicks() / 1000.0f;
-        m_frametime = nbOfTicks - m_frametime;
+        m_frametime = glfwGetTime() - m_frametime;
         p_shape->move(m_positionStep.x * m_frametime, m_positionStep.y * m_frametime);
-        m_frametime = nbOfTicks;
+        m_frametime = glfwGetTime();
         if (glm::distance(m_targetPos, p_shape->getPosition()) < 1.0f) m_running = false;
     }
     p_shape->draw(lookAt, projection);

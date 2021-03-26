@@ -4,64 +4,57 @@ using namespace my;
 bool GLWindow::gladIsInitialized = false;
 unsigned int GLWindow::instancesCount = 0;
 
+void GLWindow::myglErrorCallback(int error, const char* description) {
+    std::cerr << "ERROR::GLFW: " << description;
+    std::cerr.flush();
+}
+
+void GLWindow::myglFramebufferSizeCallback(GLFWwindow* window, int width, int height) {
+    //glfwMakeContextCurrent(window);
+    glViewport(0, 0, width, height);
+}
+
 GLWindow::GLWindow() : GLWindow(800, 600, "Default") {}
 
 GLWindow::GLWindow(int width, int height, const std::string& title, unsigned short aa) : 
     m_projection(glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), 0.1f, 10.0f)),
-    p_camera(nullptr), p_window(nullptr), m_glContext(), m_frametime(1.0f), m_tickCount(0), m_frameDelay(0)
+    p_camera(nullptr), p_window(nullptr), m_frametime(1.0), m_chrono{}, m_frameDelay(my::seconds::zero())
 {
-    if (instancesCount == 0) {
-        if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
-            std::cerr << "ERROR::SDL2: Failed to initialize Video module" << std::endl;
+    if (instancesCount++ == 0) {
+        glfwSetErrorCallback(my::GLWindow::myglErrorCallback);
+        if (!glfwInit()) {
+            std::cerr << "ERROR::GLFW: Failed to initialize Video module" << std::endl;
             exit(EXIT_FAILURE);
         }
-        SDL_GL_LoadLibrary(NULL);
-    }
-    instancesCount++;
-
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-    SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 1);
-    
-    if(aa) {
-        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
-        if(aa < 2) aa = 1;
-        else if(aa < 4) aa = 2;
-        else if(aa < 8) aa = 4;
-        else aa = 8;
-        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, aa);
     }
 
-    p_window = SDL_CreateWindow(
-        title.c_str(),
-        SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED,
-        width, height,
-        SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN
-    );
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    p_window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
 
     if (p_window == nullptr) {
-        std::cerr << "ERROR::SDL: Failed to create a window" << std::endl;
+        std::cerr << "ERROR::GLFW: Failed to create a window" << std::endl;
         exit(EXIT_FAILURE);
     }
 
-    m_glContext = SDL_GL_CreateContext(p_window);
-
+    glfwMakeContextCurrent(p_window);
     if (!gladIsInitialized) {
-        //SDL_SetMainReady();
-        if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress) || !initGlad()) {
+        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress) || !initGlad()) {
             std::cout << "ERROR::GLAD: Failed to initialize GLAD" << std::endl;
-            SDL_GL_DeleteContext(m_glContext);
-            SDL_DestroyWindow(p_window);
-            SDL_Quit();
+            glfwDestroyWindow(p_window);
+            glfwTerminate();
             exit(EXIT_FAILURE);
         }
         gladIsInitialized = true;
     }
 
-    SDL_GL_SetSwapInterval(0);
-    m_tickCount = SDL_GetTicks();
+    glfwSetFramebufferSizeCallback(p_window, myglFramebufferSizeCallback);
+
+    glfwSwapInterval(0);
+    m_chrono = std::chrono::high_resolution_clock::now();
 
     glViewport(0, 0, width, height);
     glEnable(GL_DEPTH_TEST);
@@ -75,31 +68,42 @@ GLWindow::GLWindow(int width, int height, const std::string& title, unsigned sho
 
 GLWindow::~GLWindow() {
     instancesCount--;
-    SDL_GL_DeleteContext(m_glContext);
-    SDL_DestroyWindow(p_window);
     if (instancesCount == 0) {
-        SDL_Quit();
+        glfwTerminate();
     }
 }
 
-bool GLWindow::setActive(bool activate) {
-    if (SDL_GL_MakeCurrent(p_window, m_glContext)) {
-        // TODO
+bool GLWindow::isRunning() {
+    if (p_window == nullptr) {
         return false;
+    } else if (glfwWindowShouldClose(p_window)) {
+        glfwDestroyWindow(p_window);
+        return false;
+    } else {
+        return true;
     }
-    return true;
+}
+
+void GLWindow::close() {
+    glfwSetWindowShouldClose(p_window, true);
+}
+
+void GLWindow::setActive() {
+    glfwMakeContextCurrent(p_window);
 }
 
 void GLWindow::setFramerate(unsigned int limit) {
-    m_frameDelay = limit == 0 ? 0 : 1000 / limit;
+    enableVsync(false);
+    m_frameDelay = limit > 0 ? my::seconds(1.0 / limit) : my::seconds::zero();
 }
 
 void GLWindow::enableVsync(bool enable) {
-    if(enable) {
-        if(SDL_GL_SetSwapInterval(-1) == -1) SDL_GL_SetSwapInterval(1);
-        m_frameDelay = 0;
+    setActive();
+    if (enable) {
+        glfwSwapInterval(1);
+        m_frameDelay = my::seconds::zero();
     } else {
-        SDL_GL_SetSwapInterval(0);
+        glfwSwapInterval(0);
     }
 }
 
@@ -127,18 +131,21 @@ void my::GLWindow::draw(my::Animation& anim) {
 }
 
 void GLWindow::display() const {
-    SDL_GL_SwapWindow(p_window);
-    Uint32 tmp = SDL_GetTicks() - m_tickCount;
-    if(tmp < m_frameDelay) SDL_Delay(m_frameDelay - tmp);
-    tmp = SDL_GetTicks();
-    m_frametime = (tmp - m_tickCount) / 1000.0f;
-    m_tickCount = tmp;
+    glfwSwapBuffers(p_window);
+    auto temp = std::chrono::high_resolution_clock::now();
+    auto elapsed = temp - m_chrono;
+    if (elapsed < m_frameDelay) {
+        std::this_thread::sleep_for(m_frameDelay - elapsed);
+    }
+    temp = std::chrono::high_resolution_clock::now();
+    m_frametime = temp - m_chrono;
+    m_chrono = temp;
 }
 
-float GLWindow::getFrametime() const {
-    return m_frametime;
+double GLWindow::getFrametime() const {
+    return m_frametime.count();
 }
 
 void* GLWindow::getGLProcAdress(const char* name) {
-    return (void*)SDL_GL_GetProcAddress(name);
+    return (void*)glfwGetProcAddress(name);
 }

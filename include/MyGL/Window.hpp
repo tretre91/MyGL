@@ -3,16 +3,22 @@
 
 #include "mygl_export.h"
 
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
 #include <glad/glad.h>
-#include <SDL.h>
 
 #include "Color.hpp"
 #include "Animation.hpp"
 #include "Drawable/AbstractShape.hpp"
 #include "Camera/FixedCamera.hpp"
 
+#include <thread>
+#include <chrono>
+
 namespace my
 {
+    using seconds = std::chrono::duration<double, std::ratio<1>>;
+    
     /**
      * @brief Class for creating a Window
     */
@@ -22,19 +28,34 @@ namespace my
         static unsigned int instancesCount;
         glm::mat4 m_projection;
         my::FixedCamera* p_camera;
-        SDL_Window* p_window;
-        SDL_GLContext m_glContext;
-        mutable float m_frametime;
-        mutable Uint32 m_tickCount;
-        Uint32 m_frameDelay;
+    public : GLFWwindow* p_window;
+    private:
+        my::seconds m_frameDelay;
+        mutable my::seconds m_frametime;
+        mutable std::chrono::time_point<std::chrono::high_resolution_clock> m_chrono;
 
         /**
          * @brief Initializes glad from outside of the DLL
          * @return true if the initialization was successful
         */
         inline bool initGlad() {
-            return gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress);
+            return gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
         }
+
+        /**
+         * @brief Error callback for GLFW errors
+         * @param error The error code
+         * @param description The error description
+        */
+        static void myglErrorCallback(int error, const char* description);
+
+        /**
+         * @brief TODO
+         * @param window 
+         * @param width 
+         * @param height 
+        */
+        static void myglFramebufferSizeCallback(GLFWwindow* window, int width, int height);
 
     public:
         /**
@@ -56,7 +77,26 @@ namespace my
 
         ~GLWindow();
 
-        bool setActive(bool activate);
+        /**
+         * @brief Tells wheter a window is opened or closed
+         * 
+         * If the user tried to close the window (clicking the closing button or
+         * pressing Alt + f4 for example), a call to this method will close the window
+         * and return false
+         * 
+         * @return true if the window is opened
+        */
+        bool isRunning();
+
+        /**
+         * @brief Closes a window
+        */
+        void close();
+
+        /**
+         * @brief Sets window's OpenGL context current
+        */
+        void setActive();
 
         /**
          * @brief Limit the window's framerate at the specified value, a call
@@ -66,9 +106,8 @@ namespace my
         void setFramerate(unsigned int limit);
 
         /**
-         * @brief Enable or disable vsync, this function will try to use adaptative
-         *        sync if avalaible, and default to vsync if not. A call to this method
-         *        will override the framerate limit if previously set
+         * @brief Enable or disable vsync, enabling vsync will override the framerate
+         *        limit if it was previously set
          * @param enable True to enable vsync, false to disable it
         */
         void enableVsync(bool enable);
@@ -113,7 +152,7 @@ namespace my
          * @brief Indicates the time that the last frame took to render 
          * @return The window's frametime in seconds
         */ 
-        float getFrametime() const;
+        double getFrametime() const;
 
         static void* getGLProcAdress(const char* name);
     };

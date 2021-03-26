@@ -1,23 +1,25 @@
+find_package(GLFW3 CONFIG)
 
-find_package(SDL2 CONFIG)
-
-if(NOT SDL2_INCLUDE_DIRS)
-  message(STATUS "Unable to find SDL2, building it")
-  message(STATUS "Downloading SDL2's sources")
+if(NOT GLFW3_INCLUDE_DIR)
+  message(STATUS "Unable to find GLFW3, building it")
+  message(STATUS "Downloading GLFW3's sources")
   execute_process(
-    COMMAND git submodule update --init -- SDL/
+    COMMAND git submodule update --init -- glfw/
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
   )
   message(STATUS "Download complete")
-  set(SDL2_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/SDL/include")
-  set(USE_OWN_SDL2 True CACHE BOOL "Tells if the submodule SDL2 should be used (if no valid SDL2 has been found on this system)")
-elseif(NOT EXISTS USE_OWN_SDL2)
-  set(USE_OWN_SDL2 False CACHE BOOL "Tells if the submodule SDL2 should be used (if no valid SDL2 has been found on this system)")
+  set(GLFW3_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/glfw/include")
+  set(USE_OWN_GLFW3 True CACHE BOOL "Tells if the submodule GLFW3 should be used (if no valid GLFW3 has been found on this system)")
+  set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+  set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+  set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+elseif(NOT EXISTS USE_OWN_GLFW3)
+  set(USE_OWN_GLFW3 False CACHE BOOL "Tells if the submodule GLFW3 should be used (if no valid GLFW3 has been found on this system)")
 endif()
 
-set(SDL2_INCLUDE_DIRS ${SDL2_INCLUDE_DIRS} CACHE PATH "Path to SDL2 headers")
-if(USE_OWN_SDL2)
-  add_subdirectory(SDL)
+set(GLFW3_INCLUDE_DIR ${SDL2_INCLUDE_DIRS} CACHE PATH "Path to GLFW3 headers")
+if(USE_OWN_GLFW3)
+  add_subdirectory(glfw)
 endif()
 
 
