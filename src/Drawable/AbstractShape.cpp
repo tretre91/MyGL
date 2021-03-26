@@ -143,10 +143,10 @@ float AbstractShape::getRotation() const {
 
 
 void AbstractShape::setColor(int r, int g, int b, int alpha) {
-    r = r < 0 ? 0 : r % 255;
-    g = g < 0 ? 0 : g % 255;
-    b = b < 0 ? 0 : b % 255;
-    alpha = alpha < 0 ? 0 : alpha % 255;
+    r = r < 0 ? 0 : r % 256;
+    g = g < 0 ? 0 : g % 256;
+    b = b < 0 ? 0 : b % 256;
+    alpha = alpha < 0 ? 0 : alpha % 256;
     m_color = my::Color(r, g, b, alpha);
 }
 
