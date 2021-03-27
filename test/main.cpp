@@ -9,52 +9,9 @@ bool moveRight = false;
 bool moveUp = false;
 bool moveDown = false;
 
-void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-    if (action == GLFW_PRESS) {
-        switch (key)
-        {
-        case GLFW_KEY_LEFT:
-            moveLeft = true;
-            break;
-
-        case GLFW_KEY_RIGHT:
-            moveRight = true;
-            break;
-
-        case GLFW_KEY_UP:
-            moveUp = true;
-            break;
-
-        case GLFW_KEY_DOWN:
-            moveDown = true;
-            break;
-        }
-    } else if (action == GLFW_RELEASE) {
-        switch (key)
-        {
-        case GLFW_KEY_LEFT:
-            moveLeft = false;
-            break;
-
-        case GLFW_KEY_RIGHT:
-            moveRight = false;
-            break;
-
-        case GLFW_KEY_UP:
-            moveUp = false;
-            break;
-
-        case GLFW_KEY_DOWN:
-            moveDown = false;
-            break;
-        }
-    }
-}
-
 int main() {
-    my::GLWindow window(800, 600, "Test");
+    my::GLWindow window(800, 600, "Test", 2);
     window.setFramerate(75);
-    glfwSetKeyCallback(window.p_window, keyCallback);
 
     my::Cam2D camera(0, 0);
     camera.setSpeed(100.0f);
@@ -63,7 +20,7 @@ int main() {
     my::Rectangle rect(100, 50, 400, 300);
     rect.setColor(175, 87, 43, 255);
 
-    my::Polygon<20> poly(50, 100, 100);
+    my::Polygon<20> poly(100, 150, 150);
     poly.setColor(my::Color::white);
 
     my::Font openSans("@RESSOURCES_DIR@/Fonts/OpenSans-Regular.ttf");
@@ -74,8 +31,89 @@ int main() {
     text.setOutlineColor(my::Color::red);
 
     const my::Color clearColor("1E1E1E");
+    my::Event e;
+
+    bool click = false;
+    int mouseX = 0;
+    int mouseY = 0;
 
     while (window.isRunning()) {
+        while (window.pollEvent(e)) {
+            switch (e.type)
+            {
+            case my::EventType::keyPressed:
+                switch (e.keyCode)
+                {
+                case my::Key::escape:
+                    window.close();
+                    break;
+
+                case my::Key::left:
+                    moveLeft = true;
+                    break;
+
+                case my::Key::right:
+                    moveRight = true;
+                    break;
+
+                case my::Key::up:
+                    moveUp = true;
+                    break;
+
+                case my::Key::down:
+                    moveDown = true;
+                    break;
+                }
+                break;
+
+            case my::EventType::keyReleased:
+                switch (e.keyCode)
+                {
+                case my::Key::left:
+                    moveLeft = false;
+                    break;
+
+                case my::Key::right:
+                    moveRight = false;
+                    break;
+
+                case my::Key::up:
+                    moveUp = false;
+                    break;
+
+                case my::Key::down:
+                    moveDown = false;
+                    break;
+
+                default:
+                    if (!e.mods.ctrl) click = false;
+                }
+                break;
+
+
+            case my::EventType::mouseButtonPressed:
+                if (e.mouseButton == my::MouseButton::left && e.mods.ctrl)
+                    click = true;
+                break;
+
+            case my::EventType::mouseButtonReleased:
+                if (e.mouseButton == my::MouseButton::left)
+                    click = false;
+                break;
+
+            case my::EventType::mouseMoved:
+                mouseX = e.mousePos.x;
+                mouseY = e.mousePos.y;
+                break;
+
+            case my::EventType::mouseScrolled:
+                std::cout << e.scrollOffset.x << "  " << e.scrollOffset.y << std::endl;
+                break;
+
+            default:
+                break;
+            }
+        }
 
         float frametime = window.getFrametime();
         if (moveLeft) camera.moveLeft(frametime);
@@ -83,11 +121,12 @@ int main() {
         if (moveUp) camera.moveUp(frametime);
         if (moveDown) camera.moveDown(frametime);
 
+        if (click) rect.setPosition(mouseX, mouseY, true);
+
         window.clear(clearColor);
         window.draw(rect);
         window.draw(poly);
         window.draw(text);
         window.display();
-        glfwPollEvents();
     }
 }

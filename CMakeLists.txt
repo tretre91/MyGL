@@ -34,7 +34,7 @@ set(PROJECT_SOURCES
   "src/Camera/FixedCamera.cpp"
   #"src/Camera/FpsCamera.cpp"
   "src/Camera/MovableCamera.cpp"
-)
+  "src/Event.cpp")
 
 option(
   MYGL_BUILD_DOCUMENTATION 

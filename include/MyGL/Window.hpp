@@ -3,10 +3,11 @@
 
 #include "mygl_export.h"
 
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
+//#define GLFW_INCLUDE_NONE
+//#include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
+#include "Event.hpp"
 #include "Color.hpp"
 #include "Animation.hpp"
 #include "Drawable/AbstractShape.hpp"
@@ -14,6 +15,8 @@
 
 #include <thread>
 #include <chrono>
+#include <deque>
+#include <unordered_map>
 
 namespace my
 {
@@ -26,13 +29,16 @@ namespace my
     private:
         static bool gladIsInitialized;
         static unsigned int instancesCount;
+        static std::unordered_map<GLFWwindow*, std::deque<Event>*> eventQueues;
+
         glm::mat4 m_projection;
         my::FixedCamera* p_camera;
-    public : GLFWwindow* p_window;
-    private:
+        GLFWwindow* p_window;
+        bool m_usable;
         my::seconds m_frameDelay;
         mutable my::seconds m_frametime;
         mutable std::chrono::time_point<std::chrono::high_resolution_clock> m_chrono;
+        std::deque<Event> m_eventQueue;
 
         /**
          * @brief Initializes glad from outside of the DLL
@@ -50,12 +56,20 @@ namespace my
         static void myglErrorCallback(int error, const char* description);
 
         /**
-         * @brief TODO
-         * @param window 
-         * @param width 
-         * @param height 
+         * @brief Callback function called when a GLWindow is resized
+         * @param window The pointer to the underlying GLFWwindow
+         * @param width The new width in pixels
+         * @param height The new height in pixels
         */
         static void myglFramebufferSizeCallback(GLFWwindow* window, int width, int height);
+
+        // TODO: add a doxygen group for the event callbacks
+
+        static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+        static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+        static void cursorPosCallback(GLFWwindow* window, double xpos, double ypos);
+        static void cursorEnterCallback(GLFWwindow* window, int entered);
+        static void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 
     public:
         /**
@@ -92,6 +106,13 @@ namespace my
          * @brief Closes a window
         */
         void close();
+
+        /**
+         * @brief retrieves the event in front of the event queue
+         * @param e A my::Event which will hold the event's value
+         * @return false if there was no event in the queue, true otherwise
+        */
+        bool pollEvent(my::Event& e);
 
         /**
          * @brief Sets window's OpenGL context current

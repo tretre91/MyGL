@@ -3,6 +3,7 @@ using namespace my;
 
 bool GLWindow::gladIsInitialized = false;
 unsigned int GLWindow::instancesCount = 0;
+std::unordered_map<GLFWwindow*, std::deque<Event>*> GLWindow::eventQueues{};
 
 void GLWindow::myglErrorCallback(int error, const char* description) {
     std::cerr << "ERROR::GLFW: " << description;
@@ -10,15 +11,15 @@ void GLWindow::myglErrorCallback(int error, const char* description) {
 }
 
 void GLWindow::myglFramebufferSizeCallback(GLFWwindow* window, int width, int height) {
-    //glfwMakeContextCurrent(window);
+    glfwMakeContextCurrent(window);
     glViewport(0, 0, width, height);
 }
 
 GLWindow::GLWindow() : GLWindow(800, 600, "Default") {}
 
-GLWindow::GLWindow(int width, int height, const std::string& title, unsigned short aa) : 
-    m_projection(glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), 0.1f, 10.0f)),
-    p_camera(nullptr), p_window(nullptr), m_frametime(1.0), m_chrono{}, m_frameDelay(my::seconds::zero())
+GLWindow::GLWindow(int width, int height, const std::string& title, unsigned short aa) :
+    m_projection(glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), 0.1f, 10.0f)), p_camera(nullptr),
+    p_window(nullptr), m_usable(false), m_frametime(1.0), m_frameDelay(my::seconds::zero()), m_chrono{}, m_eventQueue{}
 {
     if (instancesCount++ == 0) {
         glfwSetErrorCallback(my::GLWindow::myglErrorCallback);
@@ -32,6 +33,7 @@ GLWindow::GLWindow(int width, int height, const std::string& title, unsigned sho
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_SAMPLES, aa);
 
     p_window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
 
@@ -51,7 +53,14 @@ GLWindow::GLWindow(int width, int height, const std::string& title, unsigned sho
         gladIsInitialized = true;
     }
 
+    m_usable = true;
+    eventQueues.insert({ p_window, &m_eventQueue });
     glfwSetFramebufferSizeCallback(p_window, myglFramebufferSizeCallback);
+    glfwSetKeyCallback(p_window, keyCallback);
+    glfwSetMouseButtonCallback(p_window, mouseButtonCallback);
+    glfwSetCursorPosCallback(p_window, cursorPosCallback);
+    glfwSetCursorEnterCallback(p_window, cursorEnterCallback);
+    glfwSetScrollCallback(p_window, scrollCallback);
 
     glfwSwapInterval(0);
     m_chrono = std::chrono::high_resolution_clock::now();
@@ -68,24 +77,37 @@ GLWindow::GLWindow(int width, int height, const std::string& title, unsigned sho
 
 GLWindow::~GLWindow() {
     instancesCount--;
+    if (m_usable) {
+        eventQueues.erase(p_window);
+        glfwDestroyWindow(p_window);
+    }
     if (instancesCount == 0) {
         glfwTerminate();
     }
 }
 
 bool GLWindow::isRunning() {
-    if (p_window == nullptr) {
-        return false;
-    } else if (glfwWindowShouldClose(p_window)) {
+    if (glfwWindowShouldClose(p_window)) {
+        eventQueues.erase(p_window);
         glfwDestroyWindow(p_window);
-        return false;
-    } else {
-        return true;
+        m_usable = false;
     }
+    return m_usable;
 }
 
 void GLWindow::close() {
     glfwSetWindowShouldClose(p_window, true);
+}
+
+bool GLWindow::pollEvent(my::Event& e) {
+    glfwPollEvents();
+    if (m_eventQueue.empty()) {
+        return false;
+    } else {
+        e = m_eventQueue.front();
+        m_eventQueue.pop_front();
+        return true;
+    }
 }
 
 void GLWindow::setActive() {
@@ -148,4 +170,118 @@ double GLWindow::getFrametime() const {
 
 void* GLWindow::getGLProcAdress(const char* name) {
     return (void*)glfwGetProcAddress(name);
+}
+
+
+/* Callback functions related to the event system */
+
+void GLWindow::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    my::Event e;
+    switch (action)
+    {
+    case GLFW_PRESS:
+        e.type = my::EventType::keyPressed;
+        break;
+
+    case GLFW_RELEASE:
+        e.type = my::EventType::keyReleased;
+        break;
+
+    case GLFW_REPEAT:
+        e.type = my::EventType::keyRepeated;
+        break;
+    }
+
+    e.keyCode = static_cast<my::Key>(key);
+
+    e.mods = {
+        (mods & 0x01) > 0,
+        (mods & 0x02) > 0,
+        (mods & 0x04) > 0,
+        (mods & 0x08) > 0,
+        (mods & 0x10) > 0,
+        (mods & 0x20) > 0
+    };
+
+    eventQueues[window]->push_back(e);
+}
+
+void GLWindow::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
+    my::Event e;
+    if (action == GLFW_PRESS) e.type = my::EventType::mouseButtonPressed;
+    else e.type = my::EventType::mouseButtonReleased;
+
+    switch (button)
+    {
+    case GLFW_MOUSE_BUTTON_1:
+        e.mouseButton = my::MouseButton::left;
+        break;
+
+    case GLFW_MOUSE_BUTTON_2:
+        e.mouseButton = my::MouseButton::right;
+        break;
+
+    case GLFW_MOUSE_BUTTON_3:
+        e.mouseButton = my::MouseButton::middle;
+        break;
+
+    case GLFW_MOUSE_BUTTON_4:
+        e.mouseButton = my::MouseButton::extra_1;
+        break;
+
+    case GLFW_MOUSE_BUTTON_5:
+        e.mouseButton = my::MouseButton::extra_2;
+        break;
+
+    case GLFW_MOUSE_BUTTON_6:
+        e.mouseButton = my::MouseButton::extra_3;
+        break;
+
+    case GLFW_MOUSE_BUTTON_7:
+        e.mouseButton = my::MouseButton::extra_4;
+        break;
+
+    case GLFW_MOUSE_BUTTON_8:
+        e.mouseButton = my::MouseButton::extra_5;
+        break;
+    }
+
+    e.mods = {
+        (mods & 0x01) > 0,
+        (mods & 0x02) > 0,
+        (mods & 0x04) > 0,
+        (mods & 0x08) > 0,
+        (mods & 0x10) > 0,
+        (mods & 0x20) > 0
+    };
+
+    eventQueues[window]->push_back(e);
+}
+
+void GLWindow::cursorPosCallback(GLFWwindow* window, double xpos, double ypos) {
+    my::Event e;
+    int x, y;
+    glfwGetFramebufferSize(window, &x, &y);
+    x = static_cast<int>(std::lround(xpos));
+    y -= static_cast<int>(std::lround(ypos));
+    e.type = my::EventType::mouseMoved;
+    e.mousePos = { x, y };
+    eventQueues[window]->push_back(e);
+}
+
+void GLWindow::cursorEnterCallback(GLFWwindow* window, int entered) {
+    my::Event e;
+    e.keyCode = my::Key::unknown;
+    if (entered) e.type = my::EventType::cursorEntered;
+    else e.type = my::EventType::cursorLeft;
+    eventQueues[window]->push_back(e);
+}
+
+void GLWindow::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
+    my::Event e;
+    e.type = my::EventType::mouseScrolled;
+    int deltax = -static_cast<int>(xoffset);
+    int deltay = static_cast<int>(yoffset);
+    e.scrollOffset = { deltax, deltay };
+    eventQueues[window]->push_back(e);
 }
