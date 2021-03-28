@@ -17,7 +17,7 @@ elseif(NOT EXISTS USE_OWN_GLFW3)
   set(USE_OWN_GLFW3 False CACHE BOOL "Tells if the submodule GLFW3 should be used (if no valid GLFW3 has been found on this system)")
 endif()
 
-set(GLFW3_INCLUDE_DIR ${SDL2_INCLUDE_DIRS} CACHE PATH "Path to GLFW3 headers")
+set(GLFW3_INCLUDE_DIR ${GLFW3_INCLUDE_DIR} CACHE PATH "Path to GLFW3 headers")
 if(USE_OWN_GLFW3)
   add_subdirectory(glfw)
 endif()

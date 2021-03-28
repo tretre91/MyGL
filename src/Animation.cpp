@@ -74,7 +74,7 @@ bool Animation::isOver() const {
 void Animation::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
     if (m_running) {
         m_frametime = glfwGetTime() - m_frametime;
-        p_shape->move(m_positionStep.x * m_frametime, m_positionStep.y * m_frametime);
+        p_shape->move(m_positionStep.x * static_cast<float>(m_frametime), m_positionStep.y * static_cast<float>(m_frametime));
         m_frametime = glfwGetTime();
         if (glm::distance(m_targetPos, p_shape->getPosition()) < 1.0f) m_running = false;
     }

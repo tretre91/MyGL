@@ -3,9 +3,6 @@
 
 #include "mygl_export.h"
 
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
-
 namespace my
 {
 
@@ -160,7 +157,7 @@ namespace my
      * For example reading the mousePos value of a keyPressed event is undefined behaviour.
      * The information for each type of event is documented in the my::EventType enum documentation.
     */
-    struct Event {
+    struct MYGL_EXPORT Event {
 
         /**
          * @brief A struct for storing the state of the keyboard modifier keys
