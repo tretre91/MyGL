@@ -1,13 +1,6 @@
-#include <MyGL/Window.hpp>
-#include <MyGL/Drawable.hpp>
-#include <MyGL/Camera.hpp>
+#include <MyGL/mygl.hpp>
 
 #include <iostream>
-
-bool moveLeft = false;
-bool moveRight = false;
-bool moveUp = false;
-bool moveDown = false;
 
 int main() {
     my::GLWindow window(800, 600, "Test", 2);
@@ -23,6 +16,7 @@ int main() {
     my::Polygon<20> poly(100, 150, 150);
     poly.setColor(my::Color::white);
 
+
     my::Font openSans("@RESSOURCES_DIR@/Fonts/OpenSans-Regular.ttf");
     my::Text text("The .\\quick \"brown\" {fox} \n#jumps [over] the lazy dog!", openSans, 60);
     text.setPosition(0, 60);
@@ -36,6 +30,10 @@ int main() {
     bool click = false;
     int mouseX = 0;
     int mouseY = 0;
+    bool moveLeft = false;
+    bool moveRight = false;
+    bool moveUp = false;
+    bool moveDown = false;
 
     while (window.isRunning()) {
         while (window.pollEvent(e)) {
@@ -115,7 +113,7 @@ int main() {
             }
         }
 
-        float frametime = window.getFrametime();
+        float frametime = static_cast<float>(window.getFrametime());
         if (moveLeft) camera.moveLeft(frametime);
         if (moveRight) camera.moveRight(frametime);
         if (moveUp) camera.moveUp(frametime);
