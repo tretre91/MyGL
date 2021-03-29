@@ -13,7 +13,8 @@ int main() {
     my::Rectangle rect(100, 50, 400, 300);
     rect.setColor(175, 87, 43, 255);
 
-    my::Polygon<20> poly(100, 150, 150);
+    unsigned int sides = 5;
+    my::Polygon poly(sides, 100, 150, 150);
     poly.setColor(my::Color::white);
 
 
@@ -81,6 +82,11 @@ int main() {
 
                 case my::Key::down:
                     moveDown = false;
+                    break;
+
+                case my::Key::enter:
+                    sides = sides > 10 ? 3 : sides + 1;
+                    poly.setSides(sides);
                     break;
 
                 default:
