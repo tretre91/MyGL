@@ -1,0 +1,76 @@
+name: test_cmake_build
+
+on: [push]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  test-linux-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create Build Environment
+        run: cmake -E make_directory ${{github.workspace}}/build ${{github.workspace}}/install ${{github.workspace}}/user_test
+      
+      - name: Install libraries
+        shell: bash
+        run: sudo apt install -y libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libxext-dev libfreetype6-dev
+        
+      - name: Configure CMake
+        shell: bash
+        working-directory: ${{github.workspace}}/build
+        run: cmake ${{github.workspace}} -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DMYGL_BUILD_SAMPLE=ON -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install
+        
+      - name: Build
+        shell: bash
+        working-directory: ${{github.workspace}}/build
+        run: cmake --build . --config $BUILD_TYPE
+      
+      - name: Compile and install
+        shell: bash
+        working-directory: ${{github.workspace}}/build
+        run: cmake --install . --config $BUILD_TYPE
+        
+      - name: Check test file compilation against static libs
+        shell: bash
+        working-directory: ${{github.workspace}}/user_test
+        run: |
+          g++ -c ${{github.workspace}}/test/ci_test_file.cpp -I/usr/include/freetype2 -I${{github.workspace}}/install/include/ -DMYGL_STATIC_DEFINE
+          g++ ci_test_file.o -o test ${{github.workspace}}/install/lib/libmygl.a ${{github.workspace}}/install/lib/libglfw3.a -ldl -lpthread
+
+      - name: Check test file compilation against shared libs
+        shell: bash
+        working-directory: ${{github.workspace}}/user_test
+        run: |
+          g++ -c ${{github.workspace}}/test/ci_test_file.cpp -I/usr/include/freetype2 -I${{github.workspace}}/install/include/
+          g++ ci_test_file.o -o test -L${{github.workspace}}/install/lib/ -lmygl ${{github.workspace}}/install/lib/libglfw3.a -ldl -lpthread
+
+
+  test-windows-build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ilammy/msvc-dev-cmd@v1
+      - name: Create build environment
+        run: cmake -E make_directory ${{github.workspace}}/build ${{github.workspace}}/install ${{github.workspace}}/user_test
+      
+      - name: Configure CMake
+        working-directory: ${{github.workspace}}/build
+        run: cmake ${{github.workspace}} -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DMYGL_BUILD_SAMPLE=ON -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install
+        
+      - name: Build
+        working-directory: ${{github.workspace}}/build
+        run: cmake --build . --config $BUILD_TYPE
+        
+      - name: Compile and install
+        working-directory: ${{github.workspace}}/build
+        run: cmake --install . --config $BUILD_TYPE
+    
+      - name: Check test file compilation against static libs
+        working-directory: ${{github.workspace}}/user_test
+        run: cl ${{github.workspace}}/test/ci_test_file.cpp mygl-static.lib glfw3.lib freetype.lib opengl32.lib gdi32.lib user32.lib shell32.lib /MT /Fe:test /I ${{github.workspace}}/install/include /I ${{github.workspace}}/install/include/freetype2 /D MYGL_STATIC_DEFINE /link /LIBPATH:${{github.workspace}}/install/lib
+      
+      - name: Check test file compilation against shared libs
+        working-directory: ${{github.workspace}}/user_test
+        run: cl ${{github.workspace}}/test/ci_test_file.cpp mygl.lib glfw3.lib freetype.lib opengl32.lib gdi32.lib user32.lib shell32.lib /MT /Fe:test /I ${{github.workspace}}/install/include /I ${{github.workspace}}/install/include/freetype2 /link /LIBPATH:${{github.workspace}}/install/lib
