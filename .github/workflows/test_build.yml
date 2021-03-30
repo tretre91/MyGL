@@ -1,4 +1,4 @@
-name: test_cmake_build
+name: Build
 
 on: [push]
 
