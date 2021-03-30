@@ -1,4 +1,4 @@
-.. Usage indications for linking and using the library
+.. Usage indications for compiling, linking and using the library
 
 Usage
 =====
@@ -6,101 +6,115 @@ Usage
 When compiling
 --------------
 
-On Windows
-..........
+This table sums up which libraries you have to link against on Windows and Linux :
 
-Dynamic linking
-+++++++++++++++
++-----------------+--------------------------------------+
+| Linking options | Libraries to link against            |
+|                 +----------------------+---------------+
+|                 | On Windows           | On Linux      |
++=================+======================+===============+
+| Static linking  | * mygl-static(d).lib | * libmygl(d)  |
++-----------------+----------------------+---------------+
+| Dynamic linking | * mygl(d).lib        | * libmygl(d)  |
++-----------------+----------------------+---------------+
+| In both         | * glfw3.lib          | * libglfw3    |
+|                 | * freetype(d).lib    | * libfreetype |
+|                 | * opengl32.lib       | * libdl       |
+|                 | * gdi32.lib          | * libpthread  |
+|                 | * user32.lib         |               |
+|                 | * shell32.lib        |               |
++-----------------+----------------------+---------------+
 
-When using the dll version of the library, you should link against :
+The libraries have the 'd' suffix for their debug configurations
 
-* mygl.lib (or mygld.lib for a debug configuration)
-* SDL2.lib (or SDL2d.lib for debug)
-* SDL2main.lib
-* freetype.lib (freetyped.lib for debug)
+.. note::
+   When using the shared binaries on Windows, you should put the mygl(d).dll file in
+   the same folder as your executable
 
-and place the files mygl.dll and SDL2.dll (respectively mygld.dll and SDL2d.dll for debug configs)
-in the same folder as your executable
+Windows
+```````
+Visual Studio
+:::::::::::::
 
-Static linking
-++++++++++++++
+You should add the include and lib folder of MyGL, GLFW and Freetype to the include 
+directories and library directories in Visual studio. These are located in your 
+project's properties : 
 
-For the static version :
+* C/C++ -> General -> Additional Include Directories
+* Linker -> General -> Additional Library Directories
 
-* mygl-static.lib (or mygl-staticd.lib for a debug configuration)
-* SDL2-static.lib (or SDL2-staticd.lib for debug)
-* SDL2main.lib
-* freetype.lib (freetyped.lib for debug)
+Then you should add the required libraries (shown in the table `here <When compiling>`_) in :
 
-you should also link SDL's dependencies : user32, gdi32, winspool, comdlg32,
-advapi32, shell32, ole32, oleaut32, uuid, odbc32, odbccp32
+* Linker -> Input -> Additional Dependencies
 
-On Linux
-........
+If you use the static library, you should also add the macro ``MYGL_STATIC_DEFINE`` in :
 
-On Linux you will need to link against :
+* C/C++ -> Preprocessor -> Preprocessor Definitions
 
-* mygl (or mygld)
-* freetype
-* SDL2
-* SDL2main
-
-Remark : if you happen to link against the static binary (libmygl(d).a) you should 
-also link against libdl
+Linux
+`````
 
 The compilation process for a simple program should look something like this :
 
-.. code-block::
+.. code-block:: bash
 
-	$ g++ -c prog.cpp
-	$ g++ prog.o -o prog -lmygl -lSDL2 -lSDLmain -lfreetype
+    $ g++ -c prog.cpp
+    $ g++ prog.o -o prog -lmygl -lglfw3 -lfreetype -ldl -lpthread
+
+This is assuming that the library was installed in a default location, otherwise it would be :
+
+.. code-block:: bash
+    
+    $ g++ -c prog.cpp -I/path/to/include/folder/ -I/path/to/freetype/include/folder/ -I/path/to/glfw/include/folder/
+    $ g++ prog.o -o prog -lmygl -lglfw3 -lfreetype -ldl -lpthread -L/path/to/lib/folder/
+
 
 Using the library
 -----------------
 
 This library provides some abstraction over openGL to draw shapes and text, it
-uses SDL2 for the underlying implementation of windows and for the event system
+also provides a window and event system (both based on GLFW)
 
 .. code-block:: cpp
-	:linenos:
-	
-	#include <MyGL/Camera.hpp>
-	#include <MyGL/Drawable.hpp>
-	#include <MyGL/Window.hpp>
+    :linenos:
+    
+    #include <MyGL/mygl.hpp>
 
-	int main(int argc, char *argv[]) {
-	  my::GLWindow window(800, 600, "my window!");
-	
-	  my::Cam2D camera(0, 0);
-	  window.setCamera(camera);
+    int main() {
+      my::GLWindow window(800, 600, "my window!");
+      window.setFramerate(60);
+    
+      my::Cam2D camera(0, 0);
+      window.setCamera(camera);
 
-	  my::Rectangle rect(70, 50, 400, 300);
-	  rect.setColor(155, 32, 104);
+      my::Rectangle rect(70, 50, 400, 300);
+      rect.setColor(155, 32, 104);
 
-	  my::Color clear_color(175, 230, 178);
+      my::Color clear_color(175, 230, 178);
 
-	  bool running = true;
-	  SDL_Event event;
+      my::Event e;
 
-	  while(running) {
-	    while(SDL_PollEvent(&event)){
-	      switch(event.type)
-	      {
-	      case SDL_QUIT:
-	        running = false;
-	        break;
-	  	
-	      default:
-	        break;
-	      }
-	    }
+      while(window.isRunning()) {
+        while(window.pollEvent(e)){
+          switch(e.type)
+          {
+          case my::EventType::keyPressed:
+            if(e.keyCode == my::Key::escape) {
+              window.close();
+            }
+            break;
+          
+          default:
+            break;
+          }
+        }
 
-	    window.clear(clear_color);
+        window.clear(clear_color);
 
-	    window.draw(rect);
+        window.draw(rect);
 
-	    window.display();
-	  }
+        window.display();
+      }
 
-	  return 0;
-	}
+      return 0;
+    }

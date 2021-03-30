@@ -41,14 +41,6 @@ namespace my
         std::deque<Event> m_eventQueue;
 
         /**
-         * @brief Initializes glad from outside of the DLL
-         * @return true if the initialization was successful
-        */
-        inline bool initGlad() {
-            return gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-        }
-
-        /**
          * @brief Error callback for GLFW errors
          * @param error The error code
          * @param description The error description
@@ -63,13 +55,16 @@ namespace my
         */
         static void myglFramebufferSizeCallback(GLFWwindow* window, int width, int height);
 
-        // TODO: add a doxygen group for the event callbacks
-
+        /** @name Event callbacks
+         * @brief Event callback functions for handling glfw events
+        */
+        /** @{ */
         static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
         static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
         static void cursorPosCallback(GLFWwindow* window, double xpos, double ypos);
         static void cursorEnterCallback(GLFWwindow* window, int entered);
         static void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+        /** @} */
 
     public:
         /**

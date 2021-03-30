@@ -1,4 +1,4 @@
-.. Index page for the api documentation pages
+.. Index page for the library's documentation pages
 
 MyGL Documentation
 ==================
@@ -7,6 +7,7 @@ MyGL Documentation
     :maxdepth: 2
 
     window
+    event
     color
     Camera/cam2d
     Drawable/abstractshape

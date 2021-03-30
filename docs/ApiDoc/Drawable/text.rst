@@ -5,3 +5,5 @@ Text
 
 .. doxygenclass:: my::Text
     :members:
+    :undoc-members:
+    

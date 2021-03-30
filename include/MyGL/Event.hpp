@@ -109,11 +109,11 @@ namespace my
      * 
      * The my::Key enum is used in keyboard events to indicate the involved key,
      * the keys correspond to the ones of a full size US layout keyboard.
-     * Keys situated on the number pad have the 'np' prefix. ('np0' to 'np9', 'np_divide', ...)
-     * Duplicated keys suchas alt or shift are prefixed with their location 
+     * - Keys situated on the number pad have the 'np' prefix. ('np0' to 'np9', 'np_divide', ...)
+     * - Duplicated keys suchas alt or shift are prefixed with their location 
      * (e.g. 'left_shift', 'right_alt').
-     * Function keys have the 'f' prefix ('f1', f2', ...)
-     * Number keys of the main area have the 'n' prefix ('n0' to 'n9')
+     * - Function keys have the 'f' prefix ('f1', f2', ...)
+     * - Number keys of the main area have the 'n' prefix ('n0' to 'n9')
     */
     enum class Key {
         unknown = -1, space = 32, apostrophe = 39, comma = 44, minus, period, slash,
@@ -152,10 +152,10 @@ namespace my
      * This structure holds information about an event, it is composed of a type, an
      * information and the state of the modifier keys.
      * 
-     * As the information is coded using an union, even though the event has multiple fields,
-     * only one is active at a time, so reading from the others is undefined.
+     * @warning As the information is coded using an union, even though the event has 
+     * multiple fields, only one is active at a time, so reading from the others is undefined.
      * For example reading the mousePos value of a keyPressed event is undefined behaviour.
-     * The information for each type of event is documented in the my::EventType enum documentation.
+     * The information for each type of event is documented in the EventType enum documentation.
     */
     struct MYGL_EXPORT Event {
 
@@ -174,7 +174,7 @@ namespace my
         };
 
         /**
-         * @brief The event's type, which is a value of type my::EventType
+         * @brief The event's type
         */
         EventType type;
 

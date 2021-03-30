@@ -50,8 +50,10 @@ namespace my
 
         /**
          * @brief Creates a font from a font file
-         *		  supported formats are the ones supported by freetype 2, including ttf, ttc, cff, woff, otf, otc
-         *		  (at this point only ttf have been tested)
+         *		  
+         * supported formats are the ones supported by freetype 2, including ttf, ttc, cff, woff, otf, otc
+         * (at this point only ttf files have been tested)
+         * 
          * @param fontFilename The path to the font file
         */
         Font(const std::string& fontFilename);

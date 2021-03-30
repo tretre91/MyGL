@@ -44,7 +44,7 @@ GLWindow::GLWindow(int width, int height, const std::string& title, unsigned sho
 
     glfwMakeContextCurrent(p_window);
     if (!gladIsInitialized) {
-        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress) || !initGlad()) {
+        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
             std::cout << "ERROR::GLAD: Failed to initialize GLAD" << std::endl;
             glfwDestroyWindow(p_window);
             glfwTerminate();
