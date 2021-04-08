@@ -1,0 +1,5 @@
+/* Allows markdown code blocks indentation to show */
+div.fragment {
+    white-space: unset;
+    --fragment-whitespace: pre;
+}
