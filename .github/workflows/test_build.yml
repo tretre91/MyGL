@@ -61,11 +61,11 @@ jobs:
         
       - name: Build
         working-directory: ${{github.workspace}}/build
-        run: cmake --build . --config $BUILD_TYPE
+        run: cmake --build .
         
       - name: Compile and install
         working-directory: ${{github.workspace}}/build
-        run: cmake --install . --config $BUILD_TYPE
+        run: cmake --install .
     
       - name: Check test file compilation against static libs
         working-directory: ${{github.workspace}}/user_test
