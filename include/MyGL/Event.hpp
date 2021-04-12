@@ -1,3 +1,4 @@
+/** @file */
 #ifndef MY_EVENT
 #define MY_EVENT
 
@@ -98,6 +99,11 @@ namespace my
         cursorLeft,
 
         /**
+         * @brief Event triggered when the user tries to close the window
+        */
+        windowShouldClose,
+
+        /**
          * @brief Special value used to signal that an event variable is not associated to
          *        any event
         */
@@ -110,7 +116,7 @@ namespace my
      * The my::Key enum is used in keyboard events to indicate the involved key,
      * the keys correspond to the ones of a full size US layout keyboard.
      * - Keys situated on the number pad have the 'np' prefix. ('np0' to 'np9', 'np_divide', ...)
-     * - Duplicated keys suchas alt or shift are prefixed with their location 
+     * - Duplicated keys such as alt or shift are prefixed with their location 
      * (e.g. 'left_shift', 'right_alt').
      * - Function keys have the 'f' prefix ('f1', f2', ...)
      * - Number keys of the main area have the 'n' prefix ('n0' to 'n9')

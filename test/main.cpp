@@ -40,6 +40,10 @@ int main() {
         while (window.pollEvent(e)) {
             switch (e.type)
             {
+            case my::EventType::windowShouldClose:
+                window.close();
+                break;
+
             case my::EventType::keyPressed:
                 switch (e.keyCode)
                 {

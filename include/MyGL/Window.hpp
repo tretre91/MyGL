@@ -64,6 +64,7 @@ namespace my
         static void cursorPosCallback(GLFWwindow* window, double xpos, double ypos);
         static void cursorEnterCallback(GLFWwindow* window, int entered);
         static void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+        static void windowCloseCallback(GLFWwindow* window);
         /** @} */
 
     public:
@@ -88,14 +89,9 @@ namespace my
 
         /**
          * @brief Tells wheter a window is opened or closed
-         * 
-         * If the user tried to close the window (clicking the closing button or
-         * pressing Alt + f4 for example), a call to this method will close the window
-         * and return false
-         * 
-         * @return true if the window is opened
+         * @return true if the window is opened, false if it is closed
         */
-        bool isRunning();
+        bool isRunning() const;
 
         /**
          * @brief Closes a window

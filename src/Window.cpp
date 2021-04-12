@@ -45,7 +45,7 @@ GLWindow::GLWindow(int width, int height, const std::string& title, unsigned sho
     glfwMakeContextCurrent(p_window);
     if (!gladIsInitialized) {
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-            std::cout << "ERROR::GLAD: Failed to initialize GLAD" << std::endl;
+            std::cerr << "ERROR::GLAD: Failed to initialize GLAD" << std::endl;
             glfwDestroyWindow(p_window);
             glfwTerminate();
             exit(EXIT_FAILURE);
@@ -61,6 +61,7 @@ GLWindow::GLWindow(int width, int height, const std::string& title, unsigned sho
     glfwSetCursorPosCallback(p_window, cursorPosCallback);
     glfwSetCursorEnterCallback(p_window, cursorEnterCallback);
     glfwSetScrollCallback(p_window, scrollCallback);
+    glfwSetWindowCloseCallback(p_window, windowCloseCallback);
 
     glfwSwapInterval(0);
     m_chrono = std::chrono::high_resolution_clock::now();
@@ -86,17 +87,16 @@ GLWindow::~GLWindow() {
     }
 }
 
-bool GLWindow::isRunning() {
-    if (glfwWindowShouldClose(p_window)) {
-        eventQueues.erase(p_window);
-        glfwDestroyWindow(p_window);
-        m_usable = false;
-    }
+bool GLWindow::isRunning() const {
     return m_usable;
 }
 
 void GLWindow::close() {
-    glfwSetWindowShouldClose(p_window, true);
+    if (m_usable) {
+        eventQueues.erase(p_window);
+        glfwDestroyWindow(p_window);
+        m_usable = false;
+    }
 }
 
 bool GLWindow::pollEvent(my::Event& e) {
@@ -153,15 +153,17 @@ void my::GLWindow::draw(my::Animation& anim) {
 }
 
 void GLWindow::display() const {
-    glfwSwapBuffers(p_window);
-    auto temp = std::chrono::high_resolution_clock::now();
-    auto elapsed = temp - m_chrono;
-    if (elapsed < m_frameDelay) {
-        std::this_thread::sleep_for(m_frameDelay - elapsed);
+    if (m_usable) {
+        glfwSwapBuffers(p_window);
+        auto currentTime = std::chrono::high_resolution_clock::now();
+        auto elapsed = currentTime - m_chrono;
+        if (elapsed < m_frameDelay) {
+            std::this_thread::sleep_for(m_frameDelay - elapsed);
+        }
+        currentTime = std::chrono::high_resolution_clock::now();
+        m_frametime = currentTime - m_chrono;
+        m_chrono = currentTime;
     }
-    temp = std::chrono::high_resolution_clock::now();
-    m_frametime = temp - m_chrono;
-    m_chrono = temp;
 }
 
 double GLWindow::getFrametime() const {
@@ -284,4 +286,12 @@ void GLWindow::scrollCallback(GLFWwindow* window, double xoffset, double yoffset
     int deltay = static_cast<int>(yoffset);
     e.scrollOffset = { deltax, deltay };
     eventQueues[window]->push_back(e);
+}
+
+void GLWindow::windowCloseCallback(GLFWwindow* window) {
+    my::Event e;
+    e.type = my::EventType::windowShouldClose;
+    e.keyCode = my::Key::unknown;
+    eventQueues[window]->push_back(e);
+    glfwSetWindowShouldClose(window, false);
 }

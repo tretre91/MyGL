@@ -78,6 +78,10 @@ int main() {
         while(window.pollEvent(e)){
             switch(e.type)
             {
+            case my::EventType::windowShouldClose:
+                window.close();
+                break;
+                
             case my::EventType::keyPressed:
                 if(e.keyCode == my::Key::escape) {
                     window.close();
@@ -128,6 +132,10 @@ Then comes the game loop, while the window is running:
    while (window.pollEvent(e)) {
        switch (e.type)
        {
+       case my::EventType::windowShouldClose:
+           window.close();
+           break;
+           
        case my::EventType::keyPressed:
            if (e.keyCode == my::Key::escape) {
                window.close();
@@ -139,8 +147,12 @@ Then comes the game loop, while the window is running:
        }
    }
    ```
-   Here we check if a key has been pressed, and if it was the escape key we 
-   close the window
+   Here we process the `windowShouldClose` and `keyPressed` events.
+   - The `windowShouldClose` event is triggered when the user tries to close the
+   window, in our example if the user tries to close the window we effectively
+   close it with a call to `window.close()`.
+   - The `keyPressed` event is triggered when a keyboard key is pressed, here we
+   close the window if the user presses the escape key.
 
 2. Then we clear the window with a background color and draw our rectangle :
    ```cpp
@@ -148,7 +160,7 @@ Then comes the game loop, while the window is running:
    window.draw(rect);
    ```
 
-3. Finally we display everything that has been drawn with
+3. Finally we display everything that has been drawn with :
    ```cpp
    window.display();
    ```
