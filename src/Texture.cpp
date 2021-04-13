@@ -134,8 +134,7 @@ void Texture::setBorderColor(int r, int g, int b, int alpha) {
         alpha / 255.0f
     };
     for(int i = 0; i < 4; i++) {
-        if (borderColor[i] < 0.0f) borderColor[i] = 0.0f;
-        else if (borderColor[i] > 1.0f) borderColor[i] = 1.0f;
+        borderColor[i] = glm::clamp(borderColor[i], 0.0f, 1.0f);
     }
     glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 }

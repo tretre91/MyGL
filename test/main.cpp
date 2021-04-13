@@ -114,10 +114,6 @@ int main() {
                 mouseY = e.mousePos.y;
                 break;
 
-            case my::EventType::mouseScrolled:
-                std::cout << e.scrollOffset.x << "  " << e.scrollOffset.y << std::endl;
-                break;
-
             default:
                 break;
             }

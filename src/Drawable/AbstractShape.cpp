@@ -143,11 +143,7 @@ float AbstractShape::getRotation() const {
 
 
 void AbstractShape::setColor(int r, int g, int b, int alpha) {
-    r = r < 0 ? 0 : r % 256;
-    g = g < 0 ? 0 : g % 256;
-    b = b < 0 ? 0 : b % 256;
-    alpha = alpha < 0 ? 0 : alpha % 256;
-    m_color = my::Color(r, g, b, alpha);
+    m_color = my::Color(glm::clamp(r, 0, 255), glm::clamp(g, 0, 255), glm::clamp(b, 0, 255), glm::clamp(alpha, 0, 255));
 }
 
 void AbstractShape::setColor(const my::Color& color) {
@@ -172,11 +168,7 @@ void AbstractShape::setOutlineColor(const my::Color& color) {
 }
 
 void AbstractShape::setOutlineColor(int r, int g, int b, int alpha) {
-    r = r > 255 ? 255 : (r >= 0) * r;
-    g = g > 255 ? 255 : (g >= 0) * g;
-    b = b > 255 ? 255 : (b >= 0) * b;
-    alpha = alpha > 255 ? 255 : (alpha >= 0) * alpha;
-    m_outlineColor = my::Color(r, g, b, alpha);
+    m_outlineColor = my::Color(glm::clamp(r, 0, 255), glm::clamp(g, 0, 255), glm::clamp(b, 0, 255), glm::clamp(alpha, 0, 255));
 }
 
 bool AbstractShape::SATCollides(const AbstractShape& otherShape) const {
