@@ -11,7 +11,7 @@
 #include "Color.hpp"
 #include "Animation.hpp"
 #include "Drawable/AbstractShape.hpp"
-#include "Camera/FixedCamera.hpp"
+#include "Camera.hpp"
 
 #include <thread>
 #include <chrono>
@@ -30,9 +30,10 @@ namespace my
         static bool gladIsInitialized;
         static unsigned int instancesCount;
         static std::unordered_map<GLFWwindow*, std::deque<Event>*> eventQueues;
+        static my::Camera defaultCamera;
 
         glm::mat4 m_projection;
-        my::FixedCamera* p_camera;
+        my::Camera* p_camera;
         GLFWwindow* p_window;
         bool m_usable;
         my::seconds m_frameDelay;
@@ -134,14 +135,14 @@ namespace my
          * @brief Sets the camera used by this window
          * @param camera The camera which will be used to see the window's content
         */
-        void setCamera(my::FixedCamera& camera);
+        void setCamera(my::Camera& camera);
 
         /**
-         * @brief Sets the projection used by the window (This method should be replaced by an
-                  initilization in the constructor)
-         * @param projection The projection matrix used (orthographic or perspective)
+         * @brief Returns the currently bound camera
+         * @return A reference to the camera which is currently attached to the
+         *         window
         */
-        void setProjection(const glm::mat4& projection);
+        my::Camera& getCamera();
 
         /**
          * @brief Draws a shape

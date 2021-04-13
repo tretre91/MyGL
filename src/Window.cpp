@@ -4,6 +4,7 @@ using namespace my;
 bool GLWindow::gladIsInitialized = false;
 unsigned int GLWindow::instancesCount = 0;
 std::unordered_map<GLFWwindow*, std::deque<Event>*> GLWindow::eventQueues{};
+my::Camera GLWindow::defaultCamera = my::Camera();
 
 void GLWindow::myglErrorCallback(int error, const char* description) {
     std::cerr << "ERROR::GLFW: " << description;
@@ -18,7 +19,7 @@ void GLWindow::myglFramebufferSizeCallback(GLFWwindow* window, int width, int he
 GLWindow::GLWindow() : GLWindow(800, 600, "Default") {}
 
 GLWindow::GLWindow(int width, int height, const std::string& title, unsigned short aa) :
-    m_projection(glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), 0.1f, 10.0f)), p_camera(nullptr),
+    m_projection(glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), 0.1f, 10.0f)), p_camera(&defaultCamera),
     p_window(nullptr), m_usable(false), m_frametime(1.0), m_frameDelay(my::seconds::zero()), m_chrono{}, m_eventQueue{}
 {
     if (instancesCount++ == 0) {
@@ -135,12 +136,12 @@ void GLWindow::clear(const my::Color& color) const {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
-void GLWindow::setCamera(my::FixedCamera& camera) {
+void GLWindow::setCamera(my::Camera& camera) {
     p_camera = &camera;
 }
 
-void GLWindow::setProjection(const glm::mat4& projection) {
-    m_projection = projection;
+my::Camera& GLWindow::getCamera() {
+    return *p_camera;
 }
 
 void GLWindow::draw(my::AbstractShape& shape) {

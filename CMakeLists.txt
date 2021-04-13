@@ -30,11 +30,7 @@ set(PROJECT_SOURCES
   "src/Drawable/Polygon.cpp"
   "src/Drawable/Font.cpp"
   "src/Drawable/Text.cpp"
-  "src/Camera/Cam2D.cpp"
-  #"src/Camera/Cam3D.cpp"
-  "src/Camera/FixedCamera.cpp"
-  #"src/Camera/FpsCamera.cpp"
-  "src/Camera/MovableCamera.cpp"
+  "src/Camera.cpp"
   "src/Event.cpp")
 
 option(

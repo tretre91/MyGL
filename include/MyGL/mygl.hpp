@@ -12,8 +12,7 @@
 #include "Drawable/Polygon.hpp"
 #include "Drawable/Text.hpp"
 #include "Animation.hpp"
-#include "Camera/FixedCamera.hpp"
-#include "Camera/Cam2D.hpp"
+#include "Camera.hpp"
 
 #ifdef _MSC_VER
 #   pragma warning( pop )

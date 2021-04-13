@@ -6,7 +6,7 @@ int main() {
     my::GLWindow window(800, 600, "Test", 2);
     window.setFramerate(75);
 
-    my::Cam2D camera(0, 0);
+    my::Camera camera(0, 0);
     camera.setSpeed(100.0f);
     window.setCamera(camera);
 

@@ -64,9 +64,6 @@ int main() {
     my::GLWindow window(800, 600, "my window!");
     window.setFramerate(60);
 
-    my::Cam2D camera(0, 0);
-    window.setCamera(camera);
-
     my::Rectangle rect(70, 50, 400, 300);
     rect.setColor(155, 32, 104);
 

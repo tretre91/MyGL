@@ -4,7 +4,7 @@ int main() {
     my::GLWindow window(800, 600, "Test", 0);
     window.setFramerate(10);
     
-    my::Cam2D cam(0, 0);
+    my::Camera cam(0, 0);
     window.setCamera(cam);
   
     my::Polygon pentagon(5, 50, 400, 300);

@@ -1,8 +1,9 @@
 #ifndef MY_2D_CAMERA
 #define MY_2D_CAMERA
 
-#include "../mygl_export.h"
-#include "MovableCamera.hpp"
+#include "mygl_export.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace my 
 {
@@ -10,9 +11,13 @@ namespace my
      * @brief Class used to manipulate a 2D camera
      * 
     */
-    class MYGL_EXPORT Cam2D : public MovableCamera {
+    class MYGL_EXPORT Camera {
 
     private:
+        glm::vec3 m_position;
+        glm::vec3 m_front;
+        glm::vec3 m_up;
+        float m_speed;
         float m_roll;
 
     public:
@@ -20,14 +25,14 @@ namespace my
          * @brief Default constructor, creates a camera pointing to the center of
          *        the window
         */
-        Cam2D();
+        Camera();
 
         /**
          * @brief Creates a 2D camera with its bottom left hand corner coordinates 
          * @param x The camera's x coordinate
          * @param y The camera's y coordinate
         */
-        Cam2D(int x, int y);
+        Camera(int x, int y);
 
         /**
          * @brief Sets the camera's position
@@ -35,6 +40,25 @@ namespace my
          * @param y The y coordinate of the bottom left hand corner
         */
         void setPosition(int x, int y);
+
+        /**
+         * @brief Get the camera's current position
+         * @return The camera's bottom left hand corner's position
+        */
+        glm::vec2 getPosition() const;
+
+        /**
+         * @brief Sets the camera's speed, in pixels per second
+         * @param speed The camera's speed, used with the frametime to produce
+         *              fluid movements
+        */
+        void setSpeed(float speed);
+
+        /**
+         * @brief Get the camera's speed
+         * @return the camera's speed
+        */
+        float getSpeed() const;
 
         /**
          * @name Functions related to the camera's movement
@@ -50,7 +74,7 @@ namespace my
          * 
          * my::GLWindow window(800, 600, "window");
          * 
-         * my::Cam2D camera(0, 0);
+         * my::Camera camera(0, 0);
          * camera.setSpeed(50.0f);
          * window.setCamera(camera);
          * 
@@ -59,7 +83,7 @@ namespace my
          * float frametime;
          *
          * bool running = true;
-         * while(running) {
+         * while(window.isRunning()) {
          *   ...
          *   window.clear(...);
          *
@@ -94,6 +118,13 @@ namespace my
         void moveRight(float frametime);
 
         /**@}*/
+
+        /**
+         * @brief Returns the camera's "look_at" matrix, it is used internally
+         *        by a GLWindow to set its view when drawing things
+         * @return The camera's "look_at" matrix
+        */
+        glm::mat4 lookAt() const;
     };
 
 }
