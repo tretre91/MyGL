@@ -68,8 +68,8 @@ std::vector<glm::vec2> Polygon::points() const {
 
     std::vector<glm::vec2> res;
     res.reserve(m_sides);
-    for (size_t i = 5; i < m_buffer->vertices.size(); i += 5) {
-        glm::vec4 vertex = transform * glm::vec4(m_buffer->vertices[i], m_buffer->vertices[i + 1], 0.0f, 1.0f);
+    for (size_t i = 5; i < p_buffer->vertices.size(); i += 5) {
+        glm::vec4 vertex = transform * glm::vec4(p_buffer->vertices[i], p_buffer->vertices[i + 1], 0.0f, 1.0f);
         res.emplace_back(glm::vec2(vertex.x, vertex.y));
     }
 
@@ -79,10 +79,10 @@ std::vector<glm::vec2> Polygon::points() const {
 Polygon::Polygon() : Polygon(3, 10) {}
 
 Polygon::Polygon(unsigned int sides, int radius) : AbstractShape(radius, radius),
-    m_sides(sides < 3 ? 3 : sides), m_buffer(nullptr)
+    m_sides(sides < 3 ? 3 : sides), p_buffer(nullptr)
 {
     glInit(m_sides);
-    m_buffer = &buffers[m_sides];
+    p_buffer = &buffers[m_sides];
 }
 
 Polygon::Polygon(unsigned int sides, int radius, int x, int y) : Polygon(sides, radius) {
@@ -92,7 +92,7 @@ Polygon::Polygon(unsigned int sides, int radius, int x, int y) : Polygon(sides, 
 void Polygon::setSides(unsigned int sides) {
     m_sides = sides < 3 ? 3 : sides;
     glInit(m_sides);
-    m_buffer = &buffers[m_sides];
+    p_buffer = &buffers[m_sides];
 }
 
 void Polygon::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
@@ -100,8 +100,8 @@ void Polygon::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
         m_model = glm::mat4(1.0f);
         m_model = glm::translate(m_model, glm::vec3(m_position.x, m_position.y, 0.0f));
         m_model = glm::rotate(m_model, glm::radians(m_rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
-        if (m_outlineThickness > 0) {
-            m_outlineModel = glm::scale(m_model, glm::vec3(static_cast<float>(m_outlineThickness) + m_originalScale.x * m_scaleFactor.x, static_cast<float>(m_outlineThickness) + m_originalScale.y * m_scaleFactor.y, 1.0f));
+        if (m_outlineThickness > 0.0f) {
+            m_outlineModel = glm::scale(m_model, glm::vec3(m_outlineThickness + m_originalScale.x * m_scaleFactor.x, m_outlineThickness + m_originalScale.y * m_scaleFactor.y, 1.0f));
         }
         m_model = glm::scale(m_model, glm::vec3(m_originalScale.x * m_scaleFactor.x, m_originalScale.y * m_scaleFactor.y, 1.0f));
         m_updateMatrix = false;
@@ -114,10 +114,10 @@ void Polygon::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
     p_activeShader->setFloat("color", m_color.getNormalized());
     p_activeShader->use();
 
-    if (m_outlineThickness > 0) {
+    if (m_outlineThickness > 0.0f) {
         glStencilFunc(GL_ALWAYS, 1, 0xFF);
         glStencilMask(0xFF);
-        glBindVertexArray(m_buffer->vao);
+        glBindVertexArray(p_buffer->vao);
         glDrawElements(GL_TRIANGLE_FAN, m_sides + 2, GL_UNSIGNED_INT, 0);
 
         glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
@@ -130,13 +130,12 @@ void Polygon::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
         }
         shader.use();
 
-        glBindVertexArray(m_buffer->vao);
         glDrawElements(GL_TRIANGLE_FAN, m_sides + 2, GL_UNSIGNED_INT, 0);
         glStencilFunc(GL_ALWAYS, 1, 0xFF);
         glStencilMask(0xFF);
-        glClear(GL_STENCIL_BUFFER_BIT);
     } else {
-        glBindVertexArray(m_buffer->vao);
+        glBindVertexArray(p_buffer->vao);
         glDrawElements(GL_TRIANGLE_FAN, m_sides + 2, GL_UNSIGNED_INT, 0);
     }
+    glClear(GL_STENCIL_BUFFER_BIT);
 }

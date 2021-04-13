@@ -31,7 +31,7 @@ namespace my
         bool m_updateMatrix;
         glm::mat4 m_model;
         my::Color m_color;
-        unsigned int m_outlineThickness;
+        float m_outlineThickness;
         my::Color m_outlineColor;
         glm::mat4 m_outlineModel;
         my::Texture m_texture;

@@ -25,7 +25,7 @@ namespace my
         
         static std::unordered_map<unsigned int, const GLinfo> buffers;
         unsigned int m_sides;
-        const GLinfo* m_buffer;
+        const GLinfo* p_buffer;
 
         static void computeVertices(unsigned int sides, GLinfo& buffer);
 

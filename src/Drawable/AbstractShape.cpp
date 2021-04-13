@@ -50,7 +50,7 @@ my::Shader AbstractShape::texShader = my::Shader();
 bool AbstractShape::shaderIsUsable = false;
 
 AbstractShape::AbstractShape() : m_position(0.0f, 0.0f), m_originalScale(5.0f, 5.0f), m_scaleFactor(1.0f, 1.0f),
-    m_rotationAngle(0.0f), m_updateMatrix(true), m_model(1.0f), m_color(100, 100, 100), m_outlineThickness(0),
+    m_rotationAngle(0.0f), m_updateMatrix(true), m_model(1.0f), m_color(100, 100, 100), m_outlineThickness(0.0f),
     m_outlineColor(255, 255, 255), m_outlineModel(1.0f), m_texture(), m_isTextured(false), p_activeShader(nullptr)
 {
     if (!shaderIsUsable) {
@@ -63,7 +63,7 @@ AbstractShape::AbstractShape() : m_position(0.0f, 0.0f), m_originalScale(5.0f, 5
 }
 
 AbstractShape::AbstractShape(int width, int height) : m_position(0.0f, 0.0f), m_originalScale(width / 2.0f, height / 2.0f),
-    m_scaleFactor(1.0f, 1.0f), m_rotationAngle(0.0f), m_updateMatrix(true), m_model(1.0f), m_color(100, 100, 100), m_outlineThickness(0),
+    m_scaleFactor(1.0f, 1.0f), m_rotationAngle(0.0f), m_updateMatrix(true), m_model(1.0f), m_color(100, 100, 100), m_outlineThickness(0.0f),
     m_outlineColor(255, 255, 255), m_outlineModel(1.0f), m_texture(), m_isTextured(false), p_activeShader(nullptr)
 {
     if (!shaderIsUsable) {
@@ -151,7 +151,7 @@ void AbstractShape::setColor(int r, int g, int b, int alpha) {
 }
 
 void AbstractShape::setColor(const my::Color& color) {
-    this->m_color = color;
+    m_color = color;
 }
 
 my::Color AbstractShape::getColor() const {
@@ -159,11 +159,11 @@ my::Color AbstractShape::getColor() const {
 }
 
 void AbstractShape::setOutlineThickness(unsigned int thickness) {
-    m_outlineThickness = thickness;
-    if (!m_updateMatrix && m_outlineThickness > 0) {
+    m_outlineThickness = static_cast<float>(thickness);
+    if (!m_updateMatrix && m_outlineThickness > 0.0f) {
         m_outlineModel = glm::translate(glm::mat4(1.0f), glm::vec3(m_position.x, m_position.y, 0.0f));
         m_outlineModel = glm::rotate(m_outlineModel, glm::radians(m_rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
-        m_outlineModel = glm::scale(m_outlineModel, glm::vec3(static_cast<float>(m_outlineThickness) + m_originalScale.x * m_scaleFactor.x, static_cast<float>(m_outlineThickness) + m_originalScale.y * m_scaleFactor.y, 1.0f));
+        m_outlineModel = glm::scale(m_outlineModel, glm::vec3(m_outlineThickness + m_originalScale.x * m_scaleFactor.x, m_outlineThickness + m_originalScale.y * m_scaleFactor.y, 1.0f));
     }
 }
 

@@ -71,8 +71,8 @@ void Rectangle::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
         m_model = glm::mat4(1.0f);
         m_model = glm::translate(m_model, glm::vec3(m_position.x, m_position.y, 0.0f));
         m_model = glm::rotate(m_model, glm::radians(m_rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
-        if (m_outlineThickness > 0) {
-            m_outlineModel = glm::scale(m_model, glm::vec3(static_cast<float>(m_outlineThickness) + m_originalScale.x * m_scaleFactor.x, static_cast<float>(m_outlineThickness) + m_originalScale.y * m_scaleFactor.y, 1.0f));
+        if (m_outlineThickness > 0.0f) {
+            m_outlineModel = glm::scale(m_model, glm::vec3(m_outlineThickness + m_originalScale.x * m_scaleFactor.x, m_outlineThickness + m_originalScale.y * m_scaleFactor.y, 1.0f));
         }
         m_model = glm::scale(m_model, glm::vec3(m_originalScale.x * m_scaleFactor.x, m_originalScale.y * m_scaleFactor.y, 1.0f));
         m_updateMatrix = false;
@@ -85,7 +85,7 @@ void Rectangle::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
     p_activeShader->setFloat("color", m_color.getNormalized());
     p_activeShader->use();
 
-    if (m_outlineThickness > 0) {
+    if (m_outlineThickness > 0.0f) {
         glStencilFunc(GL_ALWAYS, 1, 0xFF);
         glStencilMask(0xFF);
         glBindVertexArray(VAO);
@@ -105,11 +105,11 @@ void Rectangle::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
         glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, 0);
         glStencilFunc(GL_ALWAYS, 1, 0xFF);
         glStencilMask(0xFF);
-        glClear(GL_STENCIL_BUFFER_BIT);
     } else {
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, 0);
     }
+    glClear(GL_STENCIL_BUFFER_BIT);
 }
 
 my::Rectangle my::line(int x1, int y1, int x2, int y2) {
