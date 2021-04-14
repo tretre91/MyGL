@@ -99,6 +99,14 @@ void AbstractShape::setPosition(const glm::vec2& pos, bool center) {
     m_updateMatrix = true;
 }
 
+void AbstractShape::setRelativePosition(int x, int y, const my::Camera& camera, bool center) {
+    setRelativePosition(glm::vec2(x, y), camera, center);
+}
+
+void AbstractShape::setRelativePosition(const glm::vec2& pos, const my::Camera& camera, bool center) {
+    setPosition(camera.getPosition() + pos, center);
+}
+
 void AbstractShape::move(float x, float y) {
     m_position.x += x;
     m_position.y += y;

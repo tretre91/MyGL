@@ -5,6 +5,7 @@
 #include "../Shader.hpp"
 #include "../Color.hpp"
 #include "../Texture.hpp"
+#include "../Camera.hpp"
 
 #include <vector>
 #include <algorithm>
@@ -83,6 +84,25 @@ namespace my
          *               top left hand corner. Default value is false
         */
         virtual void setPosition(const glm::vec2& pos, bool center = false);
+
+        /**
+         * @brief Moves the shapes to a certain position, relative to a camera's position
+         * @param x The new horizontal position in the camera's view
+         * @param y The vertical position in the camera's view
+         * @param camera A camera the shapes positions will be relative to
+         * @param center If true, set the shape's center at (x,y), else sets its
+         *               top left hand corner at (x,y). Default value is false
+        */
+        virtual void setRelativePosition(int x, int y, const my::Camera& camera, bool center = false);
+
+        /**
+         * @brief Moves the shapes to a certain position, relative to a camera's position
+         * @param pos A glm::vec2 containing the new position 
+         * @param camera A camera the shapes positions will be relative to
+         * @param center If true, set the shape's center at (x,y), else sets its
+         *               top left hand corner at (x,y). Default value is false
+        */
+        virtual void setRelativePosition(const glm::vec2& pos, const my::Camera& camera, bool center = false);
 
         /**
          * @brief Moves the object relative to it's current position

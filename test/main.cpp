@@ -125,7 +125,7 @@ int main() {
         if (moveUp) camera.moveUp(frametime);
         if (moveDown) camera.moveDown(frametime);
 
-        if (click) rect.setPosition(mouseX, mouseY, true);
+        if (click) rect.setRelativePosition(mouseX, mouseY, window.getCamera(), true);
 
         window.clear(clearColor);
         window.draw(rect);
