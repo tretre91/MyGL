@@ -153,6 +153,16 @@ namespace my
     };
 
     /**
+     * @brief Mouse inforamtions for events involving mouse buttons 
+     * 
+     * TODO
+    */
+    struct MouseInfo {
+        MouseButton button;
+        MousePosition pos;
+    };
+
+    /**
      * @brief Struct for representing events and informations associated with them
      * 
      * This structure holds information about an event, it is composed of a type, an
@@ -201,7 +211,7 @@ namespace my
              * @brief The mouse button associated with a mouseButtonPressed or 
              *        mouseButtonReleased event
             */
-            MouseButton mouseButton;
+            MouseInfo mouse;
             /**
              * @brief The scroll wheel offset in a mouseScrolled event
              * 

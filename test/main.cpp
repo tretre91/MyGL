@@ -100,12 +100,12 @@ int main() {
 
 
             case my::EventType::mouseButtonPressed:
-                if (e.mouseButton == my::MouseButton::left && e.mods.ctrl)
+                if (e.mouse.button == my::MouseButton::left && e.mods.ctrl)
                     click = true;
                 break;
 
             case my::EventType::mouseButtonReleased:
-                if (e.mouseButton == my::MouseButton::left)
+                if (e.mouse.button == my::MouseButton::left)
                     click = false;
                 break;
 

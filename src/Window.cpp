@@ -214,38 +214,46 @@ void GLWindow::mouseButtonCallback(GLFWwindow* window, int button, int action, i
     if (action == GLFW_PRESS) e.type = my::EventType::mouseButtonPressed;
     else e.type = my::EventType::mouseButtonReleased;
 
+    int windowHeight;
+    glfwGetWindowSize(window, nullptr, &windowHeight);
+    double cursor_x, cursor_y;
+    glfwGetCursorPos(window, &cursor_x, &cursor_y);
+
+    e.mouse.pos.x = static_cast<int>(cursor_x);
+    e.mouse.pos.y = windowHeight - static_cast<int>(cursor_y);
+
     switch (button)
     {
     case GLFW_MOUSE_BUTTON_1:
-        e.mouseButton = my::MouseButton::left;
+        e.mouse.button = my::MouseButton::left;
         break;
 
     case GLFW_MOUSE_BUTTON_2:
-        e.mouseButton = my::MouseButton::right;
+        e.mouse.button = my::MouseButton::right;
         break;
 
     case GLFW_MOUSE_BUTTON_3:
-        e.mouseButton = my::MouseButton::middle;
+        e.mouse.button = my::MouseButton::middle;
         break;
 
     case GLFW_MOUSE_BUTTON_4:
-        e.mouseButton = my::MouseButton::extra_1;
+        e.mouse.button = my::MouseButton::extra_1;
         break;
 
     case GLFW_MOUSE_BUTTON_5:
-        e.mouseButton = my::MouseButton::extra_2;
+        e.mouse.button = my::MouseButton::extra_2;
         break;
 
     case GLFW_MOUSE_BUTTON_6:
-        e.mouseButton = my::MouseButton::extra_3;
+        e.mouse.button = my::MouseButton::extra_3;
         break;
 
     case GLFW_MOUSE_BUTTON_7:
-        e.mouseButton = my::MouseButton::extra_4;
+        e.mouse.button = my::MouseButton::extra_4;
         break;
 
     case GLFW_MOUSE_BUTTON_8:
-        e.mouseButton = my::MouseButton::extra_5;
+        e.mouse.button = my::MouseButton::extra_5;
         break;
     }
 
