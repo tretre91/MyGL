@@ -69,6 +69,12 @@ namespace my
         AbstractShape(int width, int height, int x, int y);
 
         /**
+         * @brief Gives the size of the shape
+         * @return The size of the shape's bounding box
+        */
+        glm::vec2 getSize() const;
+
+        /**
          * @brief Moves the shape to (x,y)
          * @param x The new horizontal position
          * @param y The new vertical popsition

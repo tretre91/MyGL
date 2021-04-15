@@ -78,7 +78,7 @@ std::vector<glm::vec2> Polygon::points() const {
 
 Polygon::Polygon() : Polygon(3, 10) {}
 
-Polygon::Polygon(unsigned int sides, int radius) : AbstractShape(radius, radius),
+Polygon::Polygon(unsigned int sides, int radius) : AbstractShape(2 * radius, 2 * radius),
     m_sides(sides < 3 ? 3 : sides), p_buffer(nullptr)
 {
     glInit(m_sides);

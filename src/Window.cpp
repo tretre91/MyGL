@@ -144,6 +144,12 @@ my::Camera& GLWindow::getCamera() {
     return *p_camera;
 }
 
+glm::ivec2 GLWindow::getSize() const {
+    glm::ivec2 size;
+    glfwGetWindowSize(p_window, &size.x, &size.y);
+    return size;
+}
+
 void GLWindow::draw(my::AbstractShape& shape) {
     my::AbstractShape* ptr = &shape;
     ptr->draw(p_camera->lookAt(), m_projection);

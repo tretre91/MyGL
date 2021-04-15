@@ -80,6 +80,10 @@ AbstractShape::AbstractShape(int width, int height, int x, int y) : AbstractShap
 }
 
 
+glm::vec2 AbstractShape::getSize() const {
+    return 2.0f * m_originalScale * m_scaleFactor;
+}
+
 void AbstractShape::setPosition(int x, int y, bool center) {
     m_position.x = static_cast<float>(x);
     m_position.y = static_cast<float>(y);

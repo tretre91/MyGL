@@ -145,6 +145,12 @@ namespace my
         my::Camera& getCamera();
 
         /**
+         * @brief Gives the window's size
+         * @return The size of the window's viewport (rendering area) in pixels
+        */
+        glm::ivec2 getSize() const;
+
+        /**
          * @brief Draws a shape
          * @param shape The shape to draw, it must inherit from AbstractShape
         */
