@@ -48,14 +48,6 @@ namespace my
         */
         static void myglErrorCallback(int error, const char* description);
 
-        /**
-         * @brief Callback function called when a GLWindow is resized
-         * @param window The pointer to the underlying GLFWwindow
-         * @param width The new width in pixels
-         * @param height The new height in pixels
-        */
-        static void myglFramebufferSizeCallback(GLFWwindow* window, int width, int height);
-
         /** @name Event callbacks
          * @brief Event callback functions for handling glfw events
         */
@@ -65,6 +57,7 @@ namespace my
         static void cursorPosCallback(GLFWwindow* window, double xpos, double ypos);
         static void cursorEnterCallback(GLFWwindow* window, int entered);
         static void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+        static void framebufferSizeCallback(GLFWwindow* window, int width, int height);
         static void windowCloseCallback(GLFWwindow* window);
         /** @} */
 
@@ -132,6 +125,27 @@ namespace my
         void clear(const my::Color& color) const;
 
         /**
+         * @brief Sets the dimensions of the window's projection matrix's frustum
+         * 
+         * @param left The frustum's left coordinate 
+         * @param right The frustum's tight coordinate
+         * @param bottom The frustum's bottom coordinate
+         * @param top The frustum's top coordinate
+        */
+        void setClipPlanes(int left, int right, int bottom, int top);
+
+        /**
+         * @brief Sets the viewport's position and size
+         * 
+         * This is equivalent to calling glViewport(left, bottom, width, height)
+         * @param x The viewport's lower left corner's x position
+         * @param y The viewport's lower left corner's y position
+         * @param width The viewport's width
+         * @param height The viewport's height
+        */
+        void setViewport(int x, int y, int width, int height);
+
+        /**
          * @brief Sets the camera used by this window
          * @param camera The camera which will be used to see the window's content
         */
@@ -143,6 +157,19 @@ namespace my
          *         window
         */
         my::Camera& getCamera();
+
+        /**
+         * @brief Sets the size of the window's rendering area
+         * 
+         * This function only modifies the size of the window, you should then
+         * handle the size of the projection matrix and 
+         * @param width The new width
+         * @param height The new height
+         * @param resizeViewport If true, the function will set the clip planes and viewport
+         *                       to the same size as the window (with a call to setClipPlanes(0, width, 0, height)
+         *                       and setViewport(0, 0, width, height) 
+        */
+        void setSize(unsigned int width, unsigned int height, bool resizeViewport = false);
 
         /**
          * @brief Gives the window's size

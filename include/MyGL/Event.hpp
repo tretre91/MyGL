@@ -3,6 +3,7 @@
 #define MY_EVENT
 
 #include "mygl_export.h"
+#include <glm/glm.hpp>
 
 namespace my
 {
@@ -43,7 +44,7 @@ namespace my
          * @brief Event triggered when the mouse cursor moves inside the window
          * 
          * This event is triggered when the cursor's position changes. It sets event.type to
-         * mouseMoved, event.mousePos to the new x and y positions relative to the window's
+         * mouseMoved, event.mouse.pos to the new x and y positions relative to the window's
          * bottom left corner, and does not provide information about the modifier keys
         */
         mouseMoved,
@@ -99,6 +100,11 @@ namespace my
         cursorLeft,
 
         /**
+         * @brief Event triggered when the window is resized
+        */
+        windowResized,
+
+        /**
          * @brief Event triggered when the user tries to close the window
         */
         windowShouldClose,
@@ -139,27 +145,19 @@ namespace my
      * @brief Codes for mouse buttons (used in mouseButtonPressed / Released events)
     */
     enum class MouseButton {
-        left, right, middle, extra_1, extra_2, extra_3, extra_4, extra_5
-    };
-
-    /**
-     * @brief Codes mouse position related to mouseEvents
-     * 
-     * It is used to store the cursor's position in a mouseMoved event and
-     * the scroll wheel offset values in a mouseScrolled event
-    */
-    struct MousePosition {
-        int x, y;
+        left, right, middle, extra_1, extra_2, extra_3, extra_4, extra_5, none
     };
 
     /**
      * @brief Mouse inforamtions for events involving mouse buttons 
      * 
-     * TODO
+     * This structure is used to store the informations of mouse events. It
+     * holds the button that was pressed in case of a mouseButtonPressed/
+     * released event and the cursor's position.
     */
     struct MouseInfo {
         MouseButton button;
-        MousePosition pos;
+        glm::vec2 pos;
     };
 
     /**
@@ -170,7 +168,7 @@ namespace my
      * 
      * @warning As the information is coded using an union, even though the event has 
      * multiple fields, only one is active at a time, so reading from the others is undefined.
-     * For example reading the mousePos value of a keyPressed event is undefined behaviour.
+     * For example reading the mouse value of a keyPressed event is undefined behaviour.
      * The information for each type of event is documented in the EventType enum documentation.
     */
     struct MYGL_EXPORT Event {
@@ -201,24 +199,22 @@ namespace my
             */
             Key keyCode;
             /**
-             * @brief The mouse position used in a mouseMoved event
-             *      
-             * 'x' is the cursor's new x position and 'y' the new y position 
-             * (relative to the window)
-            */
-            MousePosition mousePos;
-            /**
-             * @brief The mouse button associated with a mouseButtonPressed or 
-             *        mouseButtonReleased event
+             * @brief The mouse informations associated with mouse events
             */
             MouseInfo mouse;
             /**
              * @brief The scroll wheel offset in a mouseScrolled event
              * 
              * 'x' is the horizontal offset, and 'y' the vertical offset (a positive
-             * value indicates an upward movement)
+             * value indicates an upward movement).
             */
-            MousePosition scrollOffset;
+            glm::ivec2 scrollOffset;
+            /**
+             * @brief The new size of a window which have been resized
+             * 
+             * 'x' is the new width and 'y' the new height.
+            */
+            glm::ivec2 windowSize;
         };
 
         /**

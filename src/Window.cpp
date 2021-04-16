@@ -11,11 +11,6 @@ void GLWindow::myglErrorCallback(int error, const char* description) {
     std::cerr.flush();
 }
 
-void GLWindow::myglFramebufferSizeCallback(GLFWwindow* window, int width, int height) {
-    glfwMakeContextCurrent(window);
-    glViewport(0, 0, width, height);
-}
-
 GLWindow::GLWindow() : GLWindow(800, 600, "Default") {}
 
 GLWindow::GLWindow(int width, int height, const std::string& title, unsigned short aa) :
@@ -56,12 +51,12 @@ GLWindow::GLWindow(int width, int height, const std::string& title, unsigned sho
 
     m_usable = true;
     eventQueues.insert({ p_window, &m_eventQueue });
-    glfwSetFramebufferSizeCallback(p_window, myglFramebufferSizeCallback);
     glfwSetKeyCallback(p_window, keyCallback);
     glfwSetMouseButtonCallback(p_window, mouseButtonCallback);
     glfwSetCursorPosCallback(p_window, cursorPosCallback);
     glfwSetCursorEnterCallback(p_window, cursorEnterCallback);
     glfwSetScrollCallback(p_window, scrollCallback);
+    glfwSetFramebufferSizeCallback(p_window, framebufferSizeCallback);
     glfwSetWindowCloseCallback(p_window, windowCloseCallback);
 
     glfwSwapInterval(0);
@@ -131,9 +126,17 @@ void GLWindow::enableVsync(bool enable) {
 }
 
 void GLWindow::clear(const my::Color& color) const {
-    glm::vec4 nColor(color.getNormalized());
+    glm::vec4 nColor = color.getNormalized();
     glClearColor(nColor.r, nColor.g, nColor.b, nColor.a);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+}
+
+void GLWindow::setClipPlanes(int left, int right, int bottom, int top) {
+    m_projection = glm::ortho(static_cast<float>(left), static_cast<float>(right), static_cast<float>(bottom), static_cast<float>(top), 0.1f, 10.0f);
+}
+
+void GLWindow::setViewport(int x, int y, int width, int height) {
+    glViewport(x, y, width, height);
 }
 
 void GLWindow::setCamera(my::Camera& camera) {
@@ -142,6 +145,14 @@ void GLWindow::setCamera(my::Camera& camera) {
 
 my::Camera& GLWindow::getCamera() {
     return *p_camera;
+}
+
+void GLWindow::setSize(unsigned int width, unsigned int height, bool resizeViewport) {
+    glfwSetWindowSize(p_window, static_cast<int>(width), static_cast<int>(height));
+    if (resizeViewport) {
+        setClipPlanes(0, width, 0, height);
+        setViewport(0, 0, width, height);
+    }
 }
 
 glm::ivec2 GLWindow::getSize() const {
@@ -225,8 +236,8 @@ void GLWindow::mouseButtonCallback(GLFWwindow* window, int button, int action, i
     double cursor_x, cursor_y;
     glfwGetCursorPos(window, &cursor_x, &cursor_y);
 
-    e.mouse.pos.x = static_cast<int>(cursor_x);
-    e.mouse.pos.y = windowHeight - static_cast<int>(cursor_y);
+    e.mouse.pos.x = static_cast<float>(cursor_x);
+    e.mouse.pos.y = static_cast<float>(windowHeight - cursor_y);
 
     switch (button)
     {
@@ -261,6 +272,9 @@ void GLWindow::mouseButtonCallback(GLFWwindow* window, int button, int action, i
     case GLFW_MOUSE_BUTTON_8:
         e.mouse.button = my::MouseButton::extra_5;
         break;
+
+    default:
+        break;
     }
 
     e.mods = {
@@ -277,12 +291,11 @@ void GLWindow::mouseButtonCallback(GLFWwindow* window, int button, int action, i
 
 void GLWindow::cursorPosCallback(GLFWwindow* window, double xpos, double ypos) {
     my::Event e;
-    int x, y;
-    glfwGetFramebufferSize(window, &x, &y);
-    x = static_cast<int>(std::lround(xpos));
-    y -= static_cast<int>(std::lround(ypos));
+    int windowHeight;
+    glfwGetWindowSize(window, nullptr, &windowHeight);
     e.type = my::EventType::mouseMoved;
-    e.mousePos = { x, y };
+    e.mouse.button = my::MouseButton::none;
+    e.mouse.pos = glm::vec2(static_cast<float>(xpos), static_cast<float>(windowHeight - ypos));
     eventQueues[window]->push_back(e);
 }
 
@@ -299,7 +312,14 @@ void GLWindow::scrollCallback(GLFWwindow* window, double xoffset, double yoffset
     e.type = my::EventType::mouseScrolled;
     int deltax = -static_cast<int>(xoffset);
     int deltay = static_cast<int>(yoffset);
-    e.scrollOffset = { deltax, deltay };
+    e.scrollOffset = glm::ivec2(deltax, deltay);
+    eventQueues[window]->push_back(e);
+}
+
+void GLWindow::framebufferSizeCallback(GLFWwindow* window, int width, int height) {
+    my::Event e;
+    e.type = my::EventType::windowResized;
+    e.windowSize = glm::ivec2(width, height);
     eventQueues[window]->push_back(e);
 }
 

@@ -66,6 +66,11 @@ int main() {
                 case my::Key::down:
                     moveDown = true;
                     break;
+
+                case my::Key::s:
+                    const glm::ivec2 s = window.getSize();
+                    window.setSize(s.x - 50, s.y - 50);
+                    break;
                 }
                 break;
 
@@ -110,8 +115,8 @@ int main() {
                 break;
 
             case my::EventType::mouseMoved:
-                mouseX = e.mousePos.x;
-                mouseY = e.mousePos.y;
+                mouseX = e.mouse.pos.x;
+                mouseY = e.mouse.pos.y;
                 break;
 
             default:
