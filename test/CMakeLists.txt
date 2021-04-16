@@ -23,7 +23,7 @@ target_link_libraries(TestFile
 if(UNIX)
   target_link_libraries(TestFile 
     PUBLIC dl
-  )
+    PUBLIC pthread)
 endif()
 
 target_include_directories(TestFile 

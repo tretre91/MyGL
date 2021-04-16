@@ -35,7 +35,7 @@ set(PROJECT_SOURCES
 
 option(
   MYGL_BUILD_DOCUMENTATION 
-  "Turn on in order to enable a build target for the documentation, this requires that you have doxygen, sphinx, breathe and the sphinx_rtd_theme installed"
+  "Turn on in order to enable a build target for the documentation, this requires that you have doxygen installed"
   OFF
 )
 
@@ -94,10 +94,10 @@ if(MYGL_SHARED)
   target_include_directories(MyGL 
     PUBLIC
       $<BUILD_INTERFACE:${GLFW3_INCLUDE_DIR}>
-      $<INSTALL_INTERFACE:include/GLFW3>
+      $<INSTALL_INTERFACE:$<IF:$<BOOL:${USE_OWN_GLFW3}>,include/GLFW3,${GLFW3_INCLUDE_DIR}>>
     PUBLIC
       $<BUILD_INTERFACE:${FREETYPE_INCLUDE_DIR_ft2build}>
-      $<INSTALL_INTERFACE:include/freetype2>
+      $<INSTALL_INTERFACE:$<IF:$<BOOL:${USE_OWN_FREETYPE}>,include/freetype2,${FREETYPE_INCLUDE_DIR_ft2build}>>
     PUBLIC
       $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
       $<INSTALL_INTERFACE:include>  
@@ -128,10 +128,10 @@ if(MYGL_STATIC)
   target_include_directories(MyGL-static
     PUBLIC
       $<BUILD_INTERFACE:${GLFW3_INCLUDE_DIR}>
-      $<INSTALL_INTERFACE:include/GLFW3>
+      $<INSTALL_INTERFACE:$<IF:$<BOOL:${USE_OWN_GLFW3}>,include/GLFW3,${GLFW3_INCLUDE_DIR}>>
     PUBLIC
       $<BUILD_INTERFACE:${FREETYPE_INCLUDE_DIR_ft2build}>
-      $<INSTALL_INTERFACE:include/freetype2>
+      $<INSTALL_INTERFACE:$<IF:$<BOOL:${USE_OWN_FREETYPE}>,include/freetype2,${FREETYPE_INCLUDE_DIR_ft2build}>>
     PUBLIC
       $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
       $<INSTALL_INTERFACE:include>  
@@ -176,15 +176,16 @@ install(FILES "cmake/MyGLConfig.cmake" "${CMAKE_BINARY_DIR}/MyGLConfigVersion.cm
   DESTINATION ${MYGL_INSTALL_CMAKEDIR}
 )
 
-install(DIRECTORY ${GLFW3_INCLUDE_DIR} ${FREETYPE_INCLUDE_DIR_freetype2} ${INCLUDE_DIR}/
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-)
+install(
+  DIRECTORY 
+    $<$<BOOL:${USE_OWN_GLFW3}>:${GLFW3_INCLUDE_DIR}>
+    $<$<BOOL:${USE_OWN_FREETYPE}>:${FREETYPE_INCLUDE_DIR_freetype2}>
+    ${INCLUDE_DIR}/
+  DESTINATION 
+    ${CMAKE_INSTALL_INCLUDEDIR})
 
-
-# Other targets
+# Documentation target
 if(MYGL_BUILD_DOCUMENTATION)
-  # FindSphinx
-  set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
   add_subdirectory("docs")
 endif()
 
