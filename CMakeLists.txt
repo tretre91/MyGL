@@ -57,7 +57,7 @@ option(
   ON
 )
 
-# Search for the dependancies
+# Search for the dependencies
 add_subdirectory(external)
 
 if(MYGL_SHARED AND MYGL_STATIC)
@@ -94,10 +94,10 @@ if(MYGL_SHARED)
   target_include_directories(MyGL 
     PUBLIC
       $<BUILD_INTERFACE:${GLFW3_INCLUDE_DIR}>
-      $<INSTALL_INTERFACE:$<IF:$<BOOL:${USE_OWN_GLFW3}>,include/GLFW3,${GLFW3_INCLUDE_DIR}>>
+      $<INSTALL_INTERFACE:$<$<NOT:$<BOOL:${USE_OWN_GLFW3}>>:${GLFW3_INCLUDE_DIR}>>
     PUBLIC
       $<BUILD_INTERFACE:${FREETYPE_INCLUDE_DIR_ft2build}>
-      $<INSTALL_INTERFACE:$<IF:$<BOOL:${USE_OWN_FREETYPE}>,include/freetype2,${FREETYPE_INCLUDE_DIR_ft2build}>>
+      $<INSTALL_INTERFACE:$<$<NOT:$<BOOL:${USE_OWN_FREETYPE}>>:${FREETYPE_INCLUDE_DIR_ft2build}>>
     PUBLIC
       $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
       $<INSTALL_INTERFACE:include>  
@@ -128,10 +128,10 @@ if(MYGL_STATIC)
   target_include_directories(MyGL-static
     PUBLIC
       $<BUILD_INTERFACE:${GLFW3_INCLUDE_DIR}>
-      $<INSTALL_INTERFACE:$<IF:$<BOOL:${USE_OWN_GLFW3}>,include/GLFW3,${GLFW3_INCLUDE_DIR}>>
+      $<INSTALL_INTERFACE:$<$<NOT:$<BOOL:${USE_OWN_GLFW3}>>:${GLFW3_INCLUDE_DIR}>>
     PUBLIC
       $<BUILD_INTERFACE:${FREETYPE_INCLUDE_DIR_ft2build}>
-      $<INSTALL_INTERFACE:$<IF:$<BOOL:${USE_OWN_FREETYPE}>,include/freetype2,${FREETYPE_INCLUDE_DIR_ft2build}>>
+      $<INSTALL_INTERFACE:$<$<NOT:$<BOOL:${USE_OWN_FREETYPE}>>:${FREETYPE_INCLUDE_DIR_ft2build}>>
     PUBLIC
       $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
       $<INSTALL_INTERFACE:include>  
@@ -178,8 +178,6 @@ install(FILES "cmake/MyGLConfig.cmake" "${CMAKE_BINARY_DIR}/MyGLConfigVersion.cm
 
 install(
   DIRECTORY 
-    $<$<BOOL:${USE_OWN_GLFW3}>:${GLFW3_INCLUDE_DIR}>
-    $<$<BOOL:${USE_OWN_FREETYPE}>:${FREETYPE_INCLUDE_DIR_freetype2}>
     ${INCLUDE_DIR}/
   DESTINATION 
     ${CMAKE_INSTALL_INCLUDEDIR})

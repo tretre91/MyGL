@@ -2,6 +2,10 @@
 # of the libraries, if it is not found then the corresponding  git submodule is
 # initialized and added as a subdirectory
 
+if(UNIX AND MYGL_SHARED)
+  set(BUILD_SHARED_LIBS True)
+endif()
+
 find_package(GLFW3)
 
 if(NOT GLFW3_FOUND OR USE_OWN_GLFW3)
@@ -48,8 +52,5 @@ elseif(NOT EXISTS USE_OWN_FREETYPE)
 endif()
 
 if(USE_OWN_FREETYPE)
-  if(UNIX AND MYGL_SHARED)
-    set(BUILD_SHARED_LIBS True)
-  endif()
   add_subdirectory(freetype2)
 endif()
