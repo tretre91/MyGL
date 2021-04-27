@@ -37,7 +37,7 @@ jobs:
         working-directory: ${{github.workspace}}/user_test
         run: |
           g++ -c ${{github.workspace}}/test/ci_test_file.cpp -I/usr/include/freetype2 -I${{github.workspace}}/install/include/ -DMYGL_STATIC_DEFINE
-          g++ ci_test_file.o -o test ${{github.workspace}}/install/lib/libmygl.a -lglfw -ldl -lpthread
+          g++ ci_test_file.o -o test ${{github.workspace}}/install/lib/libmygl.a -L${{github.workspace}}/install/lib/ -lglfw -ldl -lpthread
 
       - name: Check test file compilation against shared libs
         shell: bash
