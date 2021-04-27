@@ -28,7 +28,7 @@ endif()
 
 target_include_directories(TestFile 
   PUBLIC
-    $<BUILD_INTERFACE:${INCLUDE_DIR}>
+    $<BUILD_INTERFACE:${MYGL_INCLUDE_DIR}>
     $<INSTALL_INTERFACE:include>
 )
 

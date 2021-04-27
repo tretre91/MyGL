@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.14)
 
 project(
   MyGL
@@ -9,8 +9,6 @@ project(
 
 set(CXX_STANDARD_REQUIRED 14)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
-set(CMAKE_CXX_VISIBILITY_PRESET hidden)
-set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 
 if(NOT APPLE)
@@ -58,19 +56,37 @@ option(
 )
 
 # Search for the dependencies
-add_subdirectory(external)
+include(cmake/CPM.cmake)
 
-if(MYGL_SHARED AND MYGL_STATIC)
-  set(MYGL_TARGETS "MyGL" "MyGL-static")
-elseif(MYGL_SHARED)
-  set(MYGL_TARGETS "MyGL")
-elseif(MYGL_STATIC)
-  set(MYGL_TARGETS "MyGL-static")
-elseif(NOT MYGL_BUILD_DOCUMENTATION)
+if(UNIX AND MYGL_SHARED)
+  set(BUILD_SHARED_LIBS True)
+endif()
+
+CPMAddPackage(
+  NAME glfw
+  GIT_REPOSITORY "https://github.com/glfw/glfw.git"
+  GIT_TAG 3.3-stable
+  OPTIONS "GLFW_BUILD_DOCS OFF" "GLFW_BUILD_TESTS OFF" "GLFW_BUILD_EXAMPLES OFF"
+)
+
+CPMAddPackage(
+  NAME freetype
+  GIT_REPOSITORY "https://gitlab.freedesktop.org/freetype/freetype.git"
+  GIT_TAG VER-2-10-4
+)
+
+
+if(MYGL_SHARED)
+  list(APPEND MYGL_TARGETS "MyGL")
+endif()
+if(MYGL_STATIC)
+  list(APPEND MYGL_TARGETS "MyGL-static")
+endif()
+if(NOT MYGL_BUILD_DOCUMENTATION AND NOT MYGL_TARGETS)
   message(FATAL_ERROR "Nothing to build, enable at least one of the options MYGL_STATIC, MYGL_SHARED or MYGL_BUILD_DOCUMENTATION")
 endif()
 
-set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
+set(MYGL_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 
 # Shared library
 if(MYGL_SHARED)
@@ -80,6 +96,8 @@ if(MYGL_SHARED)
     VERSION ${PROJECT_VERSION}
     OUTPUT_NAME mygl
     DEBUG_POSTFIX "d"
+    CXX_VISIBILITY_PRESET hidden
+    VISIBILITY_INLINES_HIDDEN YES
   )
 
   target_compile_definitions(MyGL
@@ -93,14 +111,8 @@ if(MYGL_SHARED)
 
   target_include_directories(MyGL 
     PUBLIC
-      $<BUILD_INTERFACE:${GLFW3_INCLUDE_DIR}>
-      $<INSTALL_INTERFACE:$<$<NOT:$<BOOL:${USE_OWN_GLFW3}>>:${GLFW3_INCLUDE_DIR}>>
-    PUBLIC
-      $<BUILD_INTERFACE:${FREETYPE_INCLUDE_DIR_ft2build}>
-      $<INSTALL_INTERFACE:$<$<NOT:$<BOOL:${USE_OWN_FREETYPE}>>:${FREETYPE_INCLUDE_DIR_ft2build}>>
-    PUBLIC
       $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-      $<INSTALL_INTERFACE:include>  
+      $<INSTALL_INTERFACE:include>
   )
 endif(MYGL_SHARED)
 
@@ -126,12 +138,6 @@ if(MYGL_STATIC)
   )
 
   target_include_directories(MyGL-static
-    PUBLIC
-      $<BUILD_INTERFACE:${GLFW3_INCLUDE_DIR}>
-      $<INSTALL_INTERFACE:$<$<NOT:$<BOOL:${USE_OWN_GLFW3}>>:${GLFW3_INCLUDE_DIR}>>
-    PUBLIC
-      $<BUILD_INTERFACE:${FREETYPE_INCLUDE_DIR_ft2build}>
-      $<INSTALL_INTERFACE:$<$<NOT:$<BOOL:${USE_OWN_FREETYPE}>>:${FREETYPE_INCLUDE_DIR_ft2build}>>
     PUBLIC
       $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
       $<INSTALL_INTERFACE:include>  
@@ -178,7 +184,7 @@ install(FILES "cmake/MyGLConfig.cmake" "${CMAKE_BINARY_DIR}/MyGLConfigVersion.cm
 
 install(
   DIRECTORY 
-    ${INCLUDE_DIR}/
+    ${MYGL_INCLUDE_DIR}/
   DESTINATION 
     ${CMAKE_INSTALL_INCLUDEDIR})
 
