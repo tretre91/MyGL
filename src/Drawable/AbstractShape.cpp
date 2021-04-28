@@ -89,7 +89,7 @@ void AbstractShape::setPosition(int x, int y, bool center) {
     m_position.y = static_cast<float>(y);
     if (!center) {
         m_position.x += m_originalScale.x * m_scaleFactor.x;
-        m_position.y -= m_originalScale.y * m_scaleFactor.y;
+        m_position.y += m_originalScale.y * m_scaleFactor.y;
     }
     m_updateMatrix = true;
 }
@@ -98,7 +98,7 @@ void AbstractShape::setPosition(const glm::vec2& pos, bool center) {
     m_position = pos;
     if (!center) {
         m_position.x += m_originalScale.x * m_scaleFactor.x;
-        m_position.y -= m_originalScale.y * m_scaleFactor.y;
+        m_position.y += m_originalScale.y * m_scaleFactor.y;
     }
     m_updateMatrix = true;
 }

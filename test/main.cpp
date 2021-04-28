@@ -14,13 +14,13 @@ int main() {
     rect.setColor(175, 87, 43, 255);
 
     unsigned int sides = 5;
-    my::Polygon poly(sides, 100, 150, 150);
+    my::Polygon poly(sides, 100, 150, 300);
     poly.setColor(my::Color::white);
 
 
     my::Font openSans("@RESSOURCES_DIR@/Fonts/OpenSans-Regular.ttf");
     my::Text text("The .\\quick \"brown\" {fox} \n#jumps [over] the lazy dog!", openSans, 60);
-    text.setPosition(0, 60);
+    text.setPosition(5, 5);
     text.setOutlineThickness(5);
     text.setColor(my::Color::white);
     text.setOutlineColor(my::Color::red);
