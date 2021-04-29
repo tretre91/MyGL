@@ -34,26 +34,22 @@ set(PROJECT_SOURCES
 option(
   MYGL_BUILD_DOCUMENTATION 
   "Turn on in order to enable a build target for the documentation, this requires that you have doxygen installed"
-  OFF
-)
+  OFF)
 
 option(
-  MYGL_BUILD_SAMPLE
-  "Enables a build target for a sample executable using this library (the one used for testing)"
-  OFF
-)
+  MYGL_EXAMPLES
+  "Builds the example programs"
+  OFF)
 
 option(
   MYGL_SHARED
   "Builds the dynamic library files. At least one of the options MYGL_SHARED and MYGL_STATIC should be enabled"
-  ON
-)
+  ON)
 
 option(
   MYGL_STATIC
   "Builds the dynamic library files. At least one of the options MYGL_SHARED and MYGL_STATIC should be enabled"
-  ON
-)
+  ON)
 
 # Search for the dependencies
 include(cmake/CPM.cmake)
@@ -193,6 +189,6 @@ if(MYGL_BUILD_DOCUMENTATION)
   add_subdirectory("docs")
 endif()
 
-if(MYGL_BUILD_SAMPLE)
-  add_subdirectory("test")
+if(MYGL_EXAMPLES)
+  add_subdirectory("examples")
 endif()
