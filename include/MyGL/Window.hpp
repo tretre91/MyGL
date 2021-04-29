@@ -29,12 +29,13 @@ namespace my
     private:
         static bool gladIsInitialized;
         static unsigned int instancesCount;
-        static std::unordered_map<GLFWwindow*, std::deque<Event>*> eventQueues;
+        static std::unordered_map<GLFWwindow*, GLWindow*> windows;
         static my::Camera defaultCamera;
 
         glm::mat4 m_projection;
         my::Camera* p_camera;
         GLFWwindow* p_window;
+        glm::ivec2 m_size;
         bool m_usable;
         my::seconds m_frameDelay;
         mutable my::seconds m_frametime;
