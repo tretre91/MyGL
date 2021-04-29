@@ -27,9 +27,9 @@ are downloaded when configuring CMake if not found on the system.
 It also has smaller dependencies which are included in the source code :
 - [CPM.cmake](https://github.com/cpm-cmake/CPM.cmake) for the dependency managment
 - [glm](https://github.com/g-truc/glm) for the vectors and most of the mathematical
-  functions, 
+  functions
 - [stb_image](https://github.com/nothings/stb/blob/master/stb_image.h) for texture
-  loading,
+  loading
 - [glad](https://github.com/Dav1dde/glad) for the OpenGL loader 
 - [Doxygen Awesome](https://jothepro.github.io/doxygen-awesome-css/) for the
   doxygen css theme
