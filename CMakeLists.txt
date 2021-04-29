@@ -144,51 +144,54 @@ endif(MYGL_STATIC)
 #install directives
 include(GNUInstallDirs)
 
-set(MYGL_INSTALL_CMAKEDIR
-  ${CMAKE_INSTALL_LIBDIR}/cmake/MyGL
-  CACHE STRING "Path to MyGL cmake files"
-)
+if(MYGL_TARGETS)
+  set(MYGL_INSTALL_CMAKEDIR
+    ${CMAKE_INSTALL_LIBDIR}/cmake/MyGL
+    CACHE STRING "Path to MyGL cmake files"
+  )
 
-install(TARGETS ${MYGL_TARGETS}
-  EXPORT MyGL_Targets
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-          COMPONENT MyGL_Runtime
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-          COMPONENT MyGL_Runtime
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-          COMPONENT MyGL_Development
-  INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-)
+  install(TARGETS ${MYGL_TARGETS}
+    EXPORT MyGL_Targets
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+            COMPONENT MyGL_Runtime
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            COMPONENT MyGL_Runtime
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            COMPONENT MyGL_Development
+    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+  )
 
-install(EXPORT MyGL_Targets
-  FILE MyGLTargets.cmake
-  NAMESPACE MyGL::
-  DESTINATION ${MYGL_INSTALL_CMAKEDIR}
-)
+  install(EXPORT MyGL_Targets
+    FILE MyGLTargets.cmake
+    NAMESPACE MyGL::
+    DESTINATION ${MYGL_INSTALL_CMAKEDIR}
+  )
 
-include(CMakePackageConfigHelpers)
+  include(CMakePackageConfigHelpers)
 
-write_basic_package_version_file(
-  MyGLConfigVersion.cmake
-  VERSION ${PROJECT_VERSION}
-  COMPATIBILITY SameMajorVersion
-)
+  write_basic_package_version_file(
+    MyGLConfigVersion.cmake
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY SameMajorVersion
+  )
 
-install(FILES "cmake/MyGLConfig.cmake" "${CMAKE_BINARY_DIR}/MyGLConfigVersion.cmake"
-  DESTINATION ${MYGL_INSTALL_CMAKEDIR}
-)
+  install(FILES "cmake/MyGLConfig.cmake" "${CMAKE_BINARY_DIR}/MyGLConfigVersion.cmake"
+    DESTINATION ${MYGL_INSTALL_CMAKEDIR}
+  )
 
-install(
-  DIRECTORY 
-    ${MYGL_INCLUDE_DIR}/
-  DESTINATION 
-    ${CMAKE_INSTALL_INCLUDEDIR})
+  install(
+    DIRECTORY 
+      ${MYGL_INCLUDE_DIR}/
+    DESTINATION 
+      ${CMAKE_INSTALL_INCLUDEDIR})
+endif()
 
-# Documentation target
+# Documentation directory
 if(MYGL_BUILD_DOCUMENTATION)
   add_subdirectory("docs")
 endif()
 
+# Example programs directory
 if(MYGL_EXAMPLES)
   add_subdirectory("examples")
 endif()

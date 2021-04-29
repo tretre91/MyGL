@@ -149,7 +149,7 @@ namespace my
     };
 
     /**
-     * @brief Mouse inforamtions for events involving mouse buttons 
+     * @brief Mouse informations for events involving mouse buttons 
      * 
      * This structure is used to store the informations of mouse events. It
      * holds the button that was pressed in case of a mouseButtonPressed/

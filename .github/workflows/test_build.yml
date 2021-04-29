@@ -20,7 +20,7 @@ jobs:
       - name: Configure CMake
         shell: bash
         working-directory: ${{github.workspace}}/build
-        run: cmake ${{github.workspace}} -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DMYGL_BUILD_SAMPLE=ON -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install -DCPM_USE_LOCAL_PACKAGES=ON
+        run: cmake ${{github.workspace}} -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DMYGL_EXAMPLES=ON -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install -DCPM_USE_LOCAL_PACKAGES=ON
         
       - name: Build
         shell: bash
@@ -57,7 +57,7 @@ jobs:
       
       - name: Configure CMake
         working-directory: ${{github.workspace}}/build
-        run: cmake ${{github.workspace}} -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DMYGL_BUILD_SAMPLE=ON -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install
+        run: cmake ${{github.workspace}} -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DMYGL_EXAMPLES=ON -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install
         
       - name: Build
         working-directory: ${{github.workspace}}/build

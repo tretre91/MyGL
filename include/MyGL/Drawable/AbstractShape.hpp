@@ -230,7 +230,7 @@ namespace my
         virtual void setTexture(const my::Texture& texture);
 
         /**
-         * @brief Attach a texture to the shape
+         * @brief Attaches a texture to the shape
          * @param filename The path to the image, supported formats are jpeg, png,
          *                 gif (not animated), bmp, tga, psd, hdr, pic, and pnm
          * @param hasAlpha True if the image has an alpha channel
