@@ -11,15 +11,15 @@ int main() {
     my::Event event;
     while (window.isRunning()) {
         while (window.pollEvent(event)) {
-            switch (event.type)
-            {
+            switch (event.type) {
             case my::EventType::windowShouldClose:
                 window.close();
                 break;
 
             case my::EventType::keyPressed:
-                if (event.keyCode == my::Key::escape)
+                if (event.keyCode == my::Key::escape) {
                     window.close();
+                }
                 break;
 
             default:

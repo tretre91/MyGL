@@ -1,4 +1,5 @@
 #include <MyGL/Drawable/Font.hpp>
+#include <iostream>
 using namespace my;
 
 FT_Library Font::ftLib = FT_Library();
@@ -22,8 +23,8 @@ void Font::addGlyph(FT_GlyphSlot& glyph, std::vector<uint8_t>& texture, size_t x
 
 Font::Font() : m_face() {
     if (instancesCount == 0) {
-        if (FT_Init_FreeType(&ftLib)) {
-            std::cerr << "ERROR::Freetype : freetype initialization failed" << std::endl;
+        if (FT_Init_FreeType(&ftLib) != 0) {
+            std::cerr << "ERROR::Freetype : freetype initialization failed\n";
         }
     }
     instancesCount++;
@@ -37,18 +38,15 @@ Font::Font(const std::string& fontFilename) : Font() {
 
 bool Font::load(const std::string& fontFilename) {
     FT_Done_Face(m_face);
-    if (FT_New_Face(ftLib, fontFilename.c_str(), 0, &m_face)
-        || FT_Select_Charmap(m_face, FT_ENCODING_UNICODE))
-    {
-        return false;
-    }
-    return true;
+    return FT_New_Face(ftLib, fontFilename.c_str(), 0, &m_face) == 0 && FT_Select_Charmap(m_face, FT_ENCODING_UNICODE) == 0;
 }
 
 Font::~Font() {
     FT_Done_Face(m_face);
     instancesCount--;
-    if (instancesCount == 0) FT_Done_FreeType(ftLib);
+    if (instancesCount == 0) {
+        FT_Done_FreeType(ftLib);
+    }
 }
 
 my::Texture Font::getStringTexture(const std::u32string& text, unsigned int size) {
@@ -59,23 +57,27 @@ my::Texture Font::getStringTexture(const std::u32string& text, unsigned int size
 
     size_t width = 0;
     size_t trueSize = m_face->size->metrics.height >> 6;
-    int pen_x = 0, pen_y = -m_face->size->metrics.ascender >> 6;
+    int pen_x = 0;
+    int pen_y = -m_face->size->metrics.ascender >> 6;
     FT_UInt prevGlyphIndex = 0;
     FT_Vector kernDelta;
     const bool hasKerning = FT_HAS_KERNING(m_face);
 
     for (auto c : text) {
-        if (FT_Load_Char(m_face, c, FT_LOAD_BITMAP_METRICS_ONLY)) {
+        if (FT_Load_Char(m_face, c, FT_LOAD_BITMAP_METRICS_ONLY) != 0) {
             std::wcerr << "ERROR::FREETYPE: Couldn't load char" << c << std::endl;
             continue;
         }
-        charPos.push_back({ pen_x, pen_y });
+
+        charPos.emplace_back(std::pair<int, int>{pen_x, pen_y});
         if (c == U'\n') {
-            if (pen_x > width) width = pen_x;
+            if (pen_x > width) {
+                width = pen_x;
+            }
             pen_x = 0;
             pen_y -= static_cast<int>(trueSize);
         } else {
-            if (hasKerning && prevGlyphIndex && m_face->glyph->glyph_index) {
+            if (hasKerning && prevGlyphIndex > 0 && m_face->glyph->glyph_index > 0) {
                 FT_Get_Kerning(m_face, prevGlyphIndex, m_face->glyph->glyph_index, FT_KERNING_DEFAULT, &kernDelta);
                 pen_x += kernDelta.x >> 6;
             }
@@ -83,13 +85,16 @@ my::Texture Font::getStringTexture(const std::u32string& text, unsigned int size
         }
         prevGlyphIndex = m_face->glyph->glyph_index;
     }
-    if (pen_x > width) width = pen_x;
+
+    if (pen_x > width) {
+        width = pen_x;
+    }
     size_t height = static_cast<size_t>(-(pen_y + (m_face->size->metrics.descender >> 6))) + 10;
 
     std::vector<uint8_t> texture(width * height);
     for (size_t i = 0; i < text.size(); i++) {
         if (text[i] != U'\n') {
-            if (FT_Load_Char(m_face, text[i], FT_LOAD_RENDER)) {
+            if (FT_Load_Char(m_face, text[i], FT_LOAD_RENDER) != 0) {
                 std::wcerr << "ERROR::FREETYPE: Couldn't load char" << text[i] << std::endl;
                 continue;
             }
@@ -101,12 +106,12 @@ my::Texture Font::getStringTexture(const std::u32string& text, unsigned int size
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glGenTextures(1, &texture_id);
     glBindTexture(GL_TEXTURE_2D, texture_id);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, static_cast<unsigned>(width), static_cast<unsigned>(height), 0, GL_RED, GL_UNSIGNED_BYTE, texture.data());
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, static_cast<unsigned int>(width), static_cast<unsigned int>(height), 0, GL_RED, GL_UNSIGNED_BYTE, texture.data());
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    return Texture(texture_id, static_cast<unsigned>(width), static_cast<unsigned>(height));
+    return Texture(texture_id, static_cast<unsigned int>(width), static_cast<unsigned int>(height));
 }

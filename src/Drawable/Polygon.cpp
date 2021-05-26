@@ -1,20 +1,20 @@
 #include <MyGL/Drawable/Polygon.hpp>
+#include <numeric>
 using namespace my;
 
-std::unordered_map<unsigned int, const Polygon::GLinfo> Polygon::buffers = {};
+std::unordered_map<unsigned int, const Polygon::GLinfo> Polygon::buffers;
 
 void Polygon::computeVertices(unsigned int sides, GLinfo& buffer) {
     float angle = 0.0f;
     float inc = (2 * pi) / sides;
 
     buffer.vertices = std::vector<float>(static_cast<size_t>(5 * (sides + 1)));
-    buffer.indices = std::vector<unsigned int>(static_cast<size_t>(sides + 2));
 
-    //the center's coordinates
-    buffer.vertices[0] = 0.0f;
+    // the center's coordinates
+    buffer.vertices[0] = 0.0f; // first 3 coords are the normal x,y,z
     buffer.vertices[1] = 0.0f;
     buffer.vertices[2] = 0.0f;
-    buffer.vertices[3] = 0.5f;
+    buffer.vertices[3] = 0.5f; // the 2 last are the texture coordinates
     buffer.vertices[4] = 0.5f;
 
     for (size_t i = 5; i < buffer.vertices.size(); i += 5) {
@@ -26,8 +26,9 @@ void Polygon::computeVertices(unsigned int sides, GLinfo& buffer) {
         angle += inc;
     }
 
-    for (size_t i = 0; i < buffer.indices.size(); i++) buffer.indices[i] = static_cast<unsigned int>(i);
-    buffer.indices[buffer.indices.size() - 1] = 1;
+    buffer.indices = std::vector<unsigned int>(static_cast<size_t>(sides + 2));
+    std::iota(buffer.indices.begin(), buffer.indices.end(), 0u);
+    buffer.indices.back() = 1u;
 }
 
 void Polygon::glInit(unsigned int sides) {
@@ -43,7 +44,7 @@ void Polygon::glInit(unsigned int sides) {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer.ebo);
 
         glBufferData(GL_ARRAY_BUFFER, buffer.vertices.size() * sizeof(float), buffer.vertices.data(), GL_STATIC_DRAW);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer.indices.size() * sizeof(unsigned int) , buffer.indices.data(), GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer.indices.size() * sizeof(unsigned int), buffer.indices.data(), GL_STATIC_DRAW);
 
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void*>(0));
         glEnableVertexAttribArray(0);
@@ -51,7 +52,7 @@ void Polygon::glInit(unsigned int sides) {
         glEnableVertexAttribArray(1);
 
         glBindVertexArray(0);
-        buffers.insert({ sides, buffer });
+        buffers.insert({sides, buffer});
     }
 }
 
@@ -78,9 +79,7 @@ std::vector<glm::vec2> Polygon::points() const {
 
 Polygon::Polygon() : Polygon(3, 10) {}
 
-Polygon::Polygon(unsigned int sides, int radius) : AbstractShape(2 * radius, 2 * radius),
-    m_sides(sides < 3 ? 3 : sides), p_buffer(nullptr)
-{
+Polygon::Polygon(unsigned int sides, int radius) : AbstractShape(2 * radius, 2 * radius), m_sides(sides < 3 ? 3 : sides), p_buffer(nullptr) {
     glInit(m_sides);
     p_buffer = &buffers[m_sides];
 }
@@ -101,11 +100,13 @@ void Polygon::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
         m_model = glm::translate(m_model, glm::vec3(m_position.x, m_position.y, 0.0f));
         m_model = glm::rotate(m_model, glm::radians(m_rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
         if (m_outlineThickness > 0.0f) {
-            m_outlineModel = glm::scale(m_model, glm::vec3(m_outlineThickness + m_originalScale.x * m_scaleFactor.x, m_outlineThickness + m_originalScale.y * m_scaleFactor.y, 1.0f));
+            m_outlineModel = glm::scale(
+              m_model, glm::vec3(m_outlineThickness + m_originalScale.x * m_scaleFactor.x, m_outlineThickness + m_originalScale.y * m_scaleFactor.y, 1.0f));
         }
         m_model = glm::scale(m_model, glm::vec3(m_originalScale.x * m_scaleFactor.x, m_originalScale.y * m_scaleFactor.y, 1.0f));
         m_updateMatrix = false;
     }
+
     glActiveTexture(GL_TEXTURE3);
     m_texture.bind();
     p_activeShader->setMat4("model", m_model);
@@ -118,7 +119,7 @@ void Polygon::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
         glStencilFunc(GL_ALWAYS, 1, 0xFF);
         glStencilMask(0xFF);
         glBindVertexArray(p_buffer->vao);
-        glDrawElements(GL_TRIANGLE_FAN, m_sides + 2, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLE_FAN, m_sides + 2, GL_UNSIGNED_INT, nullptr);
 
         glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
         glStencilMask(0x00);
@@ -130,12 +131,12 @@ void Polygon::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
         }
         shader.use();
 
-        glDrawElements(GL_TRIANGLE_FAN, m_sides + 2, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLE_FAN, m_sides + 2, GL_UNSIGNED_INT, nullptr);
         glStencilFunc(GL_ALWAYS, 1, 0xFF);
         glStencilMask(0xFF);
     } else {
         glBindVertexArray(p_buffer->vao);
-        glDrawElements(GL_TRIANGLE_FAN, m_sides + 2, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLE_FAN, m_sides + 2, GL_UNSIGNED_INT, nullptr);
     }
     glClear(GL_STENCIL_BUFFER_BIT);
 }

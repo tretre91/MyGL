@@ -11,7 +11,6 @@
 #include "Drawable/Rectangle.hpp"
 #include "Drawable/Polygon.hpp"
 #include "Drawable/Text.hpp"
-#include "Animation.hpp"
 #include "Camera.hpp"
 
 #ifdef _MSC_VER

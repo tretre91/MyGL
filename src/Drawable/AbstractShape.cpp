@@ -1,58 +1,58 @@
 #include <MyGL/Drawable/AbstractShape.hpp>
+#include <algorithm>
 using namespace my;
 
 const float AbstractShape::pi = 3.1415926535f;
 
-const std::string AbstractShape::vertexSource ="\
-#version 330 core\n\
-layout (location = 0) in vec3 aPos;\n\
-uniform mat4 model;\n\
-uniform mat4 view;\n\
-uniform mat4 projection;\n\
-void main(){\n\
-    gl_Position = projection * view * model * vec4(aPos, 1.0);\n\
-};";
+const std::string AbstractShape::vertexSource =
+  "#version 330 core\n"
+  "layout (location = 0) in vec3 aPos;"
+  "uniform mat4 model;"
+  "uniform mat4 view;"
+  "uniform mat4 projection;"
+  "void main(){"
+  "    gl_Position = projection * view * model * vec4(aPos, 1.0);"
+  "}";
 
-const std::string AbstractShape::fragmentSource ="\
-#version 330 core\n\
-out vec4 FragColor;\n\
-uniform vec4 color;\n\
-void main(){\n\
-    FragColor = color;\n\
-};";
+const std::string AbstractShape::fragmentSource =
+  "#version 330 core\n"
+  "out vec4 FragColor;"
+  "uniform vec4 color;"
+  "void main(){"
+  "    FragColor = color;"
+  "}";
 
-const std::string AbstractShape::texVertexSource ="\
-#version 330 core\n\
-layout (location = 0) in vec3 aPos;\n\
-layout (location = 1) in vec2 aTexCoords;\n\
-out vec2 texCoords;\n\
-uniform mat4 model;\n\
-uniform mat4 view;\n\
-uniform mat4 projection;\n\
-void main(){\n\
-    gl_Position = projection * view * model * vec4(aPos, 1.0);\n\
-    texCoords = aTexCoords;\n\
-};";
+const std::string AbstractShape::texVertexSource =
+  "#version 330 core\n"
+  "layout (location = 0) in vec3 aPos;"
+  "layout (location = 1) in vec2 aTexCoords;"
+  "out vec2 texCoords;"
+  "uniform mat4 model;"
+  "uniform mat4 view;"
+  "uniform mat4 projection;"
+  "void main(){"
+  "    gl_Position = projection * view * model * vec4(aPos, 1.0);"
+  "    texCoords = aTexCoords;"
+  "}";
 
-const std::string AbstractShape::texFragmentSource ="\
-#version 330 core\n\
-in vec2 texCoords;\n\
-out vec4 FragColor;\n\
-uniform sampler2D tex;\n\
-uniform vec4 color;\n\
-void main(){\n\
-    FragColor = texture(tex, texCoords);\n\
-};";
+const std::string AbstractShape::texFragmentSource =
+  "#version 330 core\n"
+  "in vec2 texCoords;"
+  "out vec4 FragColor;"
+  "uniform sampler2D tex;"
+  "uniform vec4 color;"
+  "void main(){"
+  "    FragColor = texture(tex, texCoords);"
+  "}";
 
 my::Shader AbstractShape::shader = my::Shader();
 my::Shader AbstractShape::texShader = my::Shader();
 
 bool AbstractShape::shaderIsUsable = false;
 
-AbstractShape::AbstractShape() : m_position(0.0f, 0.0f), m_originalScale(5.0f, 5.0f), m_scaleFactor(1.0f, 1.0f),
-    m_rotationAngle(0.0f), m_updateMatrix(true), m_model(1.0f), m_color(100, 100, 100), m_outlineThickness(0.0f),
-    m_outlineColor(255, 255, 255), m_outlineModel(1.0f), m_texture(), m_isTextured(false), p_activeShader(nullptr)
-{
+AbstractShape::AbstractShape() :
+  m_position(0.0f, 0.0f), m_originalScale(5.0f, 5.0f), m_scaleFactor(1.0f, 1.0f), m_rotationAngle(0.0f), m_updateMatrix(true), m_model(1.0f),
+  m_color(100, 100, 100), m_outlineThickness(0.0f), m_outlineColor(255, 255, 255), m_outlineModel(1.0f), m_isTextured(false), p_activeShader(nullptr) {
     if (!shaderIsUsable) {
         shader = my::Shader(vertexSource, fragmentSource, false);
         texShader = my::Shader(texVertexSource, texFragmentSource, false);
@@ -62,10 +62,9 @@ AbstractShape::AbstractShape() : m_position(0.0f, 0.0f), m_originalScale(5.0f, 5
     p_activeShader = &shader;
 }
 
-AbstractShape::AbstractShape(int width, int height) : m_position(0.0f, 0.0f), m_originalScale(width / 2.0f, height / 2.0f),
-    m_scaleFactor(1.0f, 1.0f), m_rotationAngle(0.0f), m_updateMatrix(true), m_model(1.0f), m_color(100, 100, 100), m_outlineThickness(0.0f),
-    m_outlineColor(255, 255, 255), m_outlineModel(1.0f), m_texture(), m_isTextured(false), p_activeShader(nullptr)
-{
+AbstractShape::AbstractShape(int width, int height) :
+  m_position(0.0f, 0.0f), m_originalScale(width / 2.0f, height / 2.0f), m_scaleFactor(1.0f, 1.0f), m_rotationAngle(0.0f), m_updateMatrix(true), m_model(1.0f),
+  m_color(100, 100, 100), m_outlineThickness(0.0f), m_outlineColor(255, 255, 255), m_outlineModel(1.0f), m_isTextured(false), p_activeShader(nullptr) {
     if (!shaderIsUsable) {
         shader = my::Shader(vertexSource, fragmentSource, false);
         texShader = my::Shader(texVertexSource, texFragmentSource, false);
@@ -78,7 +77,6 @@ AbstractShape::AbstractShape(int width, int height) : m_position(0.0f, 0.0f), m_
 AbstractShape::AbstractShape(int width, int height, int x, int y) : AbstractShape(width, height) {
     setPosition(x, y, true);
 }
-
 
 glm::vec2 AbstractShape::getSize() const {
     return 2.0f * m_originalScale * m_scaleFactor;
@@ -121,7 +119,6 @@ glm::vec2 AbstractShape::getPosition() const {
     return m_position;
 }
 
-
 void AbstractShape::setScale(float x, float y) {
     m_scaleFactor.x = x;
     m_scaleFactor.y = y;
@@ -138,7 +135,6 @@ glm::vec2 AbstractShape::getScale() const {
     return m_scaleFactor;
 }
 
-
 void AbstractShape::setRotation(float angle) {
     m_rotationAngle = glm::mod(angle, 360.0f);
     m_updateMatrix = true;
@@ -152,7 +148,6 @@ void AbstractShape::rotate(float angle) {
 float AbstractShape::getRotation() const {
     return m_rotationAngle;
 }
-
 
 void AbstractShape::setColor(int r, int g, int b, int alpha) {
     m_color = my::Color(glm::clamp(r, 0, 255), glm::clamp(g, 0, 255), glm::clamp(b, 0, 255), glm::clamp(alpha, 0, 255));
@@ -171,7 +166,8 @@ void AbstractShape::setOutlineThickness(unsigned int thickness) {
     if (!m_updateMatrix && m_outlineThickness > 0.0f) {
         m_outlineModel = glm::translate(glm::mat4(1.0f), glm::vec3(m_position.x, m_position.y, 0.0f));
         m_outlineModel = glm::rotate(m_outlineModel, glm::radians(m_rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
-        m_outlineModel = glm::scale(m_outlineModel, glm::vec3(m_outlineThickness + m_originalScale.x * m_scaleFactor.x, m_outlineThickness + m_originalScale.y * m_scaleFactor.y, 1.0f));
+        m_outlineModel = glm::scale(
+          m_outlineModel, glm::vec3(m_outlineThickness + m_originalScale.x * m_scaleFactor.x, m_outlineThickness + m_originalScale.y * m_scaleFactor.y, 1.0f));
     }
 }
 
@@ -191,7 +187,9 @@ bool AbstractShape::SATCollides(const AbstractShape& otherShape) const {
     float r1 = std::max(radius.x, radius.y);
     radius = shape->m_originalScale * shape->m_scaleFactor;
     float r2 = std::max(radius.x, radius.y);
-    if(dist > r1 + r2) return false;
+    if (dist > r1 + r2) {
+        return false;
+    }
 
     // if the shapes are close enough we use the separating axis
     // theorem to test wether they are coliding
@@ -214,14 +212,16 @@ bool AbstractShape::SATCollides(const AbstractShape& otherShape) const {
             axis = (*currentShape)[i] - (*currentShape)[i + 1];
             middle = ((*currentShape)[i] + (*currentShape)[i + 1]) / 2.0f;
             axis = glm::normalize(glm::vec2(axis.y, -axis.x));
-            
+
             std::transform(points1.begin(), points1.end(), projections1.begin(), dot);
             auto shape1Range = std::minmax_element(projections1.begin(), projections1.end());
 
             std::transform(points2.begin(), points2.end(), projections2.begin(), dot);
             auto shape2Range = std::minmax_element(projections2.begin(), projections2.end());
 
-            if (*(shape2Range.first) > *(shape1Range.second) || *(shape2Range.second) < *(shape1Range.first)) return false;
+            if (*(shape2Range.first) > *(shape1Range.second) || *(shape2Range.second) < *(shape1Range.first)) {
+                return false;
+            }
         }
         currentShape = &points2;
     }

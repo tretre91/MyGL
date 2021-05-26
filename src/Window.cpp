@@ -1,10 +1,12 @@
 #include <MyGL/Window.hpp>
+#include <iostream>
+#include <thread>
 using namespace my;
 
 bool GLWindow::gladIsInitialized = false;
 unsigned int GLWindow::instancesCount = 0;
-std::unordered_map<GLFWwindow*, my::GLWindow*> GLWindow::windows{};
-my::Camera GLWindow::defaultCamera = my::Camera();
+std::unordered_map<GLFWwindow*, my::GLWindow*> GLWindow::windows;
+my::Camera GLWindow::defaultCamera;
 
 void GLWindow::myglErrorCallback(int error, const char* description) {
     std::cerr << "ERROR::GLFW: " << description;
@@ -14,12 +16,11 @@ void GLWindow::myglErrorCallback(int error, const char* description) {
 GLWindow::GLWindow() : GLWindow(800, 600, "Default") {}
 
 GLWindow::GLWindow(int width, int height, const std::string& title, unsigned short aa) :
-    m_projection(glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), 0.1f, 10.0f)), p_camera(&defaultCamera),
-    p_window(nullptr), m_size(width, height), m_usable(false), m_frametime(1.0), m_frameDelay(my::seconds::zero()), m_chrono{}, m_eventQueue{}
-{
+  m_projection(glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), 0.1f, 10.0f)), p_camera(&defaultCamera), p_window(nullptr),
+  m_size(width, height), m_usable(false), m_frameDelay(my::seconds::zero()), m_frametime(1.0) {
     if (instancesCount++ == 0) {
         glfwSetErrorCallback(my::GLWindow::myglErrorCallback);
-        if (!glfwInit()) {
+        if (glfwInit() == GLFW_FALSE) {
             std::cerr << "ERROR::GLFW: Failed to initialize Video module" << std::endl;
             exit(EXIT_FAILURE);
         }
@@ -40,7 +41,7 @@ GLWindow::GLWindow(int width, int height, const std::string& title, unsigned sho
 
     glfwMakeContextCurrent(p_window);
     if (!gladIsInitialized) {
-        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+        if (gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)) == 0) {
             std::cerr << "ERROR::GLAD: Failed to initialize GLAD" << std::endl;
             glfwDestroyWindow(p_window);
             glfwTerminate();
@@ -50,7 +51,7 @@ GLWindow::GLWindow(int width, int height, const std::string& title, unsigned sho
     }
 
     m_usable = true;
-    windows.insert({ p_window, this });
+    windows.insert({p_window, this});
     glfwSetKeyCallback(p_window, keyCallback);
     glfwSetMouseButtonCallback(p_window, mouseButtonCallback);
     glfwSetCursorPosCallback(p_window, cursorPosCallback);
@@ -99,11 +100,10 @@ bool GLWindow::pollEvent(my::Event& e) {
     glfwPollEvents();
     if (m_eventQueue.empty()) {
         return false;
-    } else {
-        e = m_eventQueue.front();
-        m_eventQueue.pop_front();
-        return true;
     }
+    e = m_eventQueue.front();
+    m_eventQueue.pop_front();
+    return true;
 }
 
 void GLWindow::setActive() {
@@ -168,10 +168,6 @@ void GLWindow::draw(my::AbstractShape& shape) {
     ptr->draw(p_camera->lookAt(), m_projection);
 }
 
-void my::GLWindow::draw(my::Animation& anim) {
-    anim.draw(p_camera->lookAt(), m_projection);
-}
-
 void GLWindow::display() const {
     if (m_usable) {
         glfwSwapBuffers(p_window);
@@ -194,13 +190,11 @@ void* GLWindow::getGLProcAdress(const char* name) {
     return (void*)glfwGetProcAddress(name);
 }
 
-
 /* Callback functions related to the event system */
 
 void GLWindow::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     my::Event e;
-    switch (action)
-    {
+    switch (action) {
     case GLFW_PRESS:
         e.type = my::EventType::keyPressed;
         break;
@@ -216,22 +210,18 @@ void GLWindow::keyCallback(GLFWwindow* window, int key, int scancode, int action
 
     e.keyCode = static_cast<my::Key>(key);
 
-    e.mods = {
-        (mods & 0x01) > 0,
-        (mods & 0x02) > 0,
-        (mods & 0x04) > 0,
-        (mods & 0x08) > 0,
-        (mods & 0x10) > 0,
-        (mods & 0x20) > 0
-    };
+    e.mods = {(mods & 0x01) > 0, (mods & 0x02) > 0, (mods & 0x04) > 0, (mods & 0x08) > 0, (mods & 0x10) > 0, (mods & 0x20) > 0};
 
     windows[window]->m_eventQueue.push_back(e);
 }
 
 void GLWindow::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
     my::Event e;
-    if (action == GLFW_PRESS) e.type = my::EventType::mouseButtonPressed;
-    else e.type = my::EventType::mouseButtonReleased;
+    if (action == GLFW_PRESS) {
+        e.type = my::EventType::mouseButtonPressed;
+    } else {
+        e.type = my::EventType::mouseButtonReleased;
+    }
 
     int windowHeight;
     glfwGetWindowSize(window, nullptr, &windowHeight);
@@ -241,8 +231,7 @@ void GLWindow::mouseButtonCallback(GLFWwindow* window, int button, int action, i
     e.mouse.pos.x = static_cast<float>(cursor_x);
     e.mouse.pos.y = static_cast<float>(windowHeight - cursor_y);
 
-    switch (button)
-    {
+    switch (button) {
     case GLFW_MOUSE_BUTTON_1:
         e.mouse.button = my::MouseButton::left;
         break;
@@ -279,14 +268,7 @@ void GLWindow::mouseButtonCallback(GLFWwindow* window, int button, int action, i
         break;
     }
 
-    e.mods = {
-        (mods & 0x01) > 0,
-        (mods & 0x02) > 0,
-        (mods & 0x04) > 0,
-        (mods & 0x08) > 0,
-        (mods & 0x10) > 0,
-        (mods & 0x20) > 0
-    };
+    e.mods = {(mods & 0x01) > 0, (mods & 0x02) > 0, (mods & 0x04) > 0, (mods & 0x08) > 0, (mods & 0x10) > 0, (mods & 0x20) > 0};
 
     windows[window]->m_eventQueue.push_back(e);
 }
@@ -304,8 +286,11 @@ void GLWindow::cursorPosCallback(GLFWwindow* window, double xpos, double ypos) {
 void GLWindow::cursorEnterCallback(GLFWwindow* window, int entered) {
     my::Event e;
     e.keyCode = my::Key::unknown;
-    if (entered) e.type = my::EventType::cursorEntered;
-    else e.type = my::EventType::cursorLeft;
+    if (entered == GLFW_TRUE) {
+        e.type = my::EventType::cursorEntered;
+    } else {
+        e.type = my::EventType::cursorLeft;
+    }
     windows[window]->m_eventQueue.push_back(e);
 }
 
@@ -331,5 +316,5 @@ void GLWindow::windowCloseCallback(GLFWwindow* window) {
     e.type = my::EventType::windowShouldClose;
     e.keyCode = my::Key::unknown;
     windows[window]->m_eventQueue.push_back(e);
-    glfwSetWindowShouldClose(window, false);
+    glfwSetWindowShouldClose(window, GLFW_FALSE);
 }

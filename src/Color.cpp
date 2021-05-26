@@ -9,11 +9,9 @@ const Color Color::blue = Color(0, 0, 255);
 
 Color::Color() : Color(Color::white) {}
 
-Color::Color(uint8_t r, uint8_t g, uint8_t b, uint8_t alpha) : r(r), g(g), b(b), alpha(alpha), 
-normalized(r / 255.0f, g / 255.0f, b / 255.0f, alpha / 255.0f) {
-}
+Color::Color(uint8_t r, uint8_t g, uint8_t b, uint8_t alpha) : r(r), g(g), b(b), alpha(alpha), normalized(r / 255.0f, g / 255.0f, b / 255.0f, alpha / 255.0f) {}
 
-Color::Color(const std::string& hexColor, uint8_t alpha) {
+Color::Color(const std::string& hexColor, uint8_t alpha) : normalized{} {
     unsigned long n = std::stoul(hexColor, nullptr, 16);
     r = static_cast<uint8_t>(n >> 16);
     n &= 0b000000001111111111111111ul;
@@ -25,7 +23,7 @@ Color::Color(const std::string& hexColor, uint8_t alpha) {
     normalized.r = r / 255.0f;
     normalized.g = g / 255.0f;
     normalized.b = b / 255.0f;
-    normalized.a =  alpha / 255.0f;
+    normalized.a = alpha / 255.0f;
 }
 
 glm::ivec4 Color::get() const {
@@ -70,14 +68,6 @@ void Color::setBlue(uint8_t blue) {
 void Color::setAlpha(uint8_t alpha) {
     this->alpha = alpha;
     normalized.a = this->alpha / 255.0f;
-}
-
-Color& Color::operator=(const Color& color) {
-    setRed(color.r);
-    setGreen(color.g);
-    setBlue(color.b);
-    setAlpha(color.alpha);
-    return *this;
 }
 
 bool my::operator==(const Color& color1, const Color& color2) {

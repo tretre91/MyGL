@@ -1,28 +1,28 @@
 #include <MyGL/Drawable/Text.hpp>
 using namespace my;
 
-const std::string Text::textVertexSource = "\
-#version 330 core\n\
-layout(location = 0) in vec3 aPos;\n\
-layout(location = 1) in vec2 aTex\n;\
-out vec2 texCoords;\n\
-uniform mat4 model;\n\
-uniform mat4 view;\n\
-uniform mat4 projection;\n\
-void main() {\n\
-    gl_Position = projection * view * model * vec4(aPos, 1.0);\n\
-    texCoords = vec2(aTex.x, 1.0 - aTex.y);\n\
-}";
+const std::string Text::textVertexSource =
+  "#version 330 core\n"
+  "layout(location = 0) in vec3 aPos;"
+  "layout(location = 1) in vec2 aTex;"
+  "out vec2 texCoords;"
+  "uniform mat4 model;"
+  "uniform mat4 view;"
+  "uniform mat4 projection;"
+  "void main() {"
+  "    gl_Position = projection * view * model * vec4(aPos, 1.0);"
+  "    texCoords = vec2(aTex.x, 1.0 - aTex.y);"
+  "}";
 
-const std::string Text::textFragmentSource = "\
-#version 330 core\n\
-in vec2 texCoords;\n\
-out vec4 FragColor;\n\
-uniform sampler2D tex;\n\
-uniform vec4 color;\n\
-void main() {\n\
-    FragColor = vec4(color.rgb, texture(tex, texCoords).r);\n\
-}";
+const std::string Text::textFragmentSource =
+  "#version 330 core\n"
+  "in vec2 texCoords;"
+  "out vec4 FragColor;"
+  "uniform sampler2D tex;"
+  "uniform vec4 color;"
+  "void main() {"
+  "    FragColor = vec4(color.rgb, texture(tex, texCoords).r);"
+  "}";
 
 my::Shader Text::textShader = my::Shader();
 
@@ -32,16 +32,14 @@ std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> Text::u8_u32conv{};
 std::wstring_convert<std::codecvt_utf16<char32_t>, char32_t> Text::u16_u32conv{};
 std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> Text::u8_wconv{};
 
-Text::Text() : Rectangle(), m_text(U""), m_font(defaultFont), m_size(0)
-{}
+Text::Text() : m_text(U""), m_font(defaultFont), m_size(0) {}
 
-my::Text::Text(const std::string& text, my::Font& font, unsigned int size) : m_text(u8_u32conv.from_bytes(text)),
-    m_font(font), m_size(size)
-{
+my::Text::Text(const std::string& text, my::Font& font, unsigned int size) : m_text(u8_u32conv.from_bytes(text)), m_font(font), m_size(size) {
     if (!textShader.isUsable()) {
         textShader = my::Shader(textVertexSource, textFragmentSource, false);
         textShader.setInt("tex", 3);
     }
+
     setColor(my::Color::black);
     setTexture(font.getStringTexture(m_text, m_size));
     m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
@@ -49,13 +47,13 @@ my::Text::Text(const std::string& text, my::Font& font, unsigned int size) : m_t
     p_activeShader = &textShader;
 }
 
-my::Text::Text(const std::wstring& text, my::Font& font, unsigned int size) : Rectangle(),
-    m_text(u8_u32conv.from_bytes(u8_wconv.to_bytes(text))), m_font(font), m_size(size)
-{
+my::Text::Text(const std::wstring& text, my::Font& font, unsigned int size) :
+  m_text(u8_u32conv.from_bytes(u8_wconv.to_bytes(text))), m_font(font), m_size(size) {
     if (!textShader.isUsable()) {
         textShader = my::Shader(textVertexSource, textFragmentSource, false);
         textShader.setInt("tex", 3);
     }
+
     setColor(my::Color::black);
     setTexture(font.getStringTexture(m_text, m_size));
     m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
@@ -63,8 +61,7 @@ my::Text::Text(const std::wstring& text, my::Font& font, unsigned int size) : Re
     p_activeShader = &textShader;
 }
 
-my::Text::Text(const std::u16string& text, my::Font& font, unsigned int size) : Rectangle(), m_font(font), m_size(size)
-{
+my::Text::Text(const std::u16string& text, my::Font& font, unsigned int size) : m_font(font), m_size(size) {
     if (!textShader.isUsable()) {
         textShader = my::Shader(textVertexSource, textFragmentSource, false);
         textShader.setInt("tex", 3);
@@ -80,12 +77,12 @@ my::Text::Text(const std::u16string& text, my::Font& font, unsigned int size) : 
     p_activeShader = &textShader;
 }
 
-my::Text::Text(const std::u32string& text, my::Font& font, unsigned int size) : Rectangle(), m_text(text), m_font(font), m_size(size)
-{
+my::Text::Text(const std::u32string& text, my::Font& font, unsigned int size) : m_text(text), m_font(font), m_size(size) {
     if (!textShader.isUsable()) {
         textShader = my::Shader(textVertexSource, textFragmentSource, false);
         textShader.setInt("tex", 3);
     }
+
     setColor(my::Color::black);
     setTexture(font.getStringTexture(m_text, m_size));
     m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);

@@ -10,13 +10,12 @@ int main() {
     my::Font jp_font("@RESSOURCES_DIR@/NotoSansJP-Regular.otf");
 
     const std::string lorem_ipsum_paragraph =
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod\n"
-        "tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam,\n"
-        "quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\n"
-        "consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse\n"
-        "cillum dolore eu fugiat nulla pariatur.Excepteur sint occaecat cupidatat\n"
-        "non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-    ;
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod\n"
+      "tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam,\n"
+      "quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\n"
+      "consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse\n"
+      "cillum dolore eu fugiat nulla pariatur.Excepteur sint occaecat cupidatat\n"
+      "non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
     my::Text lorem_ipsum(lorem_ipsum_paragraph, open_sans, 20);
     lorem_ipsum.setColor(my::Color::white);
@@ -54,8 +53,7 @@ int main() {
 
     while (window.isRunning()) {
         while (window.pollEvent(e)) {
-            switch (e.type)
-            {
+            switch (e.type) {
             case my::EventType::windowShouldClose:
                 window.close();
                 break;
