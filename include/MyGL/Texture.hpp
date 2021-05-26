@@ -37,9 +37,8 @@ namespace my
         /**
          * @brief Creates a texture from an image file
          * @param filename The path to the image
-         * @param format Image format, if the source image contains an alpha channel the parameter 'GL_RGBA' should be used
          */
-        Texture(const std::string& filename, GLenum format = GL_RGB);
+        Texture(const std::string& filename);
 
         /**
          * @brief Cretes a texture from an existing opengl texture
@@ -62,10 +61,9 @@ namespace my
         /**
          * @brief Loads a texture, this texture should not be used if the operation fails
          * @param filename The path to the image
-         * @param format Image format, if the source image contains an alpha channel the parameter 'GL_RGBA' should be used
          * @return True if the image has been successfuly loaded, false if an error has occured
          */
-        bool load(const std::string& filename, GLenum format = GL_RGB);
+        bool load(const std::string& filename);
 
         /**
          * @brief Return a texture's OpenGL id

@@ -234,9 +234,8 @@ namespace my
          * @brief Attaches a texture to the shape
          * @param filename The path to the image, supported formats are jpeg, png,
          *                 gif (not animated), bmp, tga, psd, hdr, pic, and pnm
-         * @param hasAlpha True if the image has an alpha channel
          */
-        void setTexture(const std::string& filename, bool hasAlpha = false);
+        void setTexture(const std::string& filename);
 
         /**
          * @brief Draws a shape, this method is called by a window

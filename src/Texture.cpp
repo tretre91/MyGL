@@ -5,19 +5,15 @@ using namespace my;
 
 std::unordered_map<unsigned int, unsigned int> Texture::instances;
 
-Texture::Texture(const std::string& filename, GLenum format) {
-    if (!load(filename, format)) {
+Texture::Texture(const std::string& filename) {
+    if (!load(filename)) {
         std::cerr << "Failed to load texture " << filename << std::endl;
     }
 }
 
 Texture::Texture(unsigned int textureId, unsigned int width, unsigned int height) : m_textureId(textureId), m_width(width), m_height(height) {
     if (m_textureId != 0) {
-        if (instances.find(m_textureId) == instances.end()) {
-            instances.insert({m_textureId, 1});
-        } else {
-            instances[m_textureId]++;
-        }
+        instances[m_textureId]++;
     }
 }
 
@@ -69,13 +65,12 @@ Texture& Texture::operator=(Texture&& tex) noexcept {
     return *this;
 }
 
-bool Texture::load(const std::string& filename, GLenum format) {
+bool Texture::load(const std::string& filename) {
     if (m_textureId != 0 && --instances[m_textureId] == 0) {
         glDeleteTextures(1, &m_textureId);
         instances.erase(m_textureId);
     }
 
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
     glGenTextures(1, &m_textureId);
     glBindTexture(GL_TEXTURE_2D, m_textureId);
 
@@ -94,6 +89,29 @@ bool Texture::load(const std::string& filename, GLenum format) {
         m_width = 0;
         m_height = 0;
         return false;
+    }
+
+    GLenum format = GL_RGBA;
+    switch (numberOfChannels) {
+    case 1:
+        format = GL_RED;
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+        break;
+
+    case 2:
+        format = GL_RG;
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 2);
+        break;
+
+    case 3:
+        format = GL_RGB;
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+        break;
+
+    case 4:
+        format = GL_RGBA;
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+        break;
     }
 
     m_width = width;
