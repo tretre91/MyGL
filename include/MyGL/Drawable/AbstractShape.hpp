@@ -36,6 +36,7 @@ namespace my
         my::Texture m_texture;
         bool m_isTextured;
         my::ShaderProgram* p_activeShader;
+        my::ShaderProgram m_customShader;
 
         /**
          * @brief Indicates the points composing this shape
@@ -232,6 +233,8 @@ namespace my
          *                 gif (not animated), bmp, tga, psd, hdr, pic, and pnm
          */
         void setTexture(const std::string& filename);
+
+        void setShader(const ShaderProgram& program);
 
         /**
          * @brief Draws a shape, this method is called by a window

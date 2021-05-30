@@ -250,3 +250,10 @@ void AbstractShape::setTexture(const std::string& filename) {
     p_activeShader = &texShader;
     m_isTextured = true;
 }
+
+void AbstractShape::setShader(const ShaderProgram& program) {
+    if (program.isUsable()) {
+        m_customShader = program;
+        p_activeShader = &m_customShader;
+    }
+}
