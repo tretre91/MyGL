@@ -19,6 +19,7 @@ set(PROJECT_SOURCES
   "src/glad.c"
   "src/Color.cpp"
   "src/Shader.cpp"
+  "src/ShaderProgram.cpp"
   "src/stb_image.cpp"
   "src/Texture.cpp"
   "src/Window.cpp"
@@ -85,7 +86,7 @@ set(MYGL_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 
 # Shared library
 if(MYGL_SHARED)
-  add_library(MyGL SHARED ${PROJECT_SOURCES})
+  add_library(MyGL SHARED ${PROJECT_SOURCES} "src/Shader.cpp")
   set_target_properties(MyGL PROPERTIES
     SOVERSION ${PROJECT_VERSION_MAJOR}
     VERSION ${PROJECT_VERSION}
@@ -113,7 +114,7 @@ endif(MYGL_SHARED)
 
 # Static Library
 if(MYGL_STATIC)
-  add_library(MyGL-static STATIC ${PROJECT_SOURCES})
+  add_library(MyGL-static STATIC ${PROJECT_SOURCES} "src/Shader.cpp")
   set_target_properties(MyGL-static PROPERTIES
     VERSION ${PROJECT_VERSION}
     DEBUG_POSTFIX "d"

@@ -5,7 +5,7 @@
 
 #include "../Camera.hpp"
 #include "../Color.hpp"
-#include "../Shader.hpp"
+#include "../ShaderProgram.hpp"
 #include "../Texture.hpp"
 
 #include <string>
@@ -15,17 +15,13 @@ namespace my
 {
     class MYGL_EXPORT AbstractShape
     {
+    private:
+        static void initShaders();
+
     protected:
         static const float pi;
-
-        static const std::string vertexSource;
-        static const std::string fragmentSource;
-        static my::Shader shader;
-
-        static const std::string texVertexSource;
-        static const std::string texFragmentSource;
-        static my::Shader texShader;
-        static bool shaderIsUsable;
+        static my::ShaderProgram shader;
+        static my::ShaderProgram texShader;
 
         glm::vec2 m_position;
         glm::vec2 m_originalScale;
@@ -39,7 +35,7 @@ namespace my
         glm::mat4 m_outlineModel;
         my::Texture m_texture;
         bool m_isTextured;
-        my::Shader* p_activeShader;
+        my::ShaderProgram* p_activeShader;
 
         /**
          * @brief Indicates the points composing this shape

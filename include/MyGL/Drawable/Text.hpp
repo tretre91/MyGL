@@ -17,9 +17,7 @@ namespace my
     class MYGL_EXPORT Text : public Rectangle
     {
     private:
-        static const std::string textVertexSource;
-        static const std::string textFragmentSource;
-        static my::Shader textShader;
+        static my::ShaderProgram textShader;
         static my::Font defaultFont;
         static std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> u8_u32conv;
         static std::wstring_convert<std::codecvt_utf16<char32_t>, char32_t> u16_u32conv;
@@ -28,6 +26,11 @@ namespace my
         std::u32string m_text;
         my::Font& m_font;
         unsigned int m_size;
+
+        /**
+         * @brief Function containing code used in all constructors
+         */
+        void init();
 
         /**
          * @brief Override of AbstractShape's setTexture() function

@@ -2,9 +2,7 @@
 #include <algorithm>
 using namespace my;
 
-const float AbstractShape::pi = 3.1415926535f;
-
-const std::string AbstractShape::vertexSource =
+constexpr const char* vertexSource =
   "#version 330 core\n"
   "layout (location = 0) in vec3 aPos;"
   "uniform mat4 model;"
@@ -14,7 +12,7 @@ const std::string AbstractShape::vertexSource =
   "    gl_Position = projection * view * model * vec4(aPos, 1.0);"
   "}";
 
-const std::string AbstractShape::fragmentSource =
+constexpr const char* fragmentSource =
   "#version 330 core\n"
   "out vec4 FragColor;"
   "uniform vec4 color;"
@@ -22,7 +20,7 @@ const std::string AbstractShape::fragmentSource =
   "    FragColor = color;"
   "}";
 
-const std::string AbstractShape::texVertexSource =
+constexpr const char* texVertexSource =
   "#version 330 core\n"
   "layout (location = 0) in vec3 aPos;"
   "layout (location = 1) in vec2 aTexCoords;"
@@ -35,7 +33,7 @@ const std::string AbstractShape::texVertexSource =
   "    texCoords = aTexCoords;"
   "}";
 
-const std::string AbstractShape::texFragmentSource =
+constexpr const char* texFragmentSource =
   "#version 330 core\n"
   "in vec2 texCoords;"
   "out vec4 FragColor;"
@@ -45,32 +43,33 @@ const std::string AbstractShape::texFragmentSource =
   "    FragColor = texture(tex, texCoords);"
   "}";
 
-my::Shader AbstractShape::shader = my::Shader();
-my::Shader AbstractShape::texShader = my::Shader();
+const float AbstractShape::pi = 3.1415926535f;
+my::ShaderProgram AbstractShape::shader;
+my::ShaderProgram AbstractShape::texShader;
 
-bool AbstractShape::shaderIsUsable = false;
+void AbstractShape::initShaders() {
+    if (!shader.isUsable()) {
+        shader.addShaders(Shader(vertexSource, Shader::Type::Vertex), Shader(fragmentSource, Shader::Type::Fragment));
+        shader.link();
+    }
+    if (!texShader.isUsable()) {
+        texShader.addShaders(Shader(texVertexSource, Shader::Type::Vertex), Shader(texFragmentSource, Shader::Type::Fragment));
+        texShader.link();
+        texShader.setInt("tex", 3);
+    }
+}
 
 AbstractShape::AbstractShape() :
   m_position(0.0f, 0.0f), m_originalScale(5.0f, 5.0f), m_scaleFactor(1.0f, 1.0f), m_rotationAngle(0.0f), m_updateMatrix(true), m_model(1.0f),
   m_color(100, 100, 100), m_outlineThickness(0.0f), m_outlineColor(255, 255, 255), m_outlineModel(1.0f), m_isTextured(false), p_activeShader(nullptr) {
-    if (!shaderIsUsable) {
-        shader = my::Shader(vertexSource, fragmentSource, false);
-        texShader = my::Shader(texVertexSource, texFragmentSource, false);
-        texShader.setInt("tex", 3);
-        shaderIsUsable = true;
-    }
+    initShaders();
     p_activeShader = &shader;
 }
 
 AbstractShape::AbstractShape(int width, int height) :
   m_position(0.0f, 0.0f), m_originalScale(width / 2.0f, height / 2.0f), m_scaleFactor(1.0f, 1.0f), m_rotationAngle(0.0f), m_updateMatrix(true), m_model(1.0f),
   m_color(100, 100, 100), m_outlineThickness(0.0f), m_outlineColor(255, 255, 255), m_outlineModel(1.0f), m_isTextured(false), p_activeShader(nullptr) {
-    if (!shaderIsUsable) {
-        shader = my::Shader(vertexSource, fragmentSource, false);
-        texShader = my::Shader(texVertexSource, texFragmentSource, false);
-        texShader.setInt("tex", 3);
-        shaderIsUsable = true;
-    }
+    initShaders();
     p_activeShader = &shader;
 }
 

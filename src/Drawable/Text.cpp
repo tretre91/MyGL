@@ -1,7 +1,7 @@
 #include <MyGL/Drawable/Text.hpp>
 using namespace my;
 
-const std::string Text::textVertexSource =
+constexpr const char* textVertexSource =
   "#version 330 core\n"
   "layout(location = 0) in vec3 aPos;"
   "layout(location = 1) in vec2 aTex;"
@@ -14,7 +14,7 @@ const std::string Text::textVertexSource =
   "    texCoords = vec2(aTex.x, 1.0 - aTex.y);"
   "}";
 
-const std::string Text::textFragmentSource =
+constexpr const char* textFragmentSource =
   "#version 330 core\n"
   "in vec2 texCoords;"
   "out vec4 FragColor;"
@@ -24,70 +24,52 @@ const std::string Text::textFragmentSource =
   "    FragColor = vec4(color.rgb, texture(tex, texCoords).r);"
   "}";
 
-my::Shader Text::textShader = my::Shader();
-
-my::Font Text::defaultFont = my::Font();
-
+my::ShaderProgram Text::textShader;
+my::Font Text::defaultFont;
 std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> Text::u8_u32conv{};
 std::wstring_convert<std::codecvt_utf16<char32_t>, char32_t> Text::u16_u32conv{};
 std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> Text::u8_wconv{};
 
-Text::Text() : m_text(U""), m_font(defaultFont), m_size(0) {}
-
-my::Text::Text(const std::string& text, my::Font& font, unsigned int size) : m_text(u8_u32conv.from_bytes(text)), m_font(font), m_size(size) {
+void Text::init() {
     if (!textShader.isUsable()) {
-        textShader = my::Shader(textVertexSource, textFragmentSource, false);
+        textShader.addShaders(Shader(textVertexSource, Shader::Type::Vertex), Shader(textFragmentSource, Shader::Type::Fragment));
+        textShader.link();
         textShader.setInt("tex", 3);
     }
 
     setColor(my::Color::black);
-    setTexture(font.getStringTexture(m_text, m_size));
+    m_texture = m_font.getStringTexture(m_text, m_size);
     m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
     m_isTextured = true;
     p_activeShader = &textShader;
+}
+
+Text::Text() : m_font(defaultFont), m_size(0) {
+    if (!textShader.isUsable()) {
+        textShader.addShaders(Shader(textVertexSource, Shader::Type::Vertex), Shader(textFragmentSource, Shader::Type::Fragment));
+        textShader.link();
+        textShader.setInt("tex", 3);
+    }
+    p_activeShader = &textShader;
+}
+
+my::Text::Text(const std::string& text, my::Font& font, unsigned int size) : m_text(u8_u32conv.from_bytes(text)), m_font(font), m_size(size) {
+    init();
 }
 
 my::Text::Text(const std::wstring& text, my::Font& font, unsigned int size) :
   m_text(u8_u32conv.from_bytes(u8_wconv.to_bytes(text))), m_font(font), m_size(size) {
-    if (!textShader.isUsable()) {
-        textShader = my::Shader(textVertexSource, textFragmentSource, false);
-        textShader.setInt("tex", 3);
-    }
-
-    setColor(my::Color::black);
-    setTexture(font.getStringTexture(m_text, m_size));
-    m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
-    m_isTextured = true;
-    p_activeShader = &textShader;
+    init();
 }
 
 my::Text::Text(const std::u16string& text, my::Font& font, unsigned int size) : m_font(font), m_size(size) {
-    if (!textShader.isUsable()) {
-        textShader = my::Shader(textVertexSource, textFragmentSource, false);
-        textShader.setInt("tex", 3);
-    }
-
     const char16_t* cText = text.c_str();
     m_text = u16_u32conv.from_bytes(reinterpret_cast<const char*>(cText), reinterpret_cast<const char*>(cText + text.size()));
-
-    setColor(my::Color::black);
-    setTexture(font.getStringTexture(m_text, m_size));
-    m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
-    m_isTextured = true;
-    p_activeShader = &textShader;
+    init();
 }
 
 my::Text::Text(const std::u32string& text, my::Font& font, unsigned int size) : m_text(text), m_font(font), m_size(size) {
-    if (!textShader.isUsable()) {
-        textShader = my::Shader(textVertexSource, textFragmentSource, false);
-        textShader.setInt("tex", 3);
-    }
-
-    setColor(my::Color::black);
-    setTexture(font.getStringTexture(m_text, m_size));
-    m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
-    m_isTextured = true;
-    p_activeShader = &textShader;
+    init();
 }
 
 void Text::setContent(const std::string& text) {
