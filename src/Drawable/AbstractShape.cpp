@@ -46,6 +46,7 @@ constexpr const char* texFragmentSource =
 const float AbstractShape::pi = 3.1415926535f;
 my::ShaderProgram AbstractShape::shader;
 my::ShaderProgram AbstractShape::texShader;
+const my::ShaderProgram& AbstractShape::defaultShader = AbstractShape::shader;
 
 void AbstractShape::initShaders() {
     if (!shader.isUsable()) {
@@ -61,16 +62,18 @@ void AbstractShape::initShaders() {
 
 AbstractShape::AbstractShape() :
   m_position(0.0f, 0.0f), m_originalScale(5.0f, 5.0f), m_scaleFactor(1.0f, 1.0f), m_rotationAngle(0.0f), m_updateMatrix(true), m_model(1.0f),
-  m_color(100, 100, 100), m_outlineThickness(0.0f), m_outlineColor(255, 255, 255), m_outlineModel(1.0f), m_isTextured(false), p_activeShader(nullptr) {
+  m_color(100, 100, 100), m_outlineThickness(0.0f), m_outlineColor(255, 255, 255), m_outlineModel(1.0f), m_isTextured(false) {
     initShaders();
-    p_activeShader = &shader;
+    m_shader = shader;
+    m_outlineShader = shader;
 }
 
 AbstractShape::AbstractShape(int width, int height) :
   m_position(0.0f, 0.0f), m_originalScale(width / 2.0f, height / 2.0f), m_scaleFactor(1.0f, 1.0f), m_rotationAngle(0.0f), m_updateMatrix(true), m_model(1.0f),
-  m_color(100, 100, 100), m_outlineThickness(0.0f), m_outlineColor(255, 255, 255), m_outlineModel(1.0f), m_isTextured(false), p_activeShader(nullptr) {
+  m_color(100, 100, 100), m_outlineThickness(0.0f), m_outlineColor(255, 255, 255), m_outlineModel(1.0f), m_isTextured(false) {
     initShaders();
-    p_activeShader = &shader;
+    m_shader = shader;
+    m_outlineShader = shader;
 }
 
 AbstractShape::AbstractShape(int width, int height, int x, int y) : AbstractShape(width, height) {
@@ -238,8 +241,8 @@ bool AbstractShape::BBoxCollides(const AbstractShape& otherShape) const {
 }
 
 void AbstractShape::setTexture(const my::Texture& texture) {
-    this->m_texture = texture;
-    p_activeShader = &texShader;
+    m_texture = texture;
+    m_shader = texShader;
     m_isTextured = true;
 }
 
@@ -247,13 +250,18 @@ void AbstractShape::setTexture(const std::string& filename) {
     m_texture = my::Texture(filename);
     m_texture.setTextureWrapMethod(my::Texture::Axis::s, GL_REPEAT);
     m_texture.setTextureWrapMethod(my::Texture::Axis::t, GL_REPEAT);
-    p_activeShader = &texShader;
+    m_shader = texShader;
     m_isTextured = true;
 }
 
 void AbstractShape::setShader(const ShaderProgram& program) {
     if (program.isUsable()) {
-        m_customShader = program;
-        p_activeShader = &m_customShader;
+        m_shader = program;
+    }
+}
+
+void AbstractShape::setOutlineShader(const ShaderProgram& program) {
+    if (program.isUsable()) {
+        m_outlineShader = program;
     }
 }

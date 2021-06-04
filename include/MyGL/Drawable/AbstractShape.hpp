@@ -35,8 +35,8 @@ namespace my
         glm::mat4 m_outlineModel;
         my::Texture m_texture;
         bool m_isTextured;
-        my::ShaderProgram* p_activeShader;
-        my::ShaderProgram m_customShader;
+        my::ShaderProgram m_shader;
+        my::ShaderProgram m_outlineShader;
 
         /**
          * @brief Indicates the points composing this shape
@@ -45,6 +45,8 @@ namespace my
         virtual std::vector<glm::vec2> points() const = 0;
 
     public:
+        static const ShaderProgram& defaultShader;
+
         /**
          * @brief Default constructor, Initializes a 10 * 10 grey object
          */
@@ -234,7 +236,17 @@ namespace my
          */
         void setTexture(const std::string& filename);
 
+        /**
+         * @brief Sets the shader used to draw the shape
+         * @param program The shader program to use
+         */
         void setShader(const ShaderProgram& program);
+
+        /**
+         * @brief Sets the shader used to draw the shape's outline
+         * @param program The shader program to use
+         */
+        void setOutlineShader(const ShaderProgram& program);
 
         /**
          * @brief Draws a shape, this method is called by a window

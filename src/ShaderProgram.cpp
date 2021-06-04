@@ -3,23 +3,64 @@
 #include <iostream>
 using namespace my;
 
-bool my::ShaderProgram::link() {
+std::unordered_map<unsigned int, int> ShaderProgram::instancesCount;
+
+ShaderProgram::ShaderProgram(const ShaderProgram& program) : m_programId(program.m_programId), m_usable(program.m_usable) {
+    instancesCount[m_programId]++;
+}
+
+ShaderProgram::ShaderProgram(ShaderProgram&& program) : m_programId(program.m_programId), m_usable(program.m_usable) {
+    program.m_programId = 0;
+    program.m_usable = false;
+}
+
+ShaderProgram::~ShaderProgram() {
+    if (--instancesCount[m_programId] <= 0) {
+        glDeleteProgram(m_programId);
+    }
+}
+
+ShaderProgram& ShaderProgram::operator=(const ShaderProgram& program) {
+    if (this != &program) {
+        if (--instancesCount[m_programId] <= 0) {
+            glDeleteProgram(m_programId);
+        }
+        m_programId = program.m_programId;
+        m_usable = program.m_usable;
+        instancesCount[m_programId]++;
+    }
+    return *this;
+}
+
+ShaderProgram& ShaderProgram::operator=(ShaderProgram&& program) {
+    if (this != &program) {
+        if (--instancesCount[m_programId] <= 0) {
+            glDeleteProgram(m_programId);
+        }
+        m_programId = program.m_programId;
+        m_usable = program.m_usable;
+        program.m_programId = 0;
+        program.m_usable = false;
+    }
+    return *this;
+}
+
+bool ShaderProgram::link() {
     glLinkProgram(m_programId);
     int success;
     glGetProgramiv(m_programId, GL_LINK_STATUS, &success);
+    m_usable = success;
+
     if (success == 0) {
         const size_t bufferSize = 512;
         char log[bufferSize];
         glGetProgramInfoLog(m_programId, bufferSize, nullptr, log);
-        std::cout << "ERROR::SHADER PROGRAM: link failed\n" << log;
+        std::cerr << "ERROR::SHADER PROGRAM: link failed\n" << log;
+    } else {
+        instancesCount[m_programId]++;
     }
 
-    m_usable = success;
     return m_usable;
-}
-
-ShaderProgram::~ShaderProgram() {
-    glDeleteProgram(m_programId);
 }
 
 bool ShaderProgram::isUsable() const {
@@ -93,4 +134,12 @@ void ShaderProgram::setFloat(const std::string& name, const glm::vec4& value) co
 void ShaderProgram::setMat4(const std::string& name, const glm::mat4& value) const {
     use();
     glUniformMatrix4fv(glGetUniformLocation(m_programId, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
+}
+
+bool my::operator==(const ShaderProgram& lhs, const ShaderProgram& rhs) {
+    return lhs.m_programId == rhs.m_programId;
+}
+
+bool my::operator!=(const ShaderProgram& lhs, const ShaderProgram& rhs) {
+    return !(lhs == rhs);
 }

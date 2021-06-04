@@ -78,11 +78,11 @@ void Rectangle::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
 
     glActiveTexture(GL_TEXTURE3);
     m_texture.bind();
-    p_activeShader->setMat4("model", m_model);
-    p_activeShader->setMat4("view", lookAt);
-    p_activeShader->setMat4("projection", projection);
-    p_activeShader->setFloat("color", m_color.getNormalized());
-    p_activeShader->use();
+    m_shader.setMat4("model", m_model);
+    m_shader.setMat4("view", lookAt);
+    m_shader.setMat4("projection", projection);
+    m_shader.setFloat("color", m_color.getNormalized());
+    m_shader.use();
 
     if (m_outlineThickness > 0.0f) {
         glStencilFunc(GL_ALWAYS, 1, 0xFF);
@@ -92,13 +92,13 @@ void Rectangle::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
 
         glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
         glStencilMask(0x00);
-        shader.setMat4("model", m_outlineModel);
-        shader.setFloat("color", m_outlineColor.getNormalized());
-        if (m_isTextured) {
-            shader.setMat4("view", lookAt);
-            shader.setMat4("projection", projection);
+        m_outlineShader.setMat4("model", m_outlineModel);
+        m_outlineShader.setFloat("color", m_outlineColor.getNormalized());
+        if (m_shader != m_outlineShader) {
+            m_outlineShader.setMat4("view", lookAt);
+            m_outlineShader.setMat4("projection", projection);
         }
-        shader.use();
+        m_outlineShader.use();
 
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, nullptr);

@@ -41,7 +41,7 @@ void Text::init() {
     m_texture = m_font.getStringTexture(m_text, m_size);
     m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
     m_isTextured = true;
-    p_activeShader = &textShader;
+    m_shader = textShader;
 }
 
 Text::Text() : m_font(defaultFont), m_size(0) {
@@ -50,7 +50,7 @@ Text::Text() : m_font(defaultFont), m_size(0) {
         textShader.link();
         textShader.setInt("tex", 3);
     }
-    p_activeShader = &textShader;
+    m_shader = textShader;
 }
 
 my::Text::Text(const std::string& text, my::Font& font, unsigned int size) : m_text(u8_u32conv.from_bytes(text)), m_font(font), m_size(size) {

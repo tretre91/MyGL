@@ -9,12 +9,14 @@
 
 #include <iostream>
 #include <string>
+#include <unordered_map>
 
 namespace my
 {
     class MYGL_EXPORT ShaderProgram
     {
     private:
+        static std::unordered_map<unsigned int, int> instancesCount;
         unsigned int m_programId = 0;
         bool m_usable = false;
 
@@ -23,6 +25,31 @@ namespace my
          * @brief Creates an emty shader program, it is not usable as is
          */
         ShaderProgram() = default;
+
+        /**
+         * @brief Copy constructor
+         */
+        ShaderProgram(const ShaderProgram& program);
+
+        /**
+         * @brief Move constructor
+         */
+        ShaderProgram(ShaderProgram&& program);
+
+        /**
+         * @brief Destructor
+         */
+        ~ShaderProgram();
+
+        /**
+         * @brief Copy assignment operator
+         */
+        ShaderProgram& operator=(const ShaderProgram& program);
+
+        /**
+         * @brief Move assignment operator
+         */
+        ShaderProgram& operator=(ShaderProgram&& program);
 
         /**
          * @brief Adds one ore more shaders to this program
@@ -36,11 +63,6 @@ namespace my
          * @return True if the linking was successful, false otherwise
          */
         bool link();
-
-        /**
-         * @brief Destructor
-         */
-        ~ShaderProgram();
 
         /**
          * @brief Tells wether the shader program is usable
@@ -159,6 +181,9 @@ namespace my
         /** @} */
 
         /** @} */
+
+        friend bool operator==(const ShaderProgram& lhs, const ShaderProgram& rhs);
+        friend bool operator!=(const ShaderProgram& lhs, const ShaderProgram& rhs);
     };
 
     template<typename... Shaders>
@@ -171,7 +196,7 @@ namespace my
                 std::cerr << "ERROR::SHADER PROGRAM: one of the provided shaders is not usable\n";
                 return;
             }
-            glAttachShader(m_programId, s.m_ShaderId);
+            glAttachShader(m_programId, s.m_shaderId);
         }
     }
 

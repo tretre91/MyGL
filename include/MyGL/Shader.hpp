@@ -4,13 +4,15 @@
 #include "mygl_export.h"
 
 #include <string>
+#include <unordered_map>
 
 namespace my
 {
     class MYGL_EXPORT Shader
     {
     private:
-        unsigned int m_ShaderId = 0;
+        static std::unordered_map<unsigned int, int> instancesCount;
+        unsigned int m_shaderId = 0;
         bool m_usable = false;
 
     public:
@@ -34,12 +36,32 @@ namespace my
         Shader(const char* sourceCode, Type type);
 
         /**
+         * @brief Copy constructor
+         */
+        Shader(const Shader& shader);
+
+        /**
+         * @brief Move constructor
+         */
+        Shader(Shader&& shader);
+
+        /**
          * @brief Destructor
-         * 
+         *
          * The destructor deletes the underlying OpenGL shader object (it has no effect
          * on Shader programs which has already linked this shader)
          */
         ~Shader();
+
+        /**
+         * @brief Copy assignment operator
+         */
+        Shader& operator=(const Shader& shader);
+
+        /**
+         * @brief Move assignment operator
+         */
+        Shader& operator=(Shader&& shader);
 
         /**
          * @brief Loads a shader from a file
