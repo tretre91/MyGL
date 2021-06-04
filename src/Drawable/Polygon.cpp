@@ -67,14 +67,14 @@ std::vector<glm::vec2> Polygon::points() const {
         transform = m_model;
     }
 
-    std::vector<glm::vec2> res;
-    res.reserve(m_sides);
+    std::vector<glm::vec2> p;
+    p.reserve(m_sides);
     for (size_t i = 5; i < p_buffer->vertices.size(); i += 5) {
         glm::vec4 vertex = transform * glm::vec4(p_buffer->vertices[i], p_buffer->vertices[i + 1], 0.0f, 1.0f);
-        res.emplace_back(glm::vec2(vertex.x, vertex.y));
+        p.emplace_back(glm::vec2(vertex.x, vertex.y));
     }
 
-    return res;
+    return p;
 }
 
 Polygon::Polygon() : Polygon(3, 10) {}
@@ -115,10 +115,11 @@ void Polygon::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
     m_shader.setFloat("color", m_color.getNormalized());
     m_shader.use();
 
+    glBindVertexArray(p_buffer->vao);
     if (m_outlineThickness > 0.0f) {
+        glClear(GL_STENCIL_BUFFER_BIT);
         glStencilFunc(GL_ALWAYS, 1, 0xFF);
         glStencilMask(0xFF);
-        glBindVertexArray(p_buffer->vao);
         glDrawElements(GL_TRIANGLE_FAN, m_sides + 2, GL_UNSIGNED_INT, nullptr);
 
         glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
@@ -130,13 +131,10 @@ void Polygon::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
             m_outlineShader.setMat4("projection", projection);
         }
         m_outlineShader.use();
-
         glDrawElements(GL_TRIANGLE_FAN, m_sides + 2, GL_UNSIGNED_INT, nullptr);
         glStencilFunc(GL_ALWAYS, 1, 0xFF);
         glStencilMask(0xFF);
     } else {
-        glBindVertexArray(p_buffer->vao);
         glDrawElements(GL_TRIANGLE_FAN, m_sides + 2, GL_UNSIGNED_INT, nullptr);
     }
-    glClear(GL_STENCIL_BUFFER_BIT);
 }

@@ -54,13 +54,13 @@ std::vector<glm::vec2> Rectangle::points() const {
         transform = m_model;
     }
 
-    std::vector<glm::vec2> res(4);
+    std::vector<glm::vec2> p(4);
     for (size_t i = 0; i < 4; i++) {
         glm::vec4 vertex = transform * glm::vec4(vertices[i * 5], vertices[(i * 5) + 1], 0.0f, 1.0f);
-        res[i] = glm::vec2(vertex.x, vertex.y);
+        p[i] = glm::vec2(vertex.x, vertex.y);
     }
 
-    return res;
+    return p;
 }
 
 void Rectangle::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
@@ -84,10 +84,11 @@ void Rectangle::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
     m_shader.setFloat("color", m_color.getNormalized());
     m_shader.use();
 
+    glBindVertexArray(VAO);
     if (m_outlineThickness > 0.0f) {
+        glClear(GL_STENCIL_BUFFER_BIT);
         glStencilFunc(GL_ALWAYS, 1, 0xFF);
         glStencilMask(0xFF);
-        glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, nullptr);
 
         glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
@@ -99,25 +100,21 @@ void Rectangle::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
             m_outlineShader.setMat4("projection", projection);
         }
         m_outlineShader.use();
-
-        glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, nullptr);
         glStencilFunc(GL_ALWAYS, 1, 0xFF);
         glStencilMask(0xFF);
     } else {
-        glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, nullptr);
     }
-    glClear(GL_STENCIL_BUFFER_BIT);
 }
 
 my::Rectangle my::line(int x1, int y1, int x2, int y2) {
     double dist = glm::sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
     int center_x = (x2 + x1) / 2;
     int center_y = (y2 + y1) / 2;
-    my::Rectangle res(std::lround(dist), 1);
-    res.setPosition(center_x, center_y, true);
+    my::Rectangle rect(std::lround(dist), 1);
+    rect.setPosition(center_x, center_y, true);
     double cos = (glm::abs(x2 - x1) / 2.0f) / (dist / 2.0f);
-    res.setRotation(static_cast<float>(glm::degrees(glm::acos(cos))));
-    return res;
+    rect.setRotation(static_cast<float>(glm::degrees(glm::acos(cos))));
+    return rect;
 }
