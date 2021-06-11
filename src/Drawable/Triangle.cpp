@@ -60,11 +60,29 @@ Triangle::Triangle(float x1, float y1, float x2, float y2, float x3, float y3) :
     glBindVertexArray(0);
 
     m_originalScale = {x_dist / 2.0f, y_dist / 2.0f};
-    const glm::vec2 center((x1 + x2 + x3) / 2.0f, (y1 + y2 + y3) / 2.0f);
-    setPosition(center, true);
+    Triangle::setPosition(glm::vec2(xMin, yMin));
 }
 
 Triangle::Triangle(glm::vec2 p1, glm::vec2 p2, glm::vec2 p3) : Triangle(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y) {}
+
+void Triangle::setPosition(int x, int y, bool center) {
+    setPosition(glm::vec2(static_cast<float>(x), static_cast<float>(y)), center);
+}
+
+void Triangle::setPosition(const glm::vec2& pos, bool center) {
+    m_position = pos;
+    m_position.x += m_originalScale.x * m_scaleFactor.x;
+    m_position.y += m_originalScale.y * m_scaleFactor.y;
+    if (center) {
+        const auto pts(points());
+        const float xMin = std::min({pts[0].x, pts[1].x, pts[2].x});
+        const float yMin = std::min({pts[0].y, pts[1].y, pts[2].y});
+        const glm::vec2 centroid((pts[0] + pts[1] + pts[2]) / 3.0f);
+        m_position.x -= centroid.x - xMin;
+        m_position.y -= centroid.y - yMin;
+    }
+    m_updateMatrix = true;
+}
 
 void Triangle::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
     if (m_updateMatrix) {

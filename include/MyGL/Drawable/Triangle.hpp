@@ -6,6 +6,7 @@
 #include "AbstractShape.hpp"
 
 #include <array>
+#include <vector>
 
 namespace my
 {
@@ -40,6 +41,23 @@ namespace my
          * @param p1, p2, p3 The triangle's points
          */
         Triangle(glm::vec2 p1, glm::vec2 p2, glm::vec2 p3);
+
+        /**
+         * @brief Moves the triangle to (x,y)
+         * @param x The new horizontal position
+         * @param y The new vertical popsition
+         * @param center If true, set the triangle's centroid at (x,y), else sets its
+         *               bottom left hand corner at (x,y). Default value is false
+         */
+        void setPosition(int x, int y, bool center = false) override;
+
+        /**
+         * @brief Moves the triangle to a specified position
+         * @param pos A glm::vec2 containing the new position
+         * @param center If true, set the triangle's centroid at 'pos', else sets its
+         *               bottom left hand corner. Default value is false
+         */
+        void setPosition(const glm::vec2& pos, bool center = false) override;
 
         /**
          * @brief Draws the triangle, this method is called by a window

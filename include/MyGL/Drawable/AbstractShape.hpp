@@ -39,8 +39,8 @@ namespace my
         my::ShaderProgram m_outlineShader;
 
         /**
-         * @brief Indicates the points composing this shape
-         * @return The coordinates of the points of this shape
+         * @brief Returns the points composing this shape
+         * @return The coordinates of each of the shape's points
          */
         virtual std::vector<glm::vec2> points() const = 0;
 
@@ -69,7 +69,7 @@ namespace my
         AbstractShape(int width, int height, int x, int y);
 
         /**
-         * @brief Gives the size of the shape
+         * @brief Returns the size of the shape
          * @return The size of the shape's bounding box
          */
         glm::vec2 getSize() const;
@@ -79,90 +79,90 @@ namespace my
          * @param x The new horizontal position
          * @param y The new vertical popsition
          * @param center If true, set the shape's center at (x,y), else sets its
-         *               top left hand corner at (x,y). Default value is false
+         *               bottom left hand corner at (x,y). Default value is false
          */
         virtual void setPosition(int x, int y, bool center = false);
 
         /**
-         * @brief Moves to shape to a specified position
+         * @brief Moves the shape to a specified position
          * @param pos A glm::vec2 containing the new position
          * @param center If true, set the shape's center at 'pos', else sets its
-         *               top left hand corner. Default value is false
+         *               bottom left hand corner. Default value is false
          */
         virtual void setPosition(const glm::vec2& pos, bool center = false);
 
         /**
-         * @brief Moves the shapes to a certain position, relative to a camera's position
+         * @brief Moves the shape to a certain position, relative to a camera's position
          * @param x The new horizontal position in the camera's view
          * @param y The vertical position in the camera's view
-         * @param camera A camera the shapes positions will be relative to
+         * @param camera A my::Camera
          * @param center If true, set the shape's center at (x,y), else sets its
-         *               top left hand corner at (x,y). Default value is false
+         *               bottom left hand corner at (x,y). Default value is false
          */
         virtual void setRelativePosition(int x, int y, const my::Camera& camera, bool center = false);
 
         /**
-         * @brief Moves the shapes to a certain position, relative to a camera's position
+         * @brief Moves the shape to a certain position, relative to a camera's position
          * @param pos A glm::vec2 containing the new position
-         * @param camera A camera the shapes positions will be relative to
+         * @param camera A my::Camera
          * @param center If true, set the shape's center at (x,y), else sets its
-         *               top left hand corner at (x,y). Default value is false
+         *               bottom left hand corner at (x,y). Default value is false
          */
         virtual void setRelativePosition(const glm::vec2& pos, const my::Camera& camera, bool center = false);
 
         /**
-         * @brief Moves the object relative to it's current position
+         * @brief Moves the shape relative to it's current position
          * @param x The horizontal offset
          * @param y The vertical offset
          */
         virtual void move(float x, float y);
 
         /**
-         * @brief Gives the actual position of the object's center
+         * @brief Gives the current position of the shape's center
          * @return The position of the object's center
          */
         glm::vec2 getPosition() const;
 
         /**
-         * @brief Sets the scale factor applied to the object
+         * @brief Sets the scale factor applied to the shape
          * @param x The horizontal scaling factor
          * @param y The vertical scaling factor
          */
         void setScale(float x, float y);
 
         /**
-         * @brief Changes the actual scaling factor
+         * @brief Modifies the scaling factor
          * @param x The value to add to the horizontal scaling factor
          * @param y The value to add to the vertical scaling factor
          */
         void scale(float x, float y);
 
         /**
-         * @brief Gives the actual scaling factor applied to the Object
+         * @brief Gives the current scaling factor applied to the shape
          * @return The scaling factor currently applied
          */
         glm::vec2 getScale() const;
 
         /**
-         * @brief Sets the rotation applied to the Object
+         * @brief Sets the rotation applied to the shape
          * @param angle the angle (in degrees) of rotation
          */
         void setRotation(float angle);
 
         /**
-         * @brief Rotates the object
+         * @brief Rotates the shape
          * @param angle The angle (in degrees) to add to the current angle of rotation
          */
         void rotate(float angle);
 
         /**
-         * @brief Gives the object's angle of rotation
+         * @brief Returns the shapes's angle of rotation
          * @return The angle of the rotation currently applied to the object
          */
         float getRotation() const;
 
         /**
-         * @brief Sets the object's color from its individual components (ints between 0 and 255)
+         * @brief Sets the shape's color from its individual components (ints between 0 and 255)
          * @param r The red component
          * @param g The green component
          * @param b The blue component
@@ -171,31 +171,31 @@ namespace my
         virtual void setColor(int r, int g, int b, int alpha = 255);
 
         /**
-         * @brief Sets the object's color from an existing color
-         * @param color The color to be applied to the object
+         * @brief Sets the shape's color from an existing color
+         * @param color The color to be applied to the shape
          */
         virtual void setColor(const my::Color& color);
 
         /**
-         * @brief Gives the object's color
-         * @return A my::Color object containing the object's color
+         * @brief Returns the shape's color
+         * @return A my::Color object containing the shape's color
          */
         my::Color getColor() const;
 
         /**
-         * @brief Sets the object's outline's thickness
+         * @brief Sets the shape's outline's thickness
          * @param thickness The thickness in pixels
          */
         void setOutlineThickness(unsigned int thickness);
 
         /**
-         * @brief Sets the object's outline color
+         * @brief Sets the shape's outline color
          * @param color The color to be applied
          */
         void setOutlineColor(const my::Color& color);
 
         /**
-         * @brief Sets the object's outline color from its individual components (ints between 0 and 255)
+         * @brief Sets the shape's outline color from its individual components (ints between 0 and 255)
          * @param r The red component
          * @param g The green component
          * @param b The blue component

@@ -87,7 +87,7 @@ set(MYGL_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 
 # Shared library
 if(MYGL_SHARED)
-  add_library(MyGL SHARED ${PROJECT_SOURCES} "src/Shader.cpp")
+  add_library(MyGL SHARED ${PROJECT_SOURCES})
   set_target_properties(MyGL PROPERTIES
     SOVERSION ${PROJECT_VERSION_MAJOR}
     VERSION ${PROJECT_VERSION}
@@ -115,7 +115,7 @@ endif(MYGL_SHARED)
 
 # Static Library
 if(MYGL_STATIC)
-  add_library(MyGL-static STATIC ${PROJECT_SOURCES} "src/Shader.cpp")
+  add_library(MyGL-static STATIC ${PROJECT_SOURCES})
   set_target_properties(MyGL-static PROPERTIES
     VERSION ${PROJECT_VERSION}
     DEBUG_POSTFIX "d"
