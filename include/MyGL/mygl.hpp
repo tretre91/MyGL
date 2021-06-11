@@ -10,6 +10,7 @@
 #include "Window.hpp"
 #include "Drawable/Rectangle.hpp"
 #include "Drawable/Polygon.hpp"
+#include "Drawable/Triangle.hpp"
 #include "Drawable/Text.hpp"
 #include "Camera.hpp"
 

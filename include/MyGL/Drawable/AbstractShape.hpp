@@ -218,8 +218,9 @@ namespace my
          * @return true if the this shape's bounding rectangle is overlapping with the
          *         specified shape's bounding rectangle
          *
-         * This method is less expensive than the SAT one but far less precise, if you
-         * need more precision, use the SATCollides method
+         * This method is less expensive than the SAT one but far less precise (and it
+         * doesn't work properly when the shapes are rotated). If you need more precision
+         * use the SATCollides method instead.
          */
         bool BBoxCollides(const AbstractShape& shape) const;
 

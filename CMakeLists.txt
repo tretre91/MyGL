@@ -26,6 +26,7 @@ set(PROJECT_SOURCES
   "src/Drawable/AbstractShape.cpp"
   "src/Drawable/Rectangle.cpp"
   "src/Drawable/Polygon.cpp"
+  "src/Drawable/Triangle.cpp"
   "src/Drawable/Font.cpp"
   "src/Drawable/Text.cpp"
   "src/Camera.cpp"
