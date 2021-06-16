@@ -63,14 +63,10 @@ Cpp11BracedListStyle: true
 DeriveLineEnding: true
 DerivePointerAlignment: false
 DisableFormat:   false
-#EmptyLineAfterAccessModifier: false
-#EmptyLineBeforeAccessModifier: true
+#EmptyLineAfterAccessModifier: Never
+#EmptyLineBeforeAccessModifier: LogicalBlock
 ExperimentalAutoDetectBinPacking: false
 FixNamespaceComments: true
-ForEachMacros:
-  - foreach
-  - Q_FOREACH
-  - BOOST_FOREACH
 IncludeBlocks:   Preserve
 IncludeCategories:
   - Regex:           '".*mygl_export.h"'
@@ -83,7 +79,7 @@ IncludeIsMainRegex: '(Test)?$'
 IncludeIsMainSourceRegex: ''
 #IndentAccessModifiers: false
 IndentCaseLabels: false
-IndentCaseBlocks: true                                ############################################
+IndentCaseBlocks: true
 IndentGotoLabels: false
 IndentPPDirectives: AfterHash
 IndentExternBlock: AfterExternBlock
@@ -135,15 +131,8 @@ SpacesInParentheses: false
 SpacesInSquareBrackets: false
 SpaceBeforeSquareBrackets: false
 Standard:        Latest
-StatementMacros:
-  - Q_UNUSED
-  - QT_REQUIRE_VERSION
 TabWidth:        4
 UseCRLF:         false
 UseTab:          Never
-WhitespaceSensitiveMacros:
-  - STRINGIZE
-  - PP_STRINGIZE
-  - BOOST_PP_STRINGIZE
 ...
 

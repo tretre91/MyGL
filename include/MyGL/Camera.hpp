@@ -1,5 +1,5 @@
-#ifndef MY_CAMERA
-#define MY_CAMERA
+#ifndef MYGL_CAMERA
+#define MYGL_CAMERA
 
 #include "mygl_export.h"
 
@@ -133,4 +133,4 @@ namespace my
 
 } // namespace my
 
-#endif // MY_CAMERA
+#endif // MYGL_CAMERA

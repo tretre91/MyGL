@@ -1,5 +1,5 @@
-#ifndef MY_SHADER_PROGRAM
-#define MY_SHADER_PROGRAM
+#ifndef MYGL_SHADER_PROGRAM
+#define MYGL_SHADER_PROGRAM
 
 #include "mygl_export.h"
 #include "Shader.hpp"
@@ -13,6 +13,9 @@
 
 namespace my
 {
+    /**
+     * @brief Class for creating shader programs
+     */
     class MYGL_EXPORT ShaderProgram
     {
     private:
@@ -217,4 +220,4 @@ namespace my
 
 } // namespace my
 
-#endif // MY_SHADER_PROGRAM
+#endif // MYGL_SHADER_PROGRAM

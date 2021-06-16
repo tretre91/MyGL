@@ -1,6 +1,6 @@
 /** @file */
-#ifndef MY_EVENT
-#define MY_EVENT
+#ifndef MYGL_EVENT
+#define MYGL_EVENT
 
 #include "mygl_export.h"
 
@@ -351,4 +351,4 @@ namespace my
 
 } // namespace my
 
-#endif // MY_EVENT
+#endif // MYGL_EVENT

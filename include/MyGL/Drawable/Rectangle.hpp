@@ -1,5 +1,5 @@
-#ifndef MY_RECTANGLE
-#define MY_RECTANGLE
+#ifndef MYGL_RECTANGLE
+#define MYGL_RECTANGLE
 
 #include "../mygl_export.h"
 
@@ -10,7 +10,7 @@
 namespace my
 {
     /**
-     * @brief Class for drawing rectangles
+     * @brief Class for creating rectangles
      */
     class MYGL_EXPORT Rectangle : public AbstractShape
     {
@@ -71,8 +71,8 @@ namespace my
      * @param y2 The second point's y coordinate
      * @return A my::Rectangle representing a line between the 2 points
      */
-    MYGL_EXPORT my::Rectangle line(int x1, int y1, int x2, int y2);
+    MYGL_EXPORT Rectangle line(int x1, int y1, int x2, int y2);
 
 } // namespace my
 
-#endif // MY_RECTANGLE
+#endif // MYGL_RECTANGLE

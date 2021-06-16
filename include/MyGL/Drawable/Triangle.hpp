@@ -1,5 +1,5 @@
-#ifndef MY_TRIANGLE
-#define MY_TRIANGLE
+#ifndef MYGL_TRIANGLE
+#define MYGL_TRIANGLE
 
 #include "../mygl_export.h"
 
@@ -11,7 +11,7 @@
 namespace my
 {
     /**
-     * @brief Class for drawing triangles
+     * @brief Class for creating triangles
      */
     class Triangle : public AbstractShape
     {
@@ -68,4 +68,4 @@ namespace my
     };
 } // namespace my
 
-#endif // MY_TRIANGLE
+#endif // MYGL_TRIANGLE

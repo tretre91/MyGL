@@ -1,5 +1,5 @@
-#ifndef MY_FONT
-#define MY_FONT
+#ifndef MYGL_FONT
+#define MYGL_FONT
 
 #include "../mygl_export.h"
 
@@ -73,4 +73,4 @@ namespace my
 
 } // namespace my
 
-#endif // MY_FONT
+#endif // MYGL_FONT

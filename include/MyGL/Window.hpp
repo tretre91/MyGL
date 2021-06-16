@@ -1,5 +1,5 @@
-#ifndef MY_WINDOW
-#define MY_WINDOW
+#ifndef MYGL_WINDOW
+#define MYGL_WINDOW
 
 #include "mygl_export.h"
 
@@ -18,8 +18,6 @@
 
 namespace my
 {
-    using seconds = std::chrono::duration<double, std::ratio<1>>;
-
     /**
      * @brief Class for creating a Window
      */
@@ -36,8 +34,8 @@ namespace my
         GLFWwindow* p_window;
         glm::ivec2 m_size;
         bool m_usable;
-        my::seconds m_frameDelay;
-        mutable my::seconds m_frametime;
+        std::chrono::duration<double, std::ratio<1>> m_frameDelay;
+        mutable std::chrono::duration<double, std::ratio<1>> m_frametime;
         mutable std::chrono::time_point<std::chrono::high_resolution_clock> m_chrono;
         std::deque<Event> m_eventQueue;
 
@@ -199,4 +197,4 @@ namespace my
 
 } // namespace my
 
-#endif // MY_WINDOW
+#endif // MYGL_WINDOW

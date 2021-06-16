@@ -1,5 +1,5 @@
-#ifndef MY_TEXTURE
-#define MY_TEXTURE
+#ifndef MYGL_TEXTURE
+#define MYGL_TEXTURE
 
 #include <glad/glad.h>
 #include <stb_image.h>
@@ -11,6 +11,9 @@
 
 namespace my
 {
+    /**
+     * @brief Class for storing textures
+     */
     class MYGL_EXPORT Texture
     {
     private:
@@ -108,9 +111,9 @@ namespace my
          * @brief Sets the border color used with GL_CLAMP_TO_BORDER wrapping method
          * @param color The color to be applied
          */
-        void setBorderColor(const my::Color& color);
+        void setBorderColor(const Color& color);
     };
 
 } // namespace my
 
-#endif // MY_TEXTURE
+#endif // MYGL_TEXTURE

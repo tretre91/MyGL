@@ -1,5 +1,5 @@
-#ifndef MY_ABSTRACT_SHAPE
-#define MY_ABSTRACT_SHAPE
+#ifndef MYGL_ABSTRACT_SHAPE
+#define MYGL_ABSTRACT_SHAPE
 
 #include "../mygl_export.h"
 
@@ -13,6 +13,9 @@
 
 namespace my
 {
+    /**
+     * @brief Class inherited by all the shapes, it defines common operations on a shape
+     */
     class MYGL_EXPORT AbstractShape
     {
     private:
@@ -259,4 +262,4 @@ namespace my
 
 } // namespace my
 
-#endif // MY_ABSTRACT_SHAPE
+#endif // MYGL_ABSTRACT_SHAPE

@@ -1,5 +1,5 @@
-#ifndef MY_POLYGON
-#define MY_POLYGON
+#ifndef MYGL_POLYGON
+#define MYGL_POLYGON
 
 #include "../mygl_export.h"
 
@@ -87,4 +87,4 @@ namespace my
 
 } // namespace my
 
-#endif // MY_POLYGON
+#endif // MYGL_POLYGON

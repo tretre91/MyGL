@@ -1,5 +1,5 @@
-#ifndef MY_COLOR
-#define MY_COLOR
+#ifndef MYGL_COLOR
+#define MYGL_COLOR
 
 #include "mygl_export.h"
 
@@ -9,6 +9,9 @@
 
 namespace my
 {
+    /**
+     * @brief Class for storing color objects
+     */
     class MYGL_EXPORT Color
     {
     private:
@@ -104,9 +107,9 @@ namespace my
         void setAlpha(uint8_t alpha);
     };
 
-    bool operator==(const my::Color& color1, const my::Color& color2);
-    bool operator!=(const my::Color& color1, const my::Color& color2);
-
 } // namespace my
 
-#endif // MY_COLOR
+bool operator==(const my::Color& color1, const my::Color& color2);
+bool operator!=(const my::Color& color1, const my::Color& color2);
+
+#endif // MYGL_COLOR

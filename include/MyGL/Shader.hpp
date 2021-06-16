@@ -1,5 +1,5 @@
-#ifndef MY_SHADER
-#define MY_SHADER
+#ifndef MYGL_SHADER
+#define MYGL_SHADER
 
 #include "mygl_export.h"
 
@@ -8,6 +8,9 @@
 
 namespace my
 {
+    /**
+     * @brief Class for storing a shader
+     */
     class MYGL_EXPORT Shader
     {
     private:
@@ -91,4 +94,4 @@ namespace my
 
 } // namespace my
 
-#endif // MY_SHADER
+#endif // MYGL_SHADER

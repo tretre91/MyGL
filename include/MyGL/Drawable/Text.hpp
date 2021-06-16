@@ -1,5 +1,5 @@
-#ifndef MY_TEXT
-#define MY_TEXT
+#ifndef MYGL_TEXT
+#define MYGL_TEXT
 
 #include "../mygl_export.h"
 
@@ -99,4 +99,4 @@ namespace my
 
 } // namespace my
 
-#endif // MY_TEXT
+#endif // MYGL_TEXT

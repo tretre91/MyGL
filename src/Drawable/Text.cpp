@@ -1,5 +1,4 @@
 #include <MyGL/Drawable/Text.hpp>
-using namespace my;
 
 constexpr const char* textVertexSource =
   "#version 330 core\n"
@@ -24,113 +23,116 @@ constexpr const char* textFragmentSource =
   "    FragColor = vec4(color.rgb, texture(tex, texCoords).r);"
   "}";
 
-my::ShaderProgram Text::textShader;
-my::Font Text::defaultFont;
-std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> Text::u8_u32conv{};
-std::wstring_convert<std::codecvt_utf16<char32_t>, char32_t> Text::u16_u32conv{};
-std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> Text::u8_wconv{};
+namespace my
+{
+    ShaderProgram Text::textShader;
+    Font Text::defaultFont;
+    std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> Text::u8_u32conv{};
+    std::wstring_convert<std::codecvt_utf16<char32_t>, char32_t> Text::u16_u32conv{};
+    std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> Text::u8_wconv{};
 
-void Text::init() {
-    if (!textShader.isUsable()) {
-        textShader.addShaders(Shader(textVertexSource, Shader::Type::Vertex), Shader(textFragmentSource, Shader::Type::Fragment));
-        textShader.link();
-        textShader.setInt("tex", 3);
+    void Text::init() {
+        if (!textShader.isUsable()) {
+            textShader.addShaders(Shader(textVertexSource, Shader::Type::Vertex), Shader(textFragmentSource, Shader::Type::Fragment));
+            textShader.link();
+            textShader.setInt("tex", 3);
+        }
+
+        setColor(my::Color::black);
+        m_texture = m_font.getStringTexture(m_text, m_size);
+        m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
+        m_isTextured = true;
+        m_shader = textShader;
     }
 
-    setColor(my::Color::black);
-    m_texture = m_font.getStringTexture(m_text, m_size);
-    m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
-    m_isTextured = true;
-    m_shader = textShader;
-}
-
-Text::Text() : m_font(defaultFont), m_size(0) {
-    if (!textShader.isUsable()) {
-        textShader.addShaders(Shader(textVertexSource, Shader::Type::Vertex), Shader(textFragmentSource, Shader::Type::Fragment));
-        textShader.link();
-        textShader.setInt("tex", 3);
+    Text::Text() : m_font(defaultFont), m_size(0) {
+        if (!textShader.isUsable()) {
+            textShader.addShaders(Shader(textVertexSource, Shader::Type::Vertex), Shader(textFragmentSource, Shader::Type::Fragment));
+            textShader.link();
+            textShader.setInt("tex", 3);
+        }
+        m_shader = textShader;
     }
-    m_shader = textShader;
-}
 
-my::Text::Text(const std::string& text, my::Font& font, unsigned int size) : m_text(u8_u32conv.from_bytes(text)), m_font(font), m_size(size) {
-    init();
-}
+    my::Text::Text(const std::string& text, my::Font& font, unsigned int size) : m_text(u8_u32conv.from_bytes(text)), m_font(font), m_size(size) {
+        init();
+    }
 
-my::Text::Text(const std::wstring& text, my::Font& font, unsigned int size) :
-  m_text(u8_u32conv.from_bytes(u8_wconv.to_bytes(text))), m_font(font), m_size(size) {
-    init();
-}
+    my::Text::Text(const std::wstring& text, my::Font& font, unsigned int size) :
+      m_text(u8_u32conv.from_bytes(u8_wconv.to_bytes(text))), m_font(font), m_size(size) {
+        init();
+    }
 
-my::Text::Text(const std::u16string& text, my::Font& font, unsigned int size) : m_font(font), m_size(size) {
-    const char16_t* cText = text.c_str();
-    m_text = u16_u32conv.from_bytes(reinterpret_cast<const char*>(cText), reinterpret_cast<const char*>(cText + text.size()));
-    init();
-}
+    my::Text::Text(const std::u16string& text, my::Font& font, unsigned int size) : m_font(font), m_size(size) {
+        const char16_t* cText = text.c_str();
+        m_text = u16_u32conv.from_bytes(reinterpret_cast<const char*>(cText), reinterpret_cast<const char*>(cText + text.size()));
+        init();
+    }
 
-my::Text::Text(const std::u32string& text, my::Font& font, unsigned int size) : m_text(text), m_font(font), m_size(size) {
-    init();
-}
+    my::Text::Text(const std::u32string& text, my::Font& font, unsigned int size) : m_text(text), m_font(font), m_size(size) {
+        init();
+    }
 
-void Text::setContent(const std::string& text) {
-    m_text = u8_u32conv.from_bytes(text);
-    setTexture(m_font.getStringTexture(m_text, m_size));
-    m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
-    setPosition(getPosition(), true);
-}
+    void Text::setContent(const std::string& text) {
+        m_text = u8_u32conv.from_bytes(text);
+        setTexture(m_font.getStringTexture(m_text, m_size));
+        m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
+        setPosition(getPosition(), true);
+    }
 
-void Text::setContent(const std::wstring& text) {
-    m_text = u8_u32conv.from_bytes(u8_wconv.to_bytes(text));
-    setTexture(m_font.getStringTexture(m_text, m_size));
-    m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
-    setPosition(getPosition(), true);
-}
+    void Text::setContent(const std::wstring& text) {
+        m_text = u8_u32conv.from_bytes(u8_wconv.to_bytes(text));
+        setTexture(m_font.getStringTexture(m_text, m_size));
+        m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
+        setPosition(getPosition(), true);
+    }
 
-void Text::setContent(const std::u16string& text) {
-    const char16_t* cText = text.c_str();
-    m_text = u16_u32conv.from_bytes(reinterpret_cast<const char*>(cText), reinterpret_cast<const char*>(cText + text.size()));
-    setTexture(m_font.getStringTexture(m_text, m_size));
-    m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
-    setPosition(getPosition(), true);
-}
+    void Text::setContent(const std::u16string& text) {
+        const char16_t* cText = text.c_str();
+        m_text = u16_u32conv.from_bytes(reinterpret_cast<const char*>(cText), reinterpret_cast<const char*>(cText + text.size()));
+        setTexture(m_font.getStringTexture(m_text, m_size));
+        m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
+        setPosition(getPosition(), true);
+    }
 
-void Text::setContent(const std::u32string& text) {
-    m_text = text;
-    setTexture(m_font.getStringTexture(m_text, m_size));
-    m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
-    setPosition(getPosition(), true);
-}
+    void Text::setContent(const std::u32string& text) {
+        m_text = text;
+        setTexture(m_font.getStringTexture(m_text, m_size));
+        m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
+        setPosition(getPosition(), true);
+    }
 
-std::string Text::getString() const {
-    return u8_u32conv.to_bytes(m_text);
-}
+    std::string Text::getString() const {
+        return u8_u32conv.to_bytes(m_text);
+    }
 
-std::wstring Text::getWString() const {
-    return u8_wconv.from_bytes(u8_u32conv.to_bytes(m_text));
-}
+    std::wstring Text::getWString() const {
+        return u8_wconv.from_bytes(u8_u32conv.to_bytes(m_text));
+    }
 
-std::u16string Text::getU16String() const {
-    return reinterpret_cast<const char16_t*>(u16_u32conv.to_bytes(m_text).c_str());
-}
+    std::u16string Text::getU16String() const {
+        return reinterpret_cast<const char16_t*>(u16_u32conv.to_bytes(m_text).c_str());
+    }
 
-std::u32string Text::getU32String() const {
-    return m_text;
-}
+    std::u32string Text::getU32String() const {
+        return m_text;
+    }
 
-void Text::setTexture(const my::Texture& texture) {
-    m_texture = texture;
-}
+    void Text::setTexture(const my::Texture& texture) {
+        m_texture = texture;
+    }
 
-void Text::setFont(my::Font& font) {
-    m_font = font;
-    setTexture(m_font.getStringTexture(m_text, m_size));
-    m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
-    setPosition(getPosition(), true);
-}
+    void Text::setFont(my::Font& font) {
+        m_font = font;
+        setTexture(m_font.getStringTexture(m_text, m_size));
+        m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
+        setPosition(getPosition(), true);
+    }
 
-void Text::setFontSize(unsigned int size) {
-    m_size = size;
-    setTexture(m_font.getStringTexture(m_text, m_size));
-    m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
-    setPosition(getPosition(), true);
-}
+    void Text::setFontSize(unsigned int size) {
+        m_size = size;
+        setTexture(m_font.getStringTexture(m_text, m_size));
+        m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
+        setPosition(getPosition(), true);
+    }
+} // namespace my
