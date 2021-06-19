@@ -185,11 +185,11 @@ namespace my
     bool AbstractShape::SATCollides(const AbstractShape& otherShape) const {
         const AbstractShape* shape = &otherShape;
         // We test if the shapes are close enough to potentialy touch
-        float dist = glm::distance(this->m_position, shape->m_position);
-        glm::vec2 radius = m_originalScale * m_scaleFactor;
-        float r1 = std::max(radius.x, radius.y);
-        radius = shape->m_originalScale * shape->m_scaleFactor;
-        float r2 = std::max(radius.x, radius.y);
+        const float dist = glm::distance(this->m_position, shape->m_position);
+        glm::vec2 sides = m_originalScale * m_scaleFactor;
+        const float r1 = glm::sqrt(sides.x * sides.x + sides.y * sides.y);
+        sides = shape->m_originalScale * shape->m_scaleFactor;
+        const float r2 = glm::sqrt(sides.x * sides.x + sides.y * sides.y);
         if (dist > r1 + r2) {
             return false;
         }
