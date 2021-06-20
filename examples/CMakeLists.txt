@@ -3,11 +3,11 @@ set(MYGL_EXAMPLES_DIR "examples")
 macro(config_files SOURCE_FILE)
   set(SOURCE_IN ${CMAKE_CURRENT_LIST_DIR}/${SOURCE_FILE})
   set(SOURCE_OUT ${CMAKE_CURRENT_BINARY_DIR}/main.cpp)
-  set(RESSOURCES_DIR ${CMAKE_CURRENT_LIST_DIR}/ressources)
+  set(RESOURCES_DIR ${CMAKE_CURRENT_LIST_DIR}/resources)
   configure_file(${SOURCE_IN} ${SOURCE_OUT} @ONLY)
 
   set(INSTALL_SOURCE_OUT ${CMAKE_CURRENT_BINARY_DIR}/${SOURCE_FILE})
-  set(RESSOURCES_DIR ressources)
+  set(RESOURCES_DIR resources)
   configure_file(${SOURCE_IN} ${INSTALL_SOURCE_OUT} @ONLY)
 endmacro()
 

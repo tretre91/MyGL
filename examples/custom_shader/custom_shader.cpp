@@ -1,7 +1,7 @@
 #include <MyGL/mygl.hpp>
 
 int main() {
-    std::string vertexSource =
+    const std::string vertexSource =
       "#version 330 core\n"
       "layout (location = 0) in vec3 aPos;"
       "uniform mat4 model;"
@@ -20,7 +20,7 @@ int main() {
     my::Shader vertexShader;
     vertexShader.loadFromString(vertexSource.c_str(), my::Shader::Type::Vertex);
     my::Shader fragmentShader;
-    fragmentShader.loadFromFile("@RESSOURCES_DIR@/CustomFragment.glsl", my::Shader::Type::Fragment);
+    fragmentShader.loadFromFile("@RESOURCES_DIR@/CustomFragment.glsl", my::Shader::Type::Fragment);
     my::ShaderProgram program;
     program.addShaders(vertexShader, fragmentShader);
     program.link();

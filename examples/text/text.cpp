@@ -5,9 +5,9 @@ int main() {
     my::GLWindow window(800, 600, "Text", 0);
     window.setFramerate(60);
 
-    my::Font open_sans("@RESSOURCES_DIR@/OpenSans-Regular.ttf");
-    my::Font math_font("@RESSOURCES_DIR@/latinmodern-math.otf");
-    my::Font jp_font("@RESSOURCES_DIR@/NotoSansJP-Regular.otf");
+    my::Font open_sans("@RESOURCES_DIR@/OpenSans-Regular.ttf");
+    my::Font math_font("@RESOURCES_DIR@/latinmodern-math.otf");
+    my::Font jp_font("@RESOURCES_DIR@/NotoSansJP-Regular.otf");
 
     const std::string lorem_ipsum_paragraph =
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod\n"

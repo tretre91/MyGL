@@ -1,3 +1,5 @@
-add_executable(simple_program simple_program.cpp)
+set(SOURCE_IN ${CMAKE_CURRENT_LIST_DIR}/simple_program.cpp)
 
-config_target(simple_program ${CMAKE_CURRENT_LIST_DIR}/simple_program.cpp "")
+add_executable(simple_program ${SOURCE_IN})
+
+config_target(simple_program SOURCE_IN "")
