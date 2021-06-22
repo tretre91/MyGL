@@ -2,7 +2,7 @@
 #include <string>
 
 int main() {
-    my::GLWindow window(800, 600, "Text", 0);
+    my::Window window(800, 600, "Text");
     window.setFramerate(60);
 
     my::Font open_sans("@RESOURCES_DIR@/OpenSans-Regular.ttf");

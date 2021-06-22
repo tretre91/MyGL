@@ -2,38 +2,78 @@
 #include <iostream>
 #include <thread>
 
+/**
+ * @brief Checks if a given OpenGL version is compatible with the library, and
+ *        defaults to the closest compatible version if it's not the case
+ * @param major The requested major version
+ * @param minor The requested minor version
+*/
+void checkOpenGLVersion(int& major, int& minor) {
+    int validMajor = major;
+    int validMinor = minor;
+    if (major <= 3) {
+        validMajor = 3;
+        validMinor = 3;
+    } else {
+        validMajor = 4;
+        validMinor = minor < 0 ? 0 : (minor > 6 ? 6 : minor);
+    }
+    if (major != validMajor || minor != validMinor) {
+        std::cerr << "ERROR: Invalid OpenGL version requested (" << major << '.' << minor << "), defaulting to " << validMajor << '.' << validMinor << '\n';
+    }
+    major = validMajor;
+    minor = validMinor;
+}
+
 namespace my
 {
     using seconds = std::chrono::duration<double, std::ratio<1>>;
 
-    bool GLWindow::gladIsInitialized = false;
-    unsigned int GLWindow::instancesCount = 0;
-    std::unordered_map<GLFWwindow*, my::GLWindow*> GLWindow::windows;
-    my::Camera GLWindow::defaultCamera;
+    bool Window::gladIsInitialized = false;
+    unsigned int Window::instancesCount = 0;
+    std::unordered_map<GLFWwindow*, my::Window*> Window::windows;
+    my::Camera Window::defaultCamera;
 
-    void GLWindow::myglErrorCallback(int error, const char* description) {
+    void Window::myglErrorCallback(int error, const char* description) {
         std::cerr << "ERROR::GLFW: " << description;
         std::cerr.flush();
     }
 
-    GLWindow::GLWindow() : GLWindow(800, 600, "Default") {}
+    Window::Window() : Window(800, 600, "Default") {}
 
-    GLWindow::GLWindow(int width, int height, const std::string& title, unsigned short aa) :
+    Window::Window(int width, int height, const std::string& title, unsigned int flags, int antiAliasing, int GLVersionMajor, int GLVersionMinor) :
       m_projection(glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), 0.1f, 10.0f)), p_camera(&defaultCamera), p_window(nullptr),
       m_size(width, height), m_usable(false), m_frameDelay(my::seconds::zero()), m_frametime(1.0) {
         if (instancesCount++ == 0) {
-            glfwSetErrorCallback(my::GLWindow::myglErrorCallback);
+            glfwSetErrorCallback(my::Window::myglErrorCallback);
             if (glfwInit() == GLFW_FALSE) {
                 std::cerr << "ERROR::GLFW: Failed to initialize Video module" << std::endl;
                 exit(EXIT_FAILURE);
             }
         }
 
+        // we restrict the antiAliasing samples value to be between 0 and 8
+        if (antiAliasing < 2) {
+            antiAliasing = 0;
+        } else if (antiAliasing < 4) {
+            antiAliasing = 2;
+        } else if (antiAliasing < 8) {
+        antiAliasing = 4;
+        } else {
+            antiAliasing = 8;
+        }
+        glfwWindowHint(GLFW_SAMPLES, antiAliasing);
+
+        checkOpenGLVersion(GLVersionMajor, GLVersionMinor);
         glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        glfwWindowHint(GLFW_SAMPLES, aa);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, GLVersionMajor);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, GLVersionMinor);
+
+        glfwWindowHint(GLFW_RESIZABLE, (flags & WindowFlag::resizable) != 0);
+        glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, (flags & WindowFlag::transparent) != 0);
+        glfwWindowHint(GLFW_FLOATING, (flags & WindowFlag::floating) != 0);
+        glfwWindowHint(GLFW_MAXIMIZED, (flags & WindowFlag::maximized) != 0);
 
         p_window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
 
@@ -76,7 +116,7 @@ namespace my
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 
-    GLWindow::~GLWindow() {
+    Window::~Window() {
         instancesCount--;
         if (m_usable) {
             windows.erase(p_window);
@@ -87,11 +127,11 @@ namespace my
         }
     }
 
-    bool GLWindow::isRunning() const {
+    bool Window::isRunning() const {
         return m_usable;
     }
 
-    void GLWindow::close() {
+    void Window::close() {
         if (m_usable) {
             windows.erase(p_window);
             glfwDestroyWindow(p_window);
@@ -99,7 +139,7 @@ namespace my
         }
     }
 
-    bool GLWindow::pollEvent(my::Event& e) {
+    bool Window::pollEvent(my::Event& e) {
         glfwPollEvents();
         if (m_eventQueue.empty()) {
             return false;
@@ -109,16 +149,16 @@ namespace my
         return true;
     }
 
-    void GLWindow::setActive() {
+    void Window::setActive() {
         glfwMakeContextCurrent(p_window);
     }
 
-    void GLWindow::setFramerate(unsigned int limit) {
+    void Window::setFramerate(unsigned int limit) {
         enableVsync(false);
         m_frameDelay = limit > 0 ? my::seconds(1.0 / limit) : my::seconds::zero();
     }
 
-    void GLWindow::enableVsync(bool enable) {
+    void Window::enableVsync(bool enable) {
         setActive();
         if (enable) {
             glfwSwapInterval(1);
@@ -128,29 +168,29 @@ namespace my
         }
     }
 
-    void GLWindow::clear(const my::Color& color) const {
+    void Window::clear(const my::Color& color) const {
         glm::vec4 nColor = color.getNormalized();
         glClearColor(nColor.r, nColor.g, nColor.b, nColor.a);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     }
 
-    void GLWindow::setClipPlanes(int left, int right, int bottom, int top) {
+    void Window::setClipPlanes(int left, int right, int bottom, int top) {
         m_projection = glm::ortho(static_cast<float>(left), static_cast<float>(right), static_cast<float>(bottom), static_cast<float>(top), 0.1f, 10.0f);
     }
 
-    void GLWindow::setViewport(int x, int y, int width, int height) {
+    void Window::setViewport(int x, int y, int width, int height) {
         glViewport(x, y, width, height);
     }
 
-    void GLWindow::setCamera(my::Camera& camera) {
+    void Window::setCamera(my::Camera& camera) {
         p_camera = &camera;
     }
 
-    my::Camera& GLWindow::getCamera() {
+    my::Camera& Window::getCamera() {
         return *p_camera;
     }
 
-    void GLWindow::setSize(unsigned int width, unsigned int height, bool resizeViewport) {
+    void Window::setSize(unsigned int width, unsigned int height, bool resizeViewport) {
         m_size.x = static_cast<int>(width);
         m_size.y = static_cast<int>(height);
         if (m_usable) {
@@ -162,16 +202,31 @@ namespace my
         }
     }
 
-    glm::ivec2 GLWindow::getSize() const {
+    glm::ivec2 Window::getSize() const {
         return m_size;
     }
 
-    void GLWindow::draw(my::AbstractShape& shape) {
+    void Window::setIcon(const std::string& filename) {
+        if (filename.empty()) {
+            glfwSetWindowIcon(p_window, 0, nullptr);
+        } else {
+            GLFWimage icon;
+            icon.pixels = stbi_load(filename.c_str(), &icon.width, &icon.height, nullptr, 4);
+            if (icon.pixels != nullptr) {
+                glfwSetWindowIcon(p_window, 1, &icon);
+                stbi_image_free(icon.pixels);
+            } else {
+                std::cerr << "ERROR::MYGL: Failed to set file \"" << filename << "\" as the new window icon\n";
+            }
+        }
+    }
+
+    void Window::draw(my::AbstractShape& shape) {
         my::AbstractShape* ptr = &shape;
         ptr->draw(p_camera->lookAt(), m_projection);
     }
 
-    void GLWindow::display() const {
+    void Window::display() const {
         if (m_usable) {
             glfwSwapBuffers(p_window);
             auto currentTime = std::chrono::high_resolution_clock::now();
@@ -185,17 +240,17 @@ namespace my
         }
     }
 
-    double GLWindow::getFrametime() const {
+    double Window::getFrametime() const {
         return m_frametime.count();
     }
 
-    void* GLWindow::getGLProcAdress(const char* name) {
+    void* Window::getGLProcAdress(const char* name) {
         return (void*)glfwGetProcAddress(name);
     }
 
     /* Callback functions related to the event system */
 
-    void GLWindow::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
         my::Event e;
         switch (action) {
         case GLFW_PRESS:
@@ -218,7 +273,7 @@ namespace my
         windows[window]->m_eventQueue.push_back(e);
     }
 
-    void GLWindow::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
+    void Window::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
         my::Event e;
         if (action == GLFW_PRESS) {
             e.type = my::EventType::mouseButtonPressed;
@@ -276,7 +331,7 @@ namespace my
         windows[window]->m_eventQueue.push_back(e);
     }
 
-    void GLWindow::cursorPosCallback(GLFWwindow* window, double xpos, double ypos) {
+    void Window::cursorPosCallback(GLFWwindow* window, double xpos, double ypos) {
         my::Event e;
         int windowHeight;
         glfwGetWindowSize(window, nullptr, &windowHeight);
@@ -286,7 +341,7 @@ namespace my
         windows[window]->m_eventQueue.push_back(e);
     }
 
-    void GLWindow::cursorEnterCallback(GLFWwindow* window, int entered) {
+    void Window::cursorEnterCallback(GLFWwindow* window, int entered) {
         my::Event e;
         e.keyCode = my::Key::unknown;
         if (entered == GLFW_TRUE) {
@@ -297,7 +352,7 @@ namespace my
         windows[window]->m_eventQueue.push_back(e);
     }
 
-    void GLWindow::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
+    void Window::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
         my::Event e;
         e.type = my::EventType::mouseScrolled;
         int deltax = -static_cast<int>(xoffset);
@@ -306,7 +361,7 @@ namespace my
         windows[window]->m_eventQueue.push_back(e);
     }
 
-    void GLWindow::framebufferSizeCallback(GLFWwindow* window, int width, int height) {
+    void Window::framebufferSizeCallback(GLFWwindow* window, int width, int height) {
         my::Event e;
         e.type = my::EventType::windowResized;
         e.windowSize = glm::ivec2(width, height);
@@ -314,7 +369,7 @@ namespace my
         windows[window]->m_eventQueue.push_back(e);
     }
 
-    void GLWindow::windowCloseCallback(GLFWwindow* window) {
+    void Window::windowCloseCallback(GLFWwindow* window) {
         my::Event e;
         e.type = my::EventType::windowShouldClose;
         e.keyCode = my::Key::unknown;

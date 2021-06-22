@@ -14,7 +14,7 @@ int main() {
       "    vColor = vec3(abs(pos.x), abs(pos.y), distance(pos.xy, vec2(0.0, 0.0)));"
       "}";
 
-    my::GLWindow window(800, 600, "Custom shader");
+    my::Window window(800, 600, "Custom shader");
     window.setFramerate(60);
 
     my::Shader vertexShader;

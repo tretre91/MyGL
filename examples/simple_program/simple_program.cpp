@@ -1,7 +1,7 @@
 #include <MyGL/mygl.hpp>
 
 int main() {
-    my::GLWindow window(800, 600, "Rectangle");
+    my::Window window(800, 600, "Rectangle");
     window.setFramerate(60);
 
     my::Rectangle rectangle(200, 100);

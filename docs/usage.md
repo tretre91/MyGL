@@ -61,7 +61,7 @@ The following program displays a magenta rectangle on a light green background
 #include <MyGL/mygl.hpp>
 
 int main() {
-    my::GLWindow window(800, 600, "my window!");
+    my::Window window(800, 600, "my window!");
     window.setFramerate(60);
 
     my::Rectangle rect(70, 50, 400, 300);
@@ -106,10 +106,10 @@ We first include the library
 #include <MyGL/mygl.hpp>
 ```
 
-Then we create a 800 x 600 window with the "my window!" title and set its 
-framerate limit at 60 fps
+Then we create a 800 x 600 window with the title "my window!" and limit its 
+framerate at 60 fps
 ```cpp
-my::GLWindow window(800, 600, "my window!");
+my::Window window(800, 600, "my window!");
 window.setFramerate(60);
 ```
 

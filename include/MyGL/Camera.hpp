@@ -69,10 +69,10 @@ namespace my
          * and defined with a call to setSpeed(float)), the speed would then be
          * independent from the framerate.
          * You can get the frametime with a call to the getFrametime() function of the
-         * current GLWindow, for example :
+         * current Window, for example :
          * ```c++
          *
-         * my::GLWindow window(800, 600, "window");
+         * my::Window window(800, 600, "window");
          *
          * my::Camera camera(0, 0);
          * camera.setSpeed(50.0f);
@@ -125,7 +125,7 @@ namespace my
 
         /**
          * @brief Returns the camera's "look_at" matrix, it is used internally
-         *        by a GLWindow to set its view when drawing things
+         *        by a Window to set its view when drawing things
          * @return The camera's "look_at" matrix
          */
         glm::mat4 lookAt() const;

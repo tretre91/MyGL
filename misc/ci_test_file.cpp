@@ -1,7 +1,7 @@
 #include <MyGL/mygl.hpp>
 
 int main() {
-    my::GLWindow window(800, 600, "Test", 0);
+    my::Window window(800, 600, "Test");
     window.setFramerate(10);
 
     my::Camera cam(0, 0);

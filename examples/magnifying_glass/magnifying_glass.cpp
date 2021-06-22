@@ -1,7 +1,7 @@
 #include <MyGL/mygl.hpp>
 
 int main() {
-    my::GLWindow window(800, 600, "Magnifying glass", 0);
+    my::Window window(800, 600, "Magnifying glass");
     window.setFramerate(60);
 
     my::Camera camera(0, 0);

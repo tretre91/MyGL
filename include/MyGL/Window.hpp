@@ -1,3 +1,4 @@
+/** @file */
 #ifndef MYGL_WINDOW
 #define MYGL_WINDOW
 
@@ -19,14 +20,40 @@
 namespace my
 {
     /**
+     * @brief Flags passed when creating a window to change its behaviour
+     */
+    enum WindowFlag : unsigned int
+    {
+        none = 0,
+        /**
+         * @brief Makes the window resizable
+         */
+        resizable = 1 << 0,
+        /**
+         * @brief Keeps the window on top of other windows
+         */
+        floating = 1 << 1,
+        /**
+         * @brief Allows the framebuffer to be transparent, this means that calling
+         * window.clear() with a color whose aplha value is below 255 will result
+         * in a transparent background (the opacity will depend on the alpha value)
+         */
+        transparent = 1 << 2,
+        /**
+         * @brief Maximizes the window when created
+         */
+        maximized = 1 << 3
+    };
+
+    /**
      * @brief Class for creating a Window
      */
-    class MYGL_EXPORT GLWindow
+    class MYGL_EXPORT Window
     {
     private:
         static bool gladIsInitialized;
         static unsigned int instancesCount;
-        static std::unordered_map<GLFWwindow*, GLWindow*> windows;
+        static std::unordered_map<GLFWwindow*, Window*> windows;
         static my::Camera defaultCamera;
 
         glm::mat4 m_projection;
@@ -63,21 +90,28 @@ namespace my
         /**
          * @brief Default constructor, creates a 800 * 600 window
          */
-        GLWindow();
+        Window();
 
         /**
-         * @brief Creates a width * height window, with a title
+         * @brief Creates a window
          * @param width The window's width
          * @param height The window's height
          * @param title The window's title
-         * @param aa The anti aliasing level, should be 0 (disabled), 2, 4 or 8. Disabled if not
-         *           specified
+         * @param flags A combination of WindowFlags, you can specify multiple properties
+         *              using a bitwise or, for example if you want your window to be resizable
+         *              and to always be on top you would pass "my::resizable | my::floating"
+         *              as the flags parameter
+         * @param antiAliasing The anti aliasing level, should be 0 (disabled), 2, 4 or 8.
+         *                     Defaults to 0
+         * @param GLVersionMajor The minor version of the desired OpenGL version, supported
+         *                       OpenGL versions are 3.3 and 4.0 to 4.6
+         * @param GLVersionMinor The minor version of the desired OpenGL version, supported
+         *                       OpenGL versions are 3.3 and 4.0 to 4.6
          */
-        GLWindow(int width, int height, const std::string& title, unsigned short aa = 0);
+        Window(int width, int height, const std::string& title, unsigned int flags = my::WindowFlag::none, int antiAliasing = 0, int GLVersionMajor = 3,
+          int GLVersionMinor = 3);
 
-        // GLWindow(int width, int height, const std::string& title, int glMajorVer, int glMinorVer); TODO
-
-        ~GLWindow();
+        ~Window();
 
         /**
          * @brief Tells wheter a window is opened or closed
@@ -174,6 +208,13 @@ namespace my
          * @return The size of the window's viewport (rendering area) in pixels
          */
         glm::ivec2 getSize() const;
+
+        /**
+         * @brief Sets the window's icon
+         * @param filename The filename of the image to use, passing an empty string
+         *        ("") sets the icon back to the system default
+         */
+        void setIcon(const std::string& filename);
 
         /**
          * @brief Draws a shape
