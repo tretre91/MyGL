@@ -8,7 +8,7 @@ namespace my
 
     Texture::Texture(const std::string& filename) {
         if (!load(filename)) {
-            std::cerr << "Failed to load texture " << filename << std::endl;
+            std::cerr << "Failed to load texture " << filename << '\n';
         }
     }
 

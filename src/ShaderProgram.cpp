@@ -16,7 +16,7 @@ namespace my
     }
 
     ShaderProgram::~ShaderProgram() {
-        if (--instancesCount[m_programId] <= 0) {
+        if (m_usable && --instancesCount[m_programId] <= 0) {
             glDeleteProgram(m_programId);
         }
     }

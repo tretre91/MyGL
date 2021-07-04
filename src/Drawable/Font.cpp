@@ -33,7 +33,7 @@ namespace my
 
     Font::Font(const std::string& fontFilename) : Font() {
         if (!load(fontFilename)) {
-            std::cerr << "ERROR::FREETYPE: Could not load font \"" << fontFilename << "\"" << std::endl;
+            std::cerr << "ERROR::FREETYPE: Could not load font \"" << fontFilename << "\"\n";
         }
     }
 
@@ -66,7 +66,7 @@ namespace my
 
         for (auto c : text) {
             if (FT_Load_Char(m_face, c, FT_LOAD_BITMAP_METRICS_ONLY) != 0) {
-                std::wcerr << "ERROR::FREETYPE: Couldn't load char" << c << std::endl;
+                std::wcerr << "ERROR::FREETYPE: Couldn't load char" << c << '\n';
                 continue;
             }
 
@@ -96,7 +96,7 @@ namespace my
         for (size_t i = 0; i < text.size(); i++) {
             if (text[i] != U'\n') {
                 if (FT_Load_Char(m_face, text[i], FT_LOAD_RENDER) != 0) {
-                    std::wcerr << "ERROR::FREETYPE: Couldn't load char" << text[i] << std::endl;
+                    std::wcerr << "ERROR::FREETYPE: Couldn't load char" << text[i] << '\n';
                     continue;
                 }
                 addGlyph(m_face->glyph, texture, charPos[i].first, -charPos[i].second, width);

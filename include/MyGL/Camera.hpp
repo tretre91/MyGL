@@ -18,7 +18,7 @@ namespace my
         glm::vec3 m_front;
         glm::vec3 m_up;
         float m_speed;
-        float m_roll;
+        // float m_roll; TODO
 
     public:
         /**

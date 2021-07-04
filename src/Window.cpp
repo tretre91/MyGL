@@ -1,16 +1,15 @@
 #include <MyGL/Window.hpp>
+#include <MyGL/common.hpp>
 #include <iostream>
-#include <thread>
 
 /**
  * @brief Checks if a given OpenGL version is compatible with the library, and
  *        defaults to the closest compatible version if it's not the case
  * @param major The requested major version
  * @param minor The requested minor version
-*/
+ */
 void checkOpenGLVersion(int& major, int& minor) {
-    int validMajor = major;
-    int validMinor = minor;
+    int validMajor, validMinor;
     if (major <= 3) {
         validMajor = 3;
         validMinor = 3;
@@ -19,7 +18,8 @@ void checkOpenGLVersion(int& major, int& minor) {
         validMinor = minor < 0 ? 0 : (minor > 6 ? 6 : minor);
     }
     if (major != validMajor || minor != validMinor) {
-        std::cerr << "ERROR: Invalid OpenGL version requested (" << major << '.' << minor << "), defaulting to " << validMajor << '.' << validMinor << '\n';
+        std::cerr << "ERROR::Window: Invalid OpenGL version requested (" << major << '.' << minor << "), defaulting to " << validMajor << '.' << validMinor
+                  << '\n';
     }
     major = validMajor;
     minor = validMinor;
@@ -27,44 +27,34 @@ void checkOpenGLVersion(int& major, int& minor) {
 
 namespace my
 {
-    using seconds = std::chrono::duration<double, std::ratio<1>>;
+    using time_unit = std::chrono::microseconds;
+    constexpr auto one = std::chrono::duration_cast<time_unit>(std::chrono::seconds(1)).count();
 
     bool Window::gladIsInitialized = false;
     unsigned int Window::instancesCount = 0;
     std::unordered_map<GLFWwindow*, my::Window*> Window::windows;
     my::Camera Window::defaultCamera;
 
-    void Window::myglErrorCallback(int error, const char* description) {
-        std::cerr << "ERROR::GLFW: " << description;
-        std::cerr.flush();
-    }
-
     Window::Window() : Window(800, 600, "Default") {}
 
     Window::Window(int width, int height, const std::string& title, unsigned int flags, int antiAliasing, int GLVersionMajor, int GLVersionMinor) :
       m_projection(glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), 0.1f, 10.0f)), p_camera(&defaultCamera), p_window(nullptr),
-      m_size(width, height), m_usable(false), m_frameDelay(my::seconds::zero()), m_frametime(1.0) {
-        if (instancesCount++ == 0) {
-            glfwSetErrorCallback(my::Window::myglErrorCallback);
-            if (glfwInit() == GLFW_FALSE) {
-                std::cerr << "ERROR::GLFW: Failed to initialize Video module" << std::endl;
-                exit(EXIT_FAILURE);
-            }
-        }
-
+      m_size(width, height), m_usable(false), m_frameDelay(0), m_frametime(one) {
         // we restrict the antiAliasing samples value to be between 0 and 8
         if (antiAliasing < 2) {
             antiAliasing = 0;
         } else if (antiAliasing < 4) {
             antiAliasing = 2;
         } else if (antiAliasing < 8) {
-        antiAliasing = 4;
+            antiAliasing = 4;
         } else {
             antiAliasing = 8;
         }
-        glfwWindowHint(GLFW_SAMPLES, antiAliasing);
 
         checkOpenGLVersion(GLVersionMajor, GLVersionMinor);
+
+        initGLFW();
+        glfwWindowHint(GLFW_SAMPLES, antiAliasing);
         glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, GLVersionMajor);
@@ -78,14 +68,16 @@ namespace my
         p_window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
 
         if (p_window == nullptr) {
-            std::cerr << "ERROR::GLFW: Failed to create a window" << std::endl;
+            const char* desc;
+            glfwGetError(&desc);
+            std::cerr << "ERROR::GLFW: Failed to create a window\n" << desc;
             exit(EXIT_FAILURE);
         }
-
         glfwMakeContextCurrent(p_window);
+
         if (!gladIsInitialized) {
             if (gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)) == 0) {
-                std::cerr << "ERROR::GLAD: Failed to initialize GLAD" << std::endl;
+                std::cerr << "ERROR::GLAD: Failed to initialize GLAD\n";
                 glfwDestroyWindow(p_window);
                 glfwTerminate();
                 exit(EXIT_FAILURE);
@@ -155,14 +147,14 @@ namespace my
 
     void Window::setFramerate(unsigned int limit) {
         enableVsync(false);
-        m_frameDelay = limit > 0 ? my::seconds(1.0 / limit) : my::seconds::zero();
+        m_frameDelay = time_unit(limit > 0 ? one / limit : 0);
     }
 
     void Window::enableVsync(bool enable) {
         setActive();
         if (enable) {
             glfwSwapInterval(1);
-            m_frameDelay = my::seconds::zero();
+            m_frameDelay = time_unit::zero();
         } else {
             glfwSwapInterval(0);
         }
@@ -221,27 +213,32 @@ namespace my
         }
     }
 
+    void Window::setCursor(const Cursor& cursor) {
+        if (cursor.isUsable()) {
+            glfwSetCursor(p_window, cursor.p_cursor);
+        }
+    }
+
     void Window::draw(my::AbstractShape& shape) {
-        my::AbstractShape* ptr = &shape;
-        ptr->draw(p_camera->lookAt(), m_projection);
+        shape.draw(p_camera->lookAt(), m_projection);
     }
 
     void Window::display() const {
         if (m_usable) {
-            glfwSwapBuffers(p_window);
             auto currentTime = std::chrono::high_resolution_clock::now();
-            auto elapsed = currentTime - m_chrono;
+            const time_unit elapsed = std::chrono::duration_cast<time_unit>(currentTime - m_chrono);
             if (elapsed < m_frameDelay) {
-                std::this_thread::sleep_for(m_frameDelay - elapsed);
+                sleep(std::chrono::duration_cast<std::chrono::nanoseconds>(m_frameDelay - elapsed).count());
             }
+            glfwSwapBuffers(p_window);
             currentTime = std::chrono::high_resolution_clock::now();
-            m_frametime = currentTime - m_chrono;
+            m_frametime = std::chrono::duration_cast<time_unit>(currentTime - m_chrono);
             m_chrono = currentTime;
         }
     }
 
     double Window::getFrametime() const {
-        return m_frametime.count();
+        return std::chrono::duration_cast<std::chrono::duration<double, std::ratio<1>>>(m_frametime).count();
     }
 
     void* Window::getGLProcAdress(const char* name) {

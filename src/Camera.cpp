@@ -2,9 +2,9 @@
 
 namespace my
 {
-    Camera::Camera() : m_position(0.0f, 0.0f, 3.0f), m_front(0.0f, 0.0f, -1.0f), m_up(0.0f, 1.0f, 0.0f), m_speed(50.0f), m_roll(0.0f) {}
+    Camera::Camera() : m_position(0.0f, 0.0f, 3.0f), m_front(0.0f, 0.0f, -1.0f), m_up(0.0f, 1.0f, 0.0f), m_speed(50.0f) {}
 
-    Camera::Camera(int x, int y) : m_position(x, y, 3.0f), m_front(0.0f, 0.0f, -1.0f), m_up(0.0f, 1.0f, 0.0f), m_speed(50.0f), m_roll(0.0f) {}
+    Camera::Camera(int x, int y) : m_position(x, y, 3.0f), m_front(0.0f, 0.0f, -1.0f), m_up(0.0f, 1.0f, 0.0f), m_speed(50.0f) {}
 
     void Camera::setPosition(int x, int y) {
         m_position = glm::vec3(x, y, 3.0f);

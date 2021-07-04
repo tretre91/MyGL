@@ -16,9 +16,7 @@ function(config_target TARGET_NAME INSTALL_FILES INSTALL_DIRECTORIES)
     PUBLIC $<IF:$<TARGET_EXISTS:MyGL-static>,MyGL-static,MyGL>)
 
   if(UNIX)
-    target_link_libraries(${TARGET_NAME}
-      PUBLIC dl
-    )
+    target_link_libraries(${TARGET_NAME} PUBLIC dl)
   endif()
 
   target_include_directories(${TARGET_NAME}

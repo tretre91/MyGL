@@ -10,6 +10,7 @@
 
 #include "Camera.hpp"
 #include "Color.hpp"
+#include "Cursor.hpp"
 #include "Drawable/AbstractShape.hpp"
 #include "Event.hpp"
 
@@ -61,17 +62,10 @@ namespace my
         GLFWwindow* p_window;
         glm::ivec2 m_size;
         bool m_usable;
-        std::chrono::duration<double, std::ratio<1>> m_frameDelay;
-        mutable std::chrono::duration<double, std::ratio<1>> m_frametime;
+        std::chrono::microseconds m_frameDelay;
+        mutable std::chrono::microseconds m_frametime;
         mutable std::chrono::time_point<std::chrono::high_resolution_clock> m_chrono;
         std::deque<Event> m_eventQueue;
-
-        /**
-         * @brief Error callback for GLFW errors
-         * @param error The error code
-         * @param description The error description
-         */
-        static void myglErrorCallback(int error, const char* description);
 
         /** @name Event callbacks
          * @brief Event callback functions for handling glfw events
@@ -215,6 +209,12 @@ namespace my
          *        ("") sets the icon back to the system default
          */
         void setIcon(const std::string& filename);
+
+        /**
+         * @brief Sets the cursor used by this window
+         * @param cursor The new cursor to use
+         */
+        void setCursor(const Cursor& cursor);
 
         /**
          * @brief Draws a shape

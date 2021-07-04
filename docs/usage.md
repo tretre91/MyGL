@@ -4,12 +4,12 @@
 
 This table sums up which libraries you have to link against on Windows and Linux :
 
-|  Linking options |  Libraries to link against                                                                                               ||
-|------------------|-------------------------------------------------------------------------------|-------------------------------------------|
-|                  |  **On Windows**                                                               |  **On Linux**                             |
-|  Static linking  |  mygl-static(d).lib                                                           |  libmygl(d)                               |
-|  Dynamic linking |  mygl(d).lib                                                                  |  libmygl(d)                               |
-|  In both         |  glfw3.lib, freetype(d).lib, opengl32.lib, gdi32.lib, user32.lib, shell32.lib |  libglfw3, libfreetype, libdl, libpthread |
+|  Linking options |  Libraries to link against                                                                                                          ||
+|------------------|------------------------------------------------------------------------------------------|-------------------------------------------|
+|                  |  **On Windows**                                                                          |  **On Linux**                             |
+|  Static linking  |  mygl-static(d).lib                                                                      |  libmygl(d)                               |
+|  Dynamic linking |  mygl(d).lib                                                                             |  libmygl(d)                               |
+|  In both         |  glfw3.lib, freetype(d).lib, opengl32.lib, gdi32.lib, user32.lib, shell32.lib, winmm.lib |  libglfw3, libfreetype, libdl, libpthread |
 
 The libraries have the 'd' suffix for their debug configurations
 

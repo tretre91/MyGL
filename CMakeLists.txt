@@ -7,7 +7,7 @@ project(
   DESCRIPTION "A little graphics library using opengl, it is not in any way efficient as its purpose is to test my coding skills / learn opengl"
 )
 
-set(CXX_STANDARD_REQUIRED 14)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 
@@ -30,7 +30,9 @@ set(PROJECT_SOURCES
   "src/Drawable/Font.cpp"
   "src/Drawable/Text.cpp"
   "src/Camera.cpp"
-  "src/Event.cpp")
+  "src/Event.cpp"
+  "src/Cursor.cpp"
+  "src/common.cpp")
 
 option(
   MYGL_BUILD_DOCUMENTATION 
@@ -106,6 +108,10 @@ if(MYGL_SHARED)
     PUBLIC freetype
   )
 
+  if (WIN32)
+    target_link_libraries(MyGL PUBLIC winmm)
+  endif()
+
   target_include_directories(MyGL 
     PUBLIC
       $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
@@ -125,6 +131,7 @@ if(MYGL_STATIC)
     set_target_properties(MyGL-static PROPERTIES OUTPUT_NAME mygl)
   else()
     set_target_properties(MyGL-static PROPERTIES OUTPUT_NAME mygl-static)
+    target_link_libraries(MyGL-static PUBLIC winmm)
   endif()
 
   target_compile_definitions(MyGL-static PUBLIC MYGL_STATIC_DEFINE)

@@ -13,7 +13,7 @@ namespace my
     /**
      * @brief Class for creating triangles
      */
-    class Triangle : public AbstractShape
+    class MYGL_EXPORT Triangle : public AbstractShape
     {
     private:
         unsigned int m_vao;
