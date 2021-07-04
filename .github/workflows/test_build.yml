@@ -69,8 +69,8 @@ jobs:
     
       - name: Check test file compilation against static libs
         working-directory: ${{github.workspace}}/user_test
-        run: cl ${{github.workspace}}/misc/ci_test_file.cpp mygl-static.lib glfw3.lib freetype.lib opengl32.lib gdi32.lib user32.lib shell32.lib /MT /Fe:test /I ${{github.workspace}}/install/include /I ${{github.workspace}}/install/include/freetype2 /D MYGL_STATIC_DEFINE /link /LIBPATH:${{github.workspace}}/install/lib
+        run: cl ${{github.workspace}}/misc/ci_test_file.cpp mygl-static.lib glfw3.lib freetype.lib opengl32.lib gdi32.lib user32.lib shell32.lib winmm.lib /MT /Fe:test /I ${{github.workspace}}/install/include /I ${{github.workspace}}/install/include/freetype2 /D MYGL_STATIC_DEFINE /link /LIBPATH:${{github.workspace}}/install/lib
       
       - name: Check test file compilation against shared libs
         working-directory: ${{github.workspace}}/user_test
-        run: cl ${{github.workspace}}/misc/ci_test_file.cpp mygl.lib glfw3.lib freetype.lib opengl32.lib gdi32.lib user32.lib shell32.lib /MT /Fe:test /I ${{github.workspace}}/install/include /I ${{github.workspace}}/install/include/freetype2 /link /LIBPATH:${{github.workspace}}/install/lib
+        run: cl ${{github.workspace}}/misc/ci_test_file.cpp mygl.lib glfw3.lib freetype.lib opengl32.lib gdi32.lib user32.lib shell32.lib winmm.lib /MT /Fe:test /I ${{github.workspace}}/install/include /I ${{github.workspace}}/install/include/freetype2 /link /LIBPATH:${{github.workspace}}/install/lib
