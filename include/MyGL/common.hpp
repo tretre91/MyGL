@@ -3,6 +3,11 @@
 #ifndef MYGL_COMMON
 #define MYGL_COMMON
 
+#include "mygl_export.h"
+
+/**
+ * @brief Namespace containing every class, function and enum of the library
+ */
 namespace my
 {
     /**
@@ -38,7 +43,7 @@ namespace my
      * @brief Sleeps for a certain amount of time
      * @param nanoseconds The sleep time in nanoseconds
      */
-    void sleep(unsigned long long nanoseconds);
+    MYGL_EXPORT void sleep(unsigned long long nanoseconds);
 
 } // namespace my
 

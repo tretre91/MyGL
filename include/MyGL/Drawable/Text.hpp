@@ -48,36 +48,39 @@ namespace my
          */
         Text();
 
-        /** @name Constructors
-         * @brief Constructors for the text class
+        /** @name Constructors 
+            @{ */
+        /**
+         * @brief Creates a text object
          * @param text A std::string (or wstring, u16string, u32string) with the text to
          *        be displayed
          * @param font A my::Font object defining the text's font
          * @param size The character size in pixels
          */
-        /** @{ */
         Text(const std::string& text, my::Font& font, unsigned int size = 30u);
         Text(const std::wstring& text, my::Font& font, unsigned int size = 30u);
         Text(const std::u16string& text, my::Font& font, unsigned int size = 30u);
         Text(const std::u32string& text, my::Font& font, unsigned int size = 30u);
         /** @} */
 
-        /** @name Setters
-         * @brief Sets the content of the displayed text
-         * @param text The new string to display
+        /** @name Setters 
+            @{ */
+        /**
+         * @brief Sets the displayed text's content
+         * @param text The new text to display
          */
-        /** @{ */
         void setContent(const std::string& text);
         void setContent(const std::wstring& text);
         void setContent(const std::u16string& text);
         void setContent(const std::u32string& text);
         /** @} */
 
-        /** @name Getters
+        /** @name Getters 
+            @{ */
+        /**
          * @brief Returns the text that is currently displayed
          * @return The content of the string that is currently displayed
          */
-        /** @{ */
         std::string getString() const;
         std::wstring getWString() const;
         std::u16string getU16String() const;

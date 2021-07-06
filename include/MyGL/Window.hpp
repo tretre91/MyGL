@@ -1,4 +1,3 @@
-/** @file */
 #ifndef MYGL_WINDOW
 #define MYGL_WINDOW
 
@@ -47,7 +46,7 @@ namespace my
     };
 
     /**
-     * @brief Class for creating a Window
+     * @brief Class for creating a window
      */
     class MYGL_EXPORT Window
     {

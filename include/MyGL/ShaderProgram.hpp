@@ -88,7 +88,7 @@ namespace my
          *
          * @param name The uniform's name
          * @param value The new value to assign to the uniform
-         * @param v0,values The new values to assign
+         * @param v0,value(s) The new values to assign
          *
          * @{
          */
@@ -117,8 +117,9 @@ namespace my
         void setInt(const std::string& name, const glm::ivec4& value) const;
         /**
          * @brief Sets the value of an integer uniform using multiple values
+         * @param name The uniform's name
          * @param v0 The first value
-         * @param ...values The remaining values (up to 3)
+         * @param values The remaining values (up to 3)
          */
         template<typename... Args>
         void setInt(const std::string& name, int v0, Args... values) const;
@@ -146,8 +147,9 @@ namespace my
         void setUInt(const std::string& name, const glm::uvec4& value) const;
         /**
          * @brief Sets the value of an unsigned integer uniform using multiple values
+         * @param name The uniform's name
          * @param v0 The first value
-         * @param ...values The remaining values (up to 3)
+         * @param values The remaining values (up to 3)
          */
         template<typename... Args>
         void setUInt(const std::string& name, unsigned int v0, Args... values) const;
@@ -175,8 +177,9 @@ namespace my
         void setFloat(const std::string& name, const glm::vec4& value) const;
         /**
          * @brief Sets the value of a float uniform using multiple values
+         * @param name The uniform's name
          * @param v0 The first value
-         * @param ...values The remaining values (up to 3)
+         * @param values The remaining values (up to 3)
          */
         template<typename... Args>
         void setFloat(const std::string& name, float v0, Args... values) const;

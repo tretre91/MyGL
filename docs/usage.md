@@ -1,4 +1,4 @@
-# How to use
+# How to use  {#usage}
 
 ## Compilation
 
@@ -53,9 +53,9 @@ $ g++ prog.o -o prog -lmygl -lglfw3 -lfreetype -ldl -lpthread -L/path/to/lib/fol
 ## Usage
 
 This library provides some abstraction over openGL to draw shapes and text, it
-also provides a window and event system.
+also provides a way to create windows and an event system.
 
-The following program displays a magenta rectangle on a light green background
+The following example program displays a magenta rectangle on a light green background
 
 ```cpp
 #include <MyGL/mygl.hpp>
@@ -122,7 +122,7 @@ my::Rectangle rect(70, 50, 400, 300);
 rect.setColor(155, 32, 104);
 ```
 
-Then comes the game loop, while the window is running:
+Then comes the main loop, while the window is opened:
 
 1. We check if there are events that need to be processed :
    ```cpp

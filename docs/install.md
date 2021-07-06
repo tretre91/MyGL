@@ -1,4 +1,4 @@
-# Installation
+# Installation  {#installation}
 
 ## Build the library
 
@@ -9,7 +9,7 @@ and build with CMake.
 The main CMake options are :
 - `MYGL_STATIC` : builds the static version of the library (default: on)
 - `MYGL_SHARED` : builds the shared version of the library (default: on)
-- `MYGL_BUILD_DOCUMENTATION` : builds the documentation (default: off)
+- `MYGL_DOCUMENTATION` : builds the documentation (default: off)
 - `MYGL_EXAMPLES` : builds the example programs (default: off)
 - `CMAKE_INSTALL_PREFIX` : sets the path to the folder where the files will be installed
 
@@ -43,5 +43,4 @@ cmake --install .
 ## Build the documentation
 
 In order to build the documentation you will need to have [doxygen](https://www.doxygen.nl/download.html)
-installed (at least v1.80) and enable the `MYGL_BUILD_DOCUMENTATION` option when
-generating the build files with CMake.
+installed and enable the `MYGL_DOCUMENTATION` option when generating the build files with CMake.

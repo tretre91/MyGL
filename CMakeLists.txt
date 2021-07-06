@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.14)
 project(
   MyGL
   LANGUAGES CXX C
-  VERSION 0.1.0 
-  DESCRIPTION "A little graphics library using opengl, it is not in any way efficient as its purpose is to test my coding skills / learn opengl"
+  VERSION 0.1.0
+  DESCRIPTION "A little graphics library using opengl, its purpose is to test my coding skills / learn opengl"
 )
 
 set(CMAKE_CXX_STANDARD 14)
@@ -16,64 +16,38 @@ if(NOT APPLE)
 endif()
 
 set(PROJECT_SOURCES
-  "src/glad.c"
-  "src/Color.cpp"
-  "src/Shader.cpp"
-  "src/ShaderProgram.cpp"
-  "src/stb_image.cpp"
-  "src/Texture.cpp"
-  "src/Window.cpp"
-  "src/Drawable/AbstractShape.cpp"
-  "src/Drawable/Rectangle.cpp"
-  "src/Drawable/Polygon.cpp"
-  "src/Drawable/Triangle.cpp"
-  "src/Drawable/Font.cpp"
-  "src/Drawable/Text.cpp"
-  "src/Camera.cpp"
-  "src/Event.cpp"
-  "src/Cursor.cpp"
-  "src/common.cpp")
+    "src/glad.c"
+    "src/Color.cpp"
+    "src/Shader.cpp"
+    "src/ShaderProgram.cpp"
+    "src/stb_image.cpp"
+    "src/Texture.cpp"
+    "src/Window.cpp"
+    "src/Drawable/AbstractShape.cpp"
+    "src/Drawable/Rectangle.cpp"
+    "src/Drawable/Polygon.cpp"
+    "src/Drawable/Triangle.cpp"
+    "src/Drawable/Font.cpp"
+    "src/Drawable/Text.cpp"
+    "src/Camera.cpp"
+    "src/Event.cpp"
+    "src/Cursor.cpp"
+    "src/common.cpp"
+)
 
-option(
-  MYGL_BUILD_DOCUMENTATION 
-  "Turn on in order to enable a build target for the documentation, this requires that you have doxygen installed"
-  OFF)
+option(MYGL_DOCUMENTATION "Turn on in order to enable a build target for the documentation, this requires that you have doxygen installed"
+       OFF
+)
 
-option(
-  MYGL_EXAMPLES
-  "Builds the example programs"
-  OFF)
+option(MYGL_EXAMPLES "Builds the example programs" OFF)
 
-option(
-  MYGL_SHARED
-  "Builds the dynamic library files. At least one of the options MYGL_SHARED and MYGL_STATIC should be enabled"
-  ON)
+option(MYGL_SHARED "Builds the dynamic library files. At least one of the options MYGL_SHARED and MYGL_STATIC should be enabled" ON)
 
-option(
-  MYGL_STATIC
-  "Builds the dynamic library files. At least one of the options MYGL_SHARED and MYGL_STATIC should be enabled"
-  ON)
-
-# Search for the dependencies
-include(cmake/CPM.cmake)
+option(MYGL_STATIC "Builds the dynamic library files. At least one of the options MYGL_SHARED and MYGL_STATIC should be enabled" ON)
 
 if(UNIX AND MYGL_SHARED)
   set(BUILD_SHARED_LIBS True)
 endif()
-
-CPMAddPackage(
-  NAME glfw
-  GIT_REPOSITORY "https://github.com/glfw/glfw.git"
-  GIT_TAG 3.3-stable
-  OPTIONS "GLFW_BUILD_DOCS OFF" "GLFW_BUILD_TESTS OFF" "GLFW_BUILD_EXAMPLES OFF"
-)
-
-CPMAddPackage(
-  NAME freetype
-  GIT_REPOSITORY "https://gitlab.freedesktop.org/freetype/freetype.git"
-  GIT_TAG VER-2-10-4
-)
-
 
 if(MYGL_SHARED)
   list(APPEND MYGL_TARGETS "MyGL")
@@ -81,8 +55,25 @@ endif()
 if(MYGL_STATIC)
   list(APPEND MYGL_TARGETS "MyGL-static")
 endif()
-if(NOT MYGL_BUILD_DOCUMENTATION AND NOT MYGL_TARGETS)
-  message(FATAL_ERROR "Nothing to build, enable at least one of the options MYGL_STATIC, MYGL_SHARED or MYGL_BUILD_DOCUMENTATION")
+if(NOT MYGL_DOCUMENTATION AND NOT MYGL_TARGETS)
+  message(FATAL_ERROR "Nothing to build, enable at least one of the options MYGL_STATIC, MYGL_SHARED or MYGL_DOCUMENTATION")
+endif()
+
+if(MYGL_TARGETS)
+  include(cmake/CPM.cmake)
+
+  CPMAddPackage(
+    NAME glfw
+    GIT_REPOSITORY "https://github.com/glfw/glfw.git"
+    GIT_TAG 3.3-stable
+    OPTIONS "GLFW_BUILD_DOCS OFF" "GLFW_BUILD_TESTS OFF" "GLFW_BUILD_EXAMPLES OFF"
+  )
+
+  CPMAddPackage(
+    NAME freetype
+    GIT_REPOSITORY "https://gitlab.freedesktop.org/freetype/freetype.git"
+    GIT_TAG VER-2-10-4
+  )
 endif()
 
 set(MYGL_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
@@ -90,42 +81,39 @@ set(MYGL_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 # Shared library
 if(MYGL_SHARED)
   add_library(MyGL SHARED ${PROJECT_SOURCES})
-  set_target_properties(MyGL PROPERTIES
-    SOVERSION ${PROJECT_VERSION_MAJOR}
-    VERSION ${PROJECT_VERSION}
-    OUTPUT_NAME mygl
-    DEBUG_POSTFIX "d"
-    CXX_VISIBILITY_PRESET hidden
-    VISIBILITY_INLINES_HIDDEN YES
+  set_target_properties(
+    MyGL
+    PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR}
+               VERSION ${PROJECT_VERSION}
+               OUTPUT_NAME mygl
+               DEBUG_POSTFIX "d"
+               CXX_VISIBILITY_PRESET hidden
+               VISIBILITY_INLINES_HIDDEN YES
   )
 
-  target_compile_definitions(MyGL
+  target_compile_definitions(
+    MyGL
     PUBLIC GLAD_GLAPI_EXPORT
-    PRIVATE GLAD_GLAPI_EXPORT_BUILD)
+    PRIVATE GLAD_GLAPI_EXPORT_BUILD
+  )
 
-  target_link_libraries(MyGL
+  target_link_libraries(
+    MyGL
     PUBLIC glfw
     PUBLIC freetype
   )
 
-  if (WIN32)
+  if(WIN32)
     target_link_libraries(MyGL PUBLIC winmm)
   endif()
 
-  target_include_directories(MyGL 
-    PUBLIC
-      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-      $<INSTALL_INTERFACE:include>
-  )
+  target_include_directories(MyGL PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include> $<INSTALL_INTERFACE:include>)
 endif(MYGL_SHARED)
 
 # Static Library
 if(MYGL_STATIC)
   add_library(MyGL-static STATIC ${PROJECT_SOURCES})
-  set_target_properties(MyGL-static PROPERTIES
-    VERSION ${PROJECT_VERSION}
-    DEBUG_POSTFIX "d"
-  )
+  set_target_properties(MyGL-static PROPERTIES VERSION ${PROJECT_VERSION} DEBUG_POSTFIX "d")
 
   if(UNIX)
     set_target_properties(MyGL-static PROPERTIES OUTPUT_NAME mygl)
@@ -135,41 +123,37 @@ if(MYGL_STATIC)
   endif()
 
   target_compile_definitions(MyGL-static PUBLIC MYGL_STATIC_DEFINE)
-  
-  target_link_libraries(MyGL-static
+
+  target_link_libraries(
+    MyGL-static
     PUBLIC glfw
     PUBLIC freetype
   )
 
-  target_include_directories(MyGL-static
-    PUBLIC
-      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-      $<INSTALL_INTERFACE:include>  
-  )
+  target_include_directories(MyGL-static PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include> $<INSTALL_INTERFACE:include>)
 endif(MYGL_STATIC)
 
-
-#install directives
+# install directives
 include(GNUInstallDirs)
 
 if(MYGL_TARGETS)
   set(MYGL_INSTALL_CMAKEDIR
-    ${CMAKE_INSTALL_LIBDIR}/cmake/MyGL
-    CACHE STRING "Path to MyGL cmake files"
+      ${CMAKE_INSTALL_LIBDIR}/cmake/MyGL
+      CACHE STRING "Path to MyGL cmake files"
   )
 
-  install(TARGETS ${MYGL_TARGETS}
+  install(
+    TARGETS ${MYGL_TARGETS}
     EXPORT MyGL_Targets
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-            COMPONENT MyGL_Runtime
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-            COMPONENT MyGL_Runtime
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-            COMPONENT MyGL_Development
-    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT MyGL_Runtime
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT MyGL_Runtime
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT MyGL_Development
+    INCLUDES
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
   )
 
-  install(EXPORT MyGL_Targets
+  install(
+    EXPORT MyGL_Targets
     FILE MyGLTargets.cmake
     NAMESPACE MyGL::
     DESTINATION ${MYGL_INSTALL_CMAKEDIR}
@@ -183,23 +167,21 @@ if(MYGL_TARGETS)
     COMPATIBILITY SameMajorVersion
   )
 
-  install(FILES "cmake/MyGLConfig.cmake" "${CMAKE_BINARY_DIR}/MyGLConfigVersion.cmake"
-    DESTINATION ${MYGL_INSTALL_CMAKEDIR}
-  )
+  install(FILES "cmake/MyGLConfig.cmake" "${CMAKE_BINARY_DIR}/MyGLConfigVersion.cmake" DESTINATION ${MYGL_INSTALL_CMAKEDIR})
 
-  install(
-    DIRECTORY 
-      ${MYGL_INCLUDE_DIR}/
-    DESTINATION 
-      ${CMAKE_INSTALL_INCLUDEDIR})
+  install(DIRECTORY ${MYGL_INCLUDE_DIR}/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 endif()
 
 # Documentation directory
-if(MYGL_BUILD_DOCUMENTATION)
+if(MYGL_DOCUMENTATION)
   add_subdirectory("docs")
 endif()
 
 # Example programs directory
 if(MYGL_EXAMPLES)
-  add_subdirectory("examples")
+  if(MYGL_TARGETS)
+    add_subdirectory("examples")
+  else()
+    message(FATAL_ERROR "In order to generate the examples, you should also build the library (enable MYGL_STATIC and/or MYGL_SHARED).")
+  endif()
 endif()
