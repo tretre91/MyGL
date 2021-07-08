@@ -5,6 +5,7 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 #include <unordered_map>
+#include <string>
 
 namespace my
 {
@@ -58,8 +59,8 @@ namespace my
         /**
          * @brief Creates a cursor from an image file
          * @param filename The image to use
-         * @param xhot The x coordinate of the cursor's hotpoint
-         * @param yhot The y coordinate of the cursor's hotpoint
+         * @param xhot The x coordinate of the cursor's hotspot
+         * @param yhot The y coordinate of the cursor's hotspot
          */
         Cursor(const std::string& filename, int xhot, int yhot);
 

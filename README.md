@@ -5,6 +5,8 @@
 
 A 2D graphics library to display basic shapes and text to a window using OpenGL!
 
+The documentation can be found at : https://tretre91.github.io/MyGL/
+
 ### Disclaimer
 
 This is a student project, I am relatively new to graphics programming so do not expect the most

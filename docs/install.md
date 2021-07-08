@@ -13,9 +13,6 @@ The main CMake options are :
 - `MYGL_EXAMPLES` : builds the example programs (default: off)
 - `CMAKE_INSTALL_PREFIX` : sets the path to the folder where the files will be installed
 
-@note
-You might have to install with administrator privileges depending on the install directory.
-
 This project uses [CPM.cmake](https://github.com/cpm-cmake/CPM.cmake) for 
 dependency managment, so you can also set the options related to CPM (they are
 listed [here](https://github.com/cpm-cmake/CPM.cmake#options)). The most relevant
@@ -24,6 +21,19 @@ ones are :
   of the dependancies before dowloading them
 - `CPM_SOURCE_CACHE` : sets a directory in which the dependancies will be cached,
   it can be useful if you plan to build the library offline for example.
+
+@note
+On linux you should have the following libraries installed (required by glfw) before building :
+- x11
+- xrandr
+- xinerama
+- xcursor
+- xext
+@note
+They can be installed on a debian based distro with the following command :
+```bash
+sudo apt install libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libxext-dev
+```
 
 ### Example
 

@@ -1,0 +1,53 @@
+name: Linux build
+
+on: push
+
+env:
+  BUILD_TYPE: Release
+  CPM_SOURCE_CACHE: ${{github.workspace}}/CPM_cache
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get lib versions
+        id: get-lib-versions
+        run: echo "::set-output name=lib-versions::$(cat CMakeLists.txt | grep "GIT_TAG")"
+        shell: bash
+
+      - uses: actions/cache@v2
+        with:
+          path: "**/CPM_cache"
+          key: ${{github.workflow}}-cpm-cache-${{steps.get-lib-versions.outputs.lib-versions}}
+
+      - name: Create Build Environment
+        run: cmake -E make_directory ${{github.workspace}}/build ${{github.workspace}}/install ${{github.workspace}}/user_test
+      
+      - name: Install libraries
+        run: sudo apt install -y libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libxext-dev
+        shell: bash
+        
+      - name: Configure CMake
+        working-directory: ${{github.workspace}}/build
+        run: cmake ${{github.workspace}} -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DMYGL_EXAMPLES=ON -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install -DCPM_USE_LOCAL_PACKAGES=ON
+        
+      - name: Build and Install the library
+        working-directory: ${{github.workspace}}/build
+        run: |
+          cmake --build .
+          cmake --install .
+        
+      - name: Check compilation against static libs
+        working-directory: ${{github.workspace}}/user_test
+        run: |
+          g++ -c ${{github.workspace}}/misc/ci_test_file.cpp -I${{github.workspace}}/install/include/ -I${{github.workspace}}/install/include/freetype2 -DMYGL_STATIC_DEFINE
+          g++ ci_test_file.o -o test ${{github.workspace}}/install/lib/libmygl.a -L${{github.workspace}}/install/lib/ -lglfw -lfreetype -ldl -lpthread
+
+      - name: Check compilation against shared libs
+        working-directory: ${{github.workspace}}/user_test
+        run: |
+          g++ -c ${{github.workspace}}/misc/ci_test_file.cpp -I${{github.workspace}}/install/include/ -I${{github.workspace}}/install/include/freetype2 
+          g++ ci_test_file.o -o test -L${{github.workspace}}/install/lib/ -lmygl -lglfw -lfreetype -ldl -lpthread

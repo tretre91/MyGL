@@ -1,0 +1,46 @@
+name: Windows build
+
+on: push
+
+env:
+  BUILD_TYPE: Release
+  CPM_SOURCE_CACHE: ${{github.workspace}}/CPM_cache
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ilammy/msvc-dev-cmd@v1
+      
+      - name: Get lib versions
+        id: get-lib-versions
+        run: Write-Output "::set-output name=lib-versions::$(Get-Content .\CMakeLists.txt | Select-String -Pattern ('GIT_TAG') -NoEmphasis -Raw)"
+        shell: pwsh
+
+      - uses: actions/cache@v2
+        with:
+          path: "**/CPM_cache"
+          key: ${{github.workflow}}-cpm-cache-${{steps.get-lib-versions.outputs.versions}}
+
+      - name: Create build environment
+        run: cmake -E make_directory ${{github.workspace}}/build ${{github.workspace}}/install ${{github.workspace}}/user_test
+      
+      - name: Configure CMake
+        working-directory: ${{github.workspace}}/build
+        run: cmake ${{github.workspace}} -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DMYGL_EXAMPLES=ON -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install
+        
+      - name: Build and Install the library
+        working-directory: ${{github.workspace}}/build
+        run: |
+          cmake --build .
+          cmake --install .
+    
+      - name: Check compilation against static libs
+        working-directory: ${{github.workspace}}/user_test
+        run: cl ${{github.workspace}}/misc/ci_test_file.cpp mygl-static.lib glfw3.lib freetype.lib opengl32.lib gdi32.lib user32.lib shell32.lib winmm.lib /MT /Fe:test /I ${{github.workspace}}/install/include /I ${{github.workspace}}/install/include/freetype2 /D MYGL_STATIC_DEFINE /link /LIBPATH:${{github.workspace}}/install/lib
+      
+      - name: Check compilation against shared libs
+        working-directory: ${{github.workspace}}/user_test
+        run: cl ${{github.workspace}}/misc/ci_test_file.cpp mygl.lib glfw3.lib freetype.lib opengl32.lib gdi32.lib user32.lib shell32.lib winmm.lib /MT /Fe:test /I ${{github.workspace}}/install/include /I ${{github.workspace}}/install/include/freetype2 /link /LIBPATH:${{github.workspace}}/install/lib
