@@ -15,3 +15,9 @@ hr.footer {
 address.footer {
   margin-bottom: 5px;
 }
+
+html.dark-mode {
+  --note-color: rgb(221, 159, 0);
+  --note-color-dark: rgb(130, 94, 0);
+  --warning-color-darker: rgb(236, 205, 203);
+}

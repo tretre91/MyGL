@@ -69,7 +69,7 @@ $(function() {
 <div class="title">Installation </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md_C__Users_Tretr_Desktop_temp_MyGL_docs_install"></a> </p>
+<div class="textblock"><p><a class="anchor" id="md_D__a_MyGL_MyGL_docs_install"></a> </p>
 <h1><a class="anchor" id="autotoc_md0"></a>
 Build the library</h1>
 <p>You can build this libary from its sources using CMake, you will need to clone <a href="https://github.com/tretre91/MyGL">the repository</a> or download the source code and build with CMake.</p>
@@ -80,11 +80,21 @@ Build the library</h1>
 <li><code>MYGL_EXAMPLES</code> : builds the example programs (default: off)</li>
 <li><code>CMAKE_INSTALL_PREFIX</code> : sets the path to the folder where the files will be installed</li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>You might have to install with administrator privileges depending on the install directory.</dd></dl>
 <p>This project uses <a href="https://github.com/cpm-cmake/CPM.cmake">CPM.cmake</a> for dependency managment, so you can also set the options related to CPM (they are listed <a href="https://github.com/cpm-cmake/CPM.cmake#options">here</a>). The most relevant ones are :</p><ul>
 <li><code>CPM_USE_LOCAL_PACKAGES</code> : if on, CPM will try to find a local installation of the dependancies before dowloading them</li>
 <li><code>CPM_SOURCE_CACHE</code> : sets a directory in which the dependancies will be cached, it can be useful if you plan to build the library offline for example.</li>
 </ul>
+<dl class="section note"><dt>Note</dt><dd>On linux you should have the following libraries installed (required by glfw) before building :<ul>
+<li>x11</li>
+<li>xrandr</li>
+<li>xinerama</li>
+<li>xcursor</li>
+<li>xext </li>
+</ul>
+</dd>
+<dd>
+They can be installed on a debian based distro with the following command : <div class="fragment"><div class="line">sudo apt install libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libxext-dev</div>
+</div><!-- fragment --></dd></dl>
 <h2><a class="anchor" id="autotoc_md1"></a>
 Example</h2>
 <p>The installation procedure on linux should look something like this if you use cmake from the command line (it should be similar on windows) :</p>

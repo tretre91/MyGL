@@ -1,7 +1,7 @@
 /**
  * Sets the dark mode icon's image and the toggle button's title according to the
  * current dark mode state
- * @param {HTMLImageELement} icon The icon to change
+ * @param {HTMLImageElement} icon The icon to change
  * @param {DoxygenAwesomeDarkModeToggle} button The button used to enable/disable dark mode
  */
 function setIconState(icon, button) {
