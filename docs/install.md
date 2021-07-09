@@ -28,6 +28,7 @@ On linux you should have the following libraries installed (required by glfw) be
 - xrandr
 - xinerama
 - xcursor
+- xi
 - xext
 @note
 They can be installed on a debian based distro with the following command :

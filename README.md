@@ -1,11 +1,12 @@
-[![Build](https://github.com/tretre91/MyGL/actions/workflows/test_build.yml/badge.svg)](https://github.com/tretre91/MyGL/actions/workflows/test_build.yml)
+[![Windows build](https://github.com/tretre91/MyGL/actions/workflows/windows.yml/badge.svg)](https://github.com/tretre91/MyGL/actions/workflows/windows.yml)
+[![Linux build](https://github.com/tretre91/MyGL/actions/workflows/linux.yml/badge.svg)](https://github.com/tretre91/MyGL/actions/workflows/linux.yml)
 [![License: Zlib](https://img.shields.io/badge/License-Zlib-lightgrey.svg)](https://opensource.org/licenses/Zlib)
 
 # MyGL
 
 A 2D graphics library to display basic shapes and text to a window using OpenGL!
 
-The documentation can be found at : https://tretre91.github.io/MyGL/
+The documentation can be found at https://tretre91.github.io/MyGL/
 
 ### Disclaimer
 

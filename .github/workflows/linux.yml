@@ -1,6 +1,15 @@
 name: Linux build
 
-on: push
+on: 
+  push:
+    paths:
+      - CMakeLists.txt
+      - src/**
+      - include/**
+      - examples/**
+      - misc/ci_test_file.cpp
+      - cmake/CPM.cmake
+      - .github/workflows/**
 
 env:
   BUILD_TYPE: Release

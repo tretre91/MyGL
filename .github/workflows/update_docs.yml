@@ -53,5 +53,4 @@ jobs:
           github_token: ${{secrets.ACCESS_TOKEN}}
           publish_dir: ${{github.workspace}}/install/share/doc/MyGL/html
           enable_jekyll: false
-          publish-branch: gh-pages
           allow_empty_commit: false
