@@ -16,13 +16,13 @@ jobs:
       
       - name: Get lib versions
         id: get-lib-versions
-        run: Write-Output "::set-output name=lib-versions::$(Get-Content .\CMakeLists.txt | Select-String -Pattern ('GIT_TAG') -NoEmphasis -Raw)"
-        shell: pwsh
+        working-directory: ${{github.workspace}}
+        run: echo "::set-output name=lib-versions::$($([string]$(Get-Content ./CMakeLists.txt | Select-String -Pattern ('GIT_TAG'))).Trim())"
 
       - uses: actions/cache@v2
         with:
           path: "**/CPM_cache"
-          key: ${{github.workflow}}-cpm-cache-${{steps.get-lib-versions.outputs.versions}}
+          key: ${{github.workflow}}-cpm-cache-${{steps.get-lib-versions.outputs.lib-versions}}
 
       - name: Create build environment
         run: cmake -E make_directory ${{github.workspace}}/build ${{github.workspace}}/install ${{github.workspace}}/user_test
