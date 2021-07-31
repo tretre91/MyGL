@@ -63,7 +63,7 @@ namespace my
         bool m_usable;
         std::chrono::microseconds m_frameDelay;
         mutable std::chrono::microseconds m_frametime;
-        mutable std::chrono::time_point<std::chrono::high_resolution_clock> m_chrono;
+        mutable std::chrono::time_point<std::chrono::steady_clock> m_chrono;
         std::deque<Event> m_eventQueue;
 
         /** @name Event callbacks
