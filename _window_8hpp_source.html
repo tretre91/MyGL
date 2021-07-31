@@ -118,7 +118,7 @@ $(function() {
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordtype">bool</span> m_usable;</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        std::chrono::microseconds m_frameDelay;</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keyword">mutable</span> std::chrono::microseconds m_frametime;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keyword">mutable</span> std::chrono::time_point&lt;std::chrono::high_resolution_clock&gt; m_chrono;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keyword">mutable</span> std::chrono::time_point&lt;std::chrono::steady_clock&gt; m_chrono;</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        std::deque&lt;Event&gt; m_eventQueue;</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> keyCallback(GLFWwindow* window, <span class="keywordtype">int</span> key, <span class="keywordtype">int</span> scancode, <span class="keywordtype">int</span> action, <span class="keywordtype">int</span> mods);</div>
