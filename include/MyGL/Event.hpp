@@ -346,7 +346,7 @@ namespace my
          */
         Modifiers mods;
 
-        Event();
+        Event() noexcept;
     };
 
 } // namespace my

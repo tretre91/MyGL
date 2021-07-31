@@ -2,5 +2,5 @@
 
 namespace my
 {
-    Event::Event() : type(EventType::unknown) {}
+    Event::Event() noexcept : type(EventType::unknown) {}
 } // namespace my

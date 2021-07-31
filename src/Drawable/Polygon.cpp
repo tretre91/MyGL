@@ -95,7 +95,7 @@ namespace my
         p_buffer = &buffers[m_sides];
     }
 
-    void Polygon::draw(const glm::mat4& lookAt, const glm::mat4& projection) {
+    void Polygon::draw(const glm::mat4& lookAt, const glm::mat4& projection) const {
         if (m_updateMatrix) {
             m_model = glm::mat4(1.0f);
             m_model = glm::translate(m_model, glm::vec3(m_position.x, m_position.y, 0.0f));

@@ -59,7 +59,7 @@ namespace my
          * @param lookAt The view matrix (usually provided by the window)
          * @param projection The projection matrix (also provided by the window)
          */
-        virtual void draw(const glm::mat4& lookAt, const glm::mat4& projection) override;
+        virtual void draw(const glm::mat4& lookAt, const glm::mat4& projection) const override;
     };
 
     /** @relates my::Rectangle

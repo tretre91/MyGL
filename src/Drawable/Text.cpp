@@ -114,7 +114,7 @@ namespace my
         return reinterpret_cast<const char16_t*>(u16_u32conv.to_bytes(m_text).c_str());
     }
 
-    std::u32string Text::getU32String() const {
+    std::u32string Text::getU32String() const noexcept {
         return m_text;
     }
 

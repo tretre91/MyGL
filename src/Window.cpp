@@ -1,6 +1,7 @@
 #include <MyGL/Window.hpp>
 #include <MyGL/common.hpp>
 #include <iostream>
+using namespace std::chrono_literals;
 
 /**
  * @brief Checks if a given OpenGL version is compatible with the library, and
@@ -28,7 +29,7 @@ void checkOpenGLVersion(int& major, int& minor) {
 namespace my
 {
     using time_unit = std::chrono::microseconds;
-    constexpr auto one = std::chrono::duration_cast<time_unit>(std::chrono::seconds(1)).count();
+    constexpr auto one = std::chrono::duration_cast<time_unit>(1s).count();
 
     bool Window::gladIsInitialized = false;
     unsigned int Window::instancesCount = 0;
@@ -39,7 +40,7 @@ namespace my
 
     Window::Window(int width, int height, const std::string& title, unsigned int flags, int antiAliasing, int GLVersionMajor, int GLVersionMinor) :
       m_projection(glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), 0.1f, 10.0f)), p_camera(&defaultCamera), p_window(nullptr),
-      m_size(width, height), m_usable(false), m_frameDelay(0), m_frametime(one) {
+      m_size(width, height), m_usable(false), m_frameDelay(0s), m_frametime(one) {
         // we restrict the antiAliasing samples value to be between 0 and 8
         if (antiAliasing < 2) {
             antiAliasing = 0;
@@ -96,7 +97,7 @@ namespace my
         glfwSetWindowCloseCallback(p_window, windowCloseCallback);
 
         glfwSwapInterval(0);
-        m_chrono = std::chrono::high_resolution_clock::now();
+        m_chrono = std::chrono::steady_clock::now();
 
         glViewport(0, 0, width, height);
         glEnable(GL_DEPTH_TEST);
@@ -119,7 +120,7 @@ namespace my
         }
     }
 
-    bool Window::isRunning() const {
+    bool Window::isRunning() const noexcept {
         return m_usable;
     }
 
@@ -141,7 +142,7 @@ namespace my
         return true;
     }
 
-    void Window::setActive() {
+    void Window::setActive() noexcept {
         glfwMakeContextCurrent(p_window);
     }
 
@@ -174,12 +175,12 @@ namespace my
         glViewport(x, y, width, height);
     }
 
-    void Window::setCamera(my::Camera& camera) {
+    void Window::setCamera(my::Camera& camera) noexcept {
         p_camera = &camera;
     }
 
-    my::Camera& Window::getCamera() {
-        return *p_camera;
+    my::Camera& Window::getCamera() noexcept {
+        return p_camera != nullptr ? *p_camera : defaultCamera;
     }
 
     void Window::setSize(unsigned int width, unsigned int height, bool resizeViewport) {
@@ -194,7 +195,7 @@ namespace my
         }
     }
 
-    glm::ivec2 Window::getSize() const {
+    glm::ivec2 Window::getSize() const noexcept {
         return m_size;
     }
 
@@ -213,25 +214,25 @@ namespace my
         }
     }
 
-    void Window::setCursor(const Cursor& cursor) {
+    void Window::setCursor(const Cursor& cursor) noexcept {
         if (cursor.isUsable()) {
-            glfwSetCursor(p_window, cursor.p_cursor);
+            glfwSetCursor(p_window, cursor.p_cursor.get());
         }
     }
 
-    void Window::draw(my::AbstractShape& shape) {
+    void Window::draw(my::AbstractShape& shape) const{
         shape.draw(p_camera->lookAt(), m_projection);
     }
 
     void Window::display() const {
         if (m_usable) {
-            auto currentTime = std::chrono::high_resolution_clock::now();
+            auto currentTime = std::chrono::steady_clock::now();
             const time_unit elapsed = std::chrono::duration_cast<time_unit>(currentTime - m_chrono);
             if (elapsed < m_frameDelay) {
                 sleep(std::chrono::duration_cast<std::chrono::nanoseconds>(m_frameDelay - elapsed).count());
             }
             glfwSwapBuffers(p_window);
-            currentTime = std::chrono::high_resolution_clock::now();
+            currentTime = std::chrono::steady_clock::now();
             m_frametime = std::chrono::duration_cast<time_unit>(currentTime - m_chrono);
             m_chrono = currentTime;
         }

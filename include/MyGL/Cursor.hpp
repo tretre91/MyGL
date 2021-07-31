@@ -4,7 +4,7 @@
 #include "mygl_export.h"
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
-#include <unordered_map>
+#include <memory>
 #include <string>
 
 namespace my
@@ -15,9 +15,7 @@ namespace my
     class MYGL_EXPORT Cursor
     {
     private:
-        static std::unordered_map<GLFWcursor*, int> instancesCount;
-
-        GLFWcursor* p_cursor;
+        std::shared_ptr<GLFWcursor> p_cursor;
 
         /**
          * @brief Creates a cursor from a GLFWcursor
@@ -54,7 +52,7 @@ namespace my
         /**
          * @brief Creates a default arrow cursor
          */
-        Cursor();
+        Cursor() noexcept;
 
         /**
          * @brief Creates a cursor from an image file
@@ -64,27 +62,7 @@ namespace my
          */
         Cursor(const std::string& filename, int xhot, int yhot);
 
-        /**
-         * @brief Copy constructor
-         */
-        Cursor(const Cursor& cursor);
-
-        /**
-         * @brief Move constructor
-         */
-        Cursor(Cursor&& cursor);
-
-        ~Cursor();
-
-        /**
-         * @brief Copy assignement operator
-         */
-        Cursor& operator=(const Cursor& cursor);
-
-        /**
-         * @brief Move assignement operator
-         */
-        Cursor& operator=(Cursor&& cursor);
+        ~Cursor() = default;
 
         /**
          * @brief Loads a cursor fron an image file
@@ -99,7 +77,7 @@ namespace my
          * @brief Tells wether the cursor is usable
          * @return true if the cursor can be used
          */
-        bool isUsable() const;
+        bool isUsable() const noexcept;
 
         friend class Window;
     };

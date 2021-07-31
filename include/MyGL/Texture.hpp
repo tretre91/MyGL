@@ -6,8 +6,8 @@
 
 #include "Color.hpp"
 
+#include <memory>
 #include <string>
-#include <unordered_map>
 
 namespace my
 {
@@ -17,9 +17,7 @@ namespace my
     class MYGL_EXPORT Texture
     {
     private:
-        static std::unordered_map<unsigned int, unsigned int> instances;
-
-        unsigned int m_textureId = 0;
+        std::shared_ptr<unsigned int> p_textureId;
         unsigned int m_width = 0;
         unsigned int m_height = 0;
 
@@ -33,9 +31,9 @@ namespace my
         };
 
         /**
-         * @brief Creates an empty texture whiwh is not usable until an image as been loaded
+         * @brief Creates an empty texture whiwh is not usable until an image has been loaded
          */
-        Texture() = default;
+        Texture() noexcept = default;
 
         /**
          * @brief Creates a texture from an image file
@@ -51,15 +49,7 @@ namespace my
          */
         Texture(unsigned int textureId, unsigned int width, unsigned int height);
 
-        ~Texture();
-
-        Texture(const Texture& texture);
-
-        Texture& operator=(const Texture& texture);
-
-        Texture(Texture&&) noexcept;
-
-        Texture& operator=(Texture&&) noexcept;
+        ~Texture() = default;
 
         /**
          * @brief Loads a texture, this texture should not be used if the operation fails
@@ -72,19 +62,19 @@ namespace my
          * @brief Return a texture's OpenGL id
          * @return The texture's id
          */
-        unsigned int getId() const;
+        unsigned int getId() const noexcept;
 
         /**
          * @brief Gives the texture's original width in pixels
          * @return The texture's width
          */
-        unsigned int getWidth() const;
+        unsigned int getWidth() const noexcept;
 
         /**
          * @brief Gives the texture's original height in pixels
          * @return The texture's height
          */
-        unsigned int getHeight() const;
+        unsigned int getHeight() const noexcept;
 
         /**
          * @brief Binds this texture to GL_TEXTURE_2D

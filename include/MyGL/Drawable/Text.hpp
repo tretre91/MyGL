@@ -84,7 +84,7 @@ namespace my
         std::string getString() const;
         std::wstring getWString() const;
         std::u16string getU16String() const;
-        std::u32string getU32String() const;
+        std::u32string getU32String() const noexcept;
         /** @} */
 
         /**

@@ -8,8 +8,8 @@
 #include <glm/glm.hpp>
 
 #include <iostream>
+#include <memory>
 #include <string>
-#include <unordered_map>
 
 namespace my
 {
@@ -19,40 +19,22 @@ namespace my
     class MYGL_EXPORT ShaderProgram
     {
     private:
-        static std::unordered_map<unsigned int, int> instancesCount;
-        unsigned int m_programId = 0;
-        bool m_usable = false;
+        struct ShaderProgramDeleter {
+            void operator()(unsigned int* programId) {
+                if (programId != nullptr) {
+                    glDeleteProgram(*programId);
+                    delete programId;
+                }
+            }
+        };
+
+        std::shared_ptr<unsigned int> p_programId;
 
     public:
         /**
-         * @brief Creates an emty shader program, it is not usable as is
+         * @brief Creates an empty shader program, it is not usable as is
          */
-        ShaderProgram() = default;
-
-        /**
-         * @brief Copy constructor
-         */
-        ShaderProgram(const ShaderProgram& program);
-
-        /**
-         * @brief Move constructor
-         */
-        ShaderProgram(ShaderProgram&& program);
-
-        /**
-         * @brief Destructor
-         */
-        ~ShaderProgram();
-
-        /**
-         * @brief Copy assignment operator
-         */
-        ShaderProgram& operator=(const ShaderProgram& program);
-
-        /**
-         * @brief Move assignment operator
-         */
-        ShaderProgram& operator=(ShaderProgram&& program);
+        ShaderProgram() noexcept = default;
 
         /**
          * @brief Adds one ore more shaders to this program
@@ -71,7 +53,7 @@ namespace my
          * @brief Tells wether the shader program is usable
          * @return true if the program can be used
          */
-        bool isUsable() const;
+        bool isUsable() const noexcept;
 
         /**
          * @brief Sets this program to be the active shader program
@@ -188,21 +170,27 @@ namespace my
 
         /** @} */
 
-        friend bool operator==(const ShaderProgram& lhs, const ShaderProgram& rhs);
-        friend bool operator!=(const ShaderProgram& lhs, const ShaderProgram& rhs);
+        friend bool operator==(const ShaderProgram& lhs, const ShaderProgram& rhs) noexcept;
+        friend bool operator!=(const ShaderProgram& lhs, const ShaderProgram& rhs) noexcept;
     };
 
     template<typename... Shaders>
     inline void ShaderProgram::addShaders(Shader shader, Shaders... shaders) {
-        if (m_programId == 0) {
-            m_programId = glCreateProgram();
+        if (p_programId == nullptr) {
+            const unsigned int programId = glCreateProgram();
+            if (programId == 0) {
+                std::cerr << "ERROR::SHADER PROGRAM: failed to create a shader program\n";
+                return;
+            }
+            p_programId.reset(new unsigned int{programId}, ShaderProgramDeleter());
         }
+
         for (const Shader& s : {shader, shaders...}) {
             if (!s.isUsable()) {
                 std::cerr << "ERROR::SHADER PROGRAM: one of the provided shaders is not usable\n";
                 return;
             }
-            glAttachShader(m_programId, s.m_shaderId);
+            glAttachShader(*p_programId, *s.p_shaderId);
         }
     }
 

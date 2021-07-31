@@ -30,12 +30,12 @@ namespace my
         glm::vec2 m_originalScale;
         glm::vec2 m_scaleFactor;
         float m_rotationAngle;
-        bool m_updateMatrix;
-        glm::mat4 m_model;
+        mutable bool m_updateMatrix;
+        mutable glm::mat4 m_model;
         my::Color m_color;
         float m_outlineThickness;
         my::Color m_outlineColor;
-        glm::mat4 m_outlineModel;
+        mutable glm::mat4 m_outlineModel;
         my::Texture m_texture;
         bool m_isTextured;
         my::ShaderProgram m_shader;
@@ -75,7 +75,7 @@ namespace my
          * @brief Returns the size of the shape
          * @return The size of the shape's bounding box
          */
-        glm::vec2 getSize() const;
+        glm::vec2 getSize() const noexcept;
 
         /**
          * @brief Moves the shape to (x,y)
@@ -118,33 +118,33 @@ namespace my
          * @param x The horizontal offset
          * @param y The vertical offset
          */
-        virtual void move(float x, float y);
+        virtual void move(float x, float y) noexcept;
 
         /**
          * @brief Gives the current position of the shape's center
          * @return The position of the object's center
          */
-        glm::vec2 getPosition() const;
+        glm::vec2 getPosition() const noexcept;
 
         /**
          * @brief Sets the scale factor applied to the shape
          * @param x The horizontal scaling factor
          * @param y The vertical scaling factor
          */
-        void setScale(float x, float y);
+        void setScale(float x, float y) noexcept;
 
         /**
          * @brief Modifies the scaling factor
          * @param x The value to add to the horizontal scaling factor
          * @param y The value to add to the vertical scaling factor
          */
-        void scale(float x, float y);
+        void scale(float x, float y) noexcept;
 
         /**
          * @brief Gives the current scaling factor applied to the shape
          * @return The scaling factor currently applied
          */
-        glm::vec2 getScale() const;
+        glm::vec2 getScale() const noexcept;
 
         /**
          * @brief Sets the rotation applied to the shape
@@ -162,7 +162,7 @@ namespace my
          * @brief Returns the shapes's angle of rotation
          * @return The angle of the rotation currently applied to the object
          */
-        float getRotation() const;
+        float getRotation() const noexcept;
 
         /**
          * @brief Sets the shape's color from its individual components (ints between 0 and 255)
@@ -171,19 +171,19 @@ namespace my
          * @param b The blue component
          * @param alpha The alpha (transparency) value, by default 255
          */
-        virtual void setColor(int r, int g, int b, int alpha = 255);
+        virtual void setColor(int r, int g, int b, int alpha = 255) noexcept;
 
         /**
          * @brief Sets the shape's color from an existing color
          * @param color The color to be applied to the shape
          */
-        virtual void setColor(const my::Color& color);
+        virtual void setColor(const my::Color& color) noexcept;
 
         /**
          * @brief Returns the shape's color
          * @return A my::Color object containing the shape's color
          */
-        my::Color getColor() const;
+        my::Color getColor() const noexcept;
 
         /**
          * @brief Sets the shape's outline's thickness
@@ -195,7 +195,7 @@ namespace my
          * @brief Sets the shape's outline color
          * @param color The color to be applied
          */
-        void setOutlineColor(const my::Color& color);
+        void setOutlineColor(const my::Color& color) noexcept;
 
         /**
          * @brief Sets the shape's outline color from its individual components (ints between 0 and 255)
@@ -204,7 +204,7 @@ namespace my
          * @param b The blue component
          * @param alpha The alpha (transparency) value, by default 255
          */
-        void setOutlineColor(int r, int g, int b, int alpha = 255);
+        void setOutlineColor(int r, int g, int b, int alpha = 255) noexcept;
 
         /**
          * @brief Tells wether 2 shapes are overlapping using the separating
@@ -225,7 +225,7 @@ namespace my
          * doesn't work properly when the shapes are rotated). If you need more precision
          * use the SATCollides method instead.
          */
-        bool BBoxCollides(const AbstractShape& shape) const;
+        bool BBoxCollides(const AbstractShape& shape) const noexcept;
 
         /**
          * @brief Attaches a texture to the shape
@@ -257,7 +257,7 @@ namespace my
          * @param lookAt The view matrix (usually provided by the window)
          * @param projection The projection matrix (also provided by the window)
          */
-        virtual void draw(const glm::mat4& lookAt, const glm::mat4& projection) = 0;
+        virtual void draw(const glm::mat4& lookAt, const glm::mat4& projection) const = 0;
     };
 
 } // namespace my

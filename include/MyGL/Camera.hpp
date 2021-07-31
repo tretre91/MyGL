@@ -25,40 +25,40 @@ namespace my
          * @brief Default constructor, creates a camera pointing to the center of
          *        the window
          */
-        Camera();
+        Camera() noexcept;
 
         /**
          * @brief Creates a 2D camera with its bottom left hand corner coordinates
          * @param x The camera's x coordinate
          * @param y The camera's y coordinate
          */
-        Camera(int x, int y);
+        Camera(int x, int y) noexcept;
 
         /**
          * @brief Sets the camera's position
          * @param x The x coordinate of the bottom left hand corner
          * @param y The y coordinate of the bottom left hand corner
          */
-        void setPosition(int x, int y);
+        void setPosition(int x, int y) noexcept;
 
         /**
          * @brief Get the camera's current position
          * @return The camera's bottom left hand corner's position
          */
-        glm::vec2 getPosition() const;
+        glm::vec2 getPosition() const noexcept;
 
         /**
          * @brief Sets the camera's speed, in pixels per second
          * @param speed The camera's speed, used with the frametime to produce
          *              fluid movements
          */
-        void setSpeed(float speed);
+        void setSpeed(float speed) noexcept;
 
         /**
          * @brief Get the camera's speed
          * @return the camera's speed
          */
-        float getSpeed() const;
+        float getSpeed() const noexcept;
 
         /**
          * @name Functions related to the camera's movement
@@ -100,22 +100,22 @@ namespace my
         /**
          * @brief Moves the camera upwards
          */
-        void moveUp(float frametime);
+        void moveUp(float frametime) noexcept;
 
         /**
          * @brief Moves the camera downwards
          */
-        void moveDown(float frametime);
+        void moveDown(float frametime) noexcept;
 
         /**
          * @brief Moves the camera to the left
          */
-        void moveLeft(float frametime);
+        void moveLeft(float frametime) noexcept;
 
         /**
          * @brief Moves the camera to the right
          */
-        void moveRight(float frametime);
+        void moveRight(float frametime) noexcept;
 
         /**@}*/
 

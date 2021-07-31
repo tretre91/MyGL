@@ -81,7 +81,7 @@ namespace my
         setPosition(x, y, true);
     }
 
-    glm::vec2 AbstractShape::getSize() const {
+    glm::vec2 AbstractShape::getSize() const noexcept {
         return 2.0f * m_originalScale * m_scaleFactor;
     }
 
@@ -112,55 +112,55 @@ namespace my
         setPosition(camera.getPosition() + pos, center);
     }
 
-    void AbstractShape::move(float x, float y) {
+    void AbstractShape::move(float x, float y) noexcept {
         m_position.x += x;
         m_position.y += y;
         m_updateMatrix = true;
     }
 
-    glm::vec2 AbstractShape::getPosition() const {
+    glm::vec2 AbstractShape::getPosition() const noexcept {
         return m_position;
     }
 
-    void AbstractShape::setScale(float x, float y) {
+    void AbstractShape::setScale(float x, float y) noexcept {
         m_scaleFactor.x = x;
         m_scaleFactor.y = y;
         m_updateMatrix = true;
     }
 
-    void AbstractShape::scale(float x, float y) {
+    void AbstractShape::scale(float x, float y) noexcept {
         m_scaleFactor.x *= x;
         m_scaleFactor.y *= y;
         m_updateMatrix = true;
     }
 
-    glm::vec2 AbstractShape::getScale() const {
+    glm::vec2 AbstractShape::getScale() const noexcept {
         return m_scaleFactor;
     }
 
     void AbstractShape::setRotation(float angle) {
-        m_rotationAngle = glm::mod(angle, 360.0f);
+        m_rotationAngle = glm::mod(angle, 360.0f); // TODO : check if glm::mod can throw
         m_updateMatrix = true;
     }
 
     void AbstractShape::rotate(float angle) {
-        m_rotationAngle = glm::mod(m_rotationAngle + angle, 360.0f);
+        m_rotationAngle = glm::mod(m_rotationAngle + angle, 360.0f); // TODO : check if glm::mod can throw
         m_updateMatrix = true;
     }
 
-    float AbstractShape::getRotation() const {
+    float AbstractShape::getRotation() const noexcept {
         return m_rotationAngle;
     }
 
-    void AbstractShape::setColor(int r, int g, int b, int alpha) {
+    void AbstractShape::setColor(int r, int g, int b, int alpha) noexcept {
         m_color = my::Color(glm::clamp(r, 0, 255), glm::clamp(g, 0, 255), glm::clamp(b, 0, 255), glm::clamp(alpha, 0, 255));
     }
 
-    void AbstractShape::setColor(const my::Color& color) {
+    void AbstractShape::setColor(const my::Color& color) noexcept {
         m_color = color;
     }
 
-    my::Color AbstractShape::getColor() const {
+    my::Color AbstractShape::getColor() const noexcept {
         return m_color;
     }
 
@@ -174,21 +174,20 @@ namespace my
         }
     }
 
-    void AbstractShape::setOutlineColor(const my::Color& color) {
+    void AbstractShape::setOutlineColor(const my::Color& color) noexcept {
         m_outlineColor = color;
     }
 
-    void AbstractShape::setOutlineColor(int r, int g, int b, int alpha) {
+    void AbstractShape::setOutlineColor(int r, int g, int b, int alpha) noexcept {
         m_outlineColor = my::Color(glm::clamp(r, 0, 255), glm::clamp(g, 0, 255), glm::clamp(b, 0, 255), glm::clamp(alpha, 0, 255));
     }
 
-    bool AbstractShape::SATCollides(const AbstractShape& otherShape) const {
-        const AbstractShape* shape = &otherShape;
+    bool AbstractShape::SATCollides(const AbstractShape& shape) const {
         // We test if the shapes are close enough to potentialy touch
-        const float dist = glm::distance(this->m_position, shape->m_position);
+        const float dist = glm::distance(this->m_position, shape.m_position);
         glm::vec2 sides = m_originalScale * m_scaleFactor;
         const float r1 = glm::sqrt(sides.x * sides.x + sides.y * sides.y);
-        sides = shape->m_originalScale * shape->m_scaleFactor;
+        sides = shape.m_originalScale * shape.m_scaleFactor;
         const float r2 = glm::sqrt(sides.x * sides.x + sides.y * sides.y);
         if (dist > r1 + r2) {
             return false;
@@ -198,7 +197,7 @@ namespace my
         // theorem to test wether they are coliding
         std::vector<glm::vec2> points1 = this->points();
         points1.push_back(points1[0]);
-        std::vector<glm::vec2> points2 = shape->points();
+        std::vector<glm::vec2> points2 = shape.points();
         points2.push_back(points2[0]);
 
         glm::vec2 axis;
@@ -232,13 +231,12 @@ namespace my
         return true;
     }
 
-    bool AbstractShape::BBoxCollides(const AbstractShape& otherShape) const {
-        const AbstractShape* shape = &otherShape;
+    bool AbstractShape::BBoxCollides(const AbstractShape& shape) const noexcept {
         glm::vec2 thisScale = this->m_originalScale * this->m_scaleFactor;
-        glm::vec2 shapeScale = shape->m_originalScale * shape->m_scaleFactor;
+        glm::vec2 shapeScale = shape.m_originalScale * shape.m_scaleFactor;
 
-        return abs(this->m_position.y - shape->m_position.y) < abs(thisScale.y) + abs(shapeScale.y)
-               && abs(this->m_position.x - shape->m_position.x) < abs(thisScale.x) + abs(shapeScale.x);
+        return std::abs(this->m_position.y - shape.m_position.y) < std::abs(thisScale.y) + abs(shapeScale.y)
+               && std::abs(this->m_position.x - shape.m_position.x) < std::abs(thisScale.x) + abs(shapeScale.x);
     }
 
     void AbstractShape::setTexture(const my::Texture& texture) {

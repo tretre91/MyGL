@@ -110,7 +110,7 @@ namespace my
          * @brief Tells wheter a window is opened or closed
          * @return true if the window is opened, false if it is closed
          */
-        bool isRunning() const;
+        bool isRunning() const noexcept;
 
         /**
          * @brief Closes a window
@@ -127,7 +127,7 @@ namespace my
         /**
          * @brief Sets the window's OpenGL context current
          */
-        void setActive();
+        void setActive() noexcept;
 
         /**
          * @brief Limit the window's framerate at the specified value, a call
@@ -174,14 +174,14 @@ namespace my
          * @brief Sets the camera used by this window
          * @param camera The camera which will be used to see the window's content
          */
-        void setCamera(my::Camera& camera);
+        void setCamera(my::Camera& camera) noexcept;
 
         /**
          * @brief Returns the currently bound camera
          * @return A reference to the camera which is currently attached to the
          *         window
          */
-        my::Camera& getCamera();
+        my::Camera& getCamera() noexcept;
 
         /**
          * @brief Sets the size of the window's rendering area
@@ -200,7 +200,7 @@ namespace my
          * @brief Gives the window's size
          * @return The size of the window's viewport (rendering area) in pixels
          */
-        glm::ivec2 getSize() const;
+        glm::ivec2 getSize() const noexcept;
 
         /**
          * @brief Sets the window's icon
@@ -213,13 +213,13 @@ namespace my
          * @brief Sets the cursor used by this window
          * @param cursor The new cursor to use
          */
-        void setCursor(const Cursor& cursor);
+        void setCursor(const Cursor& cursor) noexcept;
 
         /**
          * @brief Draws a shape
          * @param shape The shape to draw, it must inherit from AbstractShape
          */
-        void draw(my::AbstractShape& shape);
+        void draw(my::AbstractShape& shape) const;
 
         /**
          * @brief Refreshes the window to display all the things which have been drawn

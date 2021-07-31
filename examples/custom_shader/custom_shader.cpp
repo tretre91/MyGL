@@ -18,7 +18,7 @@ int main() {
     window.setFramerate(60);
 
     my::Shader vertexShader;
-    vertexShader.loadFromString(vertexSource.c_str(), my::Shader::Type::Vertex);
+    vertexShader.loadFromString(vertexSource, my::Shader::Type::Vertex);
     my::Shader fragmentShader;
     fragmentShader.loadFromFile("@RESOURCES_DIR@/CustomFragment.glsl", my::Shader::Type::Fragment);
     my::ShaderProgram program;
