@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['points_80',['points',['../classmy_1_1_abstract_shape.html#af362e0462e6bc2acb31a5656b4a90688',1,'my::AbstractShape::points()'],['../classmy_1_1_rectangle.html#ac9541596cd8200884272ba6300cd4518',1,'my::Rectangle::points()']]],
-  ['pollevent_81',['pollEvent',['../classmy_1_1_window.html#a63f4623580c5a9d82444425abe6d598a',1,'my::Window']]],
-  ['polygon_82',['Polygon',['../classmy_1_1_polygon.html',1,'Polygon'],['../classmy_1_1_polygon.html#ae1a75257d903e14817e2f1132e6b5e77',1,'my::Polygon::Polygon()'],['../classmy_1_1_polygon.html#a244dba465d125cfb240ad88d2b66e74f',1,'my::Polygon::Polygon(unsigned int sides, int radius)'],['../classmy_1_1_polygon.html#a4eb6cbe46b51e64280890c00b8d88fe1',1,'my::Polygon::Polygon(unsigned int sides, int radius, int x, int y)']]]
+  ['rectangle_82',['Rectangle',['../classmy_1_1_rectangle.html',1,'Rectangle'],['../classmy_1_1_rectangle.html#a254e93337c6debb79cd318ef4139a84f',1,'my::Rectangle::Rectangle()'],['../classmy_1_1_rectangle.html#a11def7067a3e520ebb4071e9b6d5a971',1,'my::Rectangle::Rectangle(int width, int height)'],['../classmy_1_1_rectangle.html#ac0c471fbfa878b300ad18d9917935e01',1,'my::Rectangle::Rectangle(int width, int height, int x, int y)']]],
+  ['resizable_83',['resizable',['../namespacemy.html#ad84bfca0209ee5c870f9d057e6be0cccab7af93c229f3dd7fd23d74c247292289',1,'my']]],
+  ['rotate_84',['rotate',['../classmy_1_1_abstract_shape.html#a523014438b1a8318ec0915c2ce0a3430',1,'my::AbstractShape']]]
 ];

@@ -110,9 +110,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abac238dcfce318b38c698b4bcda15336"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#abac238dcfce318b38c698b4bcda15336">AbstractShape</a> (int width, int height, int x, int y)</td></tr>
 <tr class="memdesc:abac238dcfce318b38c698b4bcda15336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a width * height object whose center is at (x, y);.  <a href="classmy_1_1_abstract_shape.html#abac238dcfce318b38c698b4bcda15336">More...</a><br /></td></tr>
 <tr class="separator:abac238dcfce318b38c698b4bcda15336"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73ac0c81a3f8b5d2e3e798867d241440"><td class="memItemLeft" align="right" valign="top">glm::vec2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#a73ac0c81a3f8b5d2e3e798867d241440">getSize</a> () const</td></tr>
-<tr class="memdesc:a73ac0c81a3f8b5d2e3e798867d241440"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the shape.  <a href="classmy_1_1_abstract_shape.html#a73ac0c81a3f8b5d2e3e798867d241440">More...</a><br /></td></tr>
-<tr class="separator:a73ac0c81a3f8b5d2e3e798867d241440"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2c385d7a3fe0928e7f592d2d0553cdc"><td class="memItemLeft" align="right" valign="top">glm::vec2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#ad2c385d7a3fe0928e7f592d2d0553cdc">getSize</a> () const noexcept</td></tr>
+<tr class="memdesc:ad2c385d7a3fe0928e7f592d2d0553cdc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the shape.  <a href="classmy_1_1_abstract_shape.html#ad2c385d7a3fe0928e7f592d2d0553cdc">More...</a><br /></td></tr>
+<tr class="separator:ad2c385d7a3fe0928e7f592d2d0553cdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd038a898c239d3ad79d1c5c83b37eeb"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#afd038a898c239d3ad79d1c5c83b37eeb">setPosition</a> (int x, int y, bool center=false)</td></tr>
 <tr class="memdesc:afd038a898c239d3ad79d1c5c83b37eeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves the shape to (x,y)  <a href="classmy_1_1_abstract_shape.html#afd038a898c239d3ad79d1c5c83b37eeb">More...</a><br /></td></tr>
 <tr class="separator:afd038a898c239d3ad79d1c5c83b37eeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -125,54 +125,54 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a13e34fbac20aa1007bc4a8230a8b5a49"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#a13e34fbac20aa1007bc4a8230a8b5a49">setRelativePosition</a> (const glm::vec2 &amp;pos, const <a class="el" href="classmy_1_1_camera.html">my::Camera</a> &amp;camera, bool center=false)</td></tr>
 <tr class="memdesc:a13e34fbac20aa1007bc4a8230a8b5a49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves the shape to a certain position, relative to a camera's position.  <a href="classmy_1_1_abstract_shape.html#a13e34fbac20aa1007bc4a8230a8b5a49">More...</a><br /></td></tr>
 <tr class="separator:a13e34fbac20aa1007bc4a8230a8b5a49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa12cb86304e16843157342288e1157ff"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#aa12cb86304e16843157342288e1157ff">move</a> (float x, float y)</td></tr>
-<tr class="memdesc:aa12cb86304e16843157342288e1157ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves the shape relative to it's current position.  <a href="classmy_1_1_abstract_shape.html#aa12cb86304e16843157342288e1157ff">More...</a><br /></td></tr>
-<tr class="separator:aa12cb86304e16843157342288e1157ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64413677cd002cb00c7a911610d5c7a5"><td class="memItemLeft" align="right" valign="top">glm::vec2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#a64413677cd002cb00c7a911610d5c7a5">getPosition</a> () const</td></tr>
-<tr class="memdesc:a64413677cd002cb00c7a911610d5c7a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gives the current position of the shape's center.  <a href="classmy_1_1_abstract_shape.html#a64413677cd002cb00c7a911610d5c7a5">More...</a><br /></td></tr>
-<tr class="separator:a64413677cd002cb00c7a911610d5c7a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adefddf09239f7111541b0438ec097791"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#adefddf09239f7111541b0438ec097791">setScale</a> (float x, float y)</td></tr>
-<tr class="memdesc:adefddf09239f7111541b0438ec097791"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the scale factor applied to the shape.  <a href="classmy_1_1_abstract_shape.html#adefddf09239f7111541b0438ec097791">More...</a><br /></td></tr>
-<tr class="separator:adefddf09239f7111541b0438ec097791"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0028579b818dd84d51416d3a3a07948f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#a0028579b818dd84d51416d3a3a07948f">scale</a> (float x, float y)</td></tr>
-<tr class="memdesc:a0028579b818dd84d51416d3a3a07948f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modifies the scaling factor.  <a href="classmy_1_1_abstract_shape.html#a0028579b818dd84d51416d3a3a07948f">More...</a><br /></td></tr>
-<tr class="separator:a0028579b818dd84d51416d3a3a07948f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abacbf87509d648b20476709eeb7b142e"><td class="memItemLeft" align="right" valign="top">glm::vec2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#abacbf87509d648b20476709eeb7b142e">getScale</a> () const</td></tr>
-<tr class="memdesc:abacbf87509d648b20476709eeb7b142e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gives the current scaling factor applied to the shape.  <a href="classmy_1_1_abstract_shape.html#abacbf87509d648b20476709eeb7b142e">More...</a><br /></td></tr>
-<tr class="separator:abacbf87509d648b20476709eeb7b142e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28964204a4ec169565bdb227a9ee8723"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#a28964204a4ec169565bdb227a9ee8723">move</a> (float x, float y) noexcept</td></tr>
+<tr class="memdesc:a28964204a4ec169565bdb227a9ee8723"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves the shape relative to it's current position.  <a href="classmy_1_1_abstract_shape.html#a28964204a4ec169565bdb227a9ee8723">More...</a><br /></td></tr>
+<tr class="separator:a28964204a4ec169565bdb227a9ee8723"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6e9d211f4cdfd43d2082a3f50298f5b"><td class="memItemLeft" align="right" valign="top">glm::vec2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#ae6e9d211f4cdfd43d2082a3f50298f5b">getPosition</a> () const noexcept</td></tr>
+<tr class="memdesc:ae6e9d211f4cdfd43d2082a3f50298f5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gives the current position of the shape's center.  <a href="classmy_1_1_abstract_shape.html#ae6e9d211f4cdfd43d2082a3f50298f5b">More...</a><br /></td></tr>
+<tr class="separator:ae6e9d211f4cdfd43d2082a3f50298f5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac19843721a9ad8227549a5f09dfec3c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#ac19843721a9ad8227549a5f09dfec3c6">setScale</a> (float x, float y) noexcept</td></tr>
+<tr class="memdesc:ac19843721a9ad8227549a5f09dfec3c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the scale factor applied to the shape.  <a href="classmy_1_1_abstract_shape.html#ac19843721a9ad8227549a5f09dfec3c6">More...</a><br /></td></tr>
+<tr class="separator:ac19843721a9ad8227549a5f09dfec3c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4686fff6162e5da83cac2cf29881dda2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#a4686fff6162e5da83cac2cf29881dda2">scale</a> (float x, float y) noexcept</td></tr>
+<tr class="memdesc:a4686fff6162e5da83cac2cf29881dda2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modifies the scaling factor.  <a href="classmy_1_1_abstract_shape.html#a4686fff6162e5da83cac2cf29881dda2">More...</a><br /></td></tr>
+<tr class="separator:a4686fff6162e5da83cac2cf29881dda2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a97b1166f4432bcdc206183aa3f8756"><td class="memItemLeft" align="right" valign="top">glm::vec2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#a2a97b1166f4432bcdc206183aa3f8756">getScale</a> () const noexcept</td></tr>
+<tr class="memdesc:a2a97b1166f4432bcdc206183aa3f8756"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gives the current scaling factor applied to the shape.  <a href="classmy_1_1_abstract_shape.html#a2a97b1166f4432bcdc206183aa3f8756">More...</a><br /></td></tr>
+<tr class="separator:a2a97b1166f4432bcdc206183aa3f8756"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86d1d6b1284d2003d1ecaabef91a522d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#a86d1d6b1284d2003d1ecaabef91a522d">setRotation</a> (float angle)</td></tr>
 <tr class="memdesc:a86d1d6b1284d2003d1ecaabef91a522d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the rotation applied to the shape.  <a href="classmy_1_1_abstract_shape.html#a86d1d6b1284d2003d1ecaabef91a522d">More...</a><br /></td></tr>
 <tr class="separator:a86d1d6b1284d2003d1ecaabef91a522d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a523014438b1a8318ec0915c2ce0a3430"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#a523014438b1a8318ec0915c2ce0a3430">rotate</a> (float angle)</td></tr>
 <tr class="memdesc:a523014438b1a8318ec0915c2ce0a3430"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rotates the shape.  <a href="classmy_1_1_abstract_shape.html#a523014438b1a8318ec0915c2ce0a3430">More...</a><br /></td></tr>
 <tr class="separator:a523014438b1a8318ec0915c2ce0a3430"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08c4315a337758eba99f5986c53e5f62"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#a08c4315a337758eba99f5986c53e5f62">getRotation</a> () const</td></tr>
-<tr class="memdesc:a08c4315a337758eba99f5986c53e5f62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the shapes's angle of rotation.  <a href="classmy_1_1_abstract_shape.html#a08c4315a337758eba99f5986c53e5f62">More...</a><br /></td></tr>
-<tr class="separator:a08c4315a337758eba99f5986c53e5f62"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb9dfe829500d58e4a7352aa2ac6de42"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#abb9dfe829500d58e4a7352aa2ac6de42">setColor</a> (int r, int g, int b, int alpha=255)</td></tr>
-<tr class="memdesc:abb9dfe829500d58e4a7352aa2ac6de42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the shape's color from its individual components (ints between 0 and 255)  <a href="classmy_1_1_abstract_shape.html#abb9dfe829500d58e4a7352aa2ac6de42">More...</a><br /></td></tr>
-<tr class="separator:abb9dfe829500d58e4a7352aa2ac6de42"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a637f8b4daece5224e89f83f472db990b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#a637f8b4daece5224e89f83f472db990b">setColor</a> (const <a class="el" href="classmy_1_1_color.html">my::Color</a> &amp;color)</td></tr>
-<tr class="memdesc:a637f8b4daece5224e89f83f472db990b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the shape's color from an existing color.  <a href="classmy_1_1_abstract_shape.html#a637f8b4daece5224e89f83f472db990b">More...</a><br /></td></tr>
-<tr class="separator:a637f8b4daece5224e89f83f472db990b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5b1fa44b0ba488267b3091970ba6cee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmy_1_1_color.html">my::Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#ab5b1fa44b0ba488267b3091970ba6cee">getColor</a> () const</td></tr>
-<tr class="memdesc:ab5b1fa44b0ba488267b3091970ba6cee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the shape's color.  <a href="classmy_1_1_abstract_shape.html#ab5b1fa44b0ba488267b3091970ba6cee">More...</a><br /></td></tr>
-<tr class="separator:ab5b1fa44b0ba488267b3091970ba6cee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfb4df76e9f6aa3e54e33d6eb184bc66"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#adfb4df76e9f6aa3e54e33d6eb184bc66">getRotation</a> () const noexcept</td></tr>
+<tr class="memdesc:adfb4df76e9f6aa3e54e33d6eb184bc66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the shapes's angle of rotation.  <a href="classmy_1_1_abstract_shape.html#adfb4df76e9f6aa3e54e33d6eb184bc66">More...</a><br /></td></tr>
+<tr class="separator:adfb4df76e9f6aa3e54e33d6eb184bc66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9098f48bf1031e887c0785fc8282336e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#a9098f48bf1031e887c0785fc8282336e">setColor</a> (int r, int g, int b, int alpha=255) noexcept</td></tr>
+<tr class="memdesc:a9098f48bf1031e887c0785fc8282336e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the shape's color from its individual components (ints between 0 and 255)  <a href="classmy_1_1_abstract_shape.html#a9098f48bf1031e887c0785fc8282336e">More...</a><br /></td></tr>
+<tr class="separator:a9098f48bf1031e887c0785fc8282336e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada41cf0fab7ff2e64c065f25089b24f0"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#ada41cf0fab7ff2e64c065f25089b24f0">setColor</a> (const <a class="el" href="classmy_1_1_color.html">my::Color</a> &amp;color) noexcept</td></tr>
+<tr class="memdesc:ada41cf0fab7ff2e64c065f25089b24f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the shape's color from an existing color.  <a href="classmy_1_1_abstract_shape.html#ada41cf0fab7ff2e64c065f25089b24f0">More...</a><br /></td></tr>
+<tr class="separator:ada41cf0fab7ff2e64c065f25089b24f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0fee89b5c3a3a64fac5747beb0d681d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmy_1_1_color.html">my::Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#ae0fee89b5c3a3a64fac5747beb0d681d">getColor</a> () const noexcept</td></tr>
+<tr class="memdesc:ae0fee89b5c3a3a64fac5747beb0d681d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the shape's color.  <a href="classmy_1_1_abstract_shape.html#ae0fee89b5c3a3a64fac5747beb0d681d">More...</a><br /></td></tr>
+<tr class="separator:ae0fee89b5c3a3a64fac5747beb0d681d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abf6411e40f549076a3af7b8b48465b24"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#abf6411e40f549076a3af7b8b48465b24">setOutlineThickness</a> (unsigned int thickness)</td></tr>
 <tr class="memdesc:abf6411e40f549076a3af7b8b48465b24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the shape's outline's thickness.  <a href="classmy_1_1_abstract_shape.html#abf6411e40f549076a3af7b8b48465b24">More...</a><br /></td></tr>
 <tr class="separator:abf6411e40f549076a3af7b8b48465b24"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae48e5a73b71d2eb442a32c2c79f2de89"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#ae48e5a73b71d2eb442a32c2c79f2de89">setOutlineColor</a> (const <a class="el" href="classmy_1_1_color.html">my::Color</a> &amp;color)</td></tr>
-<tr class="memdesc:ae48e5a73b71d2eb442a32c2c79f2de89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the shape's outline color.  <a href="classmy_1_1_abstract_shape.html#ae48e5a73b71d2eb442a32c2c79f2de89">More...</a><br /></td></tr>
-<tr class="separator:ae48e5a73b71d2eb442a32c2c79f2de89"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9af4e71013ecbb3bdd5991c2abbc4f7b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#a9af4e71013ecbb3bdd5991c2abbc4f7b">setOutlineColor</a> (int r, int g, int b, int alpha=255)</td></tr>
-<tr class="memdesc:a9af4e71013ecbb3bdd5991c2abbc4f7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the shape's outline color from its individual components (ints between 0 and 255)  <a href="classmy_1_1_abstract_shape.html#a9af4e71013ecbb3bdd5991c2abbc4f7b">More...</a><br /></td></tr>
-<tr class="separator:a9af4e71013ecbb3bdd5991c2abbc4f7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4dddfca4f1e76dafa7174dd0299e9d42"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#a4dddfca4f1e76dafa7174dd0299e9d42">setOutlineColor</a> (const <a class="el" href="classmy_1_1_color.html">my::Color</a> &amp;color) noexcept</td></tr>
+<tr class="memdesc:a4dddfca4f1e76dafa7174dd0299e9d42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the shape's outline color.  <a href="classmy_1_1_abstract_shape.html#a4dddfca4f1e76dafa7174dd0299e9d42">More...</a><br /></td></tr>
+<tr class="separator:a4dddfca4f1e76dafa7174dd0299e9d42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9072da9561e24271dec2354b8b50145e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#a9072da9561e24271dec2354b8b50145e">setOutlineColor</a> (int r, int g, int b, int alpha=255) noexcept</td></tr>
+<tr class="memdesc:a9072da9561e24271dec2354b8b50145e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the shape's outline color from its individual components (ints between 0 and 255)  <a href="classmy_1_1_abstract_shape.html#a9072da9561e24271dec2354b8b50145e">More...</a><br /></td></tr>
+<tr class="separator:a9072da9561e24271dec2354b8b50145e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a20df4ad224bc911a2130c48ddc01f59c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#a20df4ad224bc911a2130c48ddc01f59c">SATCollides</a> (const <a class="el" href="classmy_1_1_abstract_shape.html">AbstractShape</a> &amp;shape) const</td></tr>
 <tr class="memdesc:a20df4ad224bc911a2130c48ddc01f59c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tells wether 2 shapes are overlapping using the separating axis theorem (SAT)  <a href="classmy_1_1_abstract_shape.html#a20df4ad224bc911a2130c48ddc01f59c">More...</a><br /></td></tr>
 <tr class="separator:a20df4ad224bc911a2130c48ddc01f59c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21b27d75e5404836fd13a8029bd1709b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#a21b27d75e5404836fd13a8029bd1709b">BBoxCollides</a> (const <a class="el" href="classmy_1_1_abstract_shape.html">AbstractShape</a> &amp;shape) const</td></tr>
-<tr class="memdesc:a21b27d75e5404836fd13a8029bd1709b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tells whether 2 shapes are overlapping using their bounding boxes.  <a href="classmy_1_1_abstract_shape.html#a21b27d75e5404836fd13a8029bd1709b">More...</a><br /></td></tr>
-<tr class="separator:a21b27d75e5404836fd13a8029bd1709b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad51ed2b13bd282018cb9121acd03349b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#ad51ed2b13bd282018cb9121acd03349b">BBoxCollides</a> (const <a class="el" href="classmy_1_1_abstract_shape.html">AbstractShape</a> &amp;shape) const noexcept</td></tr>
+<tr class="memdesc:ad51ed2b13bd282018cb9121acd03349b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tells whether 2 shapes are overlapping using their bounding boxes.  <a href="classmy_1_1_abstract_shape.html#ad51ed2b13bd282018cb9121acd03349b">More...</a><br /></td></tr>
+<tr class="separator:ad51ed2b13bd282018cb9121acd03349b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1182dff6e4af4919b241b4e9c5661605"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#a1182dff6e4af4919b241b4e9c5661605">setTexture</a> (const <a class="el" href="classmy_1_1_texture.html">my::Texture</a> &amp;texture)</td></tr>
 <tr class="memdesc:a1182dff6e4af4919b241b4e9c5661605"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attaches a texture to the shape.  <a href="classmy_1_1_abstract_shape.html#a1182dff6e4af4919b241b4e9c5661605">More...</a><br /></td></tr>
 <tr class="separator:a1182dff6e4af4919b241b4e9c5661605"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -185,9 +185,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3a199c33a953fc4e981c5767fd3ad483"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#a3a199c33a953fc4e981c5767fd3ad483">setOutlineShader</a> (const <a class="el" href="classmy_1_1_shader_program.html">ShaderProgram</a> &amp;program)</td></tr>
 <tr class="memdesc:a3a199c33a953fc4e981c5767fd3ad483"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the shader used to draw the shape's outline.  <a href="classmy_1_1_abstract_shape.html#a3a199c33a953fc4e981c5767fd3ad483">More...</a><br /></td></tr>
 <tr class="separator:a3a199c33a953fc4e981c5767fd3ad483"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9324137399a86e78a999d6b8535647fe"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#a9324137399a86e78a999d6b8535647fe">draw</a> (const glm::mat4 &amp;lookAt, const glm::mat4 &amp;projection)=0</td></tr>
-<tr class="memdesc:a9324137399a86e78a999d6b8535647fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draws a shape, this method is called by a window.  <a href="classmy_1_1_abstract_shape.html#a9324137399a86e78a999d6b8535647fe">More...</a><br /></td></tr>
-<tr class="separator:a9324137399a86e78a999d6b8535647fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1524032091ff138c9accd43db427a8bc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_abstract_shape.html#a1524032091ff138c9accd43db427a8bc">draw</a> (const glm::mat4 &amp;lookAt, const glm::mat4 &amp;projection) const =0</td></tr>
+<tr class="memdesc:a1524032091ff138c9accd43db427a8bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draws a shape, this method is called by a window.  <a href="classmy_1_1_abstract_shape.html#a1524032091ff138c9accd43db427a8bc">More...</a><br /></td></tr>
+<tr class="separator:a1524032091ff138c9accd43db427a8bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -352,11 +352,14 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a21b27d75e5404836fd13a8029bd1709b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a21b27d75e5404836fd13a8029bd1709b">&#9670;&nbsp;</a></span>BBoxCollides()</h2>
+<a id="ad51ed2b13bd282018cb9121acd03349b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad51ed2b13bd282018cb9121acd03349b">&#9670;&nbsp;</a></span>BBoxCollides()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool BBoxCollides </td>
@@ -366,6 +369,11 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
           <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Tells whether 2 shapes are overlapping using their bounding boxes. </p>
@@ -380,8 +388,8 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
 
 </div>
 </div>
-<a id="a9324137399a86e78a999d6b8535647fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9324137399a86e78a999d6b8535647fe">&#9670;&nbsp;</a></span>draw()</h2>
+<a id="a1524032091ff138c9accd43db427a8bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1524032091ff138c9accd43db427a8bc">&#9670;&nbsp;</a></span>draw()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -404,7 +412,7 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> const</td>
         </tr>
       </table>
   </td>
@@ -423,15 +431,18 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classmy_1_1_triangle.html#abcfcafa31b8453f5a9e522c50189feb0">Triangle</a>, <a class="el" href="classmy_1_1_rectangle.html#a21829da31489c01015e008731c3d1ed8">Rectangle</a>, and <a class="el" href="classmy_1_1_polygon.html#a21829da31489c01015e008731c3d1ed8">Polygon</a>.</p>
+<p>Implemented in <a class="el" href="classmy_1_1_triangle.html#a2b0ec6108c55c4e8e18cc7f9e2501584">Triangle</a>, <a class="el" href="classmy_1_1_rectangle.html#a81f1a5886762feffd1ed4f2c87d73a5d">Rectangle</a>, and <a class="el" href="classmy_1_1_polygon.html#a81f1a5886762feffd1ed4f2c87d73a5d">Polygon</a>.</p>
 
 </div>
 </div>
-<a id="ab5b1fa44b0ba488267b3091970ba6cee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab5b1fa44b0ba488267b3091970ba6cee">&#9670;&nbsp;</a></span>getColor()</h2>
+<a id="ae0fee89b5c3a3a64fac5747beb0d681d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0fee89b5c3a3a64fac5747beb0d681d">&#9670;&nbsp;</a></span>getColor()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classmy_1_1_color.html">my::Color</a> getColor </td>
@@ -440,6 +451,11 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
           <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Returns the shape's color. </p>
@@ -447,11 +463,14 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
 
 </div>
 </div>
-<a id="a64413677cd002cb00c7a911610d5c7a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a64413677cd002cb00c7a911610d5c7a5">&#9670;&nbsp;</a></span>getPosition()</h2>
+<a id="ae6e9d211f4cdfd43d2082a3f50298f5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6e9d211f4cdfd43d2082a3f50298f5b">&#9670;&nbsp;</a></span>getPosition()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">glm::vec2 getPosition </td>
@@ -460,6 +479,11 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
           <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Gives the current position of the shape's center. </p>
@@ -467,11 +491,14 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
 
 </div>
 </div>
-<a id="a08c4315a337758eba99f5986c53e5f62"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a08c4315a337758eba99f5986c53e5f62">&#9670;&nbsp;</a></span>getRotation()</h2>
+<a id="adfb4df76e9f6aa3e54e33d6eb184bc66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfb4df76e9f6aa3e54e33d6eb184bc66">&#9670;&nbsp;</a></span>getRotation()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">float getRotation </td>
@@ -480,6 +507,11 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
           <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Returns the shapes's angle of rotation. </p>
@@ -487,11 +519,14 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
 
 </div>
 </div>
-<a id="abacbf87509d648b20476709eeb7b142e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abacbf87509d648b20476709eeb7b142e">&#9670;&nbsp;</a></span>getScale()</h2>
+<a id="a2a97b1166f4432bcdc206183aa3f8756"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a97b1166f4432bcdc206183aa3f8756">&#9670;&nbsp;</a></span>getScale()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">glm::vec2 getScale </td>
@@ -500,6 +535,11 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
           <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Gives the current scaling factor applied to the shape. </p>
@@ -507,11 +547,14 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
 
 </div>
 </div>
-<a id="a73ac0c81a3f8b5d2e3e798867d241440"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a73ac0c81a3f8b5d2e3e798867d241440">&#9670;&nbsp;</a></span>getSize()</h2>
+<a id="ad2c385d7a3fe0928e7f592d2d0553cdc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2c385d7a3fe0928e7f592d2d0553cdc">&#9670;&nbsp;</a></span>getSize()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">glm::vec2 getSize </td>
@@ -520,6 +563,11 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
           <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Returns the size of the shape. </p>
@@ -527,8 +575,8 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
 
 </div>
 </div>
-<a id="aa12cb86304e16843157342288e1157ff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa12cb86304e16843157342288e1157ff">&#9670;&nbsp;</a></span>move()</h2>
+<a id="a28964204a4ec169565bdb227a9ee8723"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28964204a4ec169565bdb227a9ee8723">&#9670;&nbsp;</a></span>move()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -556,7 +604,7 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -655,11 +703,14 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
 
 </div>
 </div>
-<a id="a0028579b818dd84d51416d3a3a07948f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0028579b818dd84d51416d3a3a07948f">&#9670;&nbsp;</a></span>scale()</h2>
+<a id="a4686fff6162e5da83cac2cf29881dda2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4686fff6162e5da83cac2cf29881dda2">&#9670;&nbsp;</a></span>scale()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void scale </td>
@@ -679,6 +730,11 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Modifies the scaling factor. </p>
@@ -692,8 +748,8 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
 
 </div>
 </div>
-<a id="a637f8b4daece5224e89f83f472db990b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a637f8b4daece5224e89f83f472db990b">&#9670;&nbsp;</a></span>setColor() <span class="overload">[1/2]</span></h2>
+<a id="ada41cf0fab7ff2e64c065f25089b24f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada41cf0fab7ff2e64c065f25089b24f0">&#9670;&nbsp;</a></span>setColor() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -711,7 +767,7 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -726,8 +782,8 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
 
 </div>
 </div>
-<a id="abb9dfe829500d58e4a7352aa2ac6de42"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abb9dfe829500d58e4a7352aa2ac6de42">&#9670;&nbsp;</a></span>setColor() <span class="overload">[2/2]</span></h2>
+<a id="a9098f48bf1031e887c0785fc8282336e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9098f48bf1031e887c0785fc8282336e">&#9670;&nbsp;</a></span>setColor() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -767,7 +823,7 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -785,11 +841,14 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
 
 </div>
 </div>
-<a id="ae48e5a73b71d2eb442a32c2c79f2de89"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae48e5a73b71d2eb442a32c2c79f2de89">&#9670;&nbsp;</a></span>setOutlineColor() <span class="overload">[1/2]</span></h2>
+<a id="a4dddfca4f1e76dafa7174dd0299e9d42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4dddfca4f1e76dafa7174dd0299e9d42">&#9670;&nbsp;</a></span>setOutlineColor() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void setOutlineColor </td>
@@ -799,6 +858,11 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Sets the shape's outline color. </p>
@@ -811,11 +875,14 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
 
 </div>
 </div>
-<a id="a9af4e71013ecbb3bdd5991c2abbc4f7b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9af4e71013ecbb3bdd5991c2abbc4f7b">&#9670;&nbsp;</a></span>setOutlineColor() <span class="overload">[2/2]</span></h2>
+<a id="a9072da9561e24271dec2354b8b50145e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9072da9561e24271dec2354b8b50145e">&#9670;&nbsp;</a></span>setOutlineColor() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void setOutlineColor </td>
@@ -847,6 +914,11 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Sets the shape's outline color from its individual components (ints between 0 and 255) </p>
@@ -1152,11 +1224,14 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
 
 </div>
 </div>
-<a id="adefddf09239f7111541b0438ec097791"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adefddf09239f7111541b0438ec097791">&#9670;&nbsp;</a></span>setScale()</h2>
+<a id="ac19843721a9ad8227549a5f09dfec3c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac19843721a9ad8227549a5f09dfec3c6">&#9670;&nbsp;</a></span>setScale()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void setScale </td>
@@ -1176,6 +1251,11 @@ static <a class="el" href="classmy_1_1_shader_program.html">my::ShaderProgram</a
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Sets the scale factor applied to the shape. </p>

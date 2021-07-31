@@ -10,11 +10,11 @@ var searchData=
   ['mouseinfo_69',['MouseInfo',['../structmy_1_1_mouse_info.html',1,'my']]],
   ['mousemoved_70',['mouseMoved',['../namespacemy.html#a2628ea8d12e8b2563c32f05dc7fff6faa2b4ac83c9b6710eb169922765a649152',1,'my']]],
   ['mousescrolled_71',['mouseScrolled',['../namespacemy.html#a2628ea8d12e8b2563c32f05dc7fff6faac536bd0d932a998a2e34f785580234d3',1,'my']]],
-  ['move_72',['move',['../classmy_1_1_abstract_shape.html#aa12cb86304e16843157342288e1157ff',1,'my::AbstractShape']]],
-  ['movedown_73',['moveDown',['../classmy_1_1_camera.html#a46353aa9409610d8b5258c7683661bc1',1,'my::Camera']]],
-  ['moveleft_74',['moveLeft',['../classmy_1_1_camera.html#a5096ee081066a5e1dfd427b7179774cd',1,'my::Camera']]],
-  ['moveright_75',['moveRight',['../classmy_1_1_camera.html#aca83ab2258d198b20ed84577eb43d239',1,'my::Camera']]],
-  ['moveup_76',['moveUp',['../classmy_1_1_camera.html#a8c9b78fb1afd7bc81f819dcdb5edfb39',1,'my::Camera']]],
+  ['move_72',['move',['../classmy_1_1_abstract_shape.html#a28964204a4ec169565bdb227a9ee8723',1,'my::AbstractShape']]],
+  ['movedown_73',['moveDown',['../classmy_1_1_camera.html#af6627fd8a0dc94ac03fb43ef7e9c939d',1,'my::Camera']]],
+  ['moveleft_74',['moveLeft',['../classmy_1_1_camera.html#a94ab64a460d4439fa8b7bc2c7b6bd1c7',1,'my::Camera']]],
+  ['moveright_75',['moveRight',['../classmy_1_1_camera.html#ad87f31c33b2ffc589c8c29e9d0e0f69a',1,'my::Camera']]],
+  ['moveup_76',['moveUp',['../classmy_1_1_camera.html#ab3fc741d7f3becf9394cf3a7ce27e42b',1,'my::Camera']]],
   ['my_77',['my',['../namespacemy.html',1,'']]],
   ['mygl_27s_20documentation_21_78',['MyGL&apos;s documentation!',['../index.html',1,'']]]
 ];

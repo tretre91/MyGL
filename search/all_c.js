@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['operator_3d_79',['operator=',['../classmy_1_1_cursor.html#aacec06913073f84e72211c43b0632c09',1,'my::Cursor::operator=(const Cursor &amp;cursor)'],['../classmy_1_1_cursor.html#ad6f41a69b933d87fd28f74a3b5f72248',1,'my::Cursor::operator=(Cursor &amp;&amp;cursor)'],['../classmy_1_1_shader.html#aa91ed6c2dcc745192b13d5aa8235c801',1,'my::Shader::operator=(const Shader &amp;shader)'],['../classmy_1_1_shader.html#ae318dab1ac6b5b389a702f36699d9d23',1,'my::Shader::operator=(Shader &amp;&amp;shader)'],['../classmy_1_1_shader_program.html#a92cdd23ababd6364fc54924384ffb7b3',1,'my::ShaderProgram::operator=(const ShaderProgram &amp;program)'],['../classmy_1_1_shader_program.html#a40e47208a822dde96c747ff1394fd3ff',1,'my::ShaderProgram::operator=(ShaderProgram &amp;&amp;program)']]]
+  ['points_79',['points',['../classmy_1_1_abstract_shape.html#af362e0462e6bc2acb31a5656b4a90688',1,'my::AbstractShape::points()'],['../classmy_1_1_rectangle.html#ac9541596cd8200884272ba6300cd4518',1,'my::Rectangle::points()']]],
+  ['pollevent_80',['pollEvent',['../classmy_1_1_window.html#a63f4623580c5a9d82444425abe6d598a',1,'my::Window']]],
+  ['polygon_81',['Polygon',['../classmy_1_1_polygon.html',1,'Polygon'],['../classmy_1_1_polygon.html#ae1a75257d903e14817e2f1132e6b5e77',1,'my::Polygon::Polygon()'],['../classmy_1_1_polygon.html#a244dba465d125cfb240ad88d2b66e74f',1,'my::Polygon::Polygon(unsigned int sides, int radius)'],['../classmy_1_1_polygon.html#a4eb6cbe46b51e64280890c00b8d88fe1',1,'my::Polygon::Polygon(unsigned int sides, int radius, int x, int y)']]]
 ];
