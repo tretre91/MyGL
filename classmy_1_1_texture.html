@@ -101,12 +101,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a451734b522c72cf796265121db6a5593"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_texture.html#a451734b522c72cf796265121db6a5593">Texture</a> (const std::string &amp;filename)</td></tr>
 <tr class="memdesc:a451734b522c72cf796265121db6a5593"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a texture from an image file.  <a href="classmy_1_1_texture.html#a451734b522c72cf796265121db6a5593">More...</a><br /></td></tr>
 <tr class="separator:a451734b522c72cf796265121db6a5593"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb40f8d6566d6f9bf85172c65a086488"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_texture.html#abb40f8d6566d6f9bf85172c65a086488">Texture</a> (const <a class="el" href="classmy_1_1_image.html">Image</a> &amp;image)</td></tr>
+<tr class="memdesc:abb40f8d6566d6f9bf85172c65a086488"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a texture fron an image.  <a href="classmy_1_1_texture.html#abb40f8d6566d6f9bf85172c65a086488">More...</a><br /></td></tr>
+<tr class="separator:abb40f8d6566d6f9bf85172c65a086488"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2943e74fc1f05c37f90533fad04513d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_texture.html#ae2943e74fc1f05c37f90533fad04513d">Texture</a> (unsigned int textureId, unsigned int width, unsigned int height)</td></tr>
 <tr class="memdesc:ae2943e74fc1f05c37f90533fad04513d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cretes a texture from an existing opengl texture.  <a href="classmy_1_1_texture.html#ae2943e74fc1f05c37f90533fad04513d">More...</a><br /></td></tr>
 <tr class="separator:ae2943e74fc1f05c37f90533fad04513d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2f83332acf6c38c4a9f9a43163c6b9e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_texture.html#ab2f83332acf6c38c4a9f9a43163c6b9e">load</a> (const std::string &amp;filename)</td></tr>
 <tr class="memdesc:ab2f83332acf6c38c4a9f9a43163c6b9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads a texture, this texture should not be used if the operation fails.  <a href="classmy_1_1_texture.html#ab2f83332acf6c38c4a9f9a43163c6b9e">More...</a><br /></td></tr>
 <tr class="separator:ab2f83332acf6c38c4a9f9a43163c6b9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a39f65955f78b39c6aaffda01bf74fd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_texture.html#a0a39f65955f78b39c6aaffda01bf74fd">load</a> (const <a class="el" href="classmy_1_1_image.html">Image</a> &amp;image)</td></tr>
+<tr class="memdesc:a0a39f65955f78b39c6aaffda01bf74fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a texture from an <a class="el" href="classmy_1_1_image.html" title="A class for manipulating imges.">Image</a>.  <a href="classmy_1_1_texture.html#a0a39f65955f78b39c6aaffda01bf74fd">More...</a><br /></td></tr>
+<tr class="separator:a0a39f65955f78b39c6aaffda01bf74fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab1f8e8b84ac6f473f12fc8722fb28428"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_texture.html#ab1f8e8b84ac6f473f12fc8722fb28428">getId</a> () const noexcept</td></tr>
 <tr class="memdesc:ab1f8e8b84ac6f473f12fc8722fb28428"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a texture's OpenGL id.  <a href="classmy_1_1_texture.html#ab1f8e8b84ac6f473f12fc8722fb28428">More...</a><br /></td></tr>
 <tr class="separator:ab1f8e8b84ac6f473f12fc8722fb28428"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -133,10 +139,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class for storing textures. </p>
 
-<p class="definition">Definition at line <a class="el" href="_texture_8hpp_source.html#l00017">17</a> of file <a class="el" href="_texture_8hpp_source.html">Texture.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_texture_8hpp_source.html#l00020">20</a> of file <a class="el" href="_texture_8hpp_source.html">Texture.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a451734b522c72cf796265121db6a5593"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a451734b522c72cf796265121db6a5593">&#9670;&nbsp;</a></span>Texture() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a451734b522c72cf796265121db6a5593">&#9670;&nbsp;</a></span>Texture() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -161,8 +167,34 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
+<a id="abb40f8d6566d6f9bf85172c65a086488"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb40f8d6566d6f9bf85172c65a086488">&#9670;&nbsp;</a></span>Texture() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classmy_1_1_texture.html">Texture</a> </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classmy_1_1_image.html">Image</a> &amp;&#160;</td>
+          <td class="paramname"><em>image</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a texture fron an image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">image</td><td>An <a class="el" href="classmy_1_1_image.html" title="A class for manipulating imges.">Image</a> object </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ae2943e74fc1f05c37f90533fad04513d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae2943e74fc1f05c37f90533fad04513d">&#9670;&nbsp;</a></span>Texture() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2943e74fc1f05c37f90533fad04513d">&#9670;&nbsp;</a></span>Texture() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -290,8 +322,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
+<a id="a0a39f65955f78b39c6aaffda01bf74fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a39f65955f78b39c6aaffda01bf74fd">&#9670;&nbsp;</a></span>load() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool load </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classmy_1_1_image.html">Image</a> &amp;&#160;</td>
+          <td class="paramname"><em>image</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a texture from an <a class="el" href="classmy_1_1_image.html" title="A class for manipulating imges.">Image</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">image</td><td>An <a class="el" href="classmy_1_1_image.html" title="A class for manipulating imges.">Image</a> object </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the texture has been successfuly created, false if an error has occured </dd></dl>
+
+</div>
+</div>
 <a id="ab2f83332acf6c38c4a9f9a43163c6b9e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab2f83332acf6c38c4a9f9a43163c6b9e">&#9670;&nbsp;</a></span>load()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2f83332acf6c38c4a9f9a43163c6b9e">&#9670;&nbsp;</a></span>load() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

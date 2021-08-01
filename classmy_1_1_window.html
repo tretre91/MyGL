@@ -133,9 +133,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a049403feb61aca232d5e4354bef1a1eb"><td class="memItemLeft" align="right" valign="top">glm::ivec2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_window.html#a049403feb61aca232d5e4354bef1a1eb">getSize</a> () const noexcept</td></tr>
 <tr class="memdesc:a049403feb61aca232d5e4354bef1a1eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gives the window's size.  <a href="classmy_1_1_window.html#a049403feb61aca232d5e4354bef1a1eb">More...</a><br /></td></tr>
 <tr class="separator:a049403feb61aca232d5e4354bef1a1eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb0510b50c5a13532b0943a23e25e0ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_window.html#aeb0510b50c5a13532b0943a23e25e0ca">setIcon</a> (const std::string &amp;filename)</td></tr>
-<tr class="memdesc:aeb0510b50c5a13532b0943a23e25e0ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the window's icon.  <a href="classmy_1_1_window.html#aeb0510b50c5a13532b0943a23e25e0ca">More...</a><br /></td></tr>
-<tr class="separator:aeb0510b50c5a13532b0943a23e25e0ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d5daaf66ccbd05578c7847e5262b891"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_window.html#a4d5daaf66ccbd05578c7847e5262b891">setIcon</a> (const <a class="el" href="classmy_1_1_image.html">Image</a> &amp;icon)</td></tr>
+<tr class="memdesc:a4d5daaf66ccbd05578c7847e5262b891"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the window's icon.  <a href="classmy_1_1_window.html#a4d5daaf66ccbd05578c7847e5262b891">More...</a><br /></td></tr>
+<tr class="separator:a4d5daaf66ccbd05578c7847e5262b891"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8af4bdeba2f01272535fb715c56cf1c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmy_1_1_window.html#a8af4bdeba2f01272535fb715c56cf1c4">setCursor</a> (const <a class="el" href="classmy_1_1_cursor.html">Cursor</a> &amp;cursor) noexcept</td></tr>
 <tr class="memdesc:a8af4bdeba2f01272535fb715c56cf1c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the cursor used by this window.  <a href="classmy_1_1_window.html#a8af4bdeba2f01272535fb715c56cf1c4">More...</a><br /></td></tr>
 <tr class="separator:a8af4bdeba2f01272535fb715c56cf1c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -159,7 +159,7 @@ static void *&#160;</td><td class="memItemRight" valign="bottom"><b>getGLProcAdr
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class for creating a window. </p>
 
-<p class="definition">Definition at line <a class="el" href="_window_8hpp_source.html#l00051">51</a> of file <a class="el" href="_window_8hpp_source.html">Window.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_window_8hpp_source.html#l00052">52</a> of file <a class="el" href="_window_8hpp_source.html">Window.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a017ef4ef5f8671d9a38269087c15910d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a017ef4ef5f8671d9a38269087c15910d">&#9670;&nbsp;</a></span>Window()</h2>
@@ -588,8 +588,8 @@ static void *&#160;</td><td class="memItemRight" valign="bottom"><b>getGLProcAdr
 
 </div>
 </div>
-<a id="aeb0510b50c5a13532b0943a23e25e0ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb0510b50c5a13532b0943a23e25e0ca">&#9670;&nbsp;</a></span>setIcon()</h2>
+<a id="a4d5daaf66ccbd05578c7847e5262b891"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d5daaf66ccbd05578c7847e5262b891">&#9670;&nbsp;</a></span>setIcon()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -597,8 +597,8 @@ static void *&#160;</td><td class="memItemRight" valign="bottom"><b>getGLProcAdr
         <tr>
           <td class="memname">void setIcon </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>filename</em></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="classmy_1_1_image.html">Image</a> &amp;&#160;</td>
+          <td class="paramname"><em>icon</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -607,7 +607,7 @@ static void *&#160;</td><td class="memItemRight" valign="bottom"><b>getGLProcAdr
 <p>Sets the window's icon. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">filename</td><td>The filename of the image to use, passing an empty string ("") sets the icon back to the system default </td></tr>
+    <tr><td class="paramname">icon</td><td>The image to set as the new window icon, it must have 4 channels (RGBA). Passing a default constructed or an invalid <a class="el" href="classmy_1_1_image.html" title="A class for manipulating imges.">Image</a> will revert to the default window icon </td></tr>
   </table>
   </dd>
 </dl>
