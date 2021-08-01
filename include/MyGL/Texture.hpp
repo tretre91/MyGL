@@ -1,10 +1,13 @@
 #ifndef MYGL_TEXTURE
 #define MYGL_TEXTURE
 
+#include "mygl_export.h"
+
 #include <glad/glad.h>
 #include <stb_image.h>
 
 #include "Color.hpp"
+#include "Image.hpp"
 
 #include <memory>
 #include <string>
@@ -20,6 +23,8 @@ namespace my
         std::shared_ptr<unsigned int> p_textureId;
         unsigned int m_width = 0;
         unsigned int m_height = 0;
+
+        void create(const Image& image);
 
     public:
         enum class Axis
@@ -42,6 +47,12 @@ namespace my
         Texture(const std::string& filename);
 
         /**
+         * @brief Creates a texture fron an image
+         * @param image An Image object
+         */
+        Texture(const Image& image);
+
+        /**
          * @brief Cretes a texture from an existing opengl texture
          * @param textureId The texture's id, created with glGenTextures
          * @param width The texture's width in pixels
@@ -57,6 +68,13 @@ namespace my
          * @return True if the image has been successfuly loaded, false if an error has occured
          */
         bool load(const std::string& filename);
+
+        /**
+         * @brief Creates a texture from an Image
+         * @param image An Image object
+         * @return True if the texture has been successfuly created, false if an error has occured
+         */
+        bool load(const Image& image);
 
         /**
          * @brief Return a texture's OpenGL id

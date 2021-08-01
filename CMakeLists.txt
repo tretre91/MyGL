@@ -33,7 +33,7 @@ set(PROJECT_SOURCES
     "src/Event.cpp"
     "src/Cursor.cpp"
     "src/common.cpp"
-)
+    "src/Image.cpp")
 
 option(MYGL_DOCUMENTATION "Turn on in order to enable a build target for the documentation, this requires that you have doxygen installed"
        OFF

@@ -40,7 +40,7 @@ namespace my
 
     Window::Window(int width, int height, const std::string& title, unsigned int flags, int antiAliasing, int GLVersionMajor, int GLVersionMinor) :
       m_projection(glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), 0.1f, 10.0f)), p_camera(&defaultCamera), p_window(nullptr),
-      m_size(width, height), m_usable(false), m_frameDelay(0s), m_frametime(one) {
+      m_cursor(Cursor::arrow), m_size(width, height), m_usable(false), m_frameDelay(0s), m_frametime(one) {
         // we restrict the antiAliasing samples value to be between 0 and 8
         if (antiAliasing < 2) {
             antiAliasing = 0;
@@ -199,28 +199,26 @@ namespace my
         return m_size;
     }
 
-    void Window::setIcon(const std::string& filename) {
-        if (filename.empty()) {
+    void Window::setIcon(const Image& image) {
+        if (!image.isUsable()) {
             glfwSetWindowIcon(p_window, 0, nullptr);
         } else {
             GLFWimage icon;
-            icon.pixels = stbi_load(filename.c_str(), &icon.width, &icon.height, nullptr, 4);
-            if (icon.pixels != nullptr) {
-                glfwSetWindowIcon(p_window, 1, &icon);
-                stbi_image_free(icon.pixels);
-            } else {
-                std::cerr << "ERROR::MYGL: Failed to set file \"" << filename << "\" as the new window icon\n";
-            }
+            icon.width = static_cast<int>(image.getWidth());
+            icon.height = static_cast<int>(image.getHeight());
+            icon.pixels = const_cast<uint8_t*>(image.data());
+            glfwSetWindowIcon(p_window, 1, &icon);
         }
     }
 
     void Window::setCursor(const Cursor& cursor) noexcept {
         if (cursor.isUsable()) {
-            glfwSetCursor(p_window, cursor.p_cursor.get());
+            m_cursor = cursor;
+            glfwSetCursor(p_window, m_cursor.p_cursor.get());
         }
     }
 
-    void Window::draw(my::AbstractShape& shape) const{
+    void Window::draw(my::AbstractShape& shape) const {
         shape.draw(p_camera->lookAt(), m_projection);
     }
 

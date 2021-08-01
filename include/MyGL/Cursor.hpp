@@ -2,8 +2,11 @@
 #define MYGL_CURSOR
 
 #include "mygl_export.h"
+
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
+
+#include "Image.hpp"
 #include <memory>
 #include <string>
 
@@ -56,22 +59,28 @@ namespace my
 
         /**
          * @brief Creates a cursor from an image file
-         * @param filename The image to use
+         *
+         * The image used to create the cursor must be in a RGBA pixel format (4
+         * channels).
+         * The hotspot is the point defining the cursor's position, its coordinates
+         * are relative to the image's lower left corner.
+         *
+         * @param image The image to use
          * @param xhot The x coordinate of the cursor's hotspot
          * @param yhot The y coordinate of the cursor's hotspot
          */
-        Cursor(const std::string& filename, int xhot, int yhot);
+        Cursor(const Image& image, int xhot, int yhot);
 
         ~Cursor() = default;
 
         /**
          * @brief Loads a cursor fron an image file
-         * @param filename The image to use
+         * @param image The image to use
          * @param xhot The x coordinate of the cursor's hotpoint
          * @param yhot The y coordinate of the cursor's hotpoint
          * @return true if the cursor was successfully created
          */
-        bool load(const std::string& filename, int xhot, int yhot);
+        bool load(const Image& image, int xhot, int yhot);
 
         /**
          * @brief Tells wether the cursor is usable

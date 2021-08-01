@@ -12,6 +12,7 @@
 #include "Cursor.hpp"
 #include "Drawable/AbstractShape.hpp"
 #include "Event.hpp"
+#include "Image.hpp"
 
 #include <chrono>
 #include <deque>
@@ -59,6 +60,7 @@ namespace my
         glm::mat4 m_projection;
         my::Camera* p_camera;
         GLFWwindow* p_window;
+        my::Cursor m_cursor;
         glm::ivec2 m_size;
         bool m_usable;
         std::chrono::microseconds m_frameDelay;
@@ -204,10 +206,11 @@ namespace my
 
         /**
          * @brief Sets the window's icon
-         * @param filename The filename of the image to use, passing an empty string
-         *        ("") sets the icon back to the system default
+         * @param icon The image to set as the new window icon, it must have 4
+         *        channels (RGBA). Passing a default constructed or an invalid
+         *        Image will revert to the default window icon
          */
-        void setIcon(const std::string& filename);
+        void setIcon(const Image& icon);
 
         /**
          * @brief Sets the cursor used by this window

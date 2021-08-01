@@ -22,23 +22,22 @@ namespace my
 
     Cursor::Cursor(GLFWcursor* cursor) : p_cursor(cursor, CursorDeleter()) {}
 
-    Cursor::Cursor(const std::string& filename, int xhot, int yhot) {
-        if (!load(filename, xhot, yhot)) {
+    Cursor::Cursor(const Image& image, int xhot, int yhot) {
+        if (!load(image, xhot, yhot)) {
             p_cursor = arrow.p_cursor;
         }
     }
 
-    bool Cursor::load(const std::string& filename, int xhot, int yhot) {
-        GLFWimage image;
-        image.pixels = stbi_load(filename.c_str(), &image.width, &image.height, nullptr, 4);
-        if (image.pixels == nullptr) {
-            std::cerr << "ERROR::MYGL::Cursor: Failed to load image \"" << filename << "\"\n";
-            return false;
+    bool Cursor::load(const Image& image, int xhot, int yhot) {
+        if (image.isUsable()) {
+            GLFWimage cursor;
+            cursor.width = image.getWidth();
+            cursor.height = image.getHeight();
+            cursor.pixels = const_cast<uint8_t*>(image.data());
+            p_cursor.reset(glfwCreateCursor(&cursor, xhot, cursor.height - 1 - yhot), CursorDeleter());
+        } else {
+            p_cursor.reset();
         }
-
-        p_cursor.reset(glfwCreateCursor(&image, xhot, image.height - 1 - yhot), CursorDeleter());
-        stbi_image_free(image.pixels);
-
         if (p_cursor == nullptr) {
             std::cerr << "ERROR::GLFW: Cursor creation failed\n";
             return false;

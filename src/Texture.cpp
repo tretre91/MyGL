@@ -13,14 +13,20 @@ namespace my
 {
     Texture::Texture(const std::string& filename) {
         if (!load(filename)) {
-            std::cerr << "Failed to load texture " << filename << '\n';
+            std::cerr << "ERROR:TEXTURE: Failed to load texture " << filename << '\n';
+        }
+    }
+
+    Texture::Texture(const Image& image) {
+        if (!load(image)) {
+            std::cerr << "ERROR::TEXTURE: Failed to create texture\n";
         }
     }
 
     Texture::Texture(unsigned int textureId, unsigned int width, unsigned int height) :
       p_textureId(textureId != 0 ? new unsigned int{textureId} : nullptr, TextureDeleter()), m_width(width), m_height(height) {}
 
-    bool Texture::load(const std::string& filename) {
+    void Texture::create(const Image& image) {
         unsigned int textureId;
         glGenTextures(1, &textureId);
         glBindTexture(GL_TEXTURE_2D, textureId);
@@ -30,20 +36,8 @@ namespace my
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-        int width, height, numberOfChannels;
-        stbi_set_flip_vertically_on_load(true);
-        uint8_t* data = stbi_load(filename.c_str(), &width, &height, &numberOfChannels, 0);
-
-        if (data == nullptr) {
-            glDeleteTextures(1, &textureId);
-            p_textureId.reset();
-            m_width = 0;
-            m_height = 0;
-            return false;
-        }
-
         GLenum format = GL_RGBA;
-        switch (numberOfChannels) {
+        switch (image.getChannels()) {
         case 1:
             format = GL_RED;
             glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -66,12 +60,27 @@ namespace my
         }
 
         p_textureId.reset(new unsigned int{textureId}, TextureDeleter());
-        m_width = width;
-        m_height = height;
-        glTexImage2D(GL_TEXTURE_2D, 0, format, m_width, m_height, 0, format, GL_UNSIGNED_BYTE, data);
+        m_width = static_cast<unsigned int>(image.getWidth());
+        m_height = static_cast<unsigned int>(image.getHeight());
+        glTexImage2D(GL_TEXTURE_2D, 0, format, m_width, m_height, 0, format, GL_UNSIGNED_BYTE, image.data());
         glGenerateMipmap(GL_TEXTURE_2D);
-        stbi_image_free(data);
-        return true;
+    }
+
+    bool Texture::load(const std::string& filename) {
+        const Image image(filename, true, 0);
+        if (image.isUsable()) {
+            create(image);
+            return true;
+        }
+        return false;
+    }
+
+    bool Texture::load(const Image& image) {
+        if (image.isUsable()) {
+            create(Image(image.data(), image.getWidth(), image.getHeight(), image.getChannels(), true));
+            return true;
+        }
+        return false;
     }
 
     unsigned int Texture::getId() const noexcept {
