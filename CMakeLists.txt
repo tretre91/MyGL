@@ -33,7 +33,8 @@ set(PROJECT_SOURCES
     "src/Event.cpp"
     "src/Cursor.cpp"
     "src/common.cpp"
-    "src/Image.cpp")
+    "src/Image.cpp"
+)
 
 option(MYGL_DOCUMENTATION "Turn on in order to enable a build target for the documentation, this requires that you have doxygen installed"
        OFF
@@ -100,6 +101,7 @@ if(MYGL_SHARED)
     MyGL
     PUBLIC GLAD_GLAPI_EXPORT
     PRIVATE GLAD_GLAPI_EXPORT_BUILD
+    PRIVATE UTF_CPP_CPLUSPLUS=201703L
   )
 
   target_link_libraries(
@@ -128,7 +130,11 @@ if(MYGL_STATIC)
     target_link_libraries(MyGL-static PUBLIC winmm)
   endif()
 
-  target_compile_definitions(MyGL-static PUBLIC MYGL_STATIC_DEFINE)
+  target_compile_definitions(
+    MyGL-static
+    PUBLIC MYGL_STATIC_DEFINE
+    PRIVATE UTF_CPP_CPLUSPLUS=201703L
+  )
 
   target_link_libraries(
     MyGL-static
