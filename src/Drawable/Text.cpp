@@ -1,4 +1,5 @@
 #include <MyGL/Drawable/Text.hpp>
+#include <utf8.h>
 
 constexpr const char* textVertexSource =
   "#version 330 core\n"
@@ -23,13 +24,39 @@ constexpr const char* textFragmentSource =
   "    FragColor = vec4(color.rgb, texture(tex, texCoords).r);"
   "}";
 
+/**
+ * @brief Convert a std::wstring to an utf8 encoded std::string
+ */
+std::string wstring_to_utf8(const std::wstring& str) {
+    std::string result;
+    if constexpr (sizeof(wchar_t) == 2) {
+        utf8::utf16to8(str.begin(), str.end(), std::back_inserter(result));
+    } else {
+        utf8::utf32to8(str.begin(), str.end(), std::back_inserter(result));
+    }
+    return result;
+}
+
+/**
+ * @brief Convert an utf8 encoded std::string to a std::wstring
+ *
+ * @param str
+ * @return std::wstring
+ */
+std::wstring utf8_to_wstring(const std::string& str) {
+    std::wstring result;
+    if constexpr (sizeof(wchar_t) == 2) {
+        utf8::utf8to16(str.begin(), str.end(), std::back_inserter(result));
+    } else {
+        utf8::utf8to32(str.begin(), str.end(), std::back_inserter(result));
+    }
+    return result;
+}
+
 namespace my
 {
     ShaderProgram Text::textShader;
     Font Text::defaultFont;
-    std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> Text::u8_u32conv{};
-    std::wstring_convert<std::codecvt_utf16<char32_t>, char32_t> Text::u16_u32conv{};
-    std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> Text::u8_wconv{};
 
     void Text::init() {
         if (!textShader.isUsable()) {
@@ -54,68 +81,64 @@ namespace my
         m_shader = textShader;
     }
 
-    my::Text::Text(const std::string& text, my::Font& font, unsigned int size) : m_text(u8_u32conv.from_bytes(text)), m_font(font), m_size(size) {
+    my::Text::Text(const std::string& text, my::Font& font, unsigned int size) : m_text(text), m_font(font), m_size(size) {
         init();
     }
 
-    my::Text::Text(const std::wstring& text, my::Font& font, unsigned int size) :
-      m_text(u8_u32conv.from_bytes(u8_wconv.to_bytes(text))), m_font(font), m_size(size) {
+    my::Text::Text(const std::wstring& text, my::Font& font, unsigned int size) : m_text(wstring_to_utf8(text)), m_font(font), m_size(size) {
         init();
     }
 
-    my::Text::Text(const std::u16string& text, my::Font& font, unsigned int size) : m_font(font), m_size(size) {
-        const char16_t* cText = text.c_str();
-        m_text = u16_u32conv.from_bytes(reinterpret_cast<const char*>(cText), reinterpret_cast<const char*>(cText + text.size()));
+    my::Text::Text(const std::u16string& text, my::Font& font, unsigned int size) : m_text(utf8::utf16to8(text)), m_font(font), m_size(size) {
         init();
     }
 
-    my::Text::Text(const std::u32string& text, my::Font& font, unsigned int size) : m_text(text), m_font(font), m_size(size) {
+    my::Text::Text(const std::u32string& text, my::Font& font, unsigned int size) : m_text(utf8::utf32to8(text)), m_font(font), m_size(size) {
         init();
     }
 
     void Text::setContent(const std::string& text) {
-        m_text = u8_u32conv.from_bytes(text);
-        setTexture(m_font.getStringTexture(m_text, m_size));
-        m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
-        setPosition(getPosition(), true);
-    }
-
-    void Text::setContent(const std::wstring& text) {
-        m_text = u8_u32conv.from_bytes(u8_wconv.to_bytes(text));
-        setTexture(m_font.getStringTexture(m_text, m_size));
-        m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
-        setPosition(getPosition(), true);
-    }
-
-    void Text::setContent(const std::u16string& text) {
-        const char16_t* cText = text.c_str();
-        m_text = u16_u32conv.from_bytes(reinterpret_cast<const char*>(cText), reinterpret_cast<const char*>(cText + text.size()));
-        setTexture(m_font.getStringTexture(m_text, m_size));
-        m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
-        setPosition(getPosition(), true);
-    }
-
-    void Text::setContent(const std::u32string& text) {
         m_text = text;
         setTexture(m_font.getStringTexture(m_text, m_size));
         m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
         setPosition(getPosition(), true);
     }
 
+    void Text::setContent(const std::wstring& text) {
+        m_text = wstring_to_utf8(text);
+        setTexture(m_font.getStringTexture(m_text, m_size));
+        m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
+        setPosition(getPosition(), true);
+    }
+
+    void Text::setContent(const std::u16string& text) {
+        m_text = utf8::utf16to8(text);
+        setTexture(m_font.getStringTexture(m_text, m_size));
+        m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
+        setPosition(getPosition(), true);
+    }
+
+    void Text::setContent(const std::u32string& text) {
+        m_text = utf8::utf32to8(text);
+        setTexture(m_font.getStringTexture(m_text, m_size));
+        m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
+        setPosition(getPosition(), true);
+    }
+
     std::string Text::getString() const {
-        return u8_u32conv.to_bytes(m_text);
+        return m_text;
     }
 
     std::wstring Text::getWString() const {
-        return u8_wconv.from_bytes(u8_u32conv.to_bytes(m_text));
+        return utf8_to_wstring(m_text);
     }
 
     std::u16string Text::getU16String() const {
-        return reinterpret_cast<const char16_t*>(u16_u32conv.to_bytes(m_text).c_str());
+        return utf8::utf8to16(m_text);
     }
 
     std::u32string Text::getU32String() const noexcept {
-        return m_text;
+        return utf8::utf8to32(m_text);
     }
 
     void Text::setTexture(const my::Texture& texture) {

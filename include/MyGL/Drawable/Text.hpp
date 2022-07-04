@@ -6,9 +6,6 @@
 #include "Font.hpp"
 #include "Rectangle.hpp"
 
-#include <codecvt>
-#include <locale>
-
 namespace my
 {
     /**
@@ -19,11 +16,8 @@ namespace my
     private:
         static my::ShaderProgram textShader;
         static my::Font defaultFont;
-        static std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> u8_u32conv;
-        static std::wstring_convert<std::codecvt_utf16<char32_t>, char32_t> u16_u32conv;
-        static std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> u8_wconv;
 
-        std::u32string m_text;
+        std::string m_text;
         my::Font& m_font;
         unsigned int m_size;
 
@@ -48,7 +42,7 @@ namespace my
          */
         Text();
 
-        /** @name Constructors 
+        /** @name Constructors
             @{ */
         /**
          * @brief Creates a text object
@@ -63,7 +57,7 @@ namespace my
         Text(const std::u32string& text, my::Font& font, unsigned int size = 30u);
         /** @} */
 
-        /** @name Setters 
+        /** @name Setters
             @{ */
         /**
          * @brief Sets the displayed text's content
@@ -75,7 +69,7 @@ namespace my
         void setContent(const std::u32string& text);
         /** @} */
 
-        /** @name Getters 
+        /** @name Getters
             @{ */
         /**
          * @brief Returns the text that is currently displayed

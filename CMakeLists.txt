@@ -7,7 +7,7 @@ project(
   DESCRIPTION "A little graphics library using opengl, its purpose is to test my coding skills / learn opengl"
 )
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 
@@ -74,9 +74,14 @@ if(MYGL_TARGETS)
     GIT_REPOSITORY "https://gitlab.freedesktop.org/freetype/freetype.git"
     GIT_TAG VER-2-10-4
   )
-endif()
 
-set(MYGL_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
+  CPMAddPackage(
+    NAME utf8cpp
+    GIT_REPOSITORY "https://github.com/nemtrif/utfcpp.git"
+    GIT_TAG v3.2.1
+    OPTIONS "UTF8_INSTALL ON"
+  )
+endif()
 
 # Shared library
 if(MYGL_SHARED)
@@ -101,6 +106,7 @@ if(MYGL_SHARED)
     MyGL
     PUBLIC glfw
     PUBLIC freetype
+    PUBLIC utf8::cpp
   )
 
   if(WIN32)
@@ -128,6 +134,7 @@ if(MYGL_STATIC)
     MyGL-static
     PUBLIC glfw
     PUBLIC freetype
+    PUBLIC utf8::cpp
   )
 
   target_include_directories(MyGL-static PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include> $<INSTALL_INTERFACE:include>)
@@ -141,6 +148,8 @@ if(MYGL_TARGETS)
       ${CMAKE_INSTALL_LIBDIR}/cmake/MyGL
       CACHE STRING "Path to MyGL cmake files"
   )
+
+  set(MYGL_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 
   install(
     TARGETS ${MYGL_TARGETS}

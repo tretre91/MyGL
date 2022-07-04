@@ -1,5 +1,6 @@
 #include <MyGL/Drawable/Font.hpp>
 #include <iostream>
+#include <utf8.h>
 
 namespace my
 {
@@ -50,11 +51,11 @@ namespace my
         }
     }
 
-    Texture Font::getStringTexture(const std::u32string& text, unsigned int size) {
+    Texture Font::getStringTexture(const std::string& text, unsigned int size) {
         FT_Set_Pixel_Sizes(m_face, 0, size);
 
         std::vector<std::pair<int, int>> charPos;
-        charPos.reserve(text.size());
+        charPos.reserve(utf8::distance(text.begin(), text.end()));
 
         size_t width = 0;
         size_t trueSize = m_face->size->metrics.height >> 6;
@@ -64,7 +65,9 @@ namespace my
         FT_Vector kernDelta;
         const bool hasKerning = FT_HAS_KERNING(m_face);
 
-        for (auto c : text) {
+        for (auto it = text.begin(); it != text.end();) {
+            const char32_t c = utf8::next(it, text.end());
+
             if (FT_Load_Char(m_face, c, FT_LOAD_BITMAP_METRICS_ONLY) != 0) {
                 std::wcerr << "ERROR::FREETYPE: Couldn't load char" << c << '\n';
                 continue;
@@ -93,10 +96,12 @@ namespace my
         size_t height = static_cast<size_t>(-(pen_y + (m_face->size->metrics.descender >> 6))) + 10;
 
         std::vector<uint8_t> texture(width * height);
-        for (size_t i = 0; i < text.size(); i++) {
-            if (text[i] != U'\n') {
-                if (FT_Load_Char(m_face, text[i], FT_LOAD_RENDER) != 0) {
-                    std::wcerr << "ERROR::FREETYPE: Couldn't load char" << text[i] << '\n';
+        size_t i = 0;
+        for (auto it = text.begin(); it != text.end(); i++) {
+            const char32_t c = utf8::next(it, text.end());
+            if (c != U'\n') {
+                if (FT_Load_Char(m_face, c, FT_LOAD_RENDER) != 0) {
+                    std::wcerr << "ERROR::FREETYPE: Couldn't load char" << c << '\n';
                     continue;
                 }
                 addGlyph(m_face->glyph, texture, charPos[i].first, -charPos[i].second, width);
