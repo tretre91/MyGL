@@ -23,8 +23,7 @@ namespace my
     /**
      * @brief Flags passed when creating a window to change its behaviour
      */
-    enum WindowFlag : unsigned int
-    {
+    enum WindowFlag : unsigned int {
         none = 0,
         /**
          * @brief Makes the window resizable
@@ -155,7 +154,7 @@ namespace my
          * @brief Sets the dimensions of the window's projection matrix's frustum
          *
          * @param left The frustum's left coordinate
-         * @param right The frustum's tight coordinate
+         * @param right The frustum's right coordinate
          * @param bottom The frustum's bottom coordinate
          * @param top The frustum's top coordinate
          */
@@ -165,6 +164,8 @@ namespace my
          * @brief Sets the viewport's position and size
          *
          * This is equivalent to calling glViewport(left, bottom, width, height)
+         * The left and bottom parameters are in the OpenGL coordinate system (origin
+		 * is the bottom left corner, upwards y axis)
          * @param x The viewport's lower left corner's x position
          * @param y The viewport's lower left corner's y position
          * @param width The viewport's width

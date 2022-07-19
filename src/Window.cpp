@@ -39,7 +39,7 @@ namespace my
     Window::Window() : Window(800, 600, "Default") {}
 
     Window::Window(int width, int height, const std::string& title, unsigned int flags, int antiAliasing, int GLVersionMajor, int GLVersionMinor) :
-      m_projection(glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), 0.1f, 10.0f)), p_camera(&defaultCamera), p_window(nullptr),
+      m_projection(glm::ortho(0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, 0.1f, 10.0f)), p_camera(&defaultCamera), p_window(nullptr),
       m_cursor(Cursor::arrow), m_size(width, height), m_usable(false), m_frameDelay(0s), m_frametime(one) {
         // we restrict the antiAliasing samples value to be between 0 and 8
         if (antiAliasing < 2) {
@@ -190,7 +190,7 @@ namespace my
             glfwSetWindowSize(p_window, m_size.x, m_size.y);
         }
         if (resizeViewport) {
-            setClipPlanes(0, m_size.x, 0, m_size.y);
+            setClipPlanes(0, m_size.x, m_size.y, 0);
             setViewport(0, 0, m_size.x, m_size.y);
         }
     }
@@ -277,13 +277,11 @@ namespace my
             e.type = my::EventType::mouseButtonReleased;
         }
 
-        int windowHeight;
-        glfwGetWindowSize(window, nullptr, &windowHeight);
         double cursor_x, cursor_y;
         glfwGetCursorPos(window, &cursor_x, &cursor_y);
 
         e.mouse.pos.x = static_cast<float>(cursor_x);
-        e.mouse.pos.y = static_cast<float>(windowHeight - cursor_y);
+        e.mouse.pos.y = static_cast<float>(cursor_y);
 
         switch (button) {
         case GLFW_MOUSE_BUTTON_1:
@@ -329,11 +327,9 @@ namespace my
 
     void Window::cursorPosCallback(GLFWwindow* window, double xpos, double ypos) {
         my::Event e;
-        int windowHeight;
-        glfwGetWindowSize(window, nullptr, &windowHeight);
         e.type = my::EventType::mouseMoved;
         e.mouse.button = my::MouseButton::none;
-        e.mouse.pos = glm::vec2(static_cast<float>(xpos), static_cast<float>(windowHeight - ypos));
+        e.mouse.pos = glm::vec2(static_cast<float>(xpos), static_cast<float>(ypos));
         windows[window]->m_eventQueue.push_back(e);
     }
 

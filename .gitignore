@@ -1,6 +1,7 @@
 # Ignore build results folder
 out/
 build/
+.cache/
 
 # Ignore Visual studio folder
 .vs/

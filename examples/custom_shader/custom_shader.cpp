@@ -9,7 +9,7 @@ int main() {
       "uniform mat4 projection;"
       "varying vec3 vColor;"
       "void main(){"
-      "    vec4 pos = projection * view * model * vec4(aPos, 1.0);"
+      "    vec4 pos = projection * view * model * vec4(aPos.x, -aPos.y, aPos.z, 1.0);"
       "    gl_Position = pos;"
       "    vColor = vec3(abs(pos.x), abs(pos.y), distance(pos.xy, vec2(0.0, 0.0)));"
       "}";

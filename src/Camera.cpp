@@ -2,7 +2,7 @@
 
 namespace my
 {
-    Camera::Camera() noexcept : m_position(0.0f, 0.0f, 3.0f), m_front(0.0f, 0.0f, -1.0f), m_up(0.0f, 1.0f, 0.0f), m_speed(50.0f) {}
+    Camera::Camera() noexcept : Camera(0, 0) {}
 
     Camera::Camera(int x, int y) noexcept : m_position(x, y, 3.0f), m_front(0.0f, 0.0f, -1.0f), m_up(0.0f, 1.0f, 0.0f), m_speed(50.0f) {}
 
@@ -22,12 +22,14 @@ namespace my
         return m_speed;
     }
 
+    // y axis is inverted, moving up moves towards the negative y
     void Camera::moveUp(float frametime) noexcept {
-        m_position += m_up * m_speed * frametime;
+        m_position -= m_up * m_speed * frametime;
     }
 
+    // same thing goes for moving down
     void Camera::moveDown(float frametime) noexcept {
-        m_position -= m_up * m_speed * frametime;
+        m_position += m_up * m_speed * frametime;
     }
 
     void Camera::moveLeft(float frametime) noexcept {

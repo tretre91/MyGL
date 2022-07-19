@@ -8,7 +8,7 @@ constexpr const char* vertexSource =
   "uniform mat4 view;"
   "uniform mat4 projection;"
   "void main(){"
-  "    gl_Position = projection * view * model * vec4(aPos, 1.0);"
+  "    gl_Position = projection * view * model * vec4(aPos.x, -aPos.y, aPos.z, 1.0);"
   "}";
 
 constexpr const char* fragmentSource =
@@ -28,7 +28,7 @@ constexpr const char* texVertexSource =
   "uniform mat4 view;"
   "uniform mat4 projection;"
   "void main(){"
-  "    gl_Position = projection * view * model * vec4(aPos, 1.0);"
+  "    gl_Position = projection * view * model * vec4(aPos.x, -aPos.y, aPos.z, 1.0);"
   "    texCoords = aTexCoords;"
   "}";
 

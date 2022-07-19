@@ -54,15 +54,16 @@ int main() {
         window.clear(my::Color::black);
 
         window.setCamera(camera);
-        window.setClipPlanes(0, window.getSize().x, 0, window.getSize().y);
-        window.setViewport(0, 0, window.getSize().x, window.getSize().y);
+        const glm::vec2 win_size = window.getSize();
+        window.setClipPlanes(0, win_size.x, win_size.y, 0);
+        window.setViewport(0, 0, win_size.x, win_size.y);
 
         window.draw(rect);
         window.draw(frame);
 
         window.setCamera(frameCam);
-        window.setClipPlanes(zoomValue, frameSize - zoomValue, zoomValue, frameSize - zoomValue);
-        window.setViewport(framePos.x, framePos.y, frameSize, frameSize);
+        window.setClipPlanes(zoomValue, frameSize - zoomValue, frameSize - zoomValue, zoomValue);
+        window.setViewport(framePos.x, win_size.y - framePos.y - frameSize, frameSize, frameSize);
 
         window.draw(rect);
 
