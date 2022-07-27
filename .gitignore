@@ -2,6 +2,8 @@
 out/
 build/
 .cache/
+subprojects/
+!subprojects/*.wrap
 
 # Ignore Visual studio folder
 .vs/
