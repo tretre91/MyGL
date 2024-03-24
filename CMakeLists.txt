@@ -73,7 +73,7 @@ if(MYGL_TARGETS)
   CPMAddPackage(
     NAME freetype
     GIT_REPOSITORY "https://gitlab.freedesktop.org/freetype/freetype.git"
-    GIT_TAG VER-2-10-4
+    GIT_TAG VER-2-13-0
   )
 
   CPMAddPackage(

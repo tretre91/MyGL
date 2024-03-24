@@ -1,0 +1,7 @@
+resources = ['CustomFragment.glsl']
+
+foreach resource : resources
+  fs.copyfile(resource)
+  install_data(resource, install_dir : install_dir / 'resources')
+endforeach
+

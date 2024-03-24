@@ -1,0 +1,51 @@
+mygl_sources = files([
+  'glad.c',
+  'Color.cpp',
+  'Shader.cpp',
+  'ShaderProgram.cpp',
+  'stb_image.cpp',
+  'Texture.cpp',
+  'Window.cpp',
+  'Drawable/AbstractShape.cpp',
+  'Drawable/Rectangle.cpp',
+  'Drawable/Polygon.cpp',
+  'Drawable/Triangle.cpp',
+  'Drawable/Font.cpp',
+  'Drawable/Text.cpp',
+  'Camera.cpp',
+  'Event.cpp',
+  'Cursor.cpp',
+  'common.cpp',
+  'Image.cpp',
+])
+
+# dependencies
+glfw = dependency('glfw3')
+freetype = dependency('freetype2')
+utf = dependency('utfcpp')
+# find winmm (windows only)
+cxx = meson.get_compiler('cpp')
+winmm = cxx.find_library('winmm', required: false)
+
+mygl_deps = [glfw, freetype, utf, winmm]
+
+include_dir = '..' / 'include'
+
+mygl = library('mygl', mygl_sources,
+        cpp_args : ['-DUTF_CPP_CPLUSPLUS=201703L'],
+        c_static_args : ['-DMYGL_STATIC_DEFINE'],
+        cpp_static_args : ['-DMYGL_STATIC_DEFINE'],
+        c_shared_args : ['-DGLAD_GLAPI_EXPORT', '-DGLAD_GLAPI_EXPORT_BUILD'],
+        cpp_shared_args : ['-DGLAD_GLAPI_EXPORT', '-DGLAD_GLAPI_EXPORT_BUILD'],
+        include_directories: include_dir,
+        dependencies: mygl_deps,
+        gnu_symbol_visibility: 'inlineshidden',
+        install: true)
+
+mygl_dep = declare_dependency(
+  # compile_args: compile_defs,
+  link_with: mygl,
+  sources: mygl_sources,
+  dependencies: mygl_deps,
+  include_directories: include_dir
+)

@@ -1,0 +1,4 @@
+option('mygl_build_doc', type: 'boolean', value: false,
+        description: 'Enables the documentation target using Doxygen')
+option('mygl_build_examples', type: 'boolean', value: false,
+        description: 'If on, build and install the example programs alongside the library')

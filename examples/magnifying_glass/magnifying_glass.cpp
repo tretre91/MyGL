@@ -12,7 +12,7 @@ int main() {
     my::Rectangle rect(800, 600);
     rect.setPosition(0, 0);
     rect.setColor(my::Color("D57E4D"));
-    rect.setTexture("@RESOURCES_DIR@/galaxy.jpg");
+    rect.setTexture("resources/galaxy.jpg");
 
     const int frameSize = 80;
     my::Rectangle frame(frameSize, frameSize);

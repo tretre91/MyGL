@@ -20,7 +20,7 @@ int main() {
     my::Shader vertexShader;
     vertexShader.loadFromString(vertexSource, my::Shader::Type::Vertex);
     my::Shader fragmentShader;
-    fragmentShader.loadFromFile("@RESOURCES_DIR@/CustomFragment.glsl", my::Shader::Type::Fragment);
+    fragmentShader.loadFromFile("resources/CustomFragment.glsl", my::Shader::Type::Fragment);
     my::ShaderProgram program;
     program.addShaders(vertexShader, fragmentShader);
     program.link();
