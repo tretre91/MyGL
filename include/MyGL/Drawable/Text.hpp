@@ -11,7 +11,7 @@ namespace my
     /**
      * @brief Class for drawing strings of text
      */
-    class MYGL_EXPORT Text : public Rectangle
+    class Text : public Rectangle
     {
     private:
         static my::ShaderProgram textShader;
@@ -40,7 +40,7 @@ namespace my
          * and uses a placeholder font. Before drawing this object you should set a usable font
          * with the setFont() function
          */
-        Text();
+        MYGL_EXPORT Text();
 
         /** @name Constructors
             @{ */
@@ -51,10 +51,10 @@ namespace my
          * @param font A my::Font object defining the text's font
          * @param size The character size in pixels
          */
-        Text(const std::string& text, my::Font& font, unsigned int size = 30u);
-        Text(const std::wstring& text, my::Font& font, unsigned int size = 30u);
-        Text(const std::u16string& text, my::Font& font, unsigned int size = 30u);
-        Text(const std::u32string& text, my::Font& font, unsigned int size = 30u);
+        MYGL_EXPORT Text(const std::string& text, my::Font& font, unsigned int size = 30u);
+        MYGL_EXPORT Text(const std::wstring& text, my::Font& font, unsigned int size = 30u);
+        MYGL_EXPORT Text(const std::u16string& text, my::Font& font, unsigned int size = 30u);
+        MYGL_EXPORT Text(const std::u32string& text, my::Font& font, unsigned int size = 30u);
         /** @} */
 
         /** @name Setters
@@ -63,10 +63,10 @@ namespace my
          * @brief Sets the displayed text's content
          * @param text The new text to display
          */
-        void setContent(const std::string& text);
-        void setContent(const std::wstring& text);
-        void setContent(const std::u16string& text);
-        void setContent(const std::u32string& text);
+        MYGL_EXPORT void setContent(const std::string& text);
+        MYGL_EXPORT void setContent(const std::wstring& text);
+        MYGL_EXPORT void setContent(const std::u16string& text);
+        MYGL_EXPORT void setContent(const std::u32string& text);
         /** @} */
 
         /** @name Getters
@@ -75,23 +75,23 @@ namespace my
          * @brief Returns the text that is currently displayed
          * @return The content of the string that is currently displayed
          */
-        std::string getString() const;
-        std::wstring getWString() const;
-        std::u16string getU16String() const;
-        std::u32string getU32String() const noexcept;
+        MYGL_EXPORT std::string getString() const;
+        MYGL_EXPORT std::wstring getWString() const;
+        MYGL_EXPORT std::u16string getU16String() const;
+        MYGL_EXPORT std::u32string getU32String() const noexcept;
         /** @} */
 
         /**
          * @brief Changes the font
          * @param font The new font
          */
-        void setFont(my::Font& font);
+        MYGL_EXPORT void setFont(my::Font& font);
 
         /**
          * @brief Changes the character size
          * @param size The new character size (in pixels)
          */
-        void setFontSize(unsigned int size);
+        MYGL_EXPORT void setFontSize(unsigned int size);
     };
 
 } // namespace my

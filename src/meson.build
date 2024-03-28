@@ -20,9 +20,9 @@ mygl_sources = files([
 ])
 
 # dependencies
-glfw = dependency('glfw3')
+glfw = dependency('glfw3', default_options: { 'install': true,})
 freetype = dependency('freetype2')
-utf = dependency('utfcpp')
+utf = dependency('utf8cpp')
 # find winmm (windows only)
 cxx = meson.get_compiler('cpp')
 winmm = cxx.find_library('winmm', required: false)
@@ -35,17 +35,15 @@ mygl = library('mygl', mygl_sources,
         cpp_args : ['-DUTF_CPP_CPLUSPLUS=201703L'],
         c_static_args : ['-DMYGL_STATIC_DEFINE'],
         cpp_static_args : ['-DMYGL_STATIC_DEFINE'],
-        c_shared_args : ['-DGLAD_GLAPI_EXPORT', '-DGLAD_GLAPI_EXPORT_BUILD'],
-        cpp_shared_args : ['-DGLAD_GLAPI_EXPORT', '-DGLAD_GLAPI_EXPORT_BUILD'],
+        c_shared_args : ['-DMYGL_BUILD'],
+        cpp_shared_args : ['-DMYGL_BUILD'],
         include_directories: include_dir,
         dependencies: mygl_deps,
         gnu_symbol_visibility: 'inlineshidden',
         install: true)
 
 mygl_dep = declare_dependency(
-  # compile_args: compile_defs,
   link_with: mygl,
-  sources: mygl_sources,
   dependencies: mygl_deps,
   include_directories: include_dir
 )

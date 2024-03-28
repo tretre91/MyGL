@@ -16,7 +16,7 @@ namespace my
     /**
      * @brief Class for creating shader programs
      */
-    class MYGL_EXPORT ShaderProgram
+    class ShaderProgram
     {
     private:
         struct ShaderProgramDeleter {
@@ -34,31 +34,31 @@ namespace my
         /**
          * @brief Creates an empty shader program, it is not usable as is
          */
-        ShaderProgram() noexcept = default;
+        MYGL_EXPORT ShaderProgram() noexcept = default;
 
         /**
          * @brief Adds one ore more shaders to this program
          * @param shader,shaders The shaders to add to this program
          */
         template<typename... Shaders>
-        void addShaders(Shader shader, Shaders... shaders);
+        inline void addShaders(Shader shader, Shaders... shaders);
 
         /**
          * @brief Links all the added shaders to create a usable shader program
          * @return True if the linking was successful, false otherwise
          */
-        bool link();
+        MYGL_EXPORT bool link();
 
         /**
          * @brief Tells wether the shader program is usable
          * @return true if the program can be used
          */
-        bool isUsable() const noexcept;
+        MYGL_EXPORT bool isUsable() const noexcept;
 
         /**
          * @brief Sets this program to be the active shader program
          */
-        void use() const;
+        MYGL_EXPORT void use() const;
 
         /** @name Uniform related functions
          * These functions are used to modify a shader's uniform value, they take
@@ -76,7 +76,7 @@ namespace my
          */
 
         /** @brief Sets the value of a 4x4 matrix uniform */
-        void setMat4(const std::string& name, const glm::mat4& value) const;
+        MYGL_EXPORT void setMat4(const std::string& name, const glm::mat4& value) const;
 
         /** @name Int uniform functions */
         /** @{ */
@@ -84,19 +84,19 @@ namespace my
         /**
          * @brief Sets the value of an integer uniform
          */
-        void setInt(const std::string& name, const glm::ivec1& value) const;
+        MYGL_EXPORT void setInt(const std::string& name, const glm::ivec1& value) const;
         /**
          * @brief Sets the value of a 2 component integer vector (ivec2) uniform
          */
-        void setInt(const std::string& name, const glm::ivec2& value) const;
+        MYGL_EXPORT void setInt(const std::string& name, const glm::ivec2& value) const;
         /**
          * @brief Sets the value of a 3 component integer vector (ivec3) uniform
          */
-        void setInt(const std::string& name, const glm::ivec3& value) const;
+        MYGL_EXPORT void setInt(const std::string& name, const glm::ivec3& value) const;
         /**
          * @brief Sets the value of a 4 component integer vector (ivec4) uniform
          */
-        void setInt(const std::string& name, const glm::ivec4& value) const;
+        MYGL_EXPORT void setInt(const std::string& name, const glm::ivec4& value) const;
         /**
          * @brief Sets the value of an integer uniform using multiple values
          * @param name The uniform's name
@@ -104,7 +104,7 @@ namespace my
          * @param values The remaining values (up to 3)
          */
         template<typename... Args>
-        void setInt(const std::string& name, int v0, Args... values) const;
+        inline void setInt(const std::string& name, int v0, Args... values) const;
 
         /** @} */
 
@@ -114,19 +114,19 @@ namespace my
         /**
          * @brief Sets the value of an unsigned integer uniform
          */
-        void setUInt(const std::string& name, const glm::uvec1& value) const;
+        MYGL_EXPORT void setUInt(const std::string& name, const glm::uvec1& value) const;
         /**
          * @brief Sets the value of a 2 component unsigned integer vector (uvec2) uniform
          */
-        void setUInt(const std::string& name, const glm::uvec2& value) const;
+        MYGL_EXPORT void setUInt(const std::string& name, const glm::uvec2& value) const;
         /**
          * @brief Sets the value of a 3 component unsigned integer vector (uvec3) uniform
          */
-        void setUInt(const std::string& name, const glm::uvec3& value) const;
+        MYGL_EXPORT void setUInt(const std::string& name, const glm::uvec3& value) const;
         /**
          * @brief Sets the value of a 4 component unsigned integer vector (uvec4) uniform
          */
-        void setUInt(const std::string& name, const glm::uvec4& value) const;
+        MYGL_EXPORT void setUInt(const std::string& name, const glm::uvec4& value) const;
         /**
          * @brief Sets the value of an unsigned integer uniform using multiple values
          * @param name The uniform's name
@@ -134,7 +134,7 @@ namespace my
          * @param values The remaining values (up to 3)
          */
         template<typename... Args>
-        void setUInt(const std::string& name, unsigned int v0, Args... values) const;
+        inline void setUInt(const std::string& name, unsigned int v0, Args... values) const;
 
         /** @} */
 
@@ -144,19 +144,19 @@ namespace my
         /**
          * @brief Sets the value of a float uniform
          */
-        void setFloat(const std::string& name, const glm::vec1& value) const;
+        MYGL_EXPORT void setFloat(const std::string& name, const glm::vec1& value) const;
         /**
          * @brief Sets the value of a 2 component float vector (vec2) uniform
          */
-        void setFloat(const std::string& name, const glm::vec2& value) const;
+        MYGL_EXPORT void setFloat(const std::string& name, const glm::vec2& value) const;
         /**
          * @brief Sets the value of a 3 component float vector (vec3) uniform
          */
-        void setFloat(const std::string& name, const glm::vec3& value) const;
+        MYGL_EXPORT void setFloat(const std::string& name, const glm::vec3& value) const;
         /**
          * @brief Sets the value of a 4 component float vector (vec4) uniform
          */
-        void setFloat(const std::string& name, const glm::vec4& value) const;
+        MYGL_EXPORT void setFloat(const std::string& name, const glm::vec4& value) const;
         /**
          * @brief Sets the value of a float uniform using multiple values
          * @param name The uniform's name
@@ -164,14 +164,14 @@ namespace my
          * @param values The remaining values (up to 3)
          */
         template<typename... Args>
-        void setFloat(const std::string& name, float v0, Args... values) const;
+        inline void setFloat(const std::string& name, float v0, Args... values) const;
 
         /** @} */
 
         /** @} */
 
-        friend bool operator==(const ShaderProgram& lhs, const ShaderProgram& rhs) noexcept;
-        friend bool operator!=(const ShaderProgram& lhs, const ShaderProgram& rhs) noexcept;
+        MYGL_EXPORT friend bool operator==(const ShaderProgram& lhs, const ShaderProgram& rhs) noexcept;
+        MYGL_EXPORT friend bool operator!=(const ShaderProgram& lhs, const ShaderProgram& rhs) noexcept;
     };
 
     template<typename... Shaders>

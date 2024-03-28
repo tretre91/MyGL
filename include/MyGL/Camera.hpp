@@ -11,7 +11,7 @@ namespace my
     /**
      * @brief Class used to manipulate a 2D camera
      */
-    class MYGL_EXPORT Camera
+    class Camera
     {
     private:
         glm::vec3 m_position;
@@ -25,40 +25,40 @@ namespace my
          * @brief Default constructor, creates a camera pointing to the center of
          *        the window
          */
-        Camera() noexcept;
+        MYGL_EXPORT Camera() noexcept;
 
         /**
          * @brief Creates a 2D camera with its bottom left hand corner coordinates
          * @param x The camera's x coordinate
          * @param y The camera's y coordinate
          */
-        Camera(int x, int y) noexcept;
+        MYGL_EXPORT Camera(int x, int y) noexcept;
 
         /**
          * @brief Sets the camera's position
          * @param x The x coordinate of the bottom left hand corner
          * @param y The y coordinate of the bottom left hand corner
          */
-        void setPosition(int x, int y) noexcept;
+        MYGL_EXPORT void setPosition(int x, int y) noexcept;
 
         /**
          * @brief Get the camera's current position
          * @return The camera's bottom left hand corner's position
          */
-        glm::vec2 getPosition() const noexcept;
+        MYGL_EXPORT glm::vec2 getPosition() const noexcept;
 
         /**
          * @brief Sets the camera's speed, in pixels per second
          * @param speed The camera's speed, used with the frametime to produce
          *              fluid movements
          */
-        void setSpeed(float speed) noexcept;
+        MYGL_EXPORT void setSpeed(float speed) noexcept;
 
         /**
          * @brief Get the camera's speed
          * @return the camera's speed
          */
-        float getSpeed() const noexcept;
+        MYGL_EXPORT float getSpeed() const noexcept;
 
         /**
          * @name Functions related to the camera's movement
@@ -100,22 +100,22 @@ namespace my
         /**
          * @brief Moves the camera upwards
          */
-        void moveUp(float frametime) noexcept;
+        MYGL_EXPORT void moveUp(float frametime) noexcept;
 
         /**
          * @brief Moves the camera downwards
          */
-        void moveDown(float frametime) noexcept;
+        MYGL_EXPORT void moveDown(float frametime) noexcept;
 
         /**
          * @brief Moves the camera to the left
          */
-        void moveLeft(float frametime) noexcept;
+        MYGL_EXPORT void moveLeft(float frametime) noexcept;
 
         /**
          * @brief Moves the camera to the right
          */
-        void moveRight(float frametime) noexcept;
+        MYGL_EXPORT void moveRight(float frametime) noexcept;
 
         /**@}*/
 
@@ -128,7 +128,7 @@ namespace my
          *        by a Window to set its view when drawing things
          * @return The camera's "look_at" matrix
          */
-        glm::mat4 lookAt() const;
+        MYGL_EXPORT glm::mat4 lookAt() const;
     };
 
 } // namespace my

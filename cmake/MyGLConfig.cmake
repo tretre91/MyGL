@@ -1,5 +1,0 @@
-include(CMakeFindDependencyMacro)
-get_filename_component(CMAKE_DIR ${CMAKE_CURRENT_LIST_DIR} DIRECTORY)
-find_dependency(glfw3 PATHS ${CMAKE_DIR}/glfw3)
-find_dependency(Freetype 2 PATHS ${CMAKE_DIR}/freetype)
-include("${CMAKE_CURRENT_LIST_DIR}/MyGLTargets.cmake")

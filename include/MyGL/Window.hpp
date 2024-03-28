@@ -48,7 +48,7 @@ namespace my
     /**
      * @brief Class for creating a window
      */
-    class MYGL_EXPORT Window
+    class Window
     {
     private:
         static bool gladIsInitialized;
@@ -84,7 +84,7 @@ namespace my
         /**
          * @brief Default constructor, creates a 800 * 600 window
          */
-        Window();
+        MYGL_EXPORT Window();
 
         /**
          * @brief Creates a window
@@ -102,53 +102,53 @@ namespace my
          * @param GLVersionMinor The minor version of the desired OpenGL version, supported
          *                       OpenGL versions are 3.3 and 4.0 to 4.6
          */
-        Window(int width, int height, const std::string& title, unsigned int flags = my::WindowFlag::none, int antiAliasing = 0, int GLVersionMajor = 3,
+        MYGL_EXPORT Window(int width, int height, const std::string& title, unsigned int flags = my::WindowFlag::none, int antiAliasing = 0, int GLVersionMajor = 3,
           int GLVersionMinor = 3);
 
-        ~Window();
+        MYGL_EXPORT ~Window();
 
         /**
          * @brief Tells wheter a window is opened or closed
          * @return true if the window is opened, false if it is closed
          */
-        bool isRunning() const noexcept;
+        MYGL_EXPORT bool isRunning() const noexcept;
 
         /**
          * @brief Closes a window
          */
-        void close();
+        MYGL_EXPORT void close();
 
         /**
          * @brief retrieves the event in front of the event queue
          * @param e A my::Event which will hold the event's value
          * @return false if there was no event in the queue, true otherwise
          */
-        bool pollEvent(my::Event& e);
+        MYGL_EXPORT bool pollEvent(my::Event& e);
 
         /**
          * @brief Sets the window's OpenGL context current
          */
-        void setActive() noexcept;
+        MYGL_EXPORT void setActive() noexcept;
 
         /**
          * @brief Limit the window's framerate at the specified value, a call
          *        to this method will disable vsync if it was previously enabled
          * @param limit The framerate limit, 0 means unlimited
          */
-        void setFramerate(unsigned int limit);
+        MYGL_EXPORT void setFramerate(unsigned int limit);
 
         /**
          * @brief Enable or disable vsync, enabling vsync will override the framerate
          *        limit if it was previously set
          * @param enable True to enable vsync, false to disable it
          */
-        void enableVsync(bool enable);
+        MYGL_EXPORT void enableVsync(bool enable);
 
         /**
          * @brief Clears the window's content and replaces it with a background color
          * @param color The background color
          */
-        void clear(const my::Color& color) const;
+        MYGL_EXPORT void clear(const my::Color& color) const;
 
         /**
          * @brief Sets the dimensions of the window's projection matrix's frustum
@@ -158,7 +158,7 @@ namespace my
          * @param bottom The frustum's bottom coordinate
          * @param top The frustum's top coordinate
          */
-        void setClipPlanes(int left, int right, int bottom, int top);
+        MYGL_EXPORT void setClipPlanes(int left, int right, int bottom, int top);
 
         /**
          * @brief Sets the viewport's position and size
@@ -171,20 +171,20 @@ namespace my
          * @param width The viewport's width
          * @param height The viewport's height
          */
-        void setViewport(int x, int y, int width, int height);
+        MYGL_EXPORT void setViewport(int x, int y, int width, int height);
 
         /**
          * @brief Sets the camera used by this window
          * @param camera The camera which will be used to see the window's content
          */
-        void setCamera(my::Camera& camera) noexcept;
+        MYGL_EXPORT void setCamera(my::Camera& camera) noexcept;
 
         /**
          * @brief Returns the currently bound camera
          * @return A reference to the camera which is currently attached to the
          *         window
          */
-        my::Camera& getCamera() noexcept;
+        MYGL_EXPORT my::Camera& getCamera() noexcept;
 
         /**
          * @brief Sets the size of the window's rendering area
@@ -197,13 +197,13 @@ namespace my
          *                       to the same size as the window (with a call to setClipPlanes(0, width, 0, height)
          *                       and setViewport(0, 0, width, height)
          */
-        void setSize(unsigned int width, unsigned int height, bool resizeViewport = false);
+        MYGL_EXPORT void setSize(unsigned int width, unsigned int height, bool resizeViewport = false);
 
         /**
          * @brief Gives the window's size
          * @return The size of the window's viewport (rendering area) in pixels
          */
-        glm::ivec2 getSize() const noexcept;
+        MYGL_EXPORT glm::ivec2 getSize() const noexcept;
 
         /**
          * @brief Sets the window's icon
@@ -211,30 +211,30 @@ namespace my
          *        channels (RGBA). Passing a default constructed or an invalid
          *        Image will revert to the default window icon
          */
-        void setIcon(const Image& icon);
+        MYGL_EXPORT void setIcon(const Image& icon);
 
         /**
          * @brief Sets the cursor used by this window
          * @param cursor The new cursor to use
          */
-        void setCursor(const Cursor& cursor) noexcept;
+        MYGL_EXPORT void setCursor(const Cursor& cursor) noexcept;
 
         /**
          * @brief Draws a shape
          * @param shape The shape to draw, it must inherit from AbstractShape
          */
-        void draw(my::AbstractShape& shape) const;
+        MYGL_EXPORT void draw(my::AbstractShape& shape) const;
 
         /**
          * @brief Refreshes the window to display all the things which have been drawn
          */
-        void display() const;
+        MYGL_EXPORT void display() const;
 
         /**
          * @brief Indicates the time that the last frame took to render
          * @return The window's frametime in seconds
          */
-        double getFrametime() const;
+        MYGL_EXPORT double getFrametime() const;
 
         static void* getGLProcAdress(const char* name);
     };

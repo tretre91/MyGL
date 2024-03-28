@@ -10,7 +10,7 @@ namespace my
     /**
      * @brief A class for manipulating imges
      */
-    class MYGL_EXPORT Image
+    class Image
     {
     private:
         std::shared_ptr<uint8_t> p_data;
@@ -23,7 +23,7 @@ namespace my
          * @brief Default constructor
          * This constructor does not produce a valid Image
          */
-        Image() = default;
+        MYGL_EXPORT Image() = default;
 
         /**
          * @brief Creates an Image from a file
@@ -31,7 +31,7 @@ namespace my
          * @param flip Indicates if the image should be vertically flipped (useful for OpenGL textures)
          * @param desiredChannels The number of channels the loaded image should have
          */
-        Image(const std::string& filename, bool flip = false, int desiredChannels = 0);
+        MYGL_EXPORT Image(const std::string& filename, bool flip = false, int desiredChannels = 0);
 
         /**
          * @brief Loads an image from an array of pixels
@@ -41,9 +41,9 @@ namespace my
          * @param numberOfChannels The number of channels in the image
          * @param flip Indicates if the image should be vertically flipped
          */
-        Image(const uint8_t* data, size_t width, size_t height, int numberOfChannels, bool flip = false);
+        MYGL_EXPORT Image(const uint8_t* data, size_t width, size_t height, int numberOfChannels, bool flip = false);
 
-        ~Image() = default;
+        MYGL_EXPORT ~Image() = default;
 
         /**
          * @brief Loads an image stored in a file
@@ -52,7 +52,7 @@ namespace my
          * @param desiredChannels The number of channels the loaded image should have
          * @return true if the image was successfully loaded, false otherwise
          */
-        bool load(const std::string& filename, bool flip = false, int desiredChannels = 0);
+        MYGL_EXPORT bool load(const std::string& filename, bool flip = false, int desiredChannels = 0);
 
         /**
          * @brief Loads an image from an array of pixels
@@ -63,37 +63,37 @@ namespace my
          * @param flip Indicates if the image should be vertically flipped
          * @return true if the image was successfully loaded, false otherwise
          */
-        bool load(const uint8_t* data, size_t width, size_t height, int numberOfChannels, bool flip = false);
+        MYGL_EXPORT bool load(const uint8_t* data, size_t width, size_t height, int numberOfChannels, bool flip = false);
 
         /**
          * @brief Tells whether the image is usable
          * @return true if the image can be used
          */
-        bool isUsable() const noexcept;
+        MYGL_EXPORT bool isUsable() const noexcept;
 
         /**
          * @brief Returns a read only pointer to the pixel array
          * @return
          */
-        const uint8_t* data() const noexcept;
+        MYGL_EXPORT const uint8_t* data() const noexcept;
 
         /**
          * @brief Indicates the image's width
          * @return The image's width
          */
-        size_t getWidth() const noexcept;
+        MYGL_EXPORT size_t getWidth() const noexcept;
 
         /**
          * @brief Indicates the image's height
          * @return The image's height
          */
-        size_t getHeight() const noexcept;
+        MYGL_EXPORT size_t getHeight() const noexcept;
 
         /**
          * @brief Indicates the number of channels in the image
          * @return The number of channels
          */
-        int getChannels() const noexcept;
+        MYGL_EXPORT int getChannels() const noexcept;
     };
 } // namespace my
 

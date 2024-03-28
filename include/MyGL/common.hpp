@@ -43,7 +43,7 @@ namespace my
      * @brief Sleeps for a certain amount of time
      * @param nanoseconds The sleep time in nanoseconds
      */
-    MYGL_EXPORT void sleep(unsigned long long nanoseconds);
+    MYGL_EXPORT void sleep(unsigned long long nanoseconds); // TODO
 
 } // namespace my
 

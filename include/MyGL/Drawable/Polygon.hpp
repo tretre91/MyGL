@@ -13,7 +13,7 @@ namespace my
     /**
      * @brief Class for creating regular polygons of 3 or more sides
      */
-    class MYGL_EXPORT Polygon : public AbstractShape
+    class Polygon : public AbstractShape
     {
     private:
         struct GLinfo {
@@ -52,14 +52,14 @@ namespace my
         /**
          * @brief Creates a triangle of radius 10
          */
-        Polygon();
+        MYGL_EXPORT Polygon();
 
         /**
          * @brief Creates a n-sided regular polygon with the specified radius
          * @param sides The number of sides (at least 3)
          * @param radius The polygon's radius
          */
-        Polygon(unsigned int sides, int radius);
+        MYGL_EXPORT Polygon(unsigned int sides, int radius);
 
         /**
          * @brief Creates a n-sided regular polygon with the specified radius
@@ -69,20 +69,20 @@ namespace my
          * @param x The x coordinate of the center
          * @param y The y coordinate of the center
          */
-        Polygon(unsigned int sides, int radius, int x, int y);
+        MYGL_EXPORT Polygon(unsigned int sides, int radius, int x, int y);
 
         /**
          * @brief Changes the number of sides of a polygon
          * @param sides The new number of sides
          */
-        void setSides(unsigned int sides);
+        MYGL_EXPORT void setSides(unsigned int sides);
 
         /**
          * @brief Draws a polygon, this method is called by a window
          * @param lookAt The view matrix (usually provided by the window)
          * @param projection The projection matrix (also provided by the window)
          */
-        virtual void draw(const glm::mat4& lookAt, const glm::mat4& projection) const override;
+        MYGL_EXPORT virtual void draw(const glm::mat4& lookAt, const glm::mat4& projection) const override;
     };
 
 } // namespace my

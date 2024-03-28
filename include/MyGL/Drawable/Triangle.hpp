@@ -13,7 +13,7 @@ namespace my
     /**
      * @brief Class for creating triangles
      */
-    class MYGL_EXPORT Triangle : public AbstractShape
+    class Triangle : public AbstractShape
     {
     private:
         unsigned int m_vao;
@@ -34,13 +34,13 @@ namespace my
          * @param x2, y2 The second point's coordinates
          * @param x3, y3 The third point's coordinates
          */
-        Triangle(float x1, float y1, float x2, float y2, float x3, float y3);
+        MYGL_EXPORT Triangle(float x1, float y1, float x2, float y2, float x3, float y3);
 
         /**
          * @brief Creates a triangle from 3 points
          * @param p1, p2, p3 The triangle's points
          */
-        Triangle(glm::vec2 p1, glm::vec2 p2, glm::vec2 p3);
+        MYGL_EXPORT Triangle(glm::vec2 p1, glm::vec2 p2, glm::vec2 p3);
 
         /**
          * @brief Moves the triangle to (x,y)
@@ -49,7 +49,7 @@ namespace my
          * @param center If true, set the triangle's centroid at (x,y), else sets its
          *               bottom left hand corner at (x,y). Default value is false
          */
-        void setPosition(int x, int y, bool center = false) override;
+        MYGL_EXPORT void setPosition(int x, int y, bool center = false) override;
 
         /**
          * @brief Moves the triangle to a specified position
@@ -57,14 +57,14 @@ namespace my
          * @param center If true, set the triangle's centroid at 'pos', else sets its
          *               bottom left hand corner. Default value is false
          */
-        void setPosition(const glm::vec2& pos, bool center = false) override;
+        MYGL_EXPORT void setPosition(const glm::vec2& pos, bool center = false) override;
 
         /**
          * @brief Draws the triangle, this method is called by a window
          * @param lookAt The view matrix (usually provided by the window)
          * @param projection The projection matrix (also provided by the window)
          */
-        void draw(const glm::mat4& lookAt, const glm::mat4& projection) const override;
+        MYGL_EXPORT void draw(const glm::mat4& lookAt, const glm::mat4& projection) const override;
     };
 } // namespace my
 

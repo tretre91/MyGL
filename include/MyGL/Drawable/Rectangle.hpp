@@ -12,7 +12,7 @@ namespace my
     /**
      * @brief Class for creating rectangles
      */
-    class MYGL_EXPORT Rectangle : public AbstractShape
+    class Rectangle : public AbstractShape
     {
     protected:
         static unsigned int VAO;
@@ -36,14 +36,14 @@ namespace my
         /**
          * @brief Default constructor for the Rectangle class, constructs a grey 10*10 square
          */
-        Rectangle();
+        MYGL_EXPORT Rectangle();
 
         /**
          * @brief Constructs a width * height rectangle
          * @param width The rectangle's width
          * @param height The rectangle's height
          */
-        Rectangle(int width, int height);
+        MYGL_EXPORT Rectangle(int width, int height);
 
         /**
          * @brief Constructs a width * heigth rectangle whose center's coordinate is (x,y)
@@ -52,14 +52,14 @@ namespace my
          * @param x The x coordinate of the rectangle's center
          * @param y The y coordinate of the rectangle's center
          */
-        Rectangle(int width, int height, int x, int y);
+        MYGL_EXPORT Rectangle(int width, int height, int x, int y);
 
         /**
          * @brief Draws a rectangle, this method is called by a window
          * @param lookAt The view matrix (usually provided by the window)
          * @param projection The projection matrix (also provided by the window)
          */
-        virtual void draw(const glm::mat4& lookAt, const glm::mat4& projection) const override;
+        MYGL_EXPORT virtual void draw(const glm::mat4& lookAt, const glm::mat4& projection) const override;
     };
 
     /** @relates my::Rectangle

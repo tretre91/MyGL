@@ -1,0 +1,80 @@
+name: Build
+
+on: 
+  push:
+    paths:
+      - meson.build
+      - src/**
+      - include/**
+      - examples/**
+      - misc/ci_test_file.cpp
+      - .github/workflows/**
+
+jobs:
+  linux-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install libraries
+        run: |
+          sudo apt install -y ninja libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libxext-dev
+          sudo pip3 install meson
+        
+      - name: Configure
+        run: |
+          mkdir ${{github.workspace}}/user_test
+          meson wrap update-db 
+          meson setup build -Dmygl_build_examples=true --default-libray=both --prefix=${{github.workspace}}/install --buildtype=release
+        
+      - name: Build and Install the library
+        working-directory: ${{github.workspace}}/build
+        run: |
+          meson compile
+          meson install
+        
+      - name: Check compilation against static libs
+        working-directory: ${{github.workspace}}/user_test
+        run: |
+          g++ -c ${{github.workspace}}/misc/ci_test_file.cpp -I${{github.workspace}}/install/include/ -I${{github.workspace}}/install/include/freetype2 -DMYGL_STATIC_DEFINE
+          g++ ci_test_file.o -o test ${{github.workspace}}/install/lib64/libmygl.a -L${{github.workspace}}/install/lib/ -lglfw -lfreetype -ldl -lpthread
+
+      - name: Check compilation against shared libs
+        working-directory: ${{github.workspace}}/user_test
+        run: |
+          g++ -c ${{github.workspace}}/misc/ci_test_file.cpp -I${{github.workspace}}/install/include/ -I${{github.workspace}}/install/include/freetype2 
+          g++ ci_test_file.o -o test -L${{github.workspace}}/install/lib64/ -lmygl -lglfw -lfreetype -ldl -lpthread
+
+  windows-build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Install dependencies
+        run: |
+          choco -y install ninja
+          pip3 install meson
+
+      - name: Configure
+        run: |
+          mkdir ${{github.workspace}}/user_test
+          meson wrap update-db 
+          meson setup build -Dmygl_build_examples=true --default-libray=both --prefix=${{github.workspace}}/install --buildtype=release
+        
+      - name: Build and Install the library
+        working-directory: ${{github.workspace}}/build
+        run: |
+          meson compile
+          meson install
+      
+      - name: Check compilation against static libs
+        working-directory: ${{github.workspace}}/user_test
+        run: cl ${{github.workspace}}/misc/ci_test_file.cpp mygl-static.lib glfw3.lib freetype.lib opengl32.lib gdi32.lib user32.lib shell32.lib winmm.lib /MT /Fe:test /I ${{github.workspace}}/install/include /I ${{github.workspace}}/install/include/freetype2 /D MYGL_STATIC_DEFINE /link /LIBPATH:${{github.workspace}}/install/lib
+      
+      - name: Check compilation against shared libs
+        working-directory: ${{github.workspace}}/user_test
+        run: |
+          cl ${{github.workspace}}/misc/ci_test_file.cpp mygl.lib glfw3.lib freetype.lib opengl32.lib gdi32.lib user32.lib shell32.lib winmm.lib /MT /Fe:test /I ${{github.workspace}}/install/include /I ${{github.workspace}}/install/include/freetype2 /link /LIBPATH:${{github.workspace}}/install/lib

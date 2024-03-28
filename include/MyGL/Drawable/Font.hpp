@@ -17,7 +17,7 @@ namespace my
     /**
      * @brief Class for storing a font
      */
-    class MYGL_EXPORT Font
+    class Font
     {
     private:
         static FT_Library ftLib;
@@ -47,7 +47,7 @@ namespace my
         /**
          * @brief Default constructor, doesn't produce a usable font
          */
-        Font();
+        MYGL_EXPORT Font();
 
         /**
          * @brief Creates a font from a font file
@@ -57,16 +57,16 @@ namespace my
          *
          * @param fontFilename The path to the font file
          */
-        Font(const std::string& fontFilename);
+        MYGL_EXPORT Font(const std::string& fontFilename);
 
         /**
          * @brief Loads a font
          * @param fontFilename The path to the desired font
          * @return False if an error occured, true otherwise
          */
-        bool load(const std::string& fontFilename);
+        MYGL_EXPORT bool load(const std::string& fontFilename);
 
-        ~Font();
+        MYGL_EXPORT ~Font();
 
         friend class Text;
     };

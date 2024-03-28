@@ -15,7 +15,7 @@ namespace my
     /**
      * @brief A class for storing custom cursors
      */
-    class MYGL_EXPORT Cursor
+    class Cursor
     {
     private:
         std::shared_ptr<GLFWcursor> p_cursor;
@@ -55,7 +55,7 @@ namespace my
         /**
          * @brief Creates a default arrow cursor
          */
-        Cursor() noexcept;
+        MYGL_EXPORT Cursor() noexcept;
 
         /**
          * @brief Creates a cursor from an image file
@@ -69,9 +69,9 @@ namespace my
          * @param xhot The x coordinate of the cursor's hotspot
          * @param yhot The y coordinate of the cursor's hotspot
          */
-        Cursor(const Image& image, int xhot, int yhot);
+        MYGL_EXPORT Cursor(const Image& image, int xhot, int yhot);
 
-        ~Cursor() = default;
+        MYGL_EXPORT ~Cursor() = default;
 
         /**
          * @brief Loads a cursor fron an image file
@@ -80,13 +80,13 @@ namespace my
          * @param yhot The y coordinate of the cursor's hotpoint
          * @return true if the cursor was successfully created
          */
-        bool load(const Image& image, int xhot, int yhot);
+        MYGL_EXPORT bool load(const Image& image, int xhot, int yhot);
 
         /**
          * @brief Tells wether the cursor is usable
          * @return true if the cursor can be used
          */
-        bool isUsable() const noexcept;
+        MYGL_EXPORT bool isUsable() const noexcept;
 
         friend class Window;
     };

@@ -11,7 +11,7 @@ namespace my
     /**
      * @brief Class for storing a shader
      */
-    class MYGL_EXPORT Shader
+    class Shader
     {
     private:
         std::shared_ptr<unsigned int> p_shaderId;
@@ -27,14 +27,14 @@ namespace my
         /**
          * @brief Creates an empty shader
          */
-        Shader() noexcept = default;
+        MYGL_EXPORT Shader() noexcept = default;
 
         /**
          * @brief Creates a shader with a given type and its source code in a c string
          * @param sourceCode A string which holds the shader's source code
          * @param type The shader's type (one of Vertex, Fragment and Geometry)
          */
-        Shader(const std::string& sourceCode, Type type);
+        MYGL_EXPORT Shader(const std::string& sourceCode, Type type);
 
         /**
          * @brief Destructor
@@ -42,7 +42,7 @@ namespace my
          * The destructor deletes the underlying OpenGL shader object (it has no effect
          * on Shader programs which have already linked this shader).
          */
-        ~Shader() = default;
+        MYGL_EXPORT ~Shader() = default;
 
         /**
          * @brief Loads a shader from a file
@@ -51,7 +51,7 @@ namespace my
          * @return True if the file was read succesfully and the shader was compiled
          *         without errors, false otherwise
          */
-        bool loadFromFile(const std::string& filename, Type type);
+        MYGL_EXPORT bool loadFromFile(const std::string& filename, Type type);
 
         /**
          * @brief Loads a shader from a string
@@ -59,13 +59,13 @@ namespace my
          * @param type The shader's type (one of Vertex, Fragment and Geometry
          * @return True if the shader was compiled without errors, false otherwise
          */
-        bool loadFromString(const std::string& sourceCode, Type type);
+        MYGL_EXPORT bool loadFromString(const std::string& sourceCode, Type type);
 
         /**
          * @brief Indicates if the shader is usable
          * @return True if the shades is usable, false otherwise
          */
-        bool isUsable() const noexcept;
+        MYGL_EXPORT bool isUsable() const noexcept;
 
         friend class ShaderProgram;
     };
