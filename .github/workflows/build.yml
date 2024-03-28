@@ -19,14 +19,14 @@ jobs:
 
       - name: Install libraries
         run: |
-          sudo apt install -y ninja libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libxext-dev
+          sudo apt install -y ninja-build libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libxext-dev
           sudo pip3 install meson
         
       - name: Configure
         run: |
           mkdir ${{github.workspace}}/user_test
           meson wrap update-db 
-          meson setup build -Dmygl_build_examples=true --default-libray=both --prefix=${{github.workspace}}/install --buildtype=release
+          meson setup --default-libray=both --prefix=${{github.workspace}}/install --buildtype=release -Dmygl_build_examples=true build
         
       - name: Build and Install the library
         working-directory: ${{github.workspace}}/build
@@ -62,7 +62,7 @@ jobs:
         run: |
           mkdir ${{github.workspace}}/user_test
           meson wrap update-db 
-          meson setup build -Dmygl_build_examples=true --default-libray=both --prefix=${{github.workspace}}/install --buildtype=release
+          meson setup --default-libray=both --prefix=${{github.workspace}}/install --buildtype=release -Dmygl_build_examples=true build
         
       - name: Build and Install the library
         working-directory: ${{github.workspace}}/build
