@@ -26,7 +26,7 @@ jobs:
         run: |
           mkdir ${{github.workspace}}/user_test
           meson wrap update-db 
-          meson setup --default-libray=both --prefix=${{github.workspace}}/install --buildtype=release -Dmygl_build_examples=true build
+          meson setup build --default-library=both --prefix=${{github.workspace}}/install --buildtype=release -Dmygl_build_examples=true
         
       - name: Build and Install the library
         working-directory: ${{github.workspace}}/build
@@ -62,7 +62,7 @@ jobs:
         run: |
           mkdir ${{github.workspace}}/user_test
           meson wrap update-db 
-          meson setup --default-libray=both --prefix=${{github.workspace}}/install --buildtype=release -Dmygl_build_examples=true build
+          meson setup build --default-library=both --prefix=${{github.workspace}}/install --buildtype=release -Dmygl_build_examples=true
         
       - name: Build and Install the library
         working-directory: ${{github.workspace}}/build
