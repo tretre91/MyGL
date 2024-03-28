@@ -19,7 +19,7 @@ jobs:
 
       - name: Install libraries
         run: |
-          sudo apt install -y ninja-build libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libxext-dev
+          sudo apt install -y ninja-build libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libxext-dev libxkbcommon-dev
           sudo pip3 install meson
         
       - name: Configure

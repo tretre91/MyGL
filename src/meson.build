@@ -33,8 +33,8 @@ include_dir = '..' / 'include'
 
 mygl = library('mygl', mygl_sources,
         cpp_args : ['-DUTF_CPP_CPLUSPLUS=201703L'],
-        c_static_args : ['-DMYGL_STATIC_DEFINE'],
-        cpp_static_args : ['-DMYGL_STATIC_DEFINE'],
+        c_static_args : ['-DMYGL_STATIC'],
+        cpp_static_args : ['-DMYGL_STATIC'],
         c_shared_args : ['-DMYGL_BUILD'],
         cpp_shared_args : ['-DMYGL_BUILD'],
         include_directories: include_dir,
