@@ -70,6 +70,9 @@ namespace my
          * @param y y coordinate of the center
          */
         MYGL_EXPORT AbstractShape(int width, int height, int x, int y);
+        
+        /** @brief Default destructor */
+        MYGL_EXPORT virtual ~AbstractShape();
 
         /**
          * @brief Returns the size of the shape

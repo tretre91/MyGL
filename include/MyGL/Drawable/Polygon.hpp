@@ -71,6 +71,9 @@ namespace my
          */
         MYGL_EXPORT Polygon(unsigned int sides, int radius, int x, int y);
 
+        /** @brief Default destructor */
+        MYGL_EXPORT ~Polygon() override;
+
         /**
          * @brief Changes the number of sides of a polygon
          * @param sides The new number of sides

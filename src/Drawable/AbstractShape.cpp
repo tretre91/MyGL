@@ -81,6 +81,8 @@ namespace my
         setPosition(x, y, true);
     }
 
+    AbstractShape::~AbstractShape() {}
+
     glm::vec2 AbstractShape::getSize() const noexcept {
         return 2.0f * m_originalScale * m_scaleFactor;
     }

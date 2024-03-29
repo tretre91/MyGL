@@ -43,6 +43,9 @@
 #define GLAPIENTRY APIENTRY
 #endif
 
+
+#include "../MyGL/mygl_export.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

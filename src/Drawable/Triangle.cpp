@@ -66,6 +66,8 @@ namespace my
 
     Triangle::Triangle(glm::vec2 p1, glm::vec2 p2, glm::vec2 p3) : Triangle(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y) {}
 
+    Triangle::~Triangle() {}
+
     void Triangle::setPosition(int x, int y, bool center) {
         setPosition(glm::vec2(static_cast<float>(x), static_cast<float>(y)), center);
     }

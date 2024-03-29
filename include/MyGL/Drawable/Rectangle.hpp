@@ -54,6 +54,9 @@ namespace my
          */
         MYGL_EXPORT Rectangle(int width, int height, int x, int y);
 
+        /** @brief Default destructor */
+        MYGL_EXPORT ~Rectangle() override;
+
         /**
          * @brief Draws a rectangle, this method is called by a window
          * @param lookAt The view matrix (usually provided by the window)

@@ -89,6 +89,8 @@ namespace my
         setPosition(x, y, true);
     }
 
+    Polygon::~Polygon() {}
+
     void Polygon::setSides(unsigned int sides) {
         m_sides = sides < 3 ? 3 : sides;
         glInit(m_sides);

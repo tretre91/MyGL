@@ -44,6 +44,8 @@ namespace my
         glInit();
     }
 
+    Rectangle::~Rectangle() {}
+
     std::vector<glm::vec2> Rectangle::points() const {
         glm::mat4 transform;
         if (m_updateMatrix) {

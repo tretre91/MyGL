@@ -57,6 +57,9 @@ namespace my
         MYGL_EXPORT Text(const std::u32string& text, my::Font& font, unsigned int size = 30u);
         /** @} */
 
+        /** @brief Default destructor */
+        MYGL_EXPORT ~Text() override;
+
         /** @name Setters
             @{ */
         /**

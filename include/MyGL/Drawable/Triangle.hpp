@@ -41,6 +41,9 @@ namespace my
          * @param p1, p2, p3 The triangle's points
          */
         MYGL_EXPORT Triangle(glm::vec2 p1, glm::vec2 p2, glm::vec2 p3);
+        
+        /** @brief Default destructor */
+        MYGL_EXPORT ~Triangle() override;
 
         /**
          * @brief Moves the triangle to (x,y)

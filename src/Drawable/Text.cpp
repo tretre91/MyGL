@@ -81,21 +81,23 @@ namespace my
         m_shader = textShader;
     }
 
-    my::Text::Text(const std::string& text, my::Font& font, unsigned int size) : m_text(text), m_font(font), m_size(size) {
+    Text::Text(const std::string& text, my::Font& font, unsigned int size) : m_text(text), m_font(font), m_size(size) {
         init();
     }
 
-    my::Text::Text(const std::wstring& text, my::Font& font, unsigned int size) : m_text(wstring_to_utf8(text)), m_font(font), m_size(size) {
+    Text::Text(const std::wstring& text, my::Font& font, unsigned int size) : m_text(wstring_to_utf8(text)), m_font(font), m_size(size) {
         init();
     }
 
-    my::Text::Text(const std::u16string& text, my::Font& font, unsigned int size) : m_text(utf8::utf16to8(text)), m_font(font), m_size(size) {
+    Text::Text(const std::u16string& text, my::Font& font, unsigned int size) : m_text(utf8::utf16to8(text)), m_font(font), m_size(size) {
         init();
     }
 
-    my::Text::Text(const std::u32string& text, my::Font& font, unsigned int size) : m_text(utf8::utf32to8(text)), m_font(font), m_size(size) {
+    Text::Text(const std::u32string& text, my::Font& font, unsigned int size) : m_text(utf8::utf32to8(text)), m_font(font), m_size(size) {
         init();
     }
+
+    Text::~Text() {}
 
     void Text::setContent(const std::string& text) {
         m_text = text;
