@@ -37,13 +37,13 @@ jobs:
       - name: Check compilation against static libs
         working-directory: ${{github.workspace}}/user_test
         run: |
-          g++ -c ${{github.workspace}}/misc/ci_test_file.cpp -I${{github.workspace}}/install/include/ -I${{github.workspace}}/install/include/MyGL -I${{github.workspace}}/install/include/freetype2 -DMYGL_STATIC_DEFINE
+          g++ -c ${{github.workspace}}/misc/ci_test_file.cpp $(pkg-config --cflags ${{github.workspace}}/install/lib64/{mygl.pc,freetype2.pc,glfw3.pc}) -DMYGL_STATIC_DEFINE
           g++ ci_test_file.o -o test ${{github.workspace}}/install/lib64/libmygl.a -L${{github.workspace}}/install/lib64/ -lglfw -lfreetype -ldl -lpthread
 
       - name: Check compilation against shared libs
         working-directory: ${{github.workspace}}/user_test
         run: |
-          g++ -c ${{github.workspace}}/misc/ci_test_file.cpp -I${{github.workspace}}/install/include/ -I${{github.workspace}}/install/include/MyGL -I${{github.workspace}}/install/include/freetype2 
+          g++ -c ${{github.workspace}}/misc/ci_test_file.cpp $(pkg-config --cflags ${{github.workspace}}/install/lib64/{mygl.pc,freetype2.pc,glfw3.pc})
           g++ ci_test_file.o -o test -L${{github.workspace}}/install/lib64/ -lmygl -lglfw -lfreetype -ldl -lpthread
 
   windows-build:
