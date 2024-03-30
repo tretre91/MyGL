@@ -3,9 +3,9 @@
 
 #include "mygl_export.h"
 
+#include <glad/gl.h>
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
-#include <glad/glad.h>
 
 #include "Camera.hpp"
 #include "Color.hpp"

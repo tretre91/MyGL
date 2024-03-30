@@ -1,6 +1,6 @@
 #include <MyGL/Drawable/Triangle.hpp>
 #include <algorithm>
-#include <glad/glad.h>
+#include <glad/gl.h>
 
 namespace my
 {

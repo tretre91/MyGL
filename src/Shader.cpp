@@ -1,6 +1,6 @@
 #include <MyGL/Shader.hpp>
 #include <fstream>
-#include <glad/glad.h>
+#include <glad/gl.h>
 #include <iostream>
 #include <sstream>
 

@@ -20,7 +20,7 @@ mygl_sources = files([
 ])
 
 # dependencies
-glfw = dependency('glfw3', default_options: { 'install': true,})
+glfw = dependency('glfw3', default_options: { 'install': true })
 freetype = dependency('freetype2')
 utf = dependency('utf8cpp')
 # find winmm (windows only)

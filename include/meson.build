@@ -20,7 +20,7 @@ mygl_headers = files([
 ])
 
 if not get_option('mygl_docs_only')
-  install_headers(mygl_headers, 'glad/glad.h', 'KHR/khrplatform.h', 'stb_image.h',
+  install_headers(mygl_headers, 'glad/gl.h', 'stb_image.h',
     preserve_path : true,
     subdir : 'MyGL'
   )

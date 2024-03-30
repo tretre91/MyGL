@@ -77,7 +77,7 @@ namespace my
         glfwMakeContextCurrent(p_window);
 
         if (!gladIsInitialized) {
-            if (gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)) == 0) {
+            if (gladLoadGL(glfwGetProcAddress) == 0) {
                 std::cerr << "ERROR::GLAD: Failed to initialize GLAD\n";
                 glfwDestroyWindow(p_window);
                 glfwTerminate();

@@ -4,7 +4,7 @@
 #include "../mygl_export.h"
 
 #include <ft2build.h>
-#include <glad/glad.h>
+#include <glad/gl.h>
 #include FT_FREETYPE_H
 
 #include "../Texture.hpp"

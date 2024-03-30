@@ -4,7 +4,7 @@
 #include "mygl_export.h"
 #include "Shader.hpp"
 
-#include <glad/glad.h>
+#include <glad/gl.h>
 #include <glm/glm.hpp>
 
 #include <iostream>
