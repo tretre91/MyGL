@@ -40,13 +40,13 @@ jobs:
       - name: Check compilation against static libs
         working-directory: ${{github.workspace}}/user_test
         run: |
-          g++ -c ${{github.workspace}}/misc/ci_test_file.cpp $(pkg-config --cflags mygl.pc) -DMYGL_STATIC_DEFINE
+          g++ -c ${{github.workspace}}/misc/ci_test_file.cpp $(pkg-config --cflags mygl) -DMYGL_STATIC_DEFINE
           g++ ci_test_file.o -o test ${{github.workspace}}/install/lib/x86_64-linux-gnu/libmygl.a -L${{github.workspace}}/install/lib/x86_64-linux-gnu/ -lglfw -lfreetype -ldl -lpthread
 
       - name: Check compilation against shared libs
         working-directory: ${{github.workspace}}/user_test
         run: |
-          g++ -c ${{github.workspace}}/misc/ci_test_file.cpp $(pkg-config --cflags mygl.pc)
+          g++ -c ${{github.workspace}}/misc/ci_test_file.cpp $(pkg-config --cflags mygl)
           g++ ci_test_file.o -o test -L${{github.workspace}}/install/lib/x86_64-linux-gnu/ -lmygl -lglfw -lfreetype -ldl -lpthread
 
   windows-build:
