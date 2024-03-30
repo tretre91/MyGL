@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['line_0',['line',['../classmy_1_1_rectangle.html#a28b72e4d16006e71aa8742a860177dd9',1,'my::Rectangle']]],
-  ['link_1',['link',['../classmy_1_1_shader_program.html#a389ae784c7f2bbfc0deb3bb2db922fdf',1,'my::ShaderProgram']]],
-  ['load_2',['load',['../classmy_1_1_cursor.html#aa500abd3badb5d0be7c212ea03ef0d07',1,'my::Cursor::load()'],['../classmy_1_1_font.html#ac56c7da5c56392d0436d8ce8ac550d92',1,'my::Font::load()'],['../classmy_1_1_image.html#a27c1fd023c46c0668e7ab9a1372b40b5',1,'my::Image::load(const std::string &amp;filename, bool flip=false, int desiredChannels=0)'],['../classmy_1_1_image.html#a722d2c058098d5b0630fe04a5ec2b7ea',1,'my::Image::load(const uint8_t *data, size_t width, size_t height, int numberOfChannels, bool flip=false)'],['../classmy_1_1_texture.html#ab2f83332acf6c38c4a9f9a43163c6b9e',1,'my::Texture::load(const std::string &amp;filename)'],['../classmy_1_1_texture.html#a0a39f65955f78b39c6aaffda01bf74fd',1,'my::Texture::load(const Image &amp;image)']]],
-  ['loadfromfile_3',['loadFromFile',['../classmy_1_1_shader.html#a6bd9dc9edb7314ed7c49420fd705f4ed',1,'my::Shader']]],
-  ['loadfromstring_4',['loadFromString',['../classmy_1_1_shader.html#a81a9f6332634ad7c72ab82b0e0809cff',1,'my::Shader']]],
-  ['lookat_5',['lookAt',['../classmy_1_1_camera.html#a7c2382f0aad4652b3b6d9c0cd0ebd215',1,'my::Camera']]]
+  ['line_206',['line',['../classmy_1_1_rectangle.html#a28b72e4d16006e71aa8742a860177dd9',1,'my::Rectangle']]],
+  ['link_207',['link',['../classmy_1_1_shader_program.html#aba598b0b2337d7b5b74c3bc9c869930c',1,'my::ShaderProgram']]],
+  ['load_208',['load',['../classmy_1_1_cursor.html#a4119d81ab58c799ef533574375ad51c2',1,'my::Cursor::load()'],['../classmy_1_1_font.html#a378f28ad708e7828040873ff947b41a0',1,'my::Font::load()'],['../classmy_1_1_image.html#a0d5f6d601b1ec71227ca276fa5f18064',1,'my::Image::load(const std::string &amp;filename, bool flip=false, int desiredChannels=0)'],['../classmy_1_1_image.html#a05b993b2ebec33a4e784250dede4bc2c',1,'my::Image::load(const uint8_t *data, size_t width, size_t height, int numberOfChannels, bool flip=false)'],['../classmy_1_1_texture.html#ad746e867e39e199c57471298716b7dca',1,'my::Texture::load(const std::string &amp;filename)'],['../classmy_1_1_texture.html#a6c7e1773bf6622d06c6d7dae292c7d5b',1,'my::Texture::load(const Image &amp;image)']]],
+  ['loadfromfile_209',['loadFromFile',['../classmy_1_1_shader.html#a787390337d00218b25d512b8f39a9830',1,'my::Shader']]],
+  ['loadfromstring_210',['loadFromString',['../classmy_1_1_shader.html#abc31cafe27742d0e55b43ac06a9ee549',1,'my::Shader']]],
+  ['lookat_211',['lookAt',['../classmy_1_1_camera.html#ae7d5e732dc472f2221def828494ce2e4',1,'my::Camera']]]
 ];

@@ -1,23 +1,5 @@
-doxygen-awesome-dark-mode-toggle:after {
-  content: none;
-}
-
-#dark-mode-toggle-icon {
-  width: 100%;
-  height: 100%;
-  padding: 15%;
-}
-
-hr.footer {
-  margin-bottom: 1px;
-}
-
-address.footer {
-  margin-bottom: 5px;
-}
-
 html.dark-mode {
-  --note-color: rgb(221, 159, 0);
-  --note-color-dark: rgb(130, 94, 0);
-  --warning-color-darker: rgb(236, 205, 203);
+  --warning-color: #f3a600;
+  --warning-color-dark: #5f4204;
+  --warning-color-darker: #faf3d8;
 }
