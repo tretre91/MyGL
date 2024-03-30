@@ -7,14 +7,20 @@ markdown_sources = [
 ]
 
 da_dir = meson.current_source_dir() / 'doxygen-awesome'
-stylesheets = [da_dir / 'doxygen-awesome.css', da_dir / 'custom-style.css']
+
+stylesheets = [
+  da_dir / 'doxygen-awesome.css',
+  da_dir / 'doxygen-awesome-sidebar-only.css',
+  da_dir / 'doxygen-awesome-sidebar-only-darkmode-toggle.css',
+  da_dir / 'custom-style.css',
+]
+
 html_header = da_dir / 'header.html'
-html_footer = da_dir / 'footer.html'
+
 extra_files = [
   da_dir / 'doxygen-awesome-darkmode-toggle.js',
-  da_dir / 'footer.js',
-  da_dir / 'img' / 'dark_mode_black_24dp.svg',
-  da_dir / 'img' / 'light_mode_white_24dp.svg',
+  da_dir / 'doxygen-awesome-fragment-copy-button.js',
+  da_dir / 'doxygen-awesome-paragraph-link.js',
 ]
 
 input_dir = meson.source_root() / 'include' / 'MyGL'
@@ -23,7 +29,6 @@ output_dir = meson.current_build_dir()
 doxyfile_config = configuration_data({
   'MARKDOWN_SOURCES': ' '.join(markdown_sources),
   'HTML_HEADER': html_header,
-  'HTML_FOOTER': html_footer,
   'CUSTOM_CSS': ' '.join(stylesheets),
   'EXTRA_FILES': ' '.join(extra_files),
 })
@@ -41,7 +46,6 @@ docs = custom_target('docs',
     doxyfile,
     markdown_sources,
     html_header,
-    html_footer,
     stylesheets,
     mygl_headers,
   ],

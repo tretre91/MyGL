@@ -1,5 +1,4 @@
-[![Windows build](https://github.com/tretre91/MyGL/actions/workflows/windows.yml/badge.svg)](https://github.com/tretre91/MyGL/actions/workflows/windows.yml)
-[![Linux build](https://github.com/tretre91/MyGL/actions/workflows/linux.yml/badge.svg)](https://github.com/tretre91/MyGL/actions/workflows/linux.yml)
+[![Build](https://github.com/tretre91/MyGL/actions/workflows/build.yml/badge.svg)](https://github.com/tretre91/MyGL/actions/workflows/build.yml)
 [![License: Zlib](https://img.shields.io/badge/License-Zlib-lightgrey.svg)](https://opensource.org/licenses/Zlib)
 
 # MyGL
@@ -16,19 +15,16 @@ others solutions that might better suit your needs (for example SFML or SDL2).
 
 ## Build
 
-This library is built using CMake, you can clone the repo or download the source
-and then build it and install it with CMake.
-Further information can be found [here](docs/install.md).
+This library is built using Meson, further information can be found [here](docs/install.md).
 Note that you should have doxygen installed if you want to build the documentation.
 
 ## Dependencies
 
 This library depends on [glfw](https://www.glfw.org/) for the window implementation
 and [freetype](https://www.freetype.org/) for the font / text implementation. They
-are downloaded when configuring CMake if not found on the system.
+can be downloaded when configuring the project if not found on the system.
 
 It also has smaller dependencies which are included in the source code :
-- [CPM.cmake](https://github.com/cpm-cmake/CPM.cmake) for the dependency managment
 - [glm](https://github.com/g-truc/glm) for the vectors and most of the mathematical
   functions
 - [stb_image](https://github.com/nothings/stb/blob/master/stb_image.h) for texture

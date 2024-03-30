@@ -19,9 +19,11 @@ mygl_headers = files([
   'MyGL/Drawable/Triangle.hpp'
 ])
 
-install_headers(mygl_headers, 'glad/glad.h', 'KHR/khrplatform.h', 'stb_image.h',
-  preserve_path : true,
-  subdir : 'MyGL'
-)
+if not get_option('mygl_docs_only')
+  install_headers(mygl_headers, 'glad/glad.h', 'KHR/khrplatform.h', 'stb_image.h',
+    preserve_path : true,
+    subdir : 'MyGL'
+  )
 
-install_subdir('glm', install_dir : 'include/MyGL')
+  install_subdir('glm', install_dir : 'include/MyGL')
+endif

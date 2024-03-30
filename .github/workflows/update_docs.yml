@@ -21,9 +21,7 @@ jobs:
           sudo pip3 install meson
 
       - name: Configure meson
-        run: |
-          meson wrap update-db 
-          meson setup --prefix=${{github.workspace}}/install -Dmygl_build_doc=true build
+        run: meson setup build --prefix=${{github.workspace}}/install -Dmygl_docs_only=true
 
       - name: Generate the documentation pages
         working-directory: ${{github.workspace}}/build

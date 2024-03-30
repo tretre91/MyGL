@@ -2,56 +2,58 @@
 
 ## Build the library
 
-You can build this libary from its sources using CMake, you will need to clone
-[the repository](https://github.com/tretre91/MyGL) or download the source code
-and build with CMake.
+You can build this libary from its sources using [Meson](https://mesonbuild.com/),
+you will need to clone [the repository](https://github.com/tretre91/MyGL) or
+download the source code and build with Meson.
 
-The main CMake options are :
-- `MYGL_STATIC` : builds the static version of the library (default: on)
-- `MYGL_SHARED` : builds the shared version of the library (default: on)
-- `MYGL_DOCUMENTATION` : builds the documentation (default: off)
-- `MYGL_EXAMPLES` : builds the example programs (default: off)
-- `CMAKE_INSTALL_PREFIX` : sets the path to the folder where the files will be installed
+The build options specific to this project are:
+- `mygl_build_examples`: build the examples programs (default: `false`)
+- `mygl_build_docs`: build the html documentation (default: `false`)
+- `mygl_docs_only`: only build the documentation (default: `false`)
 
-This project uses [CPM.cmake](https://github.com/cpm-cmake/CPM.cmake) for 
-dependency managment, so you can also set the options related to CPM (they are
-listed [here](https://github.com/cpm-cmake/CPM.cmake#options)). The most relevant
-ones are :
-- `CPM_USE_LOCAL_PACKAGES` : if on, CPM will try to find a local installation
-  of the dependancies before dowloading them
-- `CPM_SOURCE_CACHE` : sets a directory in which the dependancies will be cached,
-  it can be useful if you plan to build the library offline for example.
+They are specified on the command line using the following syntax:
 
-@note
-On linux you should have the following libraries installed (required by glfw) before building :
-- x11
-- xrandr
-- xinerama
-- xcursor
-- xi
-- xext
-@note
-They can be installed on a debian based distro with the following command :
 ```bash
-sudo apt install libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libxext-dev
+meson setup build -Dmygl_build_examples=true
 ```
 
-### Example
+Some relevant Meson options are:
+- `--buildtype`: sets the build type (`debug`, `debugoptimized`, `release`, `minsize`, ...)
+- `--prefix`: path to the directory where the library will be installed
+- `--default-library`: sets the type of library which is built (`static`, `shared` or `both`)
 
-The installation procedure on linux should look something like this if you use
-cmake from the command line (it should be similar on windows) :
+This library depends on [glfw](https://www.glfw.org),
+[freetype](https://freetype.org/), [utfcpp](https://github.com/nemtrif/utfcpp)
+and [glm](https://glm.g-truc.net/0.9.9/index.html). Except for glm which is
+included in the sources, the other libraries are either found on the system or
+dowloaded through Meson's WrapDB packages. In order to automatically download
+the libraries, you should execute the command `meson wrap update-db` before
+configuring the project. 
+
+## Example
+
+The installation procedure should look something like this:
 
 ```bash
 git clone https://github.com/tretre91/MyGL.git
-mkdir build
+cd MyGL
+meson wrap update-db
+meson setup build --buildtype=release
 cd build
-cmake ../MyGL -DCMAKE_BUILD_TYPE=Release -DCPM_USE_LOCAL_PACKAGES=ON
-cmake --build .
-cmake --install .
-# or 'sudo cmake --install .' if installing in a standard location (e.g. /usr/local)
+meson compile
+meson install
 ```
 
 ## Build the documentation
 
 In order to build the documentation you will need to have [doxygen](https://www.doxygen.nl/download.html)
-installed and enable the `MYGL_DOCUMENTATION` option when generating the build files with CMake.
+installed and enable the `mygl_build_docs` or `mygl_docs_only` option when configuring the project.
+
+```bash
+git clone https://github.com/tretre91/MyGL.git
+cd MyGL
+meson setup build -Dmygl_docs_only=true
+cd build
+meson compile docs/docs # only build the docs target
+meson install
+```
