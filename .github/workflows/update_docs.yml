@@ -32,6 +32,7 @@ jobs:
         run: |
           wget https://www.doxygen.nl/files/doxygen-${{ env.doxygen-version }}.linux.bin.tar.gz
           tar xf doxygen-${{ env.doxygen-version }}.linux.bin.tar.gz
+          mkdir -p ~/.local/bin
           mv doxygen-${{ env.doxygen-version }}/bin/doxygen ~/.local/bin/
 
       - name: Install the dependencies
