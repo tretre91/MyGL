@@ -12,14 +12,33 @@ on:
 jobs:
   documentation:
     runs-on: ubuntu-latest
+
+    env:
+      doxygen-version: "1.10.0"
     
     steps:
       - uses: actions/checkout@v4
 
+      - name: Cache Doxygen
+        id: cache-doxygen
+        uses: actions/cache@v3
+        with:
+          path: ~/.local/bin/doxygen
+          key: doxygen-${{ runner.os }}-${{ env.doxygen-version }}
+
+      - if: ${{ steps.cache-doxygen.outputs.cache-hit != 'true' }}
+        working-directory: ${{ runner.temp }}
+        name: Install Doxygen
+        run: |
+          wget https://www.doxygen.nl/files/doxygen-${{ env.doxygen-version }}.linux.bin.tar.gz
+          tar xf doxygen-${{ env.doxygen-version }}.linux.bin.tar.gz
+          mv doxygen-${{ env.doxygen-version }}/bin/doxygen ~/.local/bin/
+
       - name: Install the dependencies
         run: |
-          sudo apt install -y ninja-build doxygen
+          sudo apt install -y ninja-build
           sudo pip3 install meson
+          echo ~/.local/bin >> $GITHUB_PATH
 
       - name: Configure meson
         run: meson setup build --prefix=${{github.workspace}}/install -Dmygl_docs_only=true
