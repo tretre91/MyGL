@@ -3,10 +3,11 @@ name: Update documentation
 on:
   push:
     branches:
-      - "master"
+      - master
     paths:
-      - "docs/**"
-      - "include/MyGL/**.hpp"
+      - docs/**
+      - include/MyGL/**.hpp
+      - .github/workflows/update_docs.yml
 
 jobs:
   documentation:
@@ -17,7 +18,7 @@ jobs:
 
       - name: Install the dependencies
         run: |
-          sudo apt install -y ninja doxygen
+          sudo apt install -y ninja-build doxygen
           sudo pip3 install meson
 
       - name: Configure meson
