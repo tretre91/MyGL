@@ -20,7 +20,5 @@ var classmy_1_1_shader_program =
     [ "setUInt", "classmy_1_1_shader_program.html#a5e059973f569029b060f4524756202e6", null ],
     [ "setUInt", "classmy_1_1_shader_program.html#a4b2b30fff612b2271c5bca04017d082b", null ],
     [ "setUInt", "classmy_1_1_shader_program.html#a6acaca3c8afc37c20052bf8d822b8c15", null ],
-    [ "use", "classmy_1_1_shader_program.html#aa3c41903aaeb4ce3c2498bcf7d47b93f", null ],
-    [ "operator!=", "classmy_1_1_shader_program.html#a01262c8827f32822fafc935302db8e29", null ],
-    [ "operator==", "classmy_1_1_shader_program.html#ae480bd45dd2fd00eab61fd6eb48a0682", null ]
+    [ "use", "classmy_1_1_shader_program.html#aa3c41903aaeb4ce3c2498bcf7d47b93f", null ]
 ];

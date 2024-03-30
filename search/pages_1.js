@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['installation_304',['Installation',['../installation.html',1,'']]]
+  ['how_20to_20use_0',['How to use',['../usage.html',1,'']]]
 ];

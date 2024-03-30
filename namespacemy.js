@@ -1,20 +1,20 @@
 var namespacemy =
 [
+    [ "AbstractShape", "classmy_1_1_abstract_shape.html", "classmy_1_1_abstract_shape" ],
     [ "Camera", "classmy_1_1_camera.html", "classmy_1_1_camera" ],
     [ "Color", "classmy_1_1_color.html", "classmy_1_1_color" ],
     [ "Cursor", "classmy_1_1_cursor.html", "classmy_1_1_cursor" ],
-    [ "AbstractShape", "classmy_1_1_abstract_shape.html", "classmy_1_1_abstract_shape" ],
+    [ "Event", "structmy_1_1_event.html", "structmy_1_1_event" ],
     [ "Font", "classmy_1_1_font.html", "classmy_1_1_font" ],
+    [ "Image", "classmy_1_1_image.html", "classmy_1_1_image" ],
+    [ "MouseInfo", "structmy_1_1_mouse_info.html", null ],
     [ "Polygon", "classmy_1_1_polygon.html", "classmy_1_1_polygon" ],
     [ "Rectangle", "classmy_1_1_rectangle.html", "classmy_1_1_rectangle" ],
-    [ "Text", "classmy_1_1_text.html", "classmy_1_1_text" ],
-    [ "Triangle", "classmy_1_1_triangle.html", "classmy_1_1_triangle" ],
-    [ "MouseInfo", "structmy_1_1_mouse_info.html", "structmy_1_1_mouse_info" ],
-    [ "Event", "structmy_1_1_event.html", "structmy_1_1_event" ],
-    [ "Image", "classmy_1_1_image.html", "classmy_1_1_image" ],
     [ "Shader", "classmy_1_1_shader.html", "classmy_1_1_shader" ],
     [ "ShaderProgram", "classmy_1_1_shader_program.html", "classmy_1_1_shader_program" ],
+    [ "Text", "classmy_1_1_text.html", "classmy_1_1_text" ],
     [ "Texture", "classmy_1_1_texture.html", "classmy_1_1_texture" ],
+    [ "Triangle", "classmy_1_1_triangle.html", "classmy_1_1_triangle" ],
     [ "Window", "classmy_1_1_window.html", "classmy_1_1_window" ],
     [ "EventType", "namespacemy.html#a2628ea8d12e8b2563c32f05dc7fff6fa", [
       [ "keyPressed", "namespacemy.html#a2628ea8d12e8b2563c32f05dc7fff6faaa615daeb414d24970ebbdcb578aec76b", null ],
@@ -162,16 +162,14 @@ var namespacemy =
       [ "extra_3", "namespacemy.html#ac1ec3647c005eacad401b06e7e18f711a06725ab2b364612294966ce9748d9542", null ],
       [ "extra_4", "namespacemy.html#ac1ec3647c005eacad401b06e7e18f711ae5034f437d8bb73d4e11e3bc87c8b07c", null ],
       [ "extra_5", "namespacemy.html#ac1ec3647c005eacad401b06e7e18f711af4d9a4a98dcaa1ab87b26054763dc75c", null ],
-      [ "none", "namespacemy.html#ad84bfca0209ee5c870f9d057e6be0ccca334c4a4c42fdb79d7ebc3e73b517e6f8", null ]
+      [ "none", "namespacemy.html#ac1ec3647c005eacad401b06e7e18f711a334c4a4c42fdb79d7ebc3e73b517e6f8", null ]
     ] ],
     [ "WindowFlag", "namespacemy.html#ad84bfca0209ee5c870f9d057e6be0ccc", [
       [ "none", "namespacemy.html#ad84bfca0209ee5c870f9d057e6be0cccab7e4e0120a041dbe6528b050c04269e0", null ],
-      [ "none", "namespacemy.html#ad84bfca0209ee5c870f9d057e6be0ccca334c4a4c42fdb79d7ebc3e73b517e6f8", null ],
       [ "resizable", "namespacemy.html#ad84bfca0209ee5c870f9d057e6be0cccab7af93c229f3dd7fd23d74c247292289", null ],
       [ "floating", "namespacemy.html#ad84bfca0209ee5c870f9d057e6be0ccca4033246e68046207fc9b6ffd4d914535", null ],
       [ "transparent", "namespacemy.html#ad84bfca0209ee5c870f9d057e6be0ccca9eda5189bc72231852b49a068e5176a5", null ],
       [ "maximized", "namespacemy.html#ad84bfca0209ee5c870f9d057e6be0ccca2bf28a0331e72bb665bfdaccc5c11cf2", null ]
     ] ],
-    [ "line", "namespacemy.html#a320797b7542e5be8899d5f429d835577", null ],
-    [ "sleep", "namespacemy.html#a02da68efc43037fe21a4a851af531c14", null ]
+    [ "sleep", "namespacemy.html#a46e74dccf62d87acd01e026c911fde0a", null ]
 ];

@@ -1,8 +1,8 @@
 var _event_8hpp =
 [
-    [ "MouseInfo", "structmy_1_1_mouse_info.html", "structmy_1_1_mouse_info" ],
+    [ "MouseInfo", "structmy_1_1_mouse_info.html", null ],
     [ "Event", "structmy_1_1_event.html", "structmy_1_1_event" ],
-    [ "Modifiers", "structmy_1_1_event_1_1_modifiers.html", "structmy_1_1_event_1_1_modifiers" ],
+    [ "Modifiers", "structmy_1_1_event_1_1_modifiers.html", null ],
     [ "EventType", "_event_8hpp.html#a2628ea8d12e8b2563c32f05dc7fff6fa", [
       [ "keyPressed", "_event_8hpp.html#a2628ea8d12e8b2563c32f05dc7fff6faaa615daeb414d24970ebbdcb578aec76b", null ],
       [ "keyReleased", "_event_8hpp.html#a2628ea8d12e8b2563c32f05dc7fff6faaa01c9f9ea07fde0be72e792a7bbd6215", null ],
@@ -149,6 +149,6 @@ var _event_8hpp =
       [ "extra_3", "_event_8hpp.html#ac1ec3647c005eacad401b06e7e18f711a06725ab2b364612294966ce9748d9542", null ],
       [ "extra_4", "_event_8hpp.html#ac1ec3647c005eacad401b06e7e18f711ae5034f437d8bb73d4e11e3bc87c8b07c", null ],
       [ "extra_5", "_event_8hpp.html#ac1ec3647c005eacad401b06e7e18f711af4d9a4a98dcaa1ab87b26054763dc75c", null ],
-      [ "none", "_event_8hpp.html#ad84bfca0209ee5c870f9d057e6be0ccca334c4a4c42fdb79d7ebc3e73b517e6f8", null ]
+      [ "none", "_event_8hpp.html#ac1ec3647c005eacad401b06e7e18f711a334c4a4c42fdb79d7ebc3e73b517e6f8", null ]
     ] ]
 ];

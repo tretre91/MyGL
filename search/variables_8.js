@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['verticalresize_281',['verticalResize',['../classmy_1_1_cursor.html#a1ade38cde6a31696fdf93896ea9c47cd',1,'my::Cursor']]]
+  ['verticalresize_0',['verticalResize',['../classmy_1_1_cursor.html#a1ade38cde6a31696fdf93896ea9c47cd',1,'my::Cursor']]]
 ];

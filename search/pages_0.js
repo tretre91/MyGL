@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['how_20to_20use_303',['How to use',['../usage.html',1,'']]]
+  ['documentation_0',['MyGL&apos;s documentation!',['../index.html',1,'']]]
 ];

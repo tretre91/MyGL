@@ -13,7 +13,7 @@ var hierarchy =
     [ "Event", "structmy_1_1_event.html", null ],
     [ "Font", "classmy_1_1_font.html", null ],
     [ "Image", "classmy_1_1_image.html", null ],
-    [ "Event::Modifiers", "structmy_1_1_event_1_1_modifiers.html", null ],
+    [ "Modifiers", "structmy_1_1_event_1_1_modifiers.html", null ],
     [ "MouseInfo", "structmy_1_1_mouse_info.html", null ],
     [ "Shader", "classmy_1_1_shader.html", null ],
     [ "ShaderProgram", "classmy_1_1_shader_program.html", null ],
