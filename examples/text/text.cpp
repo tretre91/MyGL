@@ -25,11 +25,11 @@ int main() {
     for (wchar_t c = L'\u03B1'; c < L'\u03CA'; c++) {
         greek_lowercase += c;
     }
-    my::Text greek_alphabet(greek_lowercase, open_sans, 30);
+    my::Text greek_alphabet(my::util::toUtf8(greek_lowercase), open_sans, 30);
     greek_alphabet.setColor(my::Color::red);
     greek_alphabet.setPosition(50, 500);
 
-    my::Text math_formula(U"\u2200\U0001D465 \u2208 \u211D\u2217, 1/\U0001D465 is defined", math_font, 30);
+    my::Text math_formula(my::util::toUtf8(U"\u2200\U0001D465 \u2208 \u211D\u2217, 1/\U0001D465 is defined"), math_font, 30);
     math_formula.setColor(my::Color::green);
     math_formula.rotate(-20);
     math_formula.setPosition(600, 450, true);
@@ -41,7 +41,7 @@ int main() {
         }
         hiraganas += c;
     }
-    my::Text some_hiraganas(hiraganas, jp_font, 30);
+    my::Text some_hiraganas(my::util::toUtf8(hiraganas), jp_font, 30);
     some_hiraganas.setColor(my::Color::white);
     some_hiraganas.setPosition(window.getSize().x / 2, 75, true);
     some_hiraganas.setOutlineThickness(2);

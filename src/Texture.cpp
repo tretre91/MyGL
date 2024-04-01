@@ -108,7 +108,7 @@ namespace my
         }
     }
 
-    void Texture::setBorderColor(int r, int g, int b, int alpha) {
+    void Texture::setBorderColor(uint8_t r, uint8_t g, uint8_t b, uint8_t alpha) {
         setBorderColor(Color(r, g, b, alpha));
     }
 
@@ -116,6 +116,6 @@ namespace my
         bind();
         const glm::vec4 nColor = color.getNormalized();
         const std::array<float, 4> borderColor{nColor.r, nColor.g, nColor.b, nColor.a};
-        glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor.data());
+        glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor.data()); // TODO: &nColor.r
     }
 } // namespace my

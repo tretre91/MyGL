@@ -4,6 +4,7 @@
 #include "mygl_export.h"
 #include <memory>
 #include <string>
+#include <cstdint>
 
 namespace my
 {
@@ -72,10 +73,9 @@ namespace my
         MYGL_EXPORT bool isUsable() const noexcept;
 
         /**
-         * @brief Returns a read only pointer to the pixel array
-         * @return
+         * @brief Returns a pointer to the pixel array
          */
-        MYGL_EXPORT const uint8_t* data() const noexcept;
+        MYGL_EXPORT uint8_t* data() const noexcept;
 
         /**
          * @brief Indicates the image's width

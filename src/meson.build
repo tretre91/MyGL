@@ -32,7 +32,7 @@ mygl_deps = [glfw, freetype, utf, winmm]
 include_dir = '..' / 'include'
 
 mygl = library('mygl', mygl_sources,
-        cpp_args : ['-DUTF_CPP_CPLUSPLUS=201703L'],
+        cpp_args : ['-DUTF_CPP_CPLUSPLUS=202002L'],
         c_static_args : ['-DMYGL_STATIC'],
         cpp_static_args : ['-DMYGL_STATIC'],
         c_shared_args : ['-DMYGL_BUILD'],

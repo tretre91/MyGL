@@ -115,9 +115,9 @@ namespace my
         const double dist = glm::sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
         const int center_x = (x2 + x1) / 2;
         const int center_y = (y2 + y1) / 2;
-        my::Rectangle rect(std::lround(dist), 1);
+        my::Rectangle rect(static_cast<int>(std::lround(dist)), 1);
         rect.setPosition(center_x, center_y, true);
-        const double cos = (glm::abs(x2 - x1) / 2.0f) / (dist / 2.0f);
+        const double cos = (static_cast<float>(glm::abs(x2 - x1)) / 2.0f) / (dist / 2.0f);
         rect.setRotation(static_cast<float>(glm::degrees(glm::acos(cos))));
         return rect;
     }

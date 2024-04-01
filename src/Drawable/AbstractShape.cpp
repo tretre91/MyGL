@@ -44,7 +44,6 @@ constexpr const char* texFragmentSource =
 
 namespace my
 {
-    const float AbstractShape::pi = 3.1415926535f;
     ShaderProgram AbstractShape::shader;
     ShaderProgram AbstractShape::texShader;
     const ShaderProgram& AbstractShape::defaultShader = AbstractShape::shader;
@@ -70,8 +69,9 @@ namespace my
     }
 
     AbstractShape::AbstractShape(int width, int height) :
-      m_position(0.0f, 0.0f), m_originalScale(width / 2.0f, height / 2.0f), m_scaleFactor(1.0f, 1.0f), m_rotationAngle(0.0f), m_updateMatrix(true),
-      m_model(1.0f), m_color(100, 100, 100), m_outlineThickness(0.0f), m_outlineColor(255, 255, 255), m_outlineModel(1.0f), m_isTextured(false) {
+      m_position(0.0f, 0.0f), m_originalScale(static_cast<float>(width) / 2.0f, static_cast<float>(height) / 2.0f), m_scaleFactor(1.0f, 1.0f),
+      m_rotationAngle(0.0f), m_updateMatrix(true), m_model(1.0f), m_color(100, 100, 100), m_outlineThickness(0.0f), m_outlineColor(255, 255, 255),
+      m_outlineModel(1.0f), m_isTextured(false) {
         initShaders();
         m_shader = shader;
         m_outlineShader = shader;
@@ -154,8 +154,8 @@ namespace my
         return m_rotationAngle;
     }
 
-    void AbstractShape::setColor(int r, int g, int b, int alpha) noexcept {
-        m_color = my::Color(glm::clamp(r, 0, 255), glm::clamp(g, 0, 255), glm::clamp(b, 0, 255), glm::clamp(alpha, 0, 255));
+    void AbstractShape::setColor(uint8_t r, uint8_t g, uint8_t b, uint8_t alpha) noexcept {
+        m_color = my::Color(r, g, b, alpha);
     }
 
     void AbstractShape::setColor(const my::Color& color) noexcept {
@@ -180,8 +180,8 @@ namespace my
         m_outlineColor = color;
     }
 
-    void AbstractShape::setOutlineColor(int r, int g, int b, int alpha) noexcept {
-        m_outlineColor = my::Color(glm::clamp(r, 0, 255), glm::clamp(g, 0, 255), glm::clamp(b, 0, 255), glm::clamp(alpha, 0, 255));
+    void AbstractShape::setOutlineColor(uint8_t r, uint8_t g, uint8_t b, uint8_t alpha) noexcept {
+        m_outlineColor = my::Color(r, g, b, alpha);
     }
 
     bool AbstractShape::SATCollides(const AbstractShape& shape) const {

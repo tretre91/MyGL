@@ -7,7 +7,7 @@ namespace my
 
     void Polygon::computeVertices(unsigned int sides, GLinfo& buffer) {
         float angle = 0.0f;
-        float inc = (2 * pi) / sides;
+        float angle_increment = (2 * pi) / static_cast<float>(sides);
 
         buffer.vertices = std::vector<float>(5 * (static_cast<size_t>(sides) + 1));
 
@@ -24,7 +24,7 @@ namespace my
             buffer.vertices[i + 2] = 0.0f;
             buffer.vertices[i + 3] = (buffer.vertices[i] + 1.0f) / 2.0f;
             buffer.vertices[i + 4] = (buffer.vertices[i + 1] + 1.0f) / 2.0f;
-            angle += inc;
+            angle += angle_increment;
         }
 
         buffer.indices = std::vector<unsigned int>(static_cast<size_t>(sides) + 2);

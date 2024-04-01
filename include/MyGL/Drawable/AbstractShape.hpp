@@ -10,6 +10,7 @@
 
 #include <string>
 #include <vector>
+#include <numbers>
 
 namespace my
 {
@@ -22,7 +23,7 @@ namespace my
         static void initShaders();
 
     protected:
-        static const float pi;
+        static constexpr float pi = std::numbers::pi_v<float>;
         static my::ShaderProgram shader;
         static my::ShaderProgram texShader;
 
@@ -174,7 +175,7 @@ namespace my
          * @param b The blue component
          * @param alpha The alpha (transparency) value, by default 255
          */
-        MYGL_EXPORT virtual void setColor(int r, int g, int b, int alpha = 255) noexcept;
+        MYGL_EXPORT virtual void setColor(uint8_t r, uint8_t g, uint8_t b, uint8_t alpha = 255) noexcept;
 
         /**
          * @brief Sets the shape's color from an existing color
@@ -207,7 +208,7 @@ namespace my
          * @param b The blue component
          * @param alpha The alpha (transparency) value, by default 255
          */
-        MYGL_EXPORT void setOutlineColor(int r, int g, int b, int alpha = 255) noexcept;
+        MYGL_EXPORT void setOutlineColor(uint8_t r, uint8_t g, uint8_t b, uint8_t alpha = 255) noexcept;
 
         /**
          * @brief Tells wether 2 shapes are overlapping using the separating

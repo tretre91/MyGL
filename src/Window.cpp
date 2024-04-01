@@ -1,6 +1,7 @@
 #include <MyGL/Window.hpp>
 #include <MyGL/common.hpp>
 #include <iostream>
+#include <thread>
 using namespace std::chrono_literals;
 
 /**
@@ -29,7 +30,6 @@ void checkOpenGLVersion(int& major, int& minor) {
 namespace my
 {
     using time_unit = std::chrono::microseconds;
-    constexpr auto one = std::chrono::duration_cast<time_unit>(1s).count();
 
     bool Window::gladIsInitialized = false;
     unsigned int Window::instancesCount = 0;
@@ -40,7 +40,7 @@ namespace my
 
     Window::Window(int width, int height, const std::string& title, unsigned int flags, int antiAliasing, int GLVersionMajor, int GLVersionMinor) :
       m_projection(glm::ortho(0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, 0.1f, 10.0f)), p_camera(&defaultCamera), p_window(nullptr),
-      m_cursor(Cursor::arrow), m_size(width, height), m_usable(false), m_frameDelay(0s), m_frametime(one) {
+      m_cursor(Cursor::arrow), m_size(width, height), m_usable(false), m_frameDelay(0s), m_frametime(1s) {
         // we restrict the antiAliasing samples value to be between 0 and 8
         if (antiAliasing < 2) {
             antiAliasing = 0;
@@ -148,7 +148,7 @@ namespace my
 
     void Window::setFramerate(unsigned int limit) {
         enableVsync(false);
-        m_frameDelay = time_unit(limit > 0 ? one / limit : 0);
+        m_frameDelay = limit > 0 ? time_unit{1s} / limit : 0s;
     }
 
     void Window::enableVsync(bool enable) {
@@ -167,8 +167,10 @@ namespace my
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     }
 
-    void Window::setClipPlanes(int left, int right, int bottom, int top) {
-        m_projection = glm::ortho(static_cast<float>(left), static_cast<float>(right), static_cast<float>(bottom), static_cast<float>(top), 0.1f, 10.0f);
+    void Window::setClipPlanes(float left, float right, float bottom, float top) {
+        constexpr float zNear = 0.1f;
+        constexpr float zFar = 10.0f;
+        m_projection = glm::ortho(left, right, bottom, top, zNear, zFar);
     }
 
     void Window::setViewport(int x, int y, int width, int height) {
@@ -190,7 +192,7 @@ namespace my
             glfwSetWindowSize(p_window, m_size.x, m_size.y);
         }
         if (resizeViewport) {
-            setClipPlanes(0, m_size.x, m_size.y, 0);
+            setClipPlanes(0.0f, static_cast<float>(m_size.x), static_cast<float>(m_size.y), 0.0f);
             setViewport(0, 0, m_size.x, m_size.y);
         }
     }
@@ -206,7 +208,7 @@ namespace my
             GLFWimage icon;
             icon.width = static_cast<int>(image.getWidth());
             icon.height = static_cast<int>(image.getHeight());
-            icon.pixels = const_cast<uint8_t*>(image.data());
+            icon.pixels = image.data();
             glfwSetWindowIcon(p_window, 1, &icon);
         }
     }
@@ -227,7 +229,7 @@ namespace my
             auto currentTime = std::chrono::steady_clock::now();
             const time_unit elapsed = std::chrono::duration_cast<time_unit>(currentTime - m_chrono);
             if (elapsed < m_frameDelay) {
-                sleep(std::chrono::duration_cast<std::chrono::nanoseconds>(m_frameDelay - elapsed).count());
+                std::this_thread::sleep_for(m_frameDelay - elapsed);
             }
             glfwSwapBuffers(p_window);
             currentTime = std::chrono::steady_clock::now();
@@ -237,16 +239,17 @@ namespace my
     }
 
     double Window::getFrametime() const {
-        return std::chrono::duration_cast<std::chrono::duration<double, std::ratio<1>>>(m_frametime).count();
+        return std::chrono::duration_cast<std::chrono::duration<double>>(m_frametime).count();
     }
 
     void* Window::getGLProcAdress(const char* name) {
         return (void*)glfwGetProcAddress(name);
+        // return reinterpret_cast<void*>(glfwGetProcAddress(name));
     }
 
     /* Callback functions related to the event system */
 
-    void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    void Window::keyCallback(GLFWwindow* window, int key, int /* scancode */, int action, int mods) {
         my::Event e;
         switch (action) {
         case GLFW_PRESS:
@@ -263,8 +266,13 @@ namespace my
         }
 
         e.keyCode = static_cast<my::Key>(key);
-
-        e.mods = {(mods & 0x01) > 0, (mods & 0x02) > 0, (mods & 0x04) > 0, (mods & 0x08) > 0, (mods & 0x10) > 0, (mods & 0x20) > 0};
+        
+        e.mods.shift     = mods & 0x01;
+        e.mods.ctrl      = mods & 0x02;
+        e.mods.alt       = mods & 0x04;
+        e.mods.os        = mods & 0x08;
+        e.mods.caps_lock = mods & 0x10;
+        e.mods.num_lock  = mods & 0x20;
 
         windows[window]->m_eventQueue.push_back(e);
     }
@@ -320,7 +328,12 @@ namespace my
             break;
         }
 
-        e.mods = {(mods & 0x01) > 0, (mods & 0x02) > 0, (mods & 0x04) > 0, (mods & 0x08) > 0, (mods & 0x10) > 0, (mods & 0x20) > 0};
+        e.mods.shift     = mods & 0x01;
+        e.mods.ctrl      = mods & 0x02;
+        e.mods.alt       = mods & 0x04;
+        e.mods.os        = mods & 0x08;
+        e.mods.caps_lock = mods & 0x10;
+        e.mods.num_lock  = mods & 0x20;
 
         windows[window]->m_eventQueue.push_back(e);
     }

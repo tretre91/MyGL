@@ -158,7 +158,7 @@ namespace my
          * @param bottom The frustum's bottom coordinate
          * @param top The frustum's top coordinate
          */
-        MYGL_EXPORT void setClipPlanes(int left, int right, int bottom, int top);
+        MYGL_EXPORT void setClipPlanes(float left, float right, float bottom, float top);
 
         /**
          * @brief Sets the viewport's position and size

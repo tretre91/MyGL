@@ -24,34 +24,6 @@ constexpr const char* textFragmentSource =
   "    FragColor = vec4(color.rgb, texture(tex, texCoords).r);"
   "}";
 
-/**
- * @brief Convert a std::wstring to an utf8 encoded std::string
- */
-std::string wstring_to_utf8(const std::wstring& str) {
-    std::string result;
-    if constexpr (sizeof(wchar_t) == 2) {
-        utf8::utf16to8(str.begin(), str.end(), std::back_inserter(result));
-    } else {
-        utf8::utf32to8(str.begin(), str.end(), std::back_inserter(result));
-    }
-    return result;
-}
-
-/**
- * @brief Convert an utf8 encoded std::string to a std::wstring
- *
- * @param str
- * @return std::wstring
- */
-std::wstring utf8_to_wstring(const std::string& str) {
-    std::wstring result;
-    if constexpr (sizeof(wchar_t) == 2) {
-        utf8::utf8to16(str.begin(), str.end(), std::back_inserter(result));
-    } else {
-        utf8::utf8to32(str.begin(), str.end(), std::back_inserter(result));
-    }
-    return result;
-}
 
 namespace my
 {
@@ -67,7 +39,7 @@ namespace my
 
         setColor(my::Color::black);
         m_texture = m_font.getStringTexture(m_text, m_size);
-        m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
+        m_originalScale = glm::vec2(static_cast<float>(m_texture.getWidth()) / 2.0f, static_cast<float>(m_texture.getHeight()) / 2.0f);
         m_isTextured = true;
         m_shader = textShader;
     }
@@ -85,63 +57,19 @@ namespace my
         init();
     }
 
-    Text::Text(const std::wstring& text, my::Font& font, unsigned int size) : m_text(wstring_to_utf8(text)), m_font(font), m_size(size) {
-        init();
-    }
-
-    Text::Text(const std::u16string& text, my::Font& font, unsigned int size) : m_text(utf8::utf16to8(text)), m_font(font), m_size(size) {
-        init();
-    }
-
-    Text::Text(const std::u32string& text, my::Font& font, unsigned int size) : m_text(utf8::utf32to8(text)), m_font(font), m_size(size) {
-        init();
-    }
-
     Text::~Text() {}
+
+    const std::string& Text::getContent() const {
+        return m_text;
+    }
 
     void Text::setContent(const std::string& text) {
         m_text = text;
         setTexture(m_font.getStringTexture(m_text, m_size));
-        m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
+        m_originalScale = glm::vec2(static_cast<float>(m_texture.getWidth()) / 2.0f, static_cast<float>(m_texture.getHeight()) / 2.0f);
         setPosition(getPosition(), true);
     }
 
-    void Text::setContent(const std::wstring& text) {
-        m_text = wstring_to_utf8(text);
-        setTexture(m_font.getStringTexture(m_text, m_size));
-        m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
-        setPosition(getPosition(), true);
-    }
-
-    void Text::setContent(const std::u16string& text) {
-        m_text = utf8::utf16to8(text);
-        setTexture(m_font.getStringTexture(m_text, m_size));
-        m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
-        setPosition(getPosition(), true);
-    }
-
-    void Text::setContent(const std::u32string& text) {
-        m_text = utf8::utf32to8(text);
-        setTexture(m_font.getStringTexture(m_text, m_size));
-        m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
-        setPosition(getPosition(), true);
-    }
-
-    std::string Text::getString() const {
-        return m_text;
-    }
-
-    std::wstring Text::getWString() const {
-        return utf8_to_wstring(m_text);
-    }
-
-    std::u16string Text::getU16String() const {
-        return utf8::utf8to16(m_text);
-    }
-
-    std::u32string Text::getU32String() const noexcept {
-        return utf8::utf8to32(m_text);
-    }
 
     void Text::setTexture(const my::Texture& texture) {
         m_texture = texture;
@@ -150,14 +78,14 @@ namespace my
     void Text::setFont(my::Font& font) {
         m_font = font;
         setTexture(m_font.getStringTexture(m_text, m_size));
-        m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
+        m_originalScale = glm::vec2(static_cast<float>(m_texture.getWidth()) / 2.0f, static_cast<float>(m_texture.getHeight()) / 2.0f);
         setPosition(getPosition(), true);
     }
 
     void Text::setFontSize(unsigned int size) {
         m_size = size;
         setTexture(m_font.getStringTexture(m_text, m_size));
-        m_originalScale = glm::vec2(m_texture.getWidth() / 2.0f, m_texture.getHeight() / 2.0f);
+        m_originalScale = glm::vec2(static_cast<float>(m_texture.getWidth()) / 2.0f, static_cast<float>(m_texture.getHeight()) / 2.0f);
         setPosition(getPosition(), true);
     }
 } // namespace my

@@ -29,11 +29,11 @@ namespace my
          * @param glyph A glyph slot containing the bitmap we want to copy (it
          *        should be loaded with the FT_LOAD_RENDER flag)
          * @param texture The vector we want to twrite to
-         * @param x The x coord of thetop left hand corner of the zone we wil copy the bitmap to
-         * @param y The y coord of thetop left hand corner of the zone we wil copy the bitmap to
+         * @param x The x coord of the top left hand corner of the zone we wil copy the bitmap to
+         * @param y The y coord of the top left hand corner of the zone we wil copy the bitmap to
          * @param width The final texture's width
          */
-        static void addGlyph(FT_GlyphSlot& glyph, std::vector<uint8_t>& texture, size_t x, size_t y, size_t width);
+        static void addGlyph(FT_GlyphSlot& glyph, std::vector<uint8_t>& texture, FT_Pos x, FT_Pos y, FT_Pos width);
 
         /**
          * @brief Creates a texture containing a string

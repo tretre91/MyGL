@@ -5,9 +5,38 @@
 
 #include "Font.hpp"
 #include "Rectangle.hpp"
+#include <iterator>
+#include <string_view>
+#include <utf8.h>
 
 namespace my
 {
+    namespace util
+    {
+        template<typename StringType>
+        inline std::string toUtf8(const StringType& text) {
+            std::basic_string_view view{std::begin(text), std::end(text)};
+
+            using CharType = typename decltype(view)::value_type;
+
+            if constexpr (sizeof(CharType) == 1) {
+                return view;
+            } else if constexpr (sizeof(CharType) == 2) {
+                std::string result;
+                result.reserve(2 * view.size());
+                utf8::utf16to8(view.begin(), view.end(), std::back_inserter(result));
+                return result;
+            } else if constexpr (sizeof(CharType) == 4) {
+                std::string result;
+                result.reserve(4 * view.size());
+                utf8::utf32to8(view.begin(), view.end(), std::back_inserter(result));
+                return result;
+            } else {
+                static_assert(false, "Unknown character encoding");
+            }
+        }
+    } // namespace util
+
     /**
      * @brief Class for drawing strings of text
      */
@@ -42,47 +71,28 @@ namespace my
          */
         MYGL_EXPORT Text();
 
-        /** @name Constructors
-            @{ */
         /**
          * @brief Creates a text object
-         * @param text A std::string (or wstring, u16string, u32string) with the text to
-         *        be displayed
+         * @param text A utf-8 encoded std::string with the text to be displayed
          * @param font A my::Font object defining the text's font
          * @param size The character size in pixels
          */
         MYGL_EXPORT Text(const std::string& text, my::Font& font, unsigned int size = 30u);
-        MYGL_EXPORT Text(const std::wstring& text, my::Font& font, unsigned int size = 30u);
-        MYGL_EXPORT Text(const std::u16string& text, my::Font& font, unsigned int size = 30u);
-        MYGL_EXPORT Text(const std::u32string& text, my::Font& font, unsigned int size = 30u);
-        /** @} */
 
         /** @brief Default destructor */
         MYGL_EXPORT ~Text() override;
 
-        /** @name Setters
-            @{ */
         /**
          * @brief Sets the displayed text's content
-         * @param text The new text to display
+         * @param text A utf-8 encoded std::string
          */
         MYGL_EXPORT void setContent(const std::string& text);
-        MYGL_EXPORT void setContent(const std::wstring& text);
-        MYGL_EXPORT void setContent(const std::u16string& text);
-        MYGL_EXPORT void setContent(const std::u32string& text);
-        /** @} */
 
-        /** @name Getters
-            @{ */
         /**
          * @brief Returns the text that is currently displayed
-         * @return The content of the string that is currently displayed
+         * @return The text that is currently displayed as a utf-8 encoded std::string
          */
-        MYGL_EXPORT std::string getString() const;
-        MYGL_EXPORT std::wstring getWString() const;
-        MYGL_EXPORT std::u16string getU16String() const;
-        MYGL_EXPORT std::u32string getU32String() const noexcept;
-        /** @} */
+        MYGL_EXPORT const std::string& getContent() const;
 
         /**
          * @brief Changes the font

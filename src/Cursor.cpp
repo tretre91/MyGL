@@ -31,9 +31,9 @@ namespace my
     bool Cursor::load(const Image& image, int xhot, int yhot) {
         if (image.isUsable()) {
             GLFWimage cursor;
-            cursor.width = image.getWidth();
-            cursor.height = image.getHeight();
-            cursor.pixels = const_cast<uint8_t*>(image.data());
+            cursor.width = static_cast<int>(image.getWidth());
+            cursor.height = static_cast<int>(image.getHeight());
+            cursor.pixels = image.data();
             p_cursor.reset(glfwCreateCursor(&cursor, xhot, cursor.height - 1 - yhot), CursorDeleter());
         } else {
             p_cursor.reset();

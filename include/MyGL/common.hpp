@@ -23,9 +23,9 @@ namespace my
      * @brief Helper function for static variables relying on glfw functions
      *
      * This function should be used to call glfw functions when it is unsure
-     * whether glfw was already initialized (for example in static variables'
+     * whether glfw was already initialized (for example in static variables
      * definitions), it ensures that glfw is initialized before calling the
-     * function
+     * function.
      *
      * @tparam GLFWfunction
      * @tparam ...Args
@@ -38,13 +38,6 @@ namespace my
         initGLFW();
         return function(args...);
     }
-
-    /**
-     * @brief Sleeps for a certain amount of time
-     * @param nanoseconds The sleep time in nanoseconds
-     */
-    MYGL_EXPORT void sleep(unsigned long long nanoseconds); // TODO
-
 } // namespace my
 
 #endif // MYGL_COMMON
