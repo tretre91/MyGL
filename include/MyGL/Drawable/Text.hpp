@@ -32,7 +32,7 @@ namespace my
                 utf8::utf32to8(view.begin(), view.end(), std::back_inserter(result));
                 return result;
             } else {
-                static_assert(false, "Unknown character encoding");
+                static_assert(sizeof(CharType) == 0, "Unknown character encoding");
             }
         }
     } // namespace util
