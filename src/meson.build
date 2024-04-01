@@ -22,12 +22,11 @@ mygl_sources = files([
 # dependencies
 glfw = dependency('glfw3', default_options: { 'install': true })
 freetype = dependency('freetype2')
-utf = dependency('utf8cpp')
 # find winmm (windows only)
 cxx = meson.get_compiler('cpp')
 winmm = cxx.find_library('winmm', required: false)
 
-mygl_deps = [glfw, freetype, utf, winmm]
+mygl_deps = [glfw, freetype, winmm]
 
 include_dir = '..' / 'include'
 

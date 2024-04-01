@@ -1,5 +1,5 @@
 #include <MyGL/Drawable/Text.hpp>
-#include <utf8.h>
+#include <utfcpp/utf8.h>
 
 constexpr const char* textVertexSource =
   "#version 330 core\n"

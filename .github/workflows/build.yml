@@ -42,13 +42,13 @@ jobs:
       - name: Check compilation against static libs
         working-directory: ${{github.workspace}}/user_test
         run: |
-          g++ -c ${{github.workspace}}/misc/ci_test_file.cpp $(pkg-config --cflags mygl) -DMYGL_STATIC_DEFINE
+          g++ -std=c++20 -c ${{github.workspace}}/misc/ci_test_file.cpp $(pkg-config --cflags mygl) -DMYGL_STATIC_DEFINE
           g++ ci_test_file.o -o test ${{github.workspace}}/install/lib/x86_64-linux-gnu/libmygl.a -L${{github.workspace}}/install/lib/x86_64-linux-gnu/ -lglfw3 -lfreetype -ldl -lpthread
 
       - name: Check compilation against shared libs
         working-directory: ${{github.workspace}}/user_test
         run: |
-          g++ -c ${{github.workspace}}/misc/ci_test_file.cpp $(pkg-config --cflags mygl)
+          g++ -std=c++20 -c ${{github.workspace}}/misc/ci_test_file.cpp $(pkg-config --cflags mygl)
           g++ ci_test_file.o -o test -L${{github.workspace}}/install/lib/x86_64-linux-gnu/ -lmygl -lglfw3 -lfreetype -ldl -lpthread
 
   windows-build:
@@ -79,8 +79,8 @@ jobs:
         working-directory: ${{github.workspace}}/user_test
         run: |
           cp ${{github.workspace}}/install/bin/*.dll .
-          cl ${{github.workspace}}/misc/ci_test_file.cpp glfw3.lib freetype.lib opengl32.lib gdi32.lib user32.lib shell32.lib winmm.lib /MD /Fe:test /I ${{github.workspace}}/install/include /I ${{github.workspace}}/install/include/MyGL /I ${{github.workspace}}/install/include/freetype2 /D MYGL_STATIC /link /LIBPATH:${{github.workspace}}/install/lib libmygl.a
+        cl ${{github.workspace}}/misc/ci_test_file.cpp glfw3.lib freetype.lib opengl32.lib gdi32.lib user32.lib shell32.lib winmm.lib /MD /Fe:test /std:latest /I ${{github.workspace}}/install/include /I ${{github.workspace}}/install/include/MyGL /I ${{github.workspace}}/install/include/freetype2 /D MYGL_STATIC /link /LIBPATH:${{github.workspace}}/install/lib libmygl.a
       
       - name: Check compilation against shared libs
         working-directory: ${{github.workspace}}/user_test
-        run: cl ${{github.workspace}}/misc/ci_test_file.cpp mygl.lib glfw3.lib freetype.lib opengl32.lib gdi32.lib user32.lib shell32.lib winmm.lib /MD /Fe:test /I ${{github.workspace}}/install/include /I ${{github.workspace}}/install/include/MyGL /I ${{github.workspace}}/install/include/freetype2 /link /LIBPATH:${{github.workspace}}/install/lib
+        run: cl ${{github.workspace}}/misc/ci_test_file.cpp mygl.lib glfw3.lib freetype.lib opengl32.lib gdi32.lib user32.lib shell32.lib winmm.lib /MD /Fe:test /std:latest /I ${{github.workspace}}/install/include /I ${{github.workspace}}/install/include/MyGL /I ${{github.workspace}}/install/include/freetype2 /link /LIBPATH:${{github.workspace}}/install/lib

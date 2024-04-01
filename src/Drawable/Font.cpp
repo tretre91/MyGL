@@ -1,7 +1,7 @@
 #include <MyGL/Drawable/Font.hpp>
 #include <iostream>
 #include <string>
-#include <utf8.h>
+#include <utfcpp/utf8.h>
 
 namespace my
 {

@@ -26,4 +26,5 @@ if not get_option('mygl_docs_only')
   )
 
   install_subdir('glm', install_dir : 'include/MyGL')
+  install_subdir('utfcpp', install_dir : 'include/MyGL')
 endif

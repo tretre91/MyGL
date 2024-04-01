@@ -7,7 +7,7 @@
 #include "Rectangle.hpp"
 #include <iterator>
 #include <string_view>
-#include <utf8.h>
+#include <utfcpp/utf8.h>
 
 namespace my
 {
@@ -32,6 +32,8 @@ namespace my
                 utf8::utf32to8(view.begin(), view.end(), std::back_inserter(result));
                 return result;
             } else {
+                // Some compilers need a templated expression or they always trigger
+                // the assertion when using `static_assert(false, ...)`
                 static_assert(sizeof(CharType) == 0, "Unknown character encoding");
             }
         }
