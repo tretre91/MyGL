@@ -296,7 +296,7 @@ namespace my
         /**
          * @brief A struct for storing the state of the keyboard modifier keys
          */
-        struct Modifiers {
+        struct MYGL_EXPORT Modifiers {
             bool shift = false;
             bool ctrl = false;
             bool alt = false;
