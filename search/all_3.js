@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['data_0',['data',['../classmy_1_1_image.html#a703a78443ff96b24050ec4e363de6772',1,'my::Image']]],
+  ['data_0',['data',['../classmy_1_1_image.html#af4173a2393266a341537ad3eb69b24e2',1,'my::Image']]],
   ['display_1',['display',['../classmy_1_1_window.html#adadf221bc5e4f9bd0584ea10604d7b26',1,'my::Window']]],
   ['documentation_2',['Build the documentation',['../installation.html#autotoc_md2',1,'']]],
   ['documentation_3',['MyGL&apos;s documentation!',['../index.html',1,'']]],

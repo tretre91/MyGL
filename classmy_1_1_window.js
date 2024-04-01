@@ -14,7 +14,7 @@ var classmy_1_1_window =
     [ "pollEvent", "classmy_1_1_window.html#a46685104d5c210a8bd2d443141d41f94", null ],
     [ "setActive", "classmy_1_1_window.html#a54d87cf49e3acf79ab27d564f55661ff", null ],
     [ "setCamera", "classmy_1_1_window.html#aa9a2fe77162046f67ca210ecaf38c3ca", null ],
-    [ "setClipPlanes", "classmy_1_1_window.html#abd73c40dd4c27332c079052064b266ab", null ],
+    [ "setClipPlanes", "classmy_1_1_window.html#ab62568c3f453a929f7209e8c087ee1b8", null ],
     [ "setCursor", "classmy_1_1_window.html#a39a3504f06169b41dc98c99201475511", null ],
     [ "setFramerate", "classmy_1_1_window.html#aefd7eba0f60b908b59b54eecf5efa45b", null ],
     [ "setIcon", "classmy_1_1_window.html#ad6d5292be1562a69b8ce093400bc0565", null ],

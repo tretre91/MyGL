@@ -170,6 +170,5 @@ var namespacemy =
       [ "floating", "namespacemy.html#ad84bfca0209ee5c870f9d057e6be0ccca4033246e68046207fc9b6ffd4d914535", null ],
       [ "transparent", "namespacemy.html#ad84bfca0209ee5c870f9d057e6be0ccca9eda5189bc72231852b49a068e5176a5", null ],
       [ "maximized", "namespacemy.html#ad84bfca0209ee5c870f9d057e6be0ccca2bf28a0331e72bb665bfdaccc5c11cf2", null ]
-    ] ],
-    [ "sleep", "namespacemy.html#a46e74dccf62d87acd01e026c911fde0a", null ]
+    ] ]
 ];

@@ -11,6 +11,6 @@ var classmy_1_1_texture =
     [ "load", "classmy_1_1_texture.html#a6c7e1773bf6622d06c6d7dae292c7d5b", null ],
     [ "load", "classmy_1_1_texture.html#ad746e867e39e199c57471298716b7dca", null ],
     [ "setBorderColor", "classmy_1_1_texture.html#aadb5e3f7658d867876676f1c2a9111ad", null ],
-    [ "setBorderColor", "classmy_1_1_texture.html#af46ff06f206333186f719ba085c0ee74", null ],
+    [ "setBorderColor", "classmy_1_1_texture.html#a4b1eb0fb5a27b9472b1c7006398e5dfa", null ],
     [ "setTextureWrapMethod", "classmy_1_1_texture.html#a75894306ab39e595cd08d12dc6249b7c", null ]
 ];

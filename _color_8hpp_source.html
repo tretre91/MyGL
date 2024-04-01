@@ -119,61 +119,62 @@ $(function(){initNavTree('_color_8hpp_source.html',''); initResizable(); });
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;glm/glm.hpp&gt;</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacemy.html">my</a></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>{</div>
-<div class="foldopen" id="foldopen00015" data-start="{" data-end="};">
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html">   15</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classmy_1_1_color.html">Color</a></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    {</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        uint8_t r;</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        uint8_t g;</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        uint8_t b;</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        uint8_t alpha;</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        glm::vec4 normalized;</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        MYGL_EXPORT <span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_class" href="classmy_1_1_color.html">Color</a> white;</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        MYGL_EXPORT <span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_class" href="classmy_1_1_color.html">Color</a> black;</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        MYGL_EXPORT <span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_class" href="classmy_1_1_color.html">Color</a> red;</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        MYGL_EXPORT <span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_class" href="classmy_1_1_color.html">Color</a> green;</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        MYGL_EXPORT <span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_class" href="classmy_1_1_color.html">Color</a> blue;</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#ab75c2a9c30784d14312cb5faaf4ff243">   34</a></span>        MYGL_EXPORT <a class="code hl_function" href="classmy_1_1_color.html#ab75c2a9c30784d14312cb5faaf4ff243">Color</a>() noexcept;</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#a18bfaf19c3d4ace79632da82c043342c">   43</a></span>        MYGL_EXPORT <a class="code hl_class" href="classmy_1_1_color.html">Color</a>(uint8_t r, uint8_t g, uint8_t b, uint8_t alpha = 255) noexcept;</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#a158dcea2a1a52a414a123d94aea087c8">   50</a></span>        MYGL_EXPORT <a class="code hl_class" href="classmy_1_1_color.html">Color</a>(const std::<span class="keywordtype">string</span>&amp; hexColor, uint8_t alpha = 255);</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#a298ccc15909f2f2959d24d4d45db1e3a">   56</a></span>        MYGL_EXPORT glm::ivec4 <a class="code hl_function" href="classmy_1_1_color.html#a298ccc15909f2f2959d24d4d45db1e3a">get</a>() const noexcept;</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#a584631a324bb5174ebc1658c35de5627">   63</a></span>        MYGL_EXPORT glm::vec4 <a class="code hl_function" href="classmy_1_1_color.html#a584631a324bb5174ebc1658c35de5627">getNormalized</a>() const noexcept;</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#a53aa5a3a2671a84bb8ffd1775a52a333">   68</a></span>        MYGL_EXPORT <span class="keywordtype">int</span> <a class="code hl_function" href="classmy_1_1_color.html#a53aa5a3a2671a84bb8ffd1775a52a333">getRed</a>() const noexcept;</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#a371d2f863977297e9e231a75c6c925a1">   73</a></span>        MYGL_EXPORT <span class="keywordtype">int</span> <a class="code hl_function" href="classmy_1_1_color.html#a371d2f863977297e9e231a75c6c925a1">getGreen</a>() const noexcept;</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#a200dae6a8374510ea4731f4e3cd30458">   78</a></span>        MYGL_EXPORT <span class="keywordtype">int</span> <a class="code hl_function" href="classmy_1_1_color.html#a200dae6a8374510ea4731f4e3cd30458">getBlue</a>() const noexcept;</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#ad5159803b86ca18a0134b70467f72876">   83</a></span>        MYGL_EXPORT <span class="keywordtype">int</span> <a class="code hl_function" href="classmy_1_1_color.html#ad5159803b86ca18a0134b70467f72876">getAlpha</a>() const noexcept;</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#adaaa19c4c5517fe51ee77181eaa2bed3">   89</a></span>        MYGL_EXPORT <span class="keywordtype">void</span> <a class="code hl_function" href="classmy_1_1_color.html#adaaa19c4c5517fe51ee77181eaa2bed3">setRed</a>(uint8_t red) noexcept;</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#a8ca4086edc261869ea8718f6edac79e7">   95</a></span>        MYGL_EXPORT <span class="keywordtype">void</span> <a class="code hl_function" href="classmy_1_1_color.html#a8ca4086edc261869ea8718f6edac79e7">setGreen</a>(uint8_t green) noexcept;</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#ac26bafaad28cbdc8921fd6d5f7a44302">  101</a></span>        MYGL_EXPORT <span class="keywordtype">void</span> <a class="code hl_function" href="classmy_1_1_color.html#ac26bafaad28cbdc8921fd6d5f7a44302">setBlue</a>(uint8_t blue) noexcept;</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#ad63fcd2514fc59e94edc643d1edaea2e">  107</a></span>        MYGL_EXPORT <span class="keywordtype">void</span> <a class="code hl_function" href="classmy_1_1_color.html#ad63fcd2514fc59e94edc643d1edaea2e">setAlpha</a>(uint8_t alpha) noexcept;</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    };</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacemy.html">my</a></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>{</div>
+<div class="foldopen" id="foldopen00016" data-start="{" data-end="};">
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html">   16</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classmy_1_1_color.html">Color</a></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    {</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        uint8_t r;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        uint8_t g;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        uint8_t b;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        uint8_t alpha;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        glm::vec4 normalized;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        MYGL_EXPORT <span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_class" href="classmy_1_1_color.html">Color</a> white;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        MYGL_EXPORT <span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_class" href="classmy_1_1_color.html">Color</a> black;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        MYGL_EXPORT <span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_class" href="classmy_1_1_color.html">Color</a> red;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        MYGL_EXPORT <span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_class" href="classmy_1_1_color.html">Color</a> green;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        MYGL_EXPORT <span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_class" href="classmy_1_1_color.html">Color</a> blue;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#ab75c2a9c30784d14312cb5faaf4ff243">   35</a></span>        MYGL_EXPORT <a class="code hl_function" href="classmy_1_1_color.html#ab75c2a9c30784d14312cb5faaf4ff243">Color</a>() noexcept;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#a18bfaf19c3d4ace79632da82c043342c">   44</a></span>        MYGL_EXPORT <a class="code hl_class" href="classmy_1_1_color.html">Color</a>(uint8_t r, uint8_t g, uint8_t b, uint8_t alpha = 255) noexcept;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#a158dcea2a1a52a414a123d94aea087c8">   51</a></span>        MYGL_EXPORT <a class="code hl_class" href="classmy_1_1_color.html">Color</a>(const std::<span class="keywordtype">string</span>&amp; hexColor, uint8_t alpha = 255);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#a298ccc15909f2f2959d24d4d45db1e3a">   57</a></span>        MYGL_EXPORT glm::ivec4 <a class="code hl_function" href="classmy_1_1_color.html#a298ccc15909f2f2959d24d4d45db1e3a">get</a>() const noexcept;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#a584631a324bb5174ebc1658c35de5627">   64</a></span>        MYGL_EXPORT glm::vec4 <a class="code hl_function" href="classmy_1_1_color.html#a584631a324bb5174ebc1658c35de5627">getNormalized</a>() const noexcept;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#a53aa5a3a2671a84bb8ffd1775a52a333">   69</a></span>        MYGL_EXPORT <span class="keywordtype">int</span> <a class="code hl_function" href="classmy_1_1_color.html#a53aa5a3a2671a84bb8ffd1775a52a333">getRed</a>() const noexcept;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#a371d2f863977297e9e231a75c6c925a1">   74</a></span>        MYGL_EXPORT <span class="keywordtype">int</span> <a class="code hl_function" href="classmy_1_1_color.html#a371d2f863977297e9e231a75c6c925a1">getGreen</a>() const noexcept;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#a200dae6a8374510ea4731f4e3cd30458">   79</a></span>        MYGL_EXPORT <span class="keywordtype">int</span> <a class="code hl_function" href="classmy_1_1_color.html#a200dae6a8374510ea4731f4e3cd30458">getBlue</a>() const noexcept;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#ad5159803b86ca18a0134b70467f72876">   84</a></span>        MYGL_EXPORT <span class="keywordtype">int</span> <a class="code hl_function" href="classmy_1_1_color.html#ad5159803b86ca18a0134b70467f72876">getAlpha</a>() const noexcept;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#adaaa19c4c5517fe51ee77181eaa2bed3">   90</a></span>        MYGL_EXPORT <span class="keywordtype">void</span> <a class="code hl_function" href="classmy_1_1_color.html#adaaa19c4c5517fe51ee77181eaa2bed3">setRed</a>(uint8_t red) noexcept;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#a8ca4086edc261869ea8718f6edac79e7">   96</a></span>        MYGL_EXPORT <span class="keywordtype">void</span> <a class="code hl_function" href="classmy_1_1_color.html#a8ca4086edc261869ea8718f6edac79e7">setGreen</a>(uint8_t green) noexcept;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#ac26bafaad28cbdc8921fd6d5f7a44302">  102</a></span>        MYGL_EXPORT <span class="keywordtype">void</span> <a class="code hl_function" href="classmy_1_1_color.html#ac26bafaad28cbdc8921fd6d5f7a44302">setBlue</a>(uint8_t blue) noexcept;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="classmy_1_1_color.html#ad63fcd2514fc59e94edc643d1edaea2e">  108</a></span>        MYGL_EXPORT <span class="keywordtype">void</span> <a class="code hl_function" href="classmy_1_1_color.html#ad63fcd2514fc59e94edc643d1edaea2e">setAlpha</a>(uint8_t alpha) noexcept;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    };</div>
 </div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>} <span class="comment">// namespace my</span></div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>MYGL_EXPORT <span class="keywordtype">bool</span> operator==(const <a class="code hl_namespace" href="namespacemy.html">my</a>::<a class="code hl_class" href="classmy_1_1_color.html">Color</a>&amp; color1, const <a class="code hl_namespace" href="namespacemy.html">my</a>::<a class="code hl_class" href="classmy_1_1_color.html">Color</a>&amp; color2) noexcept;</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>MYGL_EXPORT <span class="keywordtype">bool</span> operator!=(const <a class="code hl_namespace" href="namespacemy.html">my</a>::<a class="code hl_class" href="classmy_1_1_color.html">Color</a>&amp; color1, const <a class="code hl_namespace" href="namespacemy.html">my</a>::<a class="code hl_class" href="classmy_1_1_color.html">Color</a>&amp; color2) noexcept;</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="preprocessor">#endif </span><span class="comment">// MYGL_COLOR</span></div>
-<div class="ttc" id="aclassmy_1_1_color_html"><div class="ttname"><a href="classmy_1_1_color.html">my::Color</a></div><div class="ttdoc">Class for storing color objects.</div><div class="ttdef"><b>Definition</b> <a href="#l00015">Color.hpp:16</a></div></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>} <span class="comment">// namespace my</span></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>MYGL_EXPORT <span class="keywordtype">bool</span> operator==(const <a class="code hl_namespace" href="namespacemy.html">my</a>::<a class="code hl_class" href="classmy_1_1_color.html">Color</a>&amp; color1, const <a class="code hl_namespace" href="namespacemy.html">my</a>::<a class="code hl_class" href="classmy_1_1_color.html">Color</a>&amp; color2) noexcept;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>MYGL_EXPORT <span class="keywordtype">bool</span> operator!=(const <a class="code hl_namespace" href="namespacemy.html">my</a>::<a class="code hl_class" href="classmy_1_1_color.html">Color</a>&amp; color1, const <a class="code hl_namespace" href="namespacemy.html">my</a>::<a class="code hl_class" href="classmy_1_1_color.html">Color</a>&amp; color2) noexcept;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="preprocessor">#endif </span><span class="comment">// MYGL_COLOR</span></div>
+<div class="ttc" id="aclassmy_1_1_color_html"><div class="ttname"><a href="classmy_1_1_color.html">my::Color</a></div><div class="ttdoc">Class for storing color objects.</div><div class="ttdef"><b>Definition</b> <a href="#l00016">Color.hpp:17</a></div></div>
 <div class="ttc" id="aclassmy_1_1_color_html_a200dae6a8374510ea4731f4e3cd30458"><div class="ttname"><a href="classmy_1_1_color.html#a200dae6a8374510ea4731f4e3cd30458">my::Color::getBlue</a></div><div class="ttdeci">MYGL_EXPORT int getBlue() const noexcept</div></div>
 <div class="ttc" id="aclassmy_1_1_color_html_a298ccc15909f2f2959d24d4d45db1e3a"><div class="ttname"><a href="classmy_1_1_color.html#a298ccc15909f2f2959d24d4d45db1e3a">my::Color::get</a></div><div class="ttdeci">MYGL_EXPORT glm::ivec4 get() const noexcept</div><div class="ttdoc">Gives the color as a glm::ivec4.</div></div>
 <div class="ttc" id="aclassmy_1_1_color_html_a371d2f863977297e9e231a75c6c925a1"><div class="ttname"><a href="classmy_1_1_color.html#a371d2f863977297e9e231a75c6c925a1">my::Color::getGreen</a></div><div class="ttdeci">MYGL_EXPORT int getGreen() const noexcept</div></div>
