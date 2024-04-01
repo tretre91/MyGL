@@ -17,6 +17,7 @@ jobs:
     env:
         PKG_CONFIG_PATH: ${{github.workspace}}/install/lib/x86_64-linux-gnu/pkgconfig
         CC: gcc-13
+        CXX: g++-13
 
     steps:
       - uses: actions/checkout@v4
